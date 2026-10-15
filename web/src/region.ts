@@ -3,13 +3,13 @@
  * Alibaba Cloud Bailian first (its console only signs up accounts from the mainland);
  * everyone else gets OpenRouter first — one account, one key, pay as you go. The facts
  * about each (key page, endpoint, default models, what the key covers) come from the
- * catalogue `nanomuse/llm/providers.json`, the one file every client reads.
+ * catalogue `lingtai/llm/providers.json`, the one file every client reads.
  *
  * Mainland = the UI language is 简体中文, or the account was signed in with a phone
  * number (codes reach mainland numbers only), or the relay says `region: "cn"`. A relay
  * that does not say yet is fine: the other two signs still work.
  */
-import catalogue from "../../nanomuse/llm/providers.json";
+import catalogue from "../../lingtai/llm/providers.json";
 import { getLocale } from "./i18n";
 import type { Capability, CatalogueProvider, CloudAccount, ProviderPreset } from "./types";
 

@@ -4,9 +4,9 @@ import asyncio
 import sys
 from pathlib import Path
 
-from nanomuse.config import MCPServerSettings
-from nanomuse.schema import RiskLevel
-from nanomuse.tools import MCPManager, ToolCollection
+from lingtai.config import MCPServerSettings
+from lingtai.schema import RiskLevel
+from lingtai.tools import MCPManager, ToolCollection
 
 SERVER = Path(__file__).with_name("mcp_echo_server.py")
 
@@ -41,7 +41,7 @@ async def test_mcp_tools_are_exposed_and_callable():
 async def test_per_tool_policy_overrides_the_servers_defaults():
     """`[mcp.servers.tools.<name>]` makes one tool stricter (or looser) than its server;
     a field left out keeps the server's value."""
-    from nanomuse.config import MCPToolPolicy
+    from lingtai.config import MCPToolPolicy
 
     manager = MCPManager(
         [
@@ -132,7 +132,7 @@ async def test_a_refused_key_is_not_written_to_the_log():
     import http.server
     import threading
 
-    from nanomuse.logger import logger
+    from lingtai.logger import logger
 
     class Refuse(http.server.BaseHTTPRequestHandler):
         def do_GET(self) -> None:

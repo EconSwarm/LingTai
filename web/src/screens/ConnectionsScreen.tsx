@@ -68,7 +68,7 @@ import type { Contact, ConnectionsData, CustomEndpoint, ProviderPreset, SharedCo
 import { cx, relativeTime } from "../util";
 
 /** the runtime's preset for the account's model, present in `providers` while signed in */
-const CLOUD_PRESET = "nanomuse_cloud";
+const CLOUD_PRESET = "lingtai_cloud";
 /** the provider tile that adds a custom endpoint to the runtime's list (#294); not a preset of the runtime's */
 const ADD_ENDPOINT = "add-endpoint";
 
@@ -81,7 +81,7 @@ export function ConnectionsScreen() {
   const { state } = useStore();
   const [data, setData] = useState<ConnectionsData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const name = state.profile?.name ?? "nanoMuse";
+  const name = state.profile?.name ?? "lingTai";
   const t = useT();
 
   const load = useCallback(async () => {
@@ -211,7 +211,7 @@ export function ModelCard({
     list: string[];
     image: string[];
     video: string[];
-    // nanoMuse Cloud, for a member: the menu and the other models under the Cloud key, grouped
+    // lingTai Cloud, for a member: the menu and the other models under the Cloud key, grouped
     menu: string[];
     catalog: string[];
     imageCatalog: string[];
@@ -234,7 +234,7 @@ export function ModelCard({
   });
   // true once the user edits the model field by hand in this session: that value is never replaced
   const [typed, setTyped] = useState(false);
-  // a member on nanoMuse Cloud picks from the grouped list; this flips the field to typing an id
+  // a member on lingTai Cloud picks from the grouped list; this flips the field to typing an id
   const [typingModel, setTypingModel] = useState(false);
 
   useEffect(() => {
@@ -479,7 +479,7 @@ export function ModelCard({
   const locale = getLocale();
   const lacks = (cap: Capability) => !!catalogueEntry && !catalogueEntry.user_capabilities && !catalogueEntry.capabilities.includes(cap);
   // the hands with nothing set here (the Models contract §3): the account's hands model
-  // on nanoMuse Cloud; an own provider's own hands model when it sees; the account's when
+  // on lingTai Cloud; an own provider's own hands model when it sees; the account's when
   // it cannot and the account is signed in; else the chat model
   const cloudPreset = presets[CLOUD_PRESET];
   const handsDefault = p?.cloud
@@ -500,8 +500,8 @@ export function ModelCard({
     ]),
   ).filter(Boolean);
   // the hands picker's one group: this provider's models that see, the catalogue's hands
-  // default first (the relay's recommended one on nanoMuse Cloud), folded past eight
-  const handsProviderLabel = p?.cloud ? "nanoMuse Cloud" : ep ? endpointLabel(ep) : catalogueEntry ? providerName(catalogueEntry, locale) : hostOf(effectiveUrl) || preset;
+  // default first (the relay's recommended one on lingTai Cloud), folded past eight
+  const handsProviderLabel = p?.cloud ? "lingTai Cloud" : ep ? endpointLabel(ep) : catalogueEntry ? providerName(catalogueEntry, locale) : hostOf(effectiveUrl) || preset;
   const handsPreset = p?.cloud ? (models.gui[0] ?? p.gui_model ?? "") : (catalogueEntry?.defaults.hands ?? p?.gui_model ?? "");
   // ... and one group per other endpoint of the list, which lends the hands its address and key (#294)
   const handsGroups: ModelGroup[] = [
@@ -520,7 +520,7 @@ export function ModelCard({
       title={t("Chat model")}
       summary={
         data.llm.cloud
-          ? `nanoMuse Cloud · ${data.llm.model || t("No model yet")}`
+          ? `lingTai Cloud · ${data.llm.model || t("No model yet")}`
           : currentEndpoint
             ? `${data.llm.model || t("No model yet")} · ${endpointLabel(currentEndpoint)}`
             : `${data.llm.model || t("No model yet")}${data.llm.base_url ? ` · ${hostOf(data.llm.base_url)}` : ""}`
@@ -896,7 +896,7 @@ export function ModelCard({
       {!p?.cloud && !adding && data.llm.proxy !== undefined && (
         <Field
           label={t("Proxy (optional)")}
-          hint={t("Only this provider's requests go through it. nanoMuse Cloud never does.")}
+          hint={t("Only this provider's requests go through it. lingTai Cloud never does.")}
         >
           <input
             className={inputCls}
@@ -1270,7 +1270,7 @@ function EndpointCard({
  * One of the two media rows of the Models contract — *Making pictures* (`[image]`) and
  * *Making clips* (`[video]`). The value is `<provider> · <model>` as the runtime resolves it:
  * an explicit choice, else the chat provider's own model, else the account's. The picker
- * offers nanoMuse Cloud when signed in, the chat model's provider when it has the capability,
+ * offers lingTai Cloud when signed in, the chat model's provider when it has the capability,
  * and every catalogue provider that has it (a key to add); nothing without it.
  */
 export function MediaSlotCard({
@@ -1325,7 +1325,7 @@ export function MediaSlotCard({
   const own = endpoints.find((e) => endpointChoice(e.id) === choice) ?? null;
   const endpointUrl = choice === CLOUD_ID ? cloudBaseUrl : own ? own.base_url : choice === CUSTOM_ID ? baseUrl.trim() : (edition?.base_url ?? "");
   // the key the slot would use: one typed here, the one saved for this very provider, the
-  // chat model's on its own host, the account's on nanoMuse Cloud
+  // chat model's on its own host, the account's on lingTai Cloud
   const keySaved = current === choice && current !== "" && (info.key_source === "vault" || info.key_source === "config");
   const needsKey = !!chosen?.needsKey && !key && !keySaved;
   const defaultModel = choice === CLOUD_ID ? (models.list[0] ?? "") : (entry?.defaults[slot] ?? "");
@@ -1462,7 +1462,7 @@ export function MediaSlotCard({
       {choice && (
         <StudioModelPick
           label={slot === "image" ? t("Picture model") : t("Clip model")}
-          provider={choice === CLOUD_ID ? "nanoMuse Cloud" : choice === CUSTOM_ID ? hostOf(baseUrl) || t("Other OpenAI-compatible endpoint") : (chosen?.label ?? choice)}
+          provider={choice === CLOUD_ID ? "lingTai Cloud" : choice === CUSTOM_ID ? hostOf(baseUrl) || t("Other OpenAI-compatible endpoint") : (chosen?.label ?? choice)}
           value={model}
           options={models.list}
           more={models.more}
@@ -2307,7 +2307,7 @@ const CALENDAR_HINTS: Array<{ id: string; label: string; hint: string }> = [
   {
     id: "file",
     label: ".ics file",
-    hint: "A path on the machine where nanoMuse runs, for example ~/calendar.ics",
+    hint: "A path on the machine where lingTai runs, for example ~/calendar.ics",
   },
 ];
 
@@ -2523,7 +2523,7 @@ export function CalendarCard({
                     .replace(/^_+|_+$/g, "") || "NAME",
               }) +
               " " +
-              t("nanoMuse fetches whatever address you put here, from this machine; only paste links you trust.")
+              t("lingTai fetches whatever address you put here, from this machine; only paste links you trust.")
             }
           >
             <input
@@ -2887,7 +2887,7 @@ export function ContactsCard({
                     .replace(/^_+|_+$/g, "") || "NAME",
               }) +
               " " +
-              t("nanoMuse fetches whatever address you put here, from this machine; only paste links you trust.")
+              t("lingTai fetches whatever address you put here, from this machine; only paste links you trust.")
             }
           >
             <input
@@ -3061,7 +3061,7 @@ function BrowserCard({
         <p className="text-[12.5px] text-muted">
           {t("Install it where the server runs:")}{" "}
           <code className="rounded bg-surface-2 px-1">
-            pip install &quot;nanomuse[browser]&quot; &amp;&amp; playwright
+            pip install &quot;lingtai[browser]&quot; &amp;&amp; playwright
             install chromium
           </code>
         </p>
@@ -3218,7 +3218,7 @@ function PhoneCard({
             <>
               <div className="text-muted">
                 {t(
-                  "Turn on the nanoMuse accessibility service; that is how it sees the screen and taps for you, only while a task runs, with a Stop button on screen.",
+                  "Turn on the lingTai accessibility service; that is how it sees the screen and taps for you, only while a task runs, with a Stop button on screen.",
                 )}
               </div>
               <div className="flex flex-wrap gap-2 pt-0.5">
@@ -3573,7 +3573,7 @@ function MCPCard({
             hint={t("Decides when the Sentinel asks you before a call.")}
           >
             <div className="flex gap-1.5">
-              {/* the runtime's three risk levels (nanomuse/schema.py RiskLevel); any other word is a 400 */}
+              {/* the runtime's three risk levels (lingtai/schema.py RiskLevel); any other word is a 400 */}
               {["safe", "moderate", "sensitive"].map((r) => (
                 <button
                   key={r}
@@ -3769,7 +3769,7 @@ const OTHER_MODEL = "\u0000other";
 /**
  * A model from the list, or one typed by its id when `other` (the list's last entry opens
  * the field). The list is the picker of the Models contract (`ModelPicker`): one group
- * named after the provider with its catalogue default first, or on nanoMuse Cloud the menu
+ * named after the provider with its catalogue default first, or on lingTai Cloud the menu
  * and the account's other models as two groups; each folds past eight rows, and a search
  * field appears once the rows pass eight in all.
  */
@@ -3788,7 +3788,7 @@ function StudioModelPick({
   provider: string;
   value: string;
   options: string[];
-  /** a second group — on nanoMuse Cloud, the other models under the Cloud key a member may use */
+  /** a second group — on lingTai Cloud, the other models under the Cloud key a member may use */
   more?: string[];
   onChange: (v: string) => void;
   other?: boolean;

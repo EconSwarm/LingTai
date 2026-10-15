@@ -10,16 +10,16 @@ from typing import Any
 
 import pytest
 
-from nanomuse.bridge.cli import BridgeClient, browser_main, device_main, open_main, parse_pairs
-from nanomuse.bridge.server import Bridge, BridgeError
-from nanomuse.bridge.tokens import BRIDGE_TOKEN_ENV, BRIDGE_URL_ENV, BridgeTokens
-from nanomuse.config import Settings
-from nanomuse.llm import MockLLM
-from nanomuse.runtime import Device, device, device_mcp_server
-from nanomuse.schema import LLMResponse, RiskLevel, ToolResult
-from nanomuse.server import bridge_url, create_app
-from nanomuse.server.service import MuseService
-from nanomuse.tools.base import BaseTool, CallAssessment
+from lingtai.bridge.cli import BridgeClient, browser_main, device_main, open_main, parse_pairs
+from lingtai.bridge.server import Bridge, BridgeError
+from lingtai.bridge.tokens import BRIDGE_TOKEN_ENV, BRIDGE_URL_ENV, BridgeTokens
+from lingtai.config import Settings
+from lingtai.llm import MockLLM
+from lingtai.runtime import Device, device, device_mcp_server
+from lingtai.schema import LLMResponse, RiskLevel, ToolResult
+from lingtai.server import bridge_url, create_app
+from lingtai.server.service import MuseService
+from lingtai.tools.base import BaseTool, CallAssessment
 from tests.test_server import tc, wait_for, wait_idle
 
 
@@ -110,12 +110,12 @@ def test_programs_say_when_the_bridge_is_not_here(monkeypatch, capsys):
     assert device_main(["clipboard", "read"]) == 2
     assert browser_main(["extract"]) == 2
     assert open_main(["https://example.com"]) == 2
-    assert "nanomuse serve" in capsys.readouterr().err
+    assert "lingtai serve" in capsys.readouterr().err
 
 
 def test_device_program_names_the_tool_from_capability_and_action(monkeypatch, capsys):
     """`clipboard read` → clipboard_read; single-word tools take no action word."""
-    import nanomuse.bridge.cli as cli
+    import lingtai.bridge.cli as cli
 
     sent: list[dict[str, Any]] = []
 
@@ -149,11 +149,11 @@ def test_device_is_read_from_the_environment():
     assert device({}) is None
     dev = device(
         {
-            "NANOMUSE_DEVICE": "android",
-            "NANOMUSE_DEVICE_MODEL": "Pixel 8",
-            "NANOMUSE_DEVICE_SDK": "34",
-            "NANOMUSE_HOST_URL": "http://127.0.0.1:41234/",
-            "NANOMUSE_HOST_TOKEN": "h/t",
+            "LINGTAI_DEVICE": "android",
+            "LINGTAI_DEVICE_MODEL": "Pixel 8",
+            "LINGTAI_DEVICE_SDK": "34",
+            "LINGTAI_HOST_URL": "http://127.0.0.1:41234/",
+            "LINGTAI_HOST_TOKEN": "h/t",
         }
     )
     assert dev == Device("android", "Pixel 8", "34", "http://127.0.0.1:41234", "h/t")
@@ -188,14 +188,16 @@ class FakeClipboard(BaseTool):
 
 def _bridge_command(*args: str) -> str:
     """Run the program from this interpreter (the venv's bin may not be on PATH here)."""
-    code = f"from nanomuse.bridge.cli import device_main; raise SystemExit(device_main({list(args)!r}))"
+    code = (
+        f"from lingtai.bridge.cli import device_main; raise SystemExit(device_main({list(args)!r}))"
+    )
     return f"{shlex.quote(sys.executable)} -c {shlex.quote(code)}"
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="the shell tool assumes a POSIX shell")
 def test_a_command_reaches_the_phone_through_the_bridge(settings: Settings):
     """The whole way round, on a real loopback port: the model runs a shell command, the
-    command runs `nanomuse-device clipboard read`, the request comes back in as a tool call
+    command runs `lingtai-device clipboard read`, the request comes back in as a tool call
     in the same chat, and its answer ends up in the command's output."""
     import threading
 
@@ -252,7 +254,7 @@ def test_a_command_reaches_the_phone_through_the_bridge(settings: Settings):
         assert anon.get("/api/bridge/tools").status_code == 401
         # `list` names the device's tools without the prefix
         grant = service.bridge.tokens.mint("x", "shell", 5)
-        auth = {"X-Nanomuse-Bridge": grant.token}
+        auth = {"X-LingTai-Bridge": grant.token}
         r = anon.get("/api/bridge/tools", headers=auth)
         assert r.json()["tools"] == [
             {"name": "clipboard_read", "description": "Read the phone's clipboard."}

@@ -24,7 +24,7 @@ export interface HostWorkOptions {
 
 /** How long one request may take; the Host is on the loopback. */
 const TIMEOUT_MS = 5000;
-const WORK_PREFIX = "/nanomuse/cloud/work";
+const WORK_PREFIX = "/lingtai/cloud/work";
 
 const KINDS = new Set(["reply", "computer", "task", "approval"]);
 

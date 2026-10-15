@@ -1,5 +1,5 @@
 // The link from the dsh profile's node_modules to the plugin shipped in the app's resources:
-// `<home>/profiles/nanomuse/node_modules/dsh-nanomuse` → `<resources>/dsh/node_modules/dsh-nanomuse`.
+// `<home>/profiles/lingtai/node_modules/dsh-lingtai` → `<resources>/dsh/node_modules/dsh-lingtai`.
 // A symlink on macOS and Linux, a junction on Windows (no privilege needed, and it points at
 // a directory). Rewritten whenever its target is not the one this build ships.
 import { lstatSync, readlinkSync, rmdirSync, rmSync, symlinkSync, unlinkSync } from "node:fs";
@@ -78,7 +78,7 @@ export function relink(link: string, target: string): boolean {
     } catch {
       const left = linkTarget(link);
       throw new Error(
-        `${String((exc as Error).message ?? exc)} (in the way: ${left ?? "nothing"}; remove ${link} by hand and start nanoMuse again)`,
+        `${String((exc as Error).message ?? exc)} (in the way: ${left ?? "nothing"}; remove ${link} by hand and start lingTai again)`,
       );
     }
   }

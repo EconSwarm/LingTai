@@ -58,13 +58,13 @@ async def test_a_face_is_animated_through_the_gateway_and_counted(world):
         info = body(await c.get("/api/demo/info"))
         assert info["video_model"] == "wan2.2-i2v-flash" and info["quota"]["clips"] == 2
         sess = body(await c.post("/api/demo/session", json={}))
-        env = runner.running[f"nm-{sess['id']}"]
+        env = runner.running[f"lt-{sess['id']}"]
         base = f"/llm/{sess['id']}/main"
         # the container is told the video model and that the video API is at its own model
         # address — where the gateway stands in for Model Studio's storage
-        assert env["NANOMUSE_LLM_VIDEO_MODEL"] == "wan2.2-i2v-flash"
-        assert env["NANOMUSE_LLM_VIDEO_BASE_URL"] == f"http://10.0.0.1:8000{base}"
-        auth = {"authorization": f"Bearer {env['NANOMUSE_LLM_API_KEY']}"}
+        assert env["LINGTAI_LLM_VIDEO_MODEL"] == "wan2.2-i2v-flash"
+        assert env["LINGTAI_LLM_VIDEO_BASE_URL"] == f"http://10.0.0.1:8000{base}"
+        auth = {"authorization": f"Bearer {env['LINGTAI_LLM_API_KEY']}"}
 
         # the policy wants the session's key
         r = await c.get(
@@ -148,8 +148,8 @@ async def test_the_frame_must_be_the_sessions_own(world):
         a = body(await c.post("/api/demo/session", json={}))
         b = body(await c.post("/api/demo/session", json={}, headers={"x-forwarded-for": "9.9.9.9"}))
         base_a, base_b = f"/llm/{a['id']}/main", f"/llm/{b['id']}/main"
-        key_a = runner.running["nm-" + a["id"]]["NANOMUSE_LLM_API_KEY"]
-        key_b = runner.running["nm-" + b["id"]]["NANOMUSE_LLM_API_KEY"]
+        key_a = runner.running["lt-" + a["id"]]["LINGTAI_LLM_API_KEY"]
+        key_b = runner.running["lt-" + b["id"]]["LINGTAI_LLM_API_KEY"]
         auth_a = {"authorization": f"Bearer {key_a}"}
         auth_b = {"authorization": f"Bearer {key_b}"}
         synthesis = "/api/v1/services/aigc/video-generation/video-synthesis"
@@ -214,9 +214,9 @@ async def test_no_video_model_means_stills_only(world):
         assert info["image_model"] == "qwen-image-3.0"
         assert info["video_model"] is None and info["quota"]["clips"] == 0
         sess = body(await c.post("/api/demo/session", json={}))
-        env = runner.running[f"nm-{sess['id']}"]
-        assert "NANOMUSE_LLM_VIDEO_BASE_URL" not in env and "NANOMUSE_LLM_VIDEO_MODEL" not in env
-        auth = {"authorization": f"Bearer {env['NANOMUSE_LLM_API_KEY']}"}
+        env = runner.running[f"lt-{sess['id']}"]
+        assert "LINGTAI_LLM_VIDEO_BASE_URL" not in env and "LINGTAI_LLM_VIDEO_MODEL" not in env
+        auth = {"authorization": f"Bearer {env['LINGTAI_LLM_API_KEY']}"}
         r = await c.get(
             f"/llm/{sess['id']}/main/api/v1/uploads", params={"action": "getPolicy"}, headers=auth
         )

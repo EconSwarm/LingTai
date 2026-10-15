@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Start the harness the way the app does — the Electron binary in Node mode, the staged dsh,
-// a throwaway home with the nanoMuse profile — and check that (1) the composed configuration
+// a throwaway home with the lingTai profile — and check that (1) the composed configuration
 // carries the bundle's patches and (2) the Host comes up and answers. No display is needed,
 // so this runs on every CI platform after packaging.
 //
@@ -32,7 +32,7 @@ if (args.includes("--app") && appArg) {
     electron = join(macos, readdirSync(macos)[0]);
     dshDir = join(bundle, "Contents", "Resources", "dsh");
   } else {
-    const exe = readdirSync(unpacked).find((f) => (process.platform === "win32" ? f.endsWith(".exe") && !/uninstall/i.test(f) : f === "nanomuse-desktop"));
+    const exe = readdirSync(unpacked).find((f) => (process.platform === "win32" ? f.endsWith(".exe") && !/uninstall/i.test(f) : f === "lingtai-desktop"));
     if (!exe) throw new Error(`no executable under ${unpacked}`);
     electron = join(unpacked, exe);
     dshDir = join(unpacked, "resources", "dsh");
@@ -48,16 +48,16 @@ const bin = join(dshDir, "node_modules", "@deepseek-ai", "dsh", "lib", "bin.js")
 if (!existsSync(bin)) throw new Error(`no staged dsh at ${bin} — run scripts/prepare-dsh.mjs`);
 
 // the profile, as src/main.ts writes it
-const home = mkdtempSync(join(tmpdir(), "nanomuse-desktop-smoke-"));
-const profile = join(home, "profiles", "nanomuse");
+const home = mkdtempSync(join(tmpdir(), "lingtai-desktop-smoke-"));
+const profile = join(home, "profiles", "lingtai");
 mkdirSync(join(profile, "node_modules"), { recursive: true });
 writeFileSync(
   join(profile, "package.json"),
-  `${JSON.stringify({ name: "dsh-profile-nanomuse", private: true, dependencies: { "dsh-nanomuse": "*" }, dsh: { profile: { bundles: ["@deepseek-ai/dsh-base", "@deepseek-ai/dsh-web-app", "@deepseek-ai/dsh-experimental-schedule-bundle", "dsh-nanomuse"] } } }, null, 2)}\n`,
+  `${JSON.stringify({ name: "dsh-profile-lingtai", private: true, dependencies: { "dsh-lingtai": "*" }, dsh: { profile: { bundles: ["@deepseek-ai/dsh-base", "@deepseek-ai/dsh-web-app", "@deepseek-ai/dsh-experimental-schedule-bundle", "dsh-lingtai"] } } }, null, 2)}\n`,
 );
 writeFileSync(join(profile, "cordis.yml"), "[]\n");
 writeFileSync(join(profile, "cordis.patch.yml"), "[]\n");
-symlinkSync(join(dshDir, "node_modules", "dsh-nanomuse"), join(profile, "node_modules", "dsh-nanomuse"), process.platform === "win32" ? "junction" : "dir");
+symlinkSync(join(dshDir, "node_modules", "dsh-lingtai"), join(profile, "node_modules", "dsh-lingtai"), process.platform === "win32" ? "junction" : "dir");
 
 const env = { ...process.env, ELECTRON_RUN_AS_NODE: "1", DSH_HOME: home, ELECTRON_NO_ATTACH_CONSOLE: "1" };
 const redact = (s) => s.replace(/token=\S+/g, "token=…");
@@ -66,15 +66,15 @@ const cleanup = () => rmSync(home, { recursive: true, force: true });
 console.log(`electron: ${electron}\ndsh: ${dshDir}\nhome: ${home}`);
 
 // 1. the composed configuration
-const dump = spawnSync(electron, ["--expose-internals", bin, "--profile", "nanomuse", "--dump-config"], { env, encoding: "utf8", timeout: 180_000 });
-const patched = (dump.stdout.match(/patched by dsh-nanomuse/g) ?? []).length;
+const dump = spawnSync(electron, ["--expose-internals", bin, "--profile", "lingtai", "--dump-config"], { env, encoding: "utf8", timeout: 180_000 });
+const patched = (dump.stdout.match(/patched by dsh-lingtai/g) ?? []).length;
 if (dump.status !== 0 || patched < 3) {
   console.error(dump.stdout.slice(-2000));
   console.error(dump.stderr.slice(-4000));
   cleanup();
   throw new Error(`--dump-config: exit ${dump.status}, ${patched} rows patched by the bundle`);
 }
-console.log(`dump-config: ${patched} rows patched by dsh-nanomuse`);
+console.log(`dump-config: ${patched} rows patched by dsh-lingtai`);
 
 // 2. the Host
 const port = await new Promise((resolvePort, reject) => {
@@ -85,7 +85,7 @@ const port = await new Promise((resolvePort, reject) => {
     srv.close(() => resolvePort(p));
   });
 });
-const child = spawn(electron, ["--expose-internals", bin, "nanomuse", "--no-open", "--port", String(port)], { env, stdio: ["ignore", "pipe", "pipe"] });
+const child = spawn(electron, ["--expose-internals", bin, "lingtai", "--no-open", "--port", String(port)], { env, stdio: ["ignore", "pipe", "pipe"] });
 let out = "";
 let err = "";
 child.stdout.setEncoding("utf8");
@@ -126,8 +126,8 @@ console.log(`GET / → ${noToken}; with the token → ${withToken}`);
 const cookie = (entry.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 const origin = new URL(url).origin;
 const ours = {};
-for (const route of ["/nanomuse/cloud/status", "/nanomuse/rooms/state"]) {
-  const res = await fetch(origin + route, { headers: { cookie, "x-nanomuse": "1", "sec-fetch-site": "same-origin" } });
+for (const route of ["/lingtai/cloud/status", "/lingtai/rooms/state"]) {
+  const res = await fetch(origin + route, { headers: { cookie, "x-lingtai": "1", "sec-fetch-site": "same-origin" } });
   ours[route] = res.status;
   if (res.status === 200) {
     const body = await res.json().catch(() => ({}));
@@ -141,21 +141,21 @@ else child.kill("SIGTERM");
 await new Promise((r) => setTimeout(r, 1500));
 cleanup();
 if (noToken !== 401 || withToken >= 400) throw new Error("the Host did not answer as dsh's web app does");
-if (Object.values(ours).some((status) => status !== 200)) throw new Error("the nanoMuse routes did not answer: the cloud or rooms row did not come up");
+if (Object.values(ours).some((status) => status !== 200)) throw new Error("the lingTai routes did not answer: the cloud or rooms row did not come up");
 if (warnings > 0) {
   console.error(redact(out));
   throw new Error("some entries did not activate");
 }
-console.log("ok: the harness boots with the nanoMuse bundle");
+console.log("ok: the harness boots with the lingTai bundle");
 
 // 4. opt-in: the operator — the app as an app this time (not Node mode), with the check flag
 // src/main.ts answers: it starts the operator server alone, asks it for /info and a small
 // /screenshot through HTTP, writes the answers and quits. Shows libnut's addon loaded from
 // where the build put it (asarUnpack) and that the display is readable.
 if (args.includes("--operator")) {
-  const file = join(tmpdir(), `nanomuse-operator-check-${process.pid}.json`);
+  const file = join(tmpdir(), `lingtai-operator-check-${process.pid}.json`);
   const appArgs = args.includes("--app") && appArg ? [] : [appDir];
-  const userData = mkdtempSync(join(tmpdir(), "nanomuse-desktop-operator-"));
+  const userData = mkdtempSync(join(tmpdir(), "lingtai-desktop-operator-"));
   const run = spawnSync(electron, [...appArgs, `--user-data-dir=${userData}`, `--operator-check=${file}`], { env: { ...process.env, ELECTRON_NO_ATTACH_CONSOLE: "1" }, encoding: "utf8", timeout: 120_000 });
   rmSync(userData, { recursive: true, force: true });
   if (!existsSync(file)) {

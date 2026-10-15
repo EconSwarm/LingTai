@@ -12,12 +12,12 @@ import pytest
 from fastapi.testclient import TestClient
 from starlette.websockets import WebSocketDisconnect
 
-from nanomuse_cloud.api import create_app
-from nanomuse_cloud.config import Settings
-from nanomuse_cloud.db import Database
-from nanomuse_cloud.hub import SEND_QUEUE_FRAMES, Connection
-from nanomuse_cloud.senders import LogSender
-from nanomuse_cloud.service import Cloud
+from lingtai_cloud.api import create_app
+from lingtai_cloud.config import Settings
+from lingtai_cloud.db import Database
+from lingtai_cloud.hub import SEND_QUEUE_FRAMES, Connection
+from lingtai_cloud.senders import LogSender
+from lingtai_cloud.service import Cloud
 
 
 @pytest.fixture
@@ -143,7 +143,7 @@ def test_target_leaving_fails_the_pending_call(client):
 def test_a_lone_pending_call_times_out_on_the_callers_ping(client):
     """The sweep ran only when another `call` arrived, so a caller with one call outstanding
     and nothing more to ask never heard `timeout`; every client pings, so it sweeps too."""
-    from nanomuse_cloud import hub as hub_mod
+    from lingtai_cloud import hub as hub_mod
 
     key = sign_up(client, "someone@example.com")
     with connect(client, key) as phone, connect(client, key) as pc:
@@ -202,7 +202,7 @@ def test_web_tab_authenticates_in_hello_and_cannot_be_called(client):
 
 def test_bad_key_and_bad_hello(client):
     with connect(client, None) as ws:
-        ws.send_json(hello("phone", "p", "x", key="nm_nothing"))
+        ws.send_json(hello("phone", "p", "x", key="lt_nothing"))
         assert ws.receive_json()["code"] == "bad_key"
     key = sign_up(client, "13800138000")
     with connect(client, key) as ws:
@@ -218,7 +218,7 @@ def test_a_bad_bearer_header_is_refused_with_4001_after_the_handshake(client):
     """The apps send the key in the header. A refusal must reach them as a close with
     4001 and the code (docs/hub.md), not as a failed handshake: a failed handshake looks
     like the network and the phone would retry it forever."""
-    with connect(client, "nm_nothing") as ws:
+    with connect(client, "lt_nothing") as ws:
         err = ws.receive_json()
         assert err["type"] == "error" and err["code"] == "bad_key"
         with pytest.raises(WebSocketDisconnect) as closed:
@@ -512,8 +512,8 @@ def test_a_flooding_socket_is_slowed_then_closed(client):
     """One socket may send so many frames and bytes a second (hub.FRAMES_PER_S, BYTES_PER_S,
     twice that in a burst); over it frames are dropped with one error a second, and a socket
     that keeps flooding is closed. The bucket itself, with a clock of our own."""
-    from nanomuse_cloud import hub as hub_module
-    from nanomuse_cloud.hub import FLOOD_CLOSE_AFTER, Bucket
+    from lingtai_cloud import hub as hub_module
+    from lingtai_cloud.hub import FLOOD_CLOSE_AFTER, Bucket
 
     clock = [0.0]
     bucket = Bucket(10.0, 20.0, clock=lambda: clock[0])

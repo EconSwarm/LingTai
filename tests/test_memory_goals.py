@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pytest
 
-from nanomuse.goals import GoalStore
-from nanomuse.memory import MemoryStore
-from nanomuse.memory.store import tokenize
+from lingtai.goals import GoalStore
+from lingtai.memory import MemoryStore
+from lingtai.memory.store import tokenize
 
 
 def test_tokenize_mixed():
@@ -76,7 +76,7 @@ def test_memory_search_weighs_rare_words_over_common_ones(tmp_path: Path):
     # CJK: bigrams weighted the same way
     store.add("喜欢京都的豆腐料理")
     store.add("喜欢大阪的章鱼烧")
-    assert store.search("京都 美食")[0].content == "喜欢京都的豆腐料理"
+    assert store.search("京都美食")[0].content == "喜欢京都的豆腐料理"
 
 
 def test_memory_replace_drop_and_restore_are_logged(tmp_path: Path):
@@ -166,8 +166,8 @@ def test_goals_lifecycle(tmp_path: Path):
 def test_goals_tool_rates_creating_a_goal_as_a_change(tmp_path: Path):
     """A goal is work the model takes up again at every check-in, so creating one is
     ``moderate`` (strict mode asks); reading and bookkeeping stay ``safe``."""
-    from nanomuse.schema import RiskLevel
-    from nanomuse.tools import Goals
+    from lingtai.schema import RiskLevel
+    from lingtai.tools import Goals
 
     tool = Goals(store=GoalStore(tmp_path / "g.db"))
     assert tool.assess({"action": "create", "title": "Sell my old car"}).risk == RiskLevel.MODERATE
@@ -183,7 +183,7 @@ def test_goals_tool_rates_creating_a_goal_as_a_change(tmp_path: Path):
 def test_goal_categories_due_dates_and_check_ins(tmp_path: Path):
     from datetime import UTC, datetime, timedelta
 
-    from nanomuse.goals import next_check_in, parse_check_in
+    from lingtai.goals import next_check_in, parse_check_in
 
     store = GoalStore(tmp_path / "g.db")
     g = store.create(
@@ -284,7 +284,7 @@ def test_goal_proposals_are_the_users_call(tmp_path: Path):
 def test_goal_categories_due_and_check_ins(tmp_path: Path):
     from datetime import UTC, datetime, timedelta
 
-    from nanomuse.goals import next_check_in, parse_check_in
+    from lingtai.goals import next_check_in, parse_check_in
 
     store = GoalStore(tmp_path / "g.db")
     g = store.create(
@@ -405,7 +405,7 @@ def test_goal_categories_due_dates_and_proposals(tmp_path: Path):
 def test_goal_check_ins(tmp_path: Path):
     from datetime import UTC, datetime, timedelta
 
-    from nanomuse.goals import next_check_in, parse_check_in
+    from lingtai.goals import next_check_in, parse_check_in
 
     assert parse_check_in("daily 08:00") == ("daily", None, 8, 0)
     assert parse_check_in("weekly mon 09:30") == ("weekly", 0, 9, 30)

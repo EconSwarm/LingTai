@@ -1,11 +1,11 @@
-# Run nanoMuse yourself
+# Run lingTai yourself
 
-nanoMuse is one agent on your own devices, and nothing in it has to go through a server of ours. There are three ways to run it yourself, from the least work to the most. Most people want the first; a family or a small group that wants its own sign-in wants the second; the third is for the web app on a machine of your own.
+lingTai is one agent on your own devices, and nothing in it has to go through a server of ours. There are three ways to run it yourself, from the least work to the most. Most people want the first; a family or a small group that wants its own sign-in wants the second; the third is for the web app on a machine of your own.
 
 | | What you run | What it gives you |
 |---|---|---|
 | [1. No server, your own key](#_1-no-server-your-own-key) | nothing | the apps talk to a model provider directly; the community relay is still used for sign-in and for the devices to find each other |
-| [2. Your own relay](#_2-your-own-relay) | nanoMuse Cloud on a small VPS or a home server | your own accounts, sign-in codes, hub and conversation sync; nothing about your account touches nanomuse.cn |
+| [2. Your own relay](#_2-your-own-relay) | lingTai Cloud on a small VPS or a home server | your own accounts, sign-in codes, hub and conversation sync; nothing about your account touches lingtai.cn |
 | [3. A runtime of your own](#_3-a-runtime-of-your-own-for-the-web-app) | the Python runtime in Docker | the web app and the hands on a computer that is always on |
 
 ## 1. No server, your own key
@@ -14,7 +14,7 @@ The free allowance on the community relay runs out. When it does, or before, put
 
 ## 2. Your own relay
 
-nanoMuse Cloud is the relay behind nanomuse.cn: sign-in by e-mail or phone, the account's models through one OpenAI-compatible endpoint, the hub the devices meet on, conversation sync, a web console at `/app` and an admin page at `/app/admin/`. It is one Python service and one SQLite file, in this repository under [`cloud/`](../cloud/README.md), and it runs the same on a server of yours.
+lingTai Cloud is the relay behind lingtai.cn: sign-in by e-mail or phone, the account's models through one OpenAI-compatible endpoint, the hub the devices meet on, conversation sync, a web console at `/app` and an admin page at `/app/admin/`. It is one Python service and one SQLite file, in this repository under [`cloud/`](../cloud/README.md), and it runs the same on a server of yours.
 
 ### What you need
 
@@ -26,7 +26,7 @@ nanoMuse Cloud is the relay behind nanomuse.cn: sign-in by e-mail or phone, the 
 ### In one command
 
 ```bash
-git clone https://github.com/nano-muse/nanoMuse.git && cd nanoMuse
+git clone https://github.com/econswarm/lingtai.git && cd lingTai
 bash scripts/self-host.sh
 ```
 
@@ -53,31 +53,31 @@ A code goes out every time someone signs in. `CODE_SENDER` says how:
 
 ### Pointing the apps at it
 
-Every app signs in against `https://cloud.nanomuse.cn` unless you tell it otherwise. The devices of one account must all point at the same relay; the hub and the conversations live there.
+Every app signs in against `https://cloud.lingtai.cn` unless you tell it otherwise. The devices of one account must all point at the same relay; the hub and the conversations live there.
 
 - **Android** (0.1.38). *Use a different server* under the sign-in form takes the relay's address; *Check* asks its `/healthz` and shows the version, *Use this server* keeps the address across launches. `https://` is required outside your own network; plain `http://` is accepted for a private address (`10.x`, `172.16-31.x`, `192.168.x`, `localhost`, a `.local` or `.ts.net` name). Settings → Account shows the server with *Change*, which signs the phone out first ([android.md](android.md)).
 - **iPhone / iPad.** The same link on the sign-in sheet, with the same rules.
-- **nanoMuse Desktop.** The relay is the `baseURL` of the plugin's cloud row. Add this to `cordis.patch.yml` in the desktop's profile, `~/.nanomuse/desktop/profiles/nanomuse/` (`%USERPROFILE%\.nanomuse\desktop\profiles\nanomuse\` on Windows; `NANOMUSE_DESKTOP_HOME` moves it), and restart the app:
+- **lingTai Desktop.** The relay is the `baseURL` of the plugin's cloud row. Add this to `cordis.patch.yml` in the desktop's profile, `~/.lingtai/desktop/profiles/lingtai/` (`%USERPROFILE%\.lingtai\desktop\profiles\lingtai\` on Windows; `LINGTAI_DESKTOP_HOME` moves it), and restart the app:
 
   ```yaml
-  - id: nanomuse-cloud
-    name: dsh-nanomuse/cloud
+  - id: lingtai-cloud
+    name: dsh-lingtai/cloud
     config:
       baseURL: https://cloud.example.com
       deviceName: ''
       statePath: ''
   ```
 
-  Setting `NANOMUSE_CLOUD_URL=https://cloud.example.com` in the environment the app starts in does the same without editing the file ([desktop.md](desktop.md)).
-- **The terminal runtime and the hosted web app** (`nanomuse …`, the root `docker-compose.yml`): `NANOMUSE_CLOUD_BASE_URL=https://cloud.example.com` in the environment or `.env`, or `[cloud] base_url` in `config/config.toml` ([configuration.md](configuration.md)).
+  Setting `LINGTAI_CLOUD_URL=https://cloud.example.com` in the environment the app starts in does the same without editing the file ([desktop.md](desktop.md)).
+- **The terminal runtime and the hosted web app** (`lingtai …`, the root `docker-compose.yml`): `LINGTAI_CLOUD_BASE_URL=https://cloud.example.com` in the environment or `.env`, or `[cloud] base_url` in `config/config.toml` ([configuration.md](configuration.md)).
 - **The web console** is the relay's own `/app` (`https://<your domain>/app/`) and needs no pointing.
 
-Invitations from your relay link to its console (`INVITE_URL`, set by the script), so a friend you invite lands on your relay, not on nanomuse.cn.
+Invitations from your relay link to its console (`INVITE_URL`, set by the script), so a friend you invite lands on your relay, not on lingtai.cn.
 
 ### Updating
 
 ```bash
-cd nanoMuse && git pull
+cd lingTai && git pull
 bash scripts/self-host.sh        # Enter through the questions; secrets and accounts are kept
 # or: cd cloud && docker compose up -d --build
 ```
@@ -91,7 +91,7 @@ Everything the relay keeps is `cloud/data/cloud.db` (SQLite) plus `CLOUD_SECRET`
 ```bash
 cd cloud && docker compose exec -T relay python - > cloud-$(date -u +%Y%m%d).db <<'EOF'
 import os, shutil, sqlite3, sys
-src = sqlite3.connect("/srv/nanomuse-cloud/data/cloud.db")
+src = sqlite3.connect("/srv/lingtai-cloud/data/cloud.db")
 dst = sqlite3.connect("/tmp/backup.db")
 src.backup(dst)
 dst.close(); src.close()
@@ -111,12 +111,12 @@ Hashed and encrypted identifiers, per-request counts and prices, the devices on 
 
 ## 3. A runtime of your own, for the web app
 
-The phone and the desktop carry their own agent. The web app does not; it talks to the Python runtime, which on nanomuse.cn runs in a container per visitor. You can run that runtime on a machine of your own, in Docker, and open the web app on it from any browser:
+The phone and the desktop carry their own agent. The web app does not; it talks to the Python runtime, which on lingtai.cn runs in a container per visitor. You can run that runtime on a machine of your own, in Docker, and open the web app on it from any browser:
 
 ```bash
-cp .env.example .env && $EDITOR .env      # a model key, NANOMUSE_SERVER_TOKEN; NANOMUSE_CLOUD_BASE_URL for your own relay
-nanomuse config init                      # or copy config/config.example.toml to config/config.toml
+cp .env.example .env && $EDITOR .env      # a model key, LINGTAI_SERVER_TOKEN; LINGTAI_CLOUD_BASE_URL for your own relay
+lingtai config init                      # or copy config/config.example.toml to config/config.toml
 docker compose up -d app                  # the web app on http://<host>:8787, the URL with its token in the logs
 ```
 
-The container sees only its data volume and `./workspace`; capabilities are dropped. Keeping it running, a published image for arm64, and reaching it from outside your network are in [deployment.md](deployment.md). The runtime signs in to a relay like any other device (yours, from section 2, if you set `NANOMUSE_CLOUD_BASE_URL`), and then the phone can hand it tasks over the hub like a computer that is always on ([every-device.md](every-device.md)).
+The container sees only its data volume and `./workspace`; capabilities are dropped. Keeping it running, a published image for arm64, and reaching it from outside your network are in [deployment.md](deployment.md). The runtime signs in to a relay like any other device (yours, from section 2, if you set `LINGTAI_CLOUD_BASE_URL`), and then the phone can hand it tasks over the hub like a computer that is always on ([every-device.md](every-device.md)).

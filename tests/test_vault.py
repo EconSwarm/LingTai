@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from nanomuse.vault import CredentialVault
-from nanomuse.vault.vault import VaultError
+from lingtai.vault import CredentialVault
+from lingtai.vault.vault import VaultError
 
 
 def test_vault_roundtrip(tmp_path: Path):

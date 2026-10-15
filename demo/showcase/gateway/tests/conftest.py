@@ -35,7 +35,7 @@ class FakeRunner:
     async def gateway_address(self) -> str | None:
         return "10.0.0.1"
 
-    # kept containers (nanoMuse Web): created once, then stopped and started by name
+    # kept containers (lingTai Web): created once, then stopped and started by name
     @property
     def kept(self) -> dict[str, dict]:
         if not hasattr(self, "_kept"):
@@ -92,7 +92,7 @@ def make_settings(**over: Any) -> Settings:
         trusted_proxies=("127.0.0.1", "testclient"),
         site_dir="",
         cdn_dir="",
-        image="nanomuse:test",
+        image="lingtai:test",
         internal_url="",
         session_ttl_s=600,
         idle_ttl_s=120,
@@ -129,7 +129,7 @@ def make_settings(**over: Any) -> Settings:
         web_relay_internal_url="http://relay:8787",
         web_network="web-net",
         web_db=":memory:",
-        web_image="nanomuse:web",
+        web_image="lingtai:web",
         web_max_accounts=2,
         web_max_running=1,
         web_idle_stop_s=3600,
@@ -179,7 +179,7 @@ class Upstream:
         self.animate_busy = 0  # how many 429s the video endpoint answers first
 
     def relay(self, request: httpx.Request) -> httpx.Response:
-        """A little nanoMuse Cloud: any identifier gets the code 246810."""
+        """A little lingTai Cloud: any identifier gets the code 246810."""
         data = json.loads(request.content or b"{}")
         ident = str(data.get("identifier", "")).lower()
         if request.url.path == "/v1/auth/code":
@@ -205,14 +205,14 @@ class Upstream:
             # a key that lapses on its own, for the key in the header (0.13 relays)
             auth = request.headers.get("authorization", "")
             standing = auth[7:] if auth.lower().startswith("bearer ") else ""
-            if not standing.startswith("nm_key") or standing in self.revoked:
+            if not standing.startswith("lt_key") or standing in self.revoked:
                 return wire(401, json.dumps({"error": {"code": "bad_key", "message": "No."}}))
             self.session_keys += 1
             return wire(
                 200,
                 json.dumps(
                     {
-                        "api_key": f"nm_sess{self.session_keys}",
+                        "api_key": f"lt_sess{self.session_keys}",
                         "expires_at": int(time.time()) + int(data.get("ttl_s") or 0),
                     }
                 ),
@@ -245,7 +245,7 @@ class Upstream:
                 200,
                 json.dumps(
                     {
-                        "api_key": f"nm_key{self.keys_issued}",
+                        "api_key": f"lt_key{self.keys_issued}",
                         "created": self.keys_issued == 1,
                         "account": account,
                     }

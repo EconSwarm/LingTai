@@ -13,18 +13,18 @@ from typing import Any
 import pytest
 from fastapi.testclient import TestClient
 
-from nanomuse.computer import hands as hands_mod
-from nanomuse.computer.link import ComputerLink
-from nanomuse.config import GUISettings, HandsSettings, Settings
-from nanomuse.llm import MockLLM
-from nanomuse.phone.link import STOP_MARKER, DeviceStopped
-from nanomuse.phone.operator import COMPUTER, PhoneOperator, parse_step, to_computer_action
-from nanomuse.phone.screen import Screen
-from nanomuse.schema import Function, LLMResponse, RiskLevel, ToolCall
-from nanomuse.sentinel import AuditLog, Sentinel
-from nanomuse.server import create_app
-from nanomuse.server.service import MuseService
-from nanomuse.tools.computer import ComputerAct, ComputerScreen, ComputerTask
+from lingtai.computer import hands as hands_mod
+from lingtai.computer.link import ComputerLink
+from lingtai.config import GUISettings, HandsSettings, Settings
+from lingtai.llm import MockLLM
+from lingtai.phone.link import STOP_MARKER, DeviceStopped
+from lingtai.phone.operator import COMPUTER, PhoneOperator, parse_step, to_computer_action
+from lingtai.phone.screen import Screen
+from lingtai.schema import Function, LLMResponse, RiskLevel, ToolCall
+from lingtai.sentinel import AuditLog, Sentinel
+from lingtai.server import create_app
+from lingtai.server.service import MuseService
+from lingtai.tools.computer import ComputerAct, ComputerScreen, ComputerTask
 from tests.test_phone import AutoApproveUI, png
 
 SCREEN_RAW = {
@@ -76,9 +76,9 @@ def fake_screen(monkeypatch: pytest.MonkeyPatch) -> list[dict[str, Any]]:
     def capture(max_width: int = 1600) -> dict[str, Any]:
         return dict(screens[0] if len(screens) == 1 else screens.pop(0))
 
-    monkeypatch.setattr("nanomuse.computer.link.capture", capture)
-    monkeypatch.setattr("nanomuse.computer.link.active_window", lambda: ("firefox", "Firefox"))
-    monkeypatch.setattr("nanomuse.computer.link.screen_size", lambda: (1920, 1080))
+    monkeypatch.setattr("lingtai.computer.link.capture", capture)
+    monkeypatch.setattr("lingtai.computer.link.active_window", lambda: ("firefox", "Firefox"))
+    monkeypatch.setattr("lingtai.computer.link.screen_size", lambda: (1920, 1080))
     return screens
 
 
@@ -222,7 +222,7 @@ def test_a_black_capture_is_an_error_not_a_picture(monkeypatch: pytest.MonkeyPat
 
     from PIL import Image
 
-    from nanomuse.computer import screen as screen_mod
+    from lingtai.computer import screen as screen_mod
 
     class Grab:
         def __init__(self, w: int, h: int, px: bytes) -> None:
@@ -360,7 +360,7 @@ async def test_operator_runs_on_the_computer(settings: Settings, fake_screen) ->
         [
             step("open", "Open the text editor", text="gedit"),
             step("left_click", "Click in the document", coordinate=[499, 499]),
-            step("type", "Type the note", text="hello from nanoMuse"),
+            step("type", "Type the note", text="hello from lingTai"),
             step("key", "Save with Ctrl+S", keys=["ctrl", "s"]),
             step("answer", "Report", text="Saved the note."),
         ]
@@ -384,7 +384,7 @@ async def test_operator_runs_on_the_computer(settings: Settings, fake_screen) ->
     assert outcome.status == "done" and outcome.message == "Saved the note." and outcome.steps == 5
     assert hands.calls[0] == ("open", "gedit")
     assert hands.calls[1] == ("click", 959.0, 539.5, "left", 1)  # 999-grid → 1920×1080
-    assert ("type", "hello from nanoMuse") in hands.calls and ("key", ("ctrl", "s")) in hands.calls
+    assert ("type", "hello from lingTai") in hands.calls and ("key", ("ctrl", "s")) in hands.calls
     # the save went through the Sentinel as a sensitive step
     assert [r.summary for r in ui.requests] == ["computer_act: press ctrl+s in Firefox (firefox)"]
     report = outcome.report()
@@ -449,7 +449,7 @@ def test_hands_switch_adds_the_tools_and_the_card_follows_a_task(server) -> None
     assert client.put("/api/connections/hands", json={"mode": "nope"}).status_code == 400
     assert client.put("/api/connections/hands", json={"mode": "window"}).status_code == 200
     assert service.settings.hands.mode == "window"
-    from nanomuse.config import Settings, apply_app_settings, load_app_settings
+    from lingtai.config import Settings, apply_app_settings, load_app_settings
 
     fresh = Settings()
     apply_app_settings(fresh, load_app_settings(service.data_dir))

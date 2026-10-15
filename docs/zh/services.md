@@ -4,7 +4,7 @@
 
 > **没有在手机的根文件系统里跑过、留下记录之前，什么都不进[展示站](showcase.md)。** 装得上的包不等于能用的服务。「跑过」的意思是工具被调用了、也回答了；记录在这一页的底部。
 
-今天手机上的根文件系统，是 Android 应用在 proot 下解开的那份 Alpine Linux 3.21 minirootfs（[android.md](android.md)；构建时由 `android/scripts/prepare_android_sandbox.sh` 下载）。它是光秃秃的：任务第一次需要时，智能体才用 `apk add` 在里面装 Node 和 Python。这一页底部的记录是 2026-09-24 在 Python 线的镜像里录的，那份镜像用同一个 Alpine 底座，预装了 Node 22 和 Python 3.12（[local-runtime.md](local-runtime.md) 是那条线的记录），跑在 arm64 模拟器（构建机上的 QEMU 用户态）上；当前应用的 rootfs 在这里还没有自己的一次记录。PRoot 本身和手机的网络是模拟器碰不到的两样东西，检查清单里给它们各留了一行。下面点到的技能是 Python 运行时自带的那些，在 `nanomuse/skills/builtin/` 下。
+今天手机上的根文件系统，是 Android 应用在 proot 下解开的那份 Alpine Linux 3.21 minirootfs（[android.md](android.md)；构建时由 `android/scripts/prepare_android_sandbox.sh` 下载）。它是光秃秃的：任务第一次需要时，智能体才用 `apk add` 在里面装 Node 和 Python。这一页底部的记录是 2026-09-24 在 Python 线的镜像里录的，那份镜像用同一个 Alpine 底座，预装了 Node 22 和 Python 3.12（[local-runtime.md](local-runtime.md) 是那条线的记录），跑在 arm64 模拟器（构建机上的 QEMU 用户态）上；当前应用的 rootfs 在这里还没有自己的一次记录。PRoot 本身和手机的网络是模拟器碰不到的两样东西，检查清单里给它们各留了一行。下面点到的技能是 Python 运行时自带的那些，在 `lingtai/skills/builtin/` 下。
 
 ## 一档：已验证 {#tier-1-verified}
 
@@ -12,7 +12,7 @@
 
 | 服务 | 通过什么 | 验证情况 | 需要用户提供什么 | 技能 |
 |---|---|---|---|---|
-| **12306**（火车票） | [12306-mcp](https://github.com/Joooook/12306-mcp)，社区 MCP 服务器，基于 12306 的公开时刻表：`npx -y 12306-mcp`，stdio | 已装进 rootfs；一次实时查询第二天早上的 北京 → 上海，1.0 秒返回车次、座位和票价。只能查询：服务器不能订票 | 不需要：没有 key，不用登录 | `train-tickets`（在这里查；只在被要求时才去手机上订） |
+| **12306**（火车票） | [12306-mcp](https://github.com/Joooook/12306-mcp)，社区 MCP 服务器，基于 12306 的公开时刻表：`npx -y 12306-mcp`，stdio | 已装进 rootfs；一次实时查询第二天早上的北京 → 上海，1.0 秒返回车次、座位和票价。只能查询：服务器不能订票 | 不需要：没有 key，不用登录 | `train-tickets`（在这里查；只在被要求时才去手机上订） |
 | **飞书 / Lark** | [lark-cli](https://github.com/larksuite/cli)，官方 CLI：`npm i -g @larksuite/cli` | 已装进 rootfs 并能运行（1.0.96）；在构建机上，配置好的安装对 `lark-cli auth status` 会回答它的身份。登录是机主的事：先 `lark-cli config init --new` 一次，再 `lark-cli auth login`，两步都通过浏览器里的链接完成 | 一个飞书账号；那两步登录，做一次 | `feishu` |
 | **高德地图**（地图、天气） | [高德 MCP Server](https://lbs.amap.com/api/mcp-server/summary)，官方：托管在 `https://mcp.amap.com/mcp?key=…`，或 `npx -y @amap/amap-maps-mcp-server` | 包能在 rootfs 里跑并列出它的十二个工具；实时调用走带 key 的托管地址。构建机上没有 key，所以实时的地理编码和路线调用是检查清单里留给机主的那一行 | 一个 console.amap.com 的免费 Web 服务 key，放在保险库里叫 `AMAP_KEY` | `amap` |
 | **腾讯会议** | [tmeet](https://github.com/TencentCloud/tencentmeeting-cli)，腾讯官方 CLI（Go 二进制，`npm i -g @tencentcloud/tmeet`） | 已装进 rootfs 并能运行（v1.0.18）；`tmeet auth status` 和 `tmeet meeting create --help` 都有回答。登录是 OAuth 设备流程，机主点一次（`tmeet auth login --no-browser` 在手机上打印链接） | 一个腾讯会议账号；登录一次 | `tencent-meeting` |
@@ -47,13 +47,13 @@
 
 ## 添加一个 {#adding-one}
 
-MCP 服务器：在 `config.toml` 里写一个 `[[mcp.servers]]` 块（或者在应用里 连接 → MCP 服务器），key 放在保险库里写成 `{{vault:NAME}}`，`risk` 和 `egress` 如实填写，参数里带用户数据（快递单号、手机号）时 `reads_private_data = true`。CLI：装进 rootfs，或者在电脑上共享给沙箱（程序用 `sandbox.share_read_only`，它的登录用 `share`），然后写一个技能，说明要跑哪些命令、写操作前要问什么。`config/config.example.toml` 里有高德、12306 和快递100 的块；[configuration.md](configuration.md#mcp-servers) 解释各字段。
+MCP 服务器：在 `config.toml` 里写一个 `[[mcp.servers]]` 块（或者在应用里连接 → MCP 服务器），key 放在保险库里写成 `{{vault:NAME}}`，`risk` 和 `egress` 如实填写，参数里带用户数据（快递单号、手机号）时 `reads_private_data = true`。CLI：装进 rootfs，或者在电脑上共享给沙箱（程序用 `sandbox.share_read_only`，它的登录用 `share`），然后写一个技能，说明要跑哪些命令、写操作前要问什么。`config/config.example.toml` 里有高德、12306 和快递100 的块；[configuration.md](configuration.md#mcp-servers) 解释各字段。
 
 它在 rootfs 里跑过、回答过一次之后，把记录加到下面，再把它往上挪一档。
 
 ## 验证记录 {#verification-log}
 
-在 Python 线的镜像 `nanomuse-rootfs:aarch64`（Alpine 3.21.8、Node 22.23.2、npm 10.9.1、Python 3.12.14、nanomuse 0.1.0）里，x86_64 上的 QEMU 用户态，2026-09-24。软件源当时用那份镜像里的 `nanomuse-mirror cn` 切换；今天的应用在第一次启动时自己测速选软件源。探针是一个 60 行的 Python 脚本，用的是智能体自己用的那个 `mcp` 客户端：连接、`tools/list`、几次 `tools/call`。
+在 Python 线的镜像 `lingtai-rootfs:aarch64`（Alpine 3.21.8、Node 22.23.2、npm 10.9.1、Python 3.12.14、lingtai 0.1.0）里，x86_64 上的 QEMU 用户态，2026-09-24。软件源当时用那份镜像里的 `lingtai-mirror cn` 切换；今天的应用在第一次启动时自己测速选软件源。探针是一个 60 行的 Python 脚本，用的是智能体自己用的那个 `mcp` 客户端：连接、`tools/list`、几次 `tools/call`。
 
 ```
 $ npm i -g 12306-mcp @larksuite/cli @tencentcloud/tmeet @amap/amap-maps-mcp-server @kuaidi100-mcp/kuaidi100-mcp-server

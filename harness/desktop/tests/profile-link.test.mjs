@@ -14,16 +14,16 @@ after(() => {
 });
 
 function scratch() {
-  const dir = mkdtempSync(join(tmpdir(), "nm-profile-link-"));
+  const dir = mkdtempSync(join(tmpdir(), "lt-profile-link-"));
   roots.push(dir);
   return dir;
 }
 
 test("a fresh link is made and reported", () => {
   const dir = scratch();
-  const target = join(dir, "resources", "dsh-nanomuse");
+  const target = join(dir, "resources", "dsh-lingtai");
   mkdirSync(target, { recursive: true });
-  const link = join(dir, "node_modules", "dsh-nanomuse");
+  const link = join(dir, "node_modules", "dsh-lingtai");
   mkdirSync(join(dir, "node_modules"));
   assert.equal(relink(link, target), true);
   assert.equal(sameTarget(readlinkSync(link), target), true);
@@ -32,14 +32,14 @@ test("a fresh link is made and reported", () => {
 
 test("a dangling link from an earlier install is replaced", () => {
   const dir = scratch();
-  const old = join(dir, "Programs", "nanoMuse", "nanomuse-desktop", "dsh-nanomuse");
+  const old = join(dir, "Programs", "lingTai", "lingtai-desktop", "dsh-lingtai");
   mkdirSync(old, { recursive: true });
-  const link = join(dir, "node_modules", "dsh-nanomuse");
+  const link = join(dir, "node_modules", "dsh-lingtai");
   mkdirSync(join(dir, "node_modules"));
   symlinkSync(old, link, process.platform === "win32" ? "junction" : "dir");
   rmSync(join(dir, "Programs"), { recursive: true, force: true }); // the old version is gone
   assert.equal(sameTarget(linkTarget(link), old), true, "the stale link is still there");
-  const target = join(dir, "Programs", "nanomuse-desktop", "dsh-nanomuse");
+  const target = join(dir, "Programs", "lingtai-desktop", "dsh-lingtai");
   mkdirSync(target, { recursive: true });
   assert.equal(relink(link, target), true);
   assert.equal(sameTarget(readlinkSync(link), target), true);
@@ -47,9 +47,9 @@ test("a dangling link from an earlier install is replaced", () => {
 
 test("a real directory in the link's place is removed, a missing one is fine", () => {
   const dir = scratch();
-  const target = join(dir, "resources", "dsh-nanomuse");
+  const target = join(dir, "resources", "dsh-lingtai");
   mkdirSync(target, { recursive: true });
-  const link = join(dir, "node_modules", "dsh-nanomuse");
+  const link = join(dir, "node_modules", "dsh-lingtai");
   mkdirSync(link, { recursive: true });
   writeFileSync(join(link, "index.js"), "");
   assert.equal(linkTarget(link), "(not a link)");

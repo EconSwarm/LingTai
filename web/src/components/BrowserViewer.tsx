@@ -53,8 +53,8 @@ export function BrowserViewer({ thread, eventId, onClose }: { thread: string; ev
       if (detail?.thread && detail.thread !== thread) return;
       void api.browserControl(thread, { action: "handed_back" }).catch((err: Error) => toast(err.message));
     };
-    window.addEventListener("nanomuse:browser-handed-back", onBack);
-    return () => window.removeEventListener("nanomuse:browser-handed-back", onBack);
+    window.addEventListener("lingtai:browser-handed-back", onBack);
+    return () => window.removeEventListener("lingtai:browser-handed-back", onBack);
   }, [inApp, thread, toast]);
 
   const act = useCallback(
@@ -133,7 +133,7 @@ export function BrowserViewer({ thread, eventId, onClose }: { thread: string; ev
     /* raw */
   }
   const live = event.status === "live";
-  const name = state.profile?.name ?? "nanoMuse";
+  const name = state.profile?.name ?? "lingTai";
   const agentState = hold
     ? t("{name} is waiting for you", { name })
     : state.status.state !== "idle" && state.status.thread === thread

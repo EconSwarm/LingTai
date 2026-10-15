@@ -1,16 +1,16 @@
 <script setup lang="ts">
 // The repository link in the nav, with its star count. The same fetch, cache key, TTL and
-// number format as the homepage's site.js (nanomuse.cn), so a visitor who has seen one page
-// sees the same number on the other without a second request: `nm-stars` in localStorage,
+// number format as the homepage's site.js (lingtai.cn), so a visitor who has seen one page
+// sees the same number on the other without a second request: `lt-stars` in localStorage,
 // `{ n, t }`, good for an hour. Without a number — API down, private mode, first visit while
 // offline — the link still says GitHub. The count's slot is reserved so nothing moves when
 // the number arrives.
 import { onMounted, ref } from 'vue'
 import { useData } from 'vitepress'
 
-const REPO = 'https://github.com/nano-muse/nanoMuse'
-const API = 'https://api.github.com/repos/nano-muse/nanoMuse'
-const KEY = 'nm-stars'
+const REPO = 'https://github.com/econswarm/lingtai'
+const API = 'https://api.github.com/repos/ling-tai/lingTai'
+const KEY = 'lt-stars'
 const TTL = 3600000
 
 const { lang } = useData()
@@ -55,11 +55,11 @@ onMounted(() => {
 
 <template>
   <a
-    class="NmGitHubStars"
+    class="LtGitHubStars"
     :href="REPO"
     target="_blank"
     rel="noopener"
-    :aria-label="lang.startsWith('zh') ? 'nanoMuse 的 GitHub 仓库' : 'nanoMuse on GitHub'"
+    :aria-label="lang.startsWith('zh') ? '灵台的 GitHub 仓库' : '灵台 on GitHub'"
   >
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">
       <path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.9l-5.3 2.8 1.1-5.9-4.3-4.1 5.9-.8z" />
@@ -70,7 +70,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.NmGitHubStars {
+.LtGitHubStars {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -83,17 +83,17 @@ onMounted(() => {
   transition: color 0.25s;
 }
 
-.NmGitHubStars:hover {
+.LtGitHubStars:hover {
   color: var(--vp-c-brand-1);
 }
 
-.NmGitHubStars svg {
+.LtGitHubStars svg {
   width: 15px;
   height: 15px;
   flex: none;
 }
 
-.NmGitHubStars .n {
+.LtGitHubStars .n {
   display: inline-block;
   min-width: 2.6em;
   font-variant-numeric: tabular-nums;
@@ -101,8 +101,8 @@ onMounted(() => {
 }
 
 @media (max-width: 767px) {
-  .NmGitHubStars { margin-left: 4px; }
-  .NmGitHubStars .label { display: none; }
-  .NmGitHubStars .n { min-width: 0; }
+  .LtGitHubStars { margin-left: 4px; }
+  .LtGitHubStars .label { display: none; }
+  .LtGitHubStars .n { min-width: 0; }
 }
 </style>

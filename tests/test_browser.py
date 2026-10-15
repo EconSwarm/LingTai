@@ -12,11 +12,11 @@ from typing import Any
 
 import pytest
 
-from nanomuse.phone import PhoneLink
-from nanomuse.phone.link import DeviceError
-from nanomuse.schema import RiskLevel
-from nanomuse.tools.browser import _ANNOTATE_JS, Browser, BrowserFrame
-from nanomuse.tools.browser_backends import (
+from lingtai.phone import PhoneLink
+from lingtai.phone.link import DeviceError
+from lingtai.schema import RiskLevel
+from lingtai.tools.browser import _ANNOTATE_JS, Browser, BrowserFrame
+from lingtai.tools.browser_backends import (
     PROFILES,
     BrowserBackend,
     BrowserProfile,
@@ -254,7 +254,7 @@ async def test_user_actions_are_reported_to_the_model_once(tmp_path: Path):
 
 
 def test_backend_choice(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    import nanomuse.tools.browser as mod
+    import lingtai.tools.browser as mod
 
     link = PhoneLink()
 
@@ -444,7 +444,7 @@ async def test_fetch_checks_every_redirect_hop(tmp_path: Path, monkeypatch):
 
     monkeypatch.setattr(backend, "fetch", fetch)
     monkeypatch.setattr(
-        "nanomuse.tools.browser._is_private_host", lambda host: host.startswith("169.254.")
+        "lingtai.tools.browser._is_private_host", lambda host: host.startswith("169.254.")
     )
     res = await tool.execute(action="fetch", url="https://shop.example/go")
     assert (

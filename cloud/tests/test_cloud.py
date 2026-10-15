@@ -13,12 +13,12 @@ import pytest
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 
-from nanomuse_cloud.api import create_app
-from nanomuse_cloud.config import Settings
-from nanomuse_cloud.db import Database
-from nanomuse_cloud.identifiers import BadIdentifier, parse
-from nanomuse_cloud.senders import LogSender
-from nanomuse_cloud.service import Cloud, CloudError
+from lingtai_cloud.api import create_app
+from lingtai_cloud.config import Settings
+from lingtai_cloud.db import Database
+from lingtai_cloud.identifiers import BadIdentifier, parse
+from lingtai_cloud.senders import LogSender
+from lingtai_cloud.service import Cloud, CloudError
 
 PNG_1PX = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==")
 
@@ -265,7 +265,7 @@ def test_identifiers():
 async def test_signup_grants_and_lists_models(stack):
     app, client, sender, up, cloud = stack
     data = await sign_up(client, sender)
-    assert data["api_key"].startswith("nm_")
+    assert data["api_key"].startswith("lt_")
     assert data["created"] is True
     assert data["tokens"] == {"unlimited": False, "granted": 1000, "used": 0, "remaining": 1000, "used_today": 0, "daily_cap": 100_000}
     assert data["account"]["hint"] == "138****8000"
@@ -273,14 +273,14 @@ async def test_signup_grants_and_lists_models(stack):
     ids = [m["id"] for m in data["models"]]
     assert "qwen3.8-27b" in ids and "qwen-image-3.0" in ids and "wan2.2-i2v-flash" in ids
     video = next(m for m in data["models"] if m["id"] == "wan2.2-i2v-flash")
-    assert video["nanomuse"]["kind"] == "video" and video["architecture"]["output_modalities"] == ["video"]
+    assert video["lingtai"]["kind"] == "video" and video["architecture"]["output_modalities"] == ["video"]
 
     headers = {"Authorization": f"Bearer {data['api_key']}"}
     r = await client.get("/v1/models", headers=headers)
     assert r.status_code == 200
     plus = next(m for m in r.json()["data"] if m["id"] == "qwen3.8-27b")
     assert plus["architecture"]["input_modalities"] == ["text", "image"]
-    assert plus["nanomuse"]["recommended"] is True
+    assert plus["lingtai"]["recommended"] is True
 
     # The same number again: same account, a second key, no second grant.
     again = await sign_up(client, sender, device="tablet")
@@ -326,7 +326,7 @@ def test_a_relay_that_sends_codes_refuses_to_start_without_a_secret():
     """`CODE_SENDER=smtp` with no `CLOUD_SECRET` would hash every identifier with the published
     development key, so whoever holds the database alone reads the member list and any live
     code. The command line exits on this; a relay built any other way is refused as well."""
-    sending = Settings(database=":memory:", sender="smtp", smtp_host="smtp.test", smtp_from="nanoMuse <no-reply@test>")
+    sending = Settings(database=":memory:", sender="smtp", smtp_host="smtp.test", smtp_from="lingTai <no-reply@test>")
     assert sending.dev_mode
     with pytest.raises(RuntimeError, match="CLOUD_SECRET"):
         Cloud(sending, Database(":memory:"))
@@ -346,7 +346,7 @@ async def test_chat_is_relayed_and_charged(stack):
     assert r.status_code == 200, r.text
     assert r.json()["choices"][0]["message"]["content"] == "hi"
     assert r.json()["model"] == "qwen3.8-27b"
-    assert r.headers["x-nanomuse-charged"] == "150"
+    assert r.headers["x-lingtai-charged"] == "150"
     kind, up_headers, up_body = up.state.requests[-1]
     assert up_headers["authorization"] == "Bearer sk-upstream"
     assert up_body["model"] == "qwen3.8-27b" and up_body["user"]
@@ -360,7 +360,7 @@ async def test_chat_is_relayed_and_charged(stack):
     r = await client.post(
         "/v1/chat/completions", headers=headers, json={"model": "qwen3.8-flash", "messages": [{"role": "user", "content": "hi"}]}
     )
-    assert r.headers["x-nanomuse-charged"] == "45"
+    assert r.headers["x-lingtai-charged"] == "45"
 
     # A model we do not offer is refused before anything is forwarded.
     n = len(up.state.requests)
@@ -465,7 +465,7 @@ async def test_out_of_tokens_and_bad_keys(stack):
 
     # Bad, missing and revoked keys.
     assert (await client.get("/v1/models")).status_code == 401
-    assert (await client.get("/v1/models", headers={"Authorization": "Bearer nm_nope"})).status_code == 401
+    assert (await client.get("/v1/models", headers={"Authorization": "Bearer lt_nope"})).status_code == 401
     assert (await client.get("/v1/models", headers={"Authorization": "Bearer sk-other"})).status_code == 401
     assert (await client.post("/v1/auth/sign-out", headers=headers)).status_code == 204
     r = await client.get("/v1/me", headers=headers)
@@ -486,14 +486,14 @@ async def test_a_rate_limited_picture_is_tried_again_behind_the_gate(stack, monk
     async def no_sleep(seconds: float) -> None:
         naps.append(seconds)
 
-    monkeypatch.setattr("nanomuse_cloud.api.asyncio.sleep", no_sleep)
+    monkeypatch.setattr("lingtai_cloud.api.asyncio.sleep", no_sleep)
 
     up.state.image_429s = 2
     r = await client.post("/v1/images/generations", headers=headers, json={"model": "qwen-image-3.0", "prompt": "a dragon"})
     assert r.status_code == 200, r.text
     assert naps == [2.0, 4.0]
     assert sum(1 for k, _, _ in up.state.requests if k == "image") == 3
-    assert r.headers["x-nanomuse-charged"] == "30000"
+    assert r.headers["x-lingtai-charged"] == "30000"
 
     # never clears: a 429 of the relay's own, a stable code, no charge
     naps.clear()
@@ -570,7 +570,7 @@ async def test_images_go_through_dashscope_native(stack):
     assert kind == "image" and up_body["model"] == "qwen-image-3.0"
     assert up_body["parameters"] == {"size": "1024*1024", "watermark": False, "prompt_extend": False}
     assert up_body["input"]["messages"][0]["content"] == [{"text": "a small dragon"}]
-    assert r.headers["x-nanomuse-charged"] == "30000"
+    assert r.headers["x-lingtai-charged"] == "30000"
 
     r = await client.post(
         "/v1/images/edits",
@@ -688,12 +688,12 @@ async def test_open_signup_members_unlimited_everyone_else_has_one_allowance():
         # the 0.5 co-creation bonus is gone; the names stay for the apps of the time
         "contribute_bonus_cny": 0,
         "contribute_bonus_available": False,
-        "own_key_docs": "https://nanomuse.cn/own-key",
+        "own_key_docs": "https://lingtai.cn/own-key",
         "openrouter_url": "https://openrouter.ai/keys",
         # 0.17: a mainland phone account is pointed to Bailian first, then OpenRouter, then an invite;
         # 0.21 adds the catalogue's facts to the two key ways (additive) and the whole card as `guidance`
         "ways": [
-            {"id": "bailian", "url": "https://nanomuse.cn/own-key", "mainland_only": True, **WAY_FACTS["bailian"]},
+            {"id": "bailian", "url": "https://lingtai.cn/own-key", "mainland_only": True, **WAY_FACTS["bailian"]},
             {"id": "openrouter", "url": "https://openrouter.ai/keys", "mainland_only": False, **WAY_FACTS["openrouter"]},
             {"id": "invite", "url": guest["invite"]["url"], "bonus_cny": 5},
         ],
@@ -711,7 +711,7 @@ async def test_open_signup_members_unlimited_everyone_else_has_one_allowance():
     # the allowance is the first line of the statement
     assert guest["recent"][0]["kind"] == "credit" and guest["recent"][0]["detail"] == {"credit_uy": 2000, "from": "signup"}
     # Prices travel with the model list, so the apps can show them.
-    price = next(m for m in guest["models"] if m["id"] == "qwen3.8-27b")["nanomuse"]["price_cny"]
+    price = next(m for m in guest["models"] if m["id"] == "qwen3.8-27b")["lingtai"]["price_cny"]
     assert price["per_m_input"] == 3.0 and price["per_m_output"] == 12.0
 
     headers = {"Authorization": f"Bearer {guest['api_key']}"}
@@ -741,10 +741,10 @@ async def test_open_signup_members_unlimited_everyone_else_has_one_allowance():
     assert r.status_code == 429
     err = r.json()["error"]
     assert err["code"] == "allowance_exhausted" and "¥0.002" in err["message"] and "keep working" in err["message"]
-    assert err["left"] == 0 and err["grant"] == 0.002 and err["own_key_docs"] == "https://nanomuse.cn/own-key"
+    assert err["left"] == 0 and err["grant"] == 0.002 and err["own_key_docs"] == "https://lingtai.cn/own-key"
     assert (
-        err["invite_url"].startswith("https://nanomuse.cn/web/?invite=")
-        and len(err["invite_url"]) == len("https://nanomuse.cn/web/?invite=") + 8
+        err["invite_url"].startswith("https://lingtai.cn/web/?invite=")
+        and len(err["invite_url"]) == len("https://lingtai.cn/web/?invite=") + 8
     )
     assert "co-creation" not in err["message"] and "invite a friend" in err["message"] and "own model key" in err["message"]
     assert err["invite_bonus_cny"] == 5 and err["invitee_bonus_cny"] == 5
@@ -980,8 +980,8 @@ async def test_the_operator_sees_addresses_clients_and_every_line(stack):
     lists the addresses, the statement and the timeline page through to the first line, and
     one address can be looked up across accounts. The training export drops the address."""
     app, client, sender, up, cloud = stack
-    phone = {"X-Forwarded-For": "203.0.113.7, 10.0.0.1", "User-Agent": "nanoMuse-Android/0.1.27 (Pixel 8)"}
-    desk = {"X-Forwarded-For": "198.51.100.2", "User-Agent": "nanoMuse/0.1.27 (linux)"}
+    phone = {"X-Forwarded-For": "203.0.113.7, 10.0.0.1", "User-Agent": "lingTai-Android/0.1.27 (Pixel 8)"}
+    desk = {"X-Forwarded-For": "198.51.100.2", "User-Agent": "lingTai/0.1.27 (linux)"}
     r = await client.post("/v1/auth/code", json={"identifier": "13800138000"}, headers=phone)
     assert r.status_code == 204
     code = sender.sent[-1][1]
@@ -1166,7 +1166,7 @@ async def test_the_showcase_visitors_reach_the_admin_page(monkeypatch):
         )
 
     real = httpx.AsyncClient
-    monkeypatch.setattr("nanomuse_cloud.api.httpx.AsyncClient", lambda *a, **kw: real(transport=httpx.MockTransport(gateway)))
+    monkeypatch.setattr("lingtai_cloud.api.httpx.AsyncClient", lambda *a, **kw: real(transport=httpx.MockTransport(gateway)))
     admin = {"X-Admin-Token": "admin"}
     view = (await client.get("/v1/admin/demo?days=7", headers=admin)).json()
     assert view["available"] is True and view["visitors_total"] == 1 and view["days"] == 7
@@ -1199,21 +1199,21 @@ async def test_members_see_the_models_under_the_key_and_pick():
     listing = (await client.get("/v1/models", headers=mh)).json()
     ids = [m["id"] for m in listing["data"]]
     assert ids[: len(menu_ids)] == menu_ids  # the menu first, in its order
-    extra = {m["id"]: m for m in listing["data"] if m["nanomuse"].get("catalog")}
+    extra = {m["id"]: m for m in listing["data"] if m["lingtai"].get("catalog")}
     assert set(extra) == {"deepseek-v4-pro", "qwen3-vl-plus", "vanchin/deepseek-v3", "qwen-image-edit-max", "wan2.7-image"}
-    assert extra["deepseek-v4-pro"]["nanomuse"]["kind"] == "chat" and extra["deepseek-v4-pro"]["nanomuse"]["listed"] is False
-    assert extra["deepseek-v4-pro"]["nanomuse"]["priced_as"] == "qwen3.8-27b"
+    assert extra["deepseek-v4-pro"]["lingtai"]["kind"] == "chat" and extra["deepseek-v4-pro"]["lingtai"]["listed"] is False
+    assert extra["deepseek-v4-pro"]["lingtai"]["priced_as"] == "qwen3.8-27b"
     assert extra["vanchin/deepseek-v3"]["architecture"]["input_modalities"] == ["text"]  # not known to read pictures
-    assert extra["deepseek-v4-pro"]["nanomuse"]["vision"] is False  # by name: only V4.1 and later read pictures
-    assert extra["qwen3-vl-plus"]["nanomuse"]["vision"] is True and extra["qwen3-vl-plus"]["architecture"]["input_modalities"] == [
+    assert extra["deepseek-v4-pro"]["lingtai"]["vision"] is False  # by name: only V4.1 and later read pictures
+    assert extra["qwen3-vl-plus"]["lingtai"]["vision"] is True and extra["qwen3-vl-plus"]["architecture"]["input_modalities"] == [
         "text",
         "image",
     ]
-    assert extra["qwen3-vl-plus"]["nanomuse"]["verified"] is False  # the name's word, no probe asked
-    assert extra["qwen-image-edit-max"]["nanomuse"]["kind"] == "image" and extra["wan2.7-image"]["architecture"]["output_modalities"] == [
+    assert extra["qwen3-vl-plus"]["lingtai"]["verified"] is False  # the name's word, no probe asked
+    assert extra["qwen-image-edit-max"]["lingtai"]["kind"] == "image" and extra["wan2.7-image"]["architecture"]["output_modalities"] == [
         "image"
     ]
-    assert listing["nanomuse"]["catalog"] == {"models": 5, "error": "", "probing": False}
+    assert listing["lingtai"]["catalog"] == {"models": 5, "error": "", "probing": False}
     # the provider was asked with the operator's key, once; the second read is from the cache
     asked = [q for q in up.state.requests if q[0] == "models"]
     assert len(asked) == 1 and asked[0][1]["authorization"] == "Bearer sk-upstream"
@@ -1221,7 +1221,7 @@ async def test_members_see_the_models_under_the_key_and_pick():
     assert len([q for q in up.state.requests if q[0] == "models"]) == 1
     # a guest: the menu, nothing more
     glist = (await client.get("/v1/models", headers=gh)).json()
-    assert [m["id"] for m in glist["data"]] == menu_ids and glist["nanomuse"] == {"any_model": False}
+    assert [m["id"] for m in glist["data"]] == menu_ids and glist["lingtai"] == {"any_model": False}
     # a catalog model chats under its own id, priced as the dearest menu model
     r = await client.post(
         "/v1/chat/completions", json={"model": "vanchin/deepseek-v3", "messages": [{"role": "user", "content": "hi"}]}, headers=mh
@@ -1232,12 +1232,12 @@ async def test_members_see_the_models_under_the_key_and_pick():
     app.state.catalog.fetched_at = 0
     up.state.catalog_ids = None  # the provider answers 503
     listing = (await client.get("/v1/models", headers=mh)).json()
-    assert len([m for m in listing["data"] if m["nanomuse"].get("catalog")]) == 5
-    assert listing["nanomuse"]["catalog"]["models"] == 5 and listing["nanomuse"]["catalog"]["error"]
+    assert len([m for m in listing["data"] if m["lingtai"].get("catalog")]) == 5
+    assert listing["lingtai"]["catalog"]["models"] == 5 and listing["lingtai"]["catalog"]["error"]
 
 
 def test_the_catalog_sorts_ids_by_their_shape():
-    from nanomuse_cloud.catalog import classify
+    from lingtai_cloud.catalog import classify
 
     assert classify("qwen3.8-27b") == ("chat", True)  # the 3.5+ generations read pictures
     assert classify("deepseek-v4.1-flash") == ("chat", True)  # V4.1 reads them on Model Studio (checked)
@@ -1290,7 +1290,7 @@ async def test_the_catalog_asks_each_model_whether_it_answers_and_sees():
 
     first = (await client.get("/v1/models", headers=mh)).json()
     catalog = app.state.catalog
-    assert first["nanomuse"]["catalog"]["probing"] is True or catalog._probing is not None
+    assert first["lingtai"]["catalog"]["probing"] is True or catalog._probing is not None
     await catalog._probing  # the background round
     probes = [q for q in up.state.requests if q[0] == "chat"]
     # the retired model was asked once (its refusal is the answer); the rest twice (text, then the picture)
@@ -1301,19 +1301,19 @@ async def test_the_catalog_asks_each_model_whether_it_answers_and_sees():
     assert "qwen-image-edit-max" not in by_model  # picture models are not asked
 
     listing = (await client.get("/v1/models", headers=mh)).json()
-    extra = {m["id"]: m for m in listing["data"] if m["nanomuse"].get("catalog")}
+    extra = {m["id"]: m for m in listing["data"] if m["lingtai"].get("catalog")}
     assert "qwen-1.8b-chat" not in extra  # the provider's "no" takes it off the list
-    assert extra["qwen-plus"]["nanomuse"]["vision"] is False and extra["qwen-plus"]["nanomuse"]["verified"] is True
+    assert extra["qwen-plus"]["lingtai"]["vision"] is False and extra["qwen-plus"]["lingtai"]["verified"] is True
     assert extra["qwen-plus"]["architecture"]["input_modalities"] == ["text"]
-    assert extra["vanchin/deepseek-v3"]["nanomuse"]["vision"] is False  # the name guessed right; now verified
+    assert extra["vanchin/deepseek-v3"]["lingtai"]["vision"] is False  # the name guessed right; now verified
     # the name said text-only (V4, not 4.1); the probe's word wins
-    assert extra["deepseek-v4-pro"]["nanomuse"]["vision"] is True and extra["deepseek-v4-pro"]["nanomuse"]["verified"] is True
+    assert extra["deepseek-v4-pro"]["lingtai"]["vision"] is True and extra["deepseek-v4-pro"]["lingtai"]["verified"] is True
     assert extra["deepseek-v4-pro"]["architecture"]["input_modalities"] == ["text", "image"]
-    assert listing["nanomuse"]["catalog"]["models"] == 6 and listing["nanomuse"]["catalog"]["probing"] is False
+    assert listing["lingtai"]["catalog"]["models"] == 6 and listing["lingtai"]["catalog"]["probing"] is False
 
     # kept: a second catalog over the same database asks nothing more
     n_before = len([q for q in up.state.requests if q[0] == "chat"])
-    from nanomuse_cloud.catalog import Catalog
+    from lingtai_cloud.catalog import Catalog
 
     again = Catalog(ttl_s=3600, probe_ttl_s=7 * 86400, store=cloud.db)
     await again.get(app.state.http, cloud.s.upstream_base, cloud.s.upstream_key)
@@ -1336,7 +1336,7 @@ async def test_the_thinking_default_follows_what_the_request_already_says():
     sets a thinking level sends `reasoning_effort`, and Model Studio refuses that next to
     `enable_thinking: false`. The relay reads what the request says about reasoning, in any
     of the dialects, and sets the default accordingly."""
-    from nanomuse_cloud.api import apply_chat_defaults, thinking_requested
+    from lingtai_cloud.api import apply_chat_defaults, thinking_requested
 
     d = {"enable_thinking": False}
     for body, wants in (
@@ -1384,7 +1384,7 @@ async def test_the_thinking_default_follows_what_the_request_already_says():
 async def test_an_upstream_refusal_is_written_down_with_the_providers_words():
     """The `upstream.error` event names the model and keeps the provider's message, so the
     admin page says why a request failed — never what was asked."""
-    from nanomuse_cloud.api import upstream_detail
+    from lingtai_cloud.api import upstream_detail
 
     raw = b'{"error":{"message":"\'reasoning_effort\' must be \'none\' when \'enable_thinking\' is false","code":"InvalidParameter"}}'
     assert upstream_detail("chat", 400, "qwen3.8-27b", raw) == (
@@ -1419,7 +1419,7 @@ def test_a_content_check_refusal_is_said_plainly():
     """Bailian's content check says no in two spellings; both become one plain sentence with
     a stable code (`content_rejected`), not the provider's "green net" words — and an image
     prompt it declines is a 400 about the words, not a 502 about the provider."""
-    from nanomuse_cloud.api import content_check_refusal, relay_error_body
+    from lingtai_cloud.api import content_check_refusal, relay_error_body
 
     native = b'{"request_id":"x","code":"DataInspectionFailed","message":"Green net check rejected text (input)"}'
     compat = b'{"error":{"code":"data_inspection_failed","message":"Input data may contain inappropriate content.","type":"invalid_request_error"}}'
@@ -1509,7 +1509,7 @@ async def test_addresses_come_with_where_they_are(tmp_path):
     addresses they show, read from ip2region's file in the data directory (nothing is sent
     anywhere); private addresses are "本地网络"; an address the file does not know is left
     out; a missing file means places stay unknown and the page is told."""
-    from nanomuse_cloud.geo import Geo, Xdb, collect_ips, group_places, parse_region
+    from lingtai_cloud.geo import Geo, Xdb, collect_ips, group_places, parse_region
 
     db = tmp_path / "ip2region_v4.xdb"
     db.write_bytes(
@@ -1588,20 +1588,20 @@ async def test_addresses_come_with_where_they_are(tmp_path):
 
 
 def test_code_mail_has_text_and_html_in_both_languages():
-    from nanomuse_cloud.senders import compose_code_mail
+    from lingtai_cloud.senders import compose_code_mail
 
-    msg = compose_code_mail("no-reply@mail.nanomuse.cn", "someone@example.com", "123456", 10)
-    assert msg["From"] == "nanoMuse <no-reply@mail.nanomuse.cn>" and msg["To"] == "someone@example.com"
+    msg = compose_code_mail("no-reply@mail.lingtai.cn", "someone@example.com", "123456", 10)
+    assert msg["From"] == "lingTai <no-reply@mail.lingtai.cn>" and msg["To"] == "someone@example.com"
     assert "123456" in msg["Subject"]
     parts = {p.get_content_type(): p.get_content() for p in msg.iter_parts()}
     assert set(parts) == {"text/plain", "text/html"}
-    assert "验证码是 123456" in parts["text/plain"] and "Your nanoMuse code is 123456" in parts["text/plain"]
+    assert "验证码是 123456" in parts["text/plain"] and "Your lingTai code is 123456" in parts["text/plain"]
     assert "1 2 3 4 5 6" in parts["text/html"] and "10 分钟" in parts["text/html"] and "10 minutes" in parts["text/html"]
     assert "<script" not in parts["text/html"]
 
 
 def test_provider_picture_urls_are_only_fetched_from_the_provider():
-    from nanomuse_cloud.api import _provider_url_ok
+    from lingtai_cloud.api import _provider_url_ok
 
     own = ("dashscope.aliyuncs.com",)
     assert _provider_url_ok("https://dashscope-result-bj.oss-cn-beijing.aliyuncs.com/x/y.png", own)
@@ -1639,7 +1639,7 @@ async def test_data_controls_keep_the_training_view_only_and_are_deletable(stack
     assert r.status_code == 200
     me = (await client.get("/v1/me", headers=headers)).json()
     assert me["contribute"]["on"] is False and me["contribute"]["samples"] == 0 and me["contribute"]["default_on"] is False
-    assert me["contribute"]["privacy_url"] == "https://nanomuse.cn/privacy/" and "what you wrote" in me["contribute"]["keeps"]["kept"]
+    assert me["contribute"]["privacy_url"] == "https://lingtai.cn/privacy/" and "what you wrote" in me["contribute"]["keeps"]["kept"]
     assert me["contribute"]["bonus_cny"] == 0 and me["contribute"]["bonus_available"] is False
     assert (await client.get("/v1/admin/samples", headers=admin)).json() == {"samples": [], "total": 0, "places": {}}
 
@@ -1665,7 +1665,7 @@ async def test_data_controls_keep_the_training_view_only_and_are_deletable(stack
     ]
     r = await client.post(
         "/v1/chat/completions",
-        headers={**headers, "User-Agent": "nanoMuse-Android/0.1.27", "Accept-Language": "zh-CN"},
+        headers={**headers, "User-Agent": "lingTai-Android/0.1.27", "Accept-Language": "zh-CN"},
         json={"model": "qwen3.8-27b", "messages": turn},
     )
     assert r.status_code == 200
@@ -1686,7 +1686,7 @@ async def test_data_controls_keep_the_training_view_only_and_are_deletable(stack
     dumped = json.dumps(first)
     assert "AAAA" not in dumped and "Ada" not in dumped and "SECRET" not in dumped
     # 0.10: the address goes with the turn for the operator (the test client has none)
-    assert first["meta"] == {"ua": "nanoMuse-Android/0.1.27", "lang": "zh-CN", "ip": first["meta"]["ip"]}
+    assert first["meta"] == {"ua": "lingTai-Android/0.1.27", "lang": "zh-CN", "ip": first["meta"]["ip"]}
     assert first["platform"] == "android"
     assert first["prompt_tokens"] == 100 and first["completion_tokens"] == 50
     account = (await client.get(f"/v1/admin/accounts/{data['account']['id']}", headers=admin)).json()["account"]
@@ -1790,7 +1790,7 @@ def test_long_samples_are_cut_whole_and_old_cut_rows_still_load():
     """A conversation over the sample limit is shortened message by message (then text by
     text) so that what is stored parses; a row cut at a character count by 0.5.1 gives back
     the messages that are whole instead of failing the list and the export."""
-    from nanomuse_cloud.service import _fit_messages, _load_messages
+    from lingtai_cloud.service import _fit_messages, _load_messages
 
     msgs = [{"role": "system", "content": "be brief"}] + [
         {"role": "user" if i % 2 == 0 else "assistant", "content": f"turn {i} " + "x" * 500} for i in range(40)
@@ -1817,7 +1817,7 @@ def test_database_from_before_0_4_migrates(tmp_path):
     partial unique index on invite_code must not be attempted before they exist."""
     import sqlite3
 
-    from nanomuse_cloud.db import Database
+    from lingtai_cloud.db import Database
 
     path = str(tmp_path / "old.db")
     conn = sqlite3.connect(path)
@@ -1923,14 +1923,14 @@ async def test_members_may_name_any_model_of_the_right_kind():
     assert member["account"]["any_model"] is True and guest["account"]["any_model"] is False
 
     # the menu says who may go beyond it (0.10: and lists what the key has, for members — below)
-    assert (await client.get("/v1/models", headers=mh)).json()["nanomuse"]["any_model"] is True
-    assert (await client.get("/v1/models", headers=gh)).json()["nanomuse"] == {"any_model": False}
+    assert (await client.get("/v1/models", headers=mh)).json()["lingtai"]["any_model"] is True
+    assert (await client.get("/v1/models", headers=gh)).json()["lingtai"] == {"any_model": False}
 
     # a typed id is checked with the kind it is for
     r = await client.get("/v1/models/deepseek-v4-pro", params={"kind": "chat"}, headers=mh)
     assert r.status_code == 200
-    nm = r.json()["nanomuse"]
-    assert nm["listed"] is False and nm["kind"] == "chat" and nm["priced_as"] == "qwen3.8-27b"
+    lt = r.json()["lingtai"]
+    assert lt["listed"] is False and lt["kind"] == "chat" and lt["priced_as"] == "qwen3.8-27b"
     r = await client.get("/v1/models/deepseek-v4-pro", headers=mh)
     assert r.status_code == 404 and "kind=" in r.json()["error"]["message"]
     r = await client.get("/v1/models/deepseek-v4-pro", params={"kind": "chat"}, headers=gh)
@@ -1993,7 +1993,7 @@ async def test_requests_under_way_are_held_against_the_allowance():
     """Several requests started together cannot each pass the allowance check and
     together overshoot it: each is reserved while it runs (a picture at its price, a chat
     at a typical turn's), and at most MAX_IN_FLIGHT of one account's run at once."""
-    from nanomuse_cloud.service import InFlight
+    from lingtai_cloud.service import InFlight
 
     app, client, sender, up, cloud = make_stack(
         allowed_identifiers="Me@Example.com", signup_tokens=0, daily_cap_tokens=0, per_minute_requests=0, allowance_cny=0.4, usd_cny=7.0
@@ -2112,21 +2112,21 @@ async def test_admin_health_is_aggregates_only(stack):
 
 
 async def test_session_keys_expire_on_their_own(stack):
-    """nanoMuse Web starts a person's container with a key that stops working by itself,
+    """lingTai Web starts a person's container with a key that stops working by itself,
     so the gateway keeps no standing key of theirs (0.13)."""
     app, client, sender, up, cloud = stack
     data = await sign_up(client, sender)
     headers = {"Authorization": f"Bearer {data['api_key']}"}
-    r = await client.post("/v1/auth/session-key", headers=headers, json={"device": "nanoMuse Web", "ttl_s": 120})
+    r = await client.post("/v1/auth/session-key", headers=headers, json={"device": "lingTai Web", "ttl_s": 120})
     assert r.status_code == 200, r.text
     short = r.json()
-    assert short["api_key"].startswith("nm_") and short["api_key"] != data["api_key"]
+    assert short["api_key"].startswith("lt_") and short["api_key"] != data["api_key"]
     assert 100 <= short["expires_at"] - __import__("time").time() <= 121
     short_headers = {"Authorization": f"Bearer {short['api_key']}"}
     me = (await client.get("/v1/me", headers=short_headers)).json()
     assert me["account"]["id"] == data["account"]["id"]
     sessions = {s["device"]: s for s in (await client.get("/v1/me/sessions", headers=headers)).json()["sessions"]}
-    assert sessions["nanoMuse Web"]["expires_at"] == short["expires_at"] and sessions["nanoMuse Web"]["via"] == "session"
+    assert sessions["lingTai Web"]["expires_at"] == short["expires_at"] and sessions["lingTai Web"]["via"] == "session"
     assert sessions["pixel"]["expires_at"] is None
     # the ceiling, and a bad ttl
     r = await client.post("/v1/auth/session-key", headers=headers, json={"ttl_s": 10**9})
@@ -2144,7 +2144,7 @@ async def test_session_keys_expire_on_their_own(stack):
     r = await client.get("/v1/me", headers=short_headers)
     assert r.status_code == 401 and r.json()["error"]["code"] == "bad_key"
     sessions = (await client.get("/v1/me/sessions", headers=headers)).json()["sessions"]
-    assert "nanoMuse Web" not in {s["device"] for s in sessions}
+    assert "lingTai Web" not in {s["device"] for s in sessions}
 
 
 # -- 0.17: lanes, reasoning, region ----------------------------------------------------------
@@ -2155,11 +2155,11 @@ async def test_the_menu_says_which_lane_each_model_is_for(stack, monkeypatch):
     both — and which lane it is the recommended pick in; the apps' pickers filter on it and
     take the recommended one of each lane as the default. Picture and clip models are for
     neither (their `kind` says what they do)."""
-    from nanomuse_cloud.config import DEFAULT_MODELS, ModelSpec, _models_from_env, menu_warnings
+    from lingtai_cloud.config import DEFAULT_MODELS, ModelSpec, _models_from_env, menu_warnings
 
     app, client, sender, up, cloud = stack
     data = await sign_up(client, sender)
-    by_id = {m["id"]: m["nanomuse"] for m in data["models"]}
+    by_id = {m["id"]: m["lingtai"] for m in data["models"]}
     assert by_id["deepseek-v4.1-flash"]["for"] == ["chat"] and by_id["deepseek-v4.1-flash"]["recommended_for"] == ["chat"]
     assert by_id["qwen3.8-27b"]["for"] == ["gui", "chat"] and by_id["qwen3.8-27b"]["recommended_for"] == ["gui"]
     assert by_id["qwen3.8-flash"]["for"] == ["chat"] and by_id["qwen3.8-flash"]["recommended_for"] == []
@@ -2169,8 +2169,8 @@ async def test_the_menu_says_which_lane_each_model_is_for(stack, monkeypatch):
     listing = (await client.get("/v1/models", headers={"Authorization": f"Bearer {data['api_key']}"})).json()
     ds = next(m for m in listing["data"] if m["id"] == "deepseek-v4.1-flash")
     assert ds["name"] == "DeepSeek V4.1 Flash" and ds["architecture"]["input_modalities"] == ["text", "image"]
-    assert ds["nanomuse"]["price_cny"]["per_m_input"] == 2.0 and ds["nanomuse"]["price_cny"]["per_m_output"] == 8.0
-    assert ds["nanomuse"]["in_mult"] == 0.7 and ds["nanomuse"]["out_mult"] == 0.7
+    assert ds["lingtai"]["price_cny"]["per_m_input"] == 2.0 and ds["lingtai"]["price_cny"]["per_m_output"] == 8.0
+    assert ds["lingtai"]["in_mult"] == 0.7 and ds["lingtai"]["out_mult"] == 0.7
     assert [m.id for m in DEFAULT_MODELS][:2] == ["deepseek-v4.1-flash", "qwen3.8-27b"]
     assert menu_warnings(DEFAULT_MODELS) == []  # exactly one recommended per lane
 
@@ -2188,7 +2188,7 @@ async def test_the_menu_says_which_lane_each_model_is_for(stack, monkeypatch):
     menu = _models_from_env()
     assert [m.lanes for m in menu] == [("gui",), ("chat",), ()]
     assert [m.recommended_lanes for m in menu] == [("gui",), ("chat",), ()]
-    assert menu[0].to_public()["nanomuse"]["for"] == ["gui"] and menu[2].to_public()["nanomuse"]["for"] == []
+    assert menu[0].to_public()["lingtai"]["for"] == ["gui"] and menu[2].to_public()["lingtai"]["for"] == []
     assert menu_warnings(menu) == []
     assert menu_warnings(menu[:1]) == ["0 chat models recommended for chat (none); the apps expect one"]
     assert menu_warnings((menu[1], menu[1])) == ["2 chat models recommended for chat (b, b); the apps expect one"] + [
@@ -2219,7 +2219,7 @@ async def test_reasoning_passes_through_and_is_paid_for(stack):
     back in the history go upstream as they are, the reasoning in the reply (whole or as
     stream deltas) comes back untouched, and the reasoning tokens are counted as completion
     tokens whichever way the provider reports them."""
-    from nanomuse_cloud.service import Usage, usage_from_json
+    from lingtai_cloud.service import Usage, usage_from_json
 
     # the counting rule on its own: OpenAI's shape has them inside, DashScope's apart
     assert usage_from_json(
@@ -2276,7 +2276,7 @@ async def test_a_chat_starts_while_anything_of_the_allowance_is_left():
     started together from overshooting the allowance; it must not refuse a single, normal
     turn on an account with less than that left. The second turn started on top of the
     first is what it refuses."""
-    from nanomuse_cloud.service import CHAT_RESERVE_COMPLETION_TOKENS, CHAT_RESERVE_PROMPT_TOKENS
+    from lingtai_cloud.service import CHAT_RESERVE_COMPLETION_TOKENS, CHAT_RESERVE_PROMPT_TOKENS
 
     app, client, sender, up, cloud = make_stack(allowance_cny=0.02)
     data = await sign_up(client, sender)
@@ -2305,8 +2305,8 @@ async def test_me_says_where_the_person_is_and_orders_the_ways_on_by_it(tmp_path
     Macao and Taiwan count as elsewhere: Bailian does not sign them up), `unknown` when
     neither is known — and the "ways on" when the allowance is out lead the mainland to
     Bailian first, everyone else to OpenRouter first. The refusal says the same."""
-    from nanomuse_cloud.geo import Place
-    from nanomuse_cloud.service import REGIONS, region_of_place
+    from lingtai_cloud.geo import Place
+    from lingtai_cloud.service import REGIONS, region_of_place
 
     assert REGIONS == ("cn", "intl", "unknown")
     assert region_of_place(None) == "unknown" and region_of_place(Place()) == "unknown"
@@ -2327,7 +2327,7 @@ async def test_me_says_where_the_person_is_and_orders_the_ways_on_by_it(tmp_path
         )
     )
     app, client, sender, up, cloud = make_stack(
-        geoip_db=str(db), catalog_probe=False, allowance_cny=0.002, invite_url="https://nanomuse.cn/web/?invite="
+        geoip_db=str(db), catalog_probe=False, allowance_cny=0.002, invite_url="https://lingtai.cn/web/?invite="
     )
     assert app.state.geo.ready
 
@@ -2356,11 +2356,9 @@ async def test_me_says_where_the_person_is_and_orders_the_ways_on_by_it(tmp_path
     # the ways on, in order: the mainland to Bailian, the rest to OpenRouter, the invitation last
     cn_ways = (await client.get("/v1/me", headers=auth(phone, "8.8.8.8"))).json()["spend"]["ways"]
     assert [w["id"] for w in cn_ways] == ["bailian", "openrouter", "invite"]
-    assert cn_ways[0] == {"id": "bailian", "url": "https://nanomuse.cn/own-key", "mainland_only": True, **WAY_FACTS["bailian"]}
+    assert cn_ways[0] == {"id": "bailian", "url": "https://lingtai.cn/own-key", "mainland_only": True, **WAY_FACTS["bailian"]}
     assert cn_ways[1] == {"id": "openrouter", "url": "https://openrouter.ai/keys", "mainland_only": False, **WAY_FACTS["openrouter"]}
-    assert (
-        cn_ways[2]["id"] == "invite" and cn_ways[2]["url"].startswith("https://nanomuse.cn/web/?invite=") and cn_ways[2]["bonus_cny"] == 5
-    )
+    assert cn_ways[2]["id"] == "invite" and cn_ways[2]["url"].startswith("https://lingtai.cn/web/?invite=") and cn_ways[2]["bonus_cny"] == 5
     for who, ip in ((us, "8.8.8.8"), (nowhere, "9.9.9.9")):
         ways = (await client.get("/v1/me", headers=auth(who, ip))).json()["spend"]["ways"]
         assert [w["id"] for w in ways] == ["openrouter", "bailian", "invite"], who["region"]
@@ -2385,7 +2383,7 @@ async def test_me_says_where_the_person_is_and_orders_the_ways_on_by_it(tmp_path
     assert "OpenRouter, with one account, one key and pay as you go, or OpenAI first" in err["message"]
     assert "Alibaba Cloud Bailian only signs up accounts from mainland China" in err["message"]
     assert "a plan you already pay for (ChatGPT, Claude or Kimi" in err["message"]
-    assert err["openrouter_url"] == "https://openrouter.ai/keys" and err["own_key_docs"] == "https://nanomuse.cn/own-key"
+    assert err["openrouter_url"] == "https://openrouter.ai/keys" and err["own_key_docs"] == "https://lingtai.cn/own-key"
     assert [p["id"] for p in err["guidance"]["providers"][:2]] == ["openrouter", "openai"]
     err = await exhaust(nowhere, "9.9.9.9")
     assert err["region"] == "unknown" and "OpenRouter or OpenAI outside mainland China, Alibaba Cloud Bailian inside" in err["message"]

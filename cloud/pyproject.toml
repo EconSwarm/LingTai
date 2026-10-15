@@ -3,9 +3,9 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [project]
-name = "nanomuse-cloud"
+name = "lingtai-cloud"
 version = "0.26.0"
-description = "nanoMuse Cloud: sign up with a phone number or an e-mail address, get a key that works out of the box; an OpenAI-shaped relay with a token grant per account."
+description = "lingTai Cloud: sign up with a phone number or an e-mail address, get a key that works out of the box; an OpenAI-shaped relay with a token grant per account."
 readme = "README.md"
 license = { text = "GPL-3.0-or-later" }
 requires-python = ">=3.11"
@@ -22,10 +22,10 @@ dependencies = [
 dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.5"]
 
 [project.scripts]
-nanomuse-cloud = "nanomuse_cloud.__main__:main"
+lingtai-cloud = "lingtai_cloud.__main__:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["nanomuse_cloud"]
+packages = ["lingtai_cloud"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

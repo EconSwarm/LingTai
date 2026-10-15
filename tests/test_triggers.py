@@ -8,9 +8,9 @@ from pathlib import Path
 
 import pytest
 
-from nanomuse.schema import RiskLevel
-from nanomuse.tools import Triggers
-from nanomuse.triggers import TriggerStore, matches
+from lingtai.schema import RiskLevel
+from lingtai.tools import Triggers
+from lingtai.triggers import TriggerStore, matches
 
 
 def test_matches_needs_every_word_anywhere():
@@ -198,8 +198,8 @@ def _mail(sender: str, subject: str, body: str) -> bytes:
 
 
 async def test_mail_watcher_reads_new_messages_by_uid(monkeypatch: pytest.MonkeyPatch):
-    from nanomuse.config import EmailSettings
-    from nanomuse.triggers.mail import MailWatcher
+    from lingtai.config import EmailSettings
+    from lingtai.triggers.mail import MailWatcher
 
     messages = {
         40: _mail("Old <old@example.com>", "Before you connected", "not replayed"),

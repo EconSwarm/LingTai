@@ -51,7 +51,7 @@ import java.util.UUID
  *   android-notification settings              Authorization status
  */
 class NotificationOffloadHandler(private val context: Context) : NativeOffloadHandler {
-    private val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private val lt = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     private val store = ScheduledNotificationStore(context)
 
     init { ensureChannel() }
@@ -59,7 +59,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
     private fun ensureChannel() {
         if (channelCreated) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            nm.createNotificationChannel(
+            lt.createNotificationChannel(
                 NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
             )
         }
@@ -78,7 +78,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
             when (val sub = args.positional.firstOrNull() ?: "list") {
                 "send", "schedule" -> handleSend(args)
                 "clear" -> {
-                    nm.cancelAll()
+                    lt.cancelAll()
                     NativeOffloadResult(0, OffloadOutput.formatBody("All notifications cleared.", args) + "\n")
                 }
                 "list" -> handleList(args)
@@ -136,7 +136,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
                         OffloadPermissionManager.SettingsGateRequest(
                             id = Manifest.permission.POST_NOTIFICATIONS,
                             title = "Notifications are off",
-                            message = "nanoMuse needs notification permission to send notifications. Open Settings to allow it.",
+                            message = "lingTai needs notification permission to send notifications. Open Settings to allow it.",
                             settingsAction = Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                             requiresPackageUri = true,
                             positiveLabel = "Open Settings",
@@ -195,8 +195,8 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
         val id = UUID.randomUUID().toString()
         val notifId = id.hashCode() and 0x7FFFFFFF
         val n = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_stat_nanomuse) // nanoMuse: flat status-bar mark
-            .setLargeIcon(io.github.nanomuse.identity.NanoMuseIdentity.face(context)) // nanoMuse: the agent is the sender
+            .setSmallIcon(R.drawable.ic_stat_lingtai) // lingTai: flat status-bar mark
+            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // lingTai: the agent is the sender
             .setContentTitle(title)
             .setContentText(body)
             .setAutoCancel(true)
@@ -207,7 +207,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
             // the one broken shape. Same helper both sides, see its KDoc.
             .setContentIntent(ScheduledNotificationReceiver.contentIntentFor(context, notifId))
             .build()
-        nm.notify(notifId, n)
+        lt.notify(notifId, n)
         // The system fans the post to bound listeners on its own thread, so
         // an immediate follow-up `list` may miss this notification. Block
         // until our listener observes it (best-effort: 2s, only when the
@@ -222,7 +222,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
         }
         AppLogger.info(TAG, "send (immediate): id=$id title='$title'")
         val oemHint = if (OsCompat.isHuawei || OsCompat.isXiaomi) {
-            "On ${OsCompat.oemLabel()}, banner notifications may be disabled by default — the user can enable them in Settings → Notifications for nanoMuse."
+            "On ${OsCompat.oemLabel()}, banner notifications may be disabled by default — the user can enable them in Settings → Notifications for lingTai."
         } else null
         val data = JSONObject()
             .put("id", id)
@@ -308,7 +308,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
      * Cancel pending (scheduled-but-not-yet-fired) notifications. Mirrors
      * apple-notification cancel: --id removes one, --all removes all.
      * If the id matches an already-delivered notification (very common —
-     * the model can't tell pending vs delivered), fall through to nm.cancel
+     * the model can't tell pending vs delivered), fall through to lt.cancel
      * on the integer hash so the user-visible notification disappears too.
      */
     private fun handleCancel(args: OffloadArgs): NativeOffloadResult {
@@ -324,7 +324,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
             store.clear()
             // Also clear delivered notifications (matches apple-notification
             // cancel --all semantics: nothing the user sees from us remains).
-            nm.cancelAll()
+            lt.cancelAll()
             AppLogger.info(TAG, "cancel --all: pending=$n")
             val data = JSONObject().put("cancelled", "all").put("pending_cleared", n)
             return NativeOffloadResult(0, OffloadOutput.formatBody(data.toString(2), args) + "\n")
@@ -341,7 +341,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
         // notifId = id.hashCode() & 0x7FFFFFFF, same convention as both
         // immediate-send and scheduled-fire.
         val notifId = id.hashCode() and 0x7FFFFFFF
-        nm.cancel(notifId)
+        lt.cancel(notifId)
 
         AppLogger.info(TAG, "cancel: id=$id pending=${entry != null}")
         val data = JSONObject().put("cancelled", id).put("was_pending", entry != null)
@@ -399,7 +399,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
             .put("critical_alert_enabled", false)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = nm.getNotificationChannel(CHANNEL_ID)
+            val channel = lt.getNotificationChannel(CHANNEL_ID)
             data.put("channel_id", CHANNEL_ID)
             data.put("channel_importance", channel?.importance ?: -1)
             data.put("channel_enabled", channel != null && channel.importance != NotificationManager.IMPORTANCE_NONE)
@@ -455,7 +455,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
                     OffloadPermissionManager.SettingsGateRequest(
                         id = "notification_access",
                         title = "Notification access needed",
-                        message = "nanoMuse needs Notification access to read the status-bar notifications. Open Settings and enable \"nanoMuse\" under Notification access.",
+                        message = "lingTai needs Notification access to read the status-bar notifications. Open Settings and enable \"lingTai\" under Notification access.",
                         settingsAction = MinisNotificationListenerService.SETTINGS_ACTION,
                         requiresPackageUri = false,
                         positiveLabel = "Open Settings",
@@ -580,7 +580,7 @@ Notes:
     fire reliably even in Doze. Requires SCHEDULE_EXACT_ALARM on
     Android 14+ (settings reports schedule_exact_allowed).
   - list needs Notification access (Settings → Apps → Special app
-    access → Notification access → nanoMuse). First list call opens it.
+    access → Notification access → lingTai). First list call opens it.
 """
     }
 }

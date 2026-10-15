@@ -27,8 +27,8 @@ export GOPROXY="${GOPROXY:-https://proxy.golang.org,direct}"
 export GOFLAGS="${GOFLAGS:--mod=mod}"
 export PATH="${JAVA_HOME:+$JAVA_HOME/bin:}${GOROOT:+$GOROOT/bin:}${GOPATH:+$GOPATH/bin:}$PATH"
 
-NM_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-export NM_ROOT
-export NM_ANDROID="$NM_ROOT/android"
-export NM_GRADLE_DIR="$NM_ANDROID/src/android"
-export NM_APP_MAIN="$NM_GRADLE_DIR/app/src/main"
+LT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+export LT_ROOT
+export LT_ANDROID="$LT_ROOT/android"
+export LT_GRADLE_DIR="$LT_ANDROID/src/android"
+export LT_APP_MAIN="$LT_GRADLE_DIR/app/src/main"

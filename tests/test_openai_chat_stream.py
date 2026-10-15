@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from types import SimpleNamespace as NS
 
-from nanomuse.config import LLMSettings
-from nanomuse.llm.openai_chat import OpenAIChatLLM
+from lingtai.config import LLMSettings
+from lingtai.llm.openai_chat import OpenAIChatLLM
 
 
 def _chunk(content=None, tool_calls=None, finish=None, reasoning=None, usage=None):
@@ -80,8 +80,8 @@ async def test_tools_rejection_becomes_tools_unsupported():
     import openai
     import pytest
 
-    from nanomuse.llm.base import ToolsUnsupported
-    from nanomuse.schema import Message
+    from lingtai.llm.base import ToolsUnsupported
+    from lingtai.schema import Message
 
     def bad_request(message: str):
         req = httpx.Request("POST", "http://localhost/chat/completions")
@@ -120,8 +120,8 @@ async def test_a_completion_with_no_choices_is_a_provider_failure():
     retried like a 5xx and, when it stays, told as the provider having trouble."""
     import pytest
 
-    from nanomuse.llm.openai_chat import EmptyCompletion
-    from nanomuse.server.failures import describe_failure
+    from lingtai.llm.openai_chat import EmptyCompletion
+    from lingtai.server.failures import describe_failure
 
     llm = OpenAIChatLLM(LLMSettings(api_key="x", base_url="http://localhost"))
 

@@ -21,19 +21,19 @@ import pytest
 from fastapi.testclient import TestClient
 from openai import AsyncOpenAI
 
-from nanomuse.agent import MuseAgent
-from nanomuse.config import LLMSettings, MemorySettings, Settings, apply_app_settings
-from nanomuse.llm import MockLLM
-from nanomuse.memory import Embedder, MemoryIndex, MemoryStore
-from nanomuse.memory import embeddings as emb_mod
-from nanomuse.memory.embeddings import cosine, default_model, fuse, standouts
-from nanomuse.memory.store import MemoryItem
-from nanomuse.schema import LLMResponse
-from nanomuse.sentinel import AuditLog, Sentinel
-from nanomuse.server.api import create_app
-from nanomuse.server.service import MuseService
-from nanomuse.tools import Recall, Terminate, ToolCollection
-from nanomuse.ui import HeadlessUI
+from lingtai.agent import MuseAgent
+from lingtai.config import LLMSettings, MemorySettings, Settings, apply_app_settings
+from lingtai.llm import MockLLM
+from lingtai.memory import Embedder, MemoryIndex, MemoryStore
+from lingtai.memory import embeddings as emb_mod
+from lingtai.memory.embeddings import cosine, default_model, fuse, standouts
+from lingtai.memory.store import MemoryItem
+from lingtai.schema import LLMResponse
+from lingtai.sentinel import AuditLog, Sentinel
+from lingtai.server.api import create_app
+from lingtai.server.service import MuseService
+from lingtai.tools import Recall, Terminate, ToolCollection
+from lingtai.ui import HeadlessUI
 
 AXES = {
     0: ("flight", "fly", "seat", "window", "机票", "飞机", "tokyo", "trip"),
@@ -477,12 +477,12 @@ def test_connections_embeddings(settings: Settings, fake: FakeEmbeddings):
 def test_embeddings_key_from_the_vault(settings: Settings):
     from rich.console import Console
 
-    from nanomuse.app import NanoMuseApp
-    from nanomuse.console import ConsoleUI
+    from lingtai.app import LingTaiApp
+    from lingtai.console import ConsoleUI
 
     settings.memory.embedding_base_url = "https://emb.example/v1"
     settings.memory.embedding_api_key = "{{vault:EMB}}"
-    app_ = NanoMuseApp(settings, ConsoleUI(Console()))
+    app_ = LingTaiApp(settings, ConsoleUI(Console()))
     assert app_.embedder is not None and app_.embedder.client.api_key == "EMPTY"  # not set yet
     app_.vault.set("EMB", "sk-real")
     app_.attach_embedder()
@@ -496,7 +496,7 @@ def test_embeddings_key_from_the_vault(settings: Settings):
 def test_cli_memory_recall(settings: Settings, tmp_path: Path, fake: FakeEmbeddings):
     from typer.testing import CliRunner
 
-    from nanomuse.cli import app as cli_app
+    from lingtai.cli import app as cli_app
 
     settings.memory.embedding_base_url = "http://127.0.0.1:11434/v1"
     seed(MemoryStore(settings.memory_db))

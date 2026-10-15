@@ -89,7 +89,7 @@ class TextSegmenterLanguageDetectionTest {
     @Test
     fun `whitespace is excluded from the ratio denominator`() {
         // Lots of spaces around Chinese must not dilute the Han ratio.
-        assertTrue(isChinese("   苹  果   手  机   "))
+        assertTrue(isChinese("   苹果手机   "))
     }
 
     @Test

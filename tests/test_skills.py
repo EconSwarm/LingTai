@@ -13,14 +13,14 @@ import pytest
 from fastapi.testclient import TestClient
 from typer.testing import CliRunner
 
-from nanomuse.cli import app as cli_app
-from nanomuse.config import SandboxSettings, Settings, SkillsSettings, load_app_settings
-from nanomuse.llm import MockLLM
-from nanomuse.sandbox import Sandbox
-from nanomuse.schema import Function, LLMResponse, RiskLevel, ToolCall
-from nanomuse.server import create_app
-from nanomuse.server.service import MuseService
-from nanomuse.skills import (
+from lingtai.cli import app as cli_app
+from lingtai.config import SandboxSettings, Settings, SkillsSettings, load_app_settings
+from lingtai.llm import MockLLM
+from lingtai.sandbox import Sandbox
+from lingtai.schema import Function, LLMResponse, RiskLevel, ToolCall
+from lingtai.server import create_app
+from lingtai.server.service import MuseService
+from lingtai.skills import (
     BUILT_IN,
     BUILTIN_DIR,
     YOURS,
@@ -30,8 +30,8 @@ from nanomuse.skills import (
     raw_skill_url,
     render_skill,
 )
-from nanomuse.skills.library import fetch_skill_text, normalise_channel
-from nanomuse.tools.skills_tool import Skills
+from lingtai.skills.library import fetch_skill_text, normalise_channel
+from lingtai.tools.skills_tool import Skills
 
 APPLE_STYLE = """---
 name: expense-report
@@ -345,10 +345,10 @@ async def test_skills_tool(tmp_path: Path):
 
 # ----------------------------------------------------------------------------- sandbox
 def test_skill_folders_are_readable_in_the_box(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.setattr("nanomuse.sandbox.shutil.which", lambda _name: "/usr/bin/bwrap")
-    monkeypatch.setattr("nanomuse.sandbox.platform.system", lambda: "Linux")
+    monkeypatch.setattr("lingtai.sandbox.shutil.which", lambda _name: "/usr/bin/bwrap")
+    monkeypatch.setattr("lingtai.sandbox.platform.system", lambda: "Linux")
     ws = tmp_path / "ws"
-    data = ws / ".nanomuse"  # a data dir inside the workspace: masked …
+    data = ws / ".lingtai"  # a data dir inside the workspace: masked …
     skills = data / "skills"  # … but the skills under it are bound back, read-only
     skills.mkdir(parents=True)
     box = Sandbox(

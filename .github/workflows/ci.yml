@@ -33,7 +33,7 @@ jobs:
         with:
           filters: |
             python:
-              - "nanomuse/**"
+              - "lingtai/**"
               - "tests/**"
               - "scripts/**"
               - "config/**" # config.example.toml: the tests read it, the image carries it
@@ -43,7 +43,7 @@ jobs:
               - ".github/workflows/ci.yml"
             web:
               - "web/**"
-              - "nanomuse/server/static/**"
+              - "lingtai/server/static/**"
               - ".github/workflows/ci.yml"
             relay:
               - "cloud/**"
@@ -122,11 +122,11 @@ jobs:
 
       - name: Ruff lint
         if: env.RUN == 'true'
-        run: uv run ruff check nanomuse tests scripts
+        run: uv run ruff check lingtai tests scripts
 
       - name: Ruff format
         if: env.RUN == 'true'
-        run: uv run ruff format --check nanomuse tests scripts
+        run: uv run ruff format --check lingtai tests scripts
 
       - name: Mypy
         if: env.RUN == 'true'
@@ -143,7 +143,7 @@ jobs:
           uv build
           uv venv --python 3.12 /tmp/smoke
           uv pip install --python /tmp/smoke/bin/python dist/*.whl
-          /tmp/smoke/bin/nanomuse version
+          /tmp/smoke/bin/lingtai version
 
   relay:
     name: relay · ruff and pytest
@@ -214,9 +214,9 @@ jobs:
         # the merge (see CONTRIBUTING.md, "Releasing")
         if: github.actor != 'dependabot[bot]'
         run: |
-          if [ -n "$(git status --porcelain nanomuse/server/static)" ]; then
-            echo "nanomuse/server/static is out of date: run 'cd web && npm run build' and commit the result"
-            git status --porcelain nanomuse/server/static
+          if [ -n "$(git status --porcelain lingtai/server/static)" ]; then
+            echo "lingtai/server/static is out of date: run 'cd web && npm run build' and commit the result"
+            git status --porcelain lingtai/server/static
             exit 1
           fi
 
@@ -235,8 +235,8 @@ jobs:
           context: .
           push: false
           load: true
-          tags: nanomuse:ci
+          tags: lingtai:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Smoke test
-        run: docker run --rm nanomuse:ci version
+        run: docker run --rm lingtai:ci version

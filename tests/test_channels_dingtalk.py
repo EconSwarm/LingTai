@@ -14,8 +14,8 @@ from typing import Any
 import httpx
 import pytest
 
-from nanomuse.channels.base import InboundMessage
-from nanomuse.channels.dingtalk import DingTalkChannel
+from lingtai.channels.base import InboundMessage
+from lingtai.channels.dingtalk import DingTalkChannel
 
 
 class Bus:

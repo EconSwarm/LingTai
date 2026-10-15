@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import json
 
-from nanomuse.llm.base import ThinkStreamFilter, ToolsUnsupported, says_no_tools, split_think
-from nanomuse.llm.prompt_tools import convert_messages, parse_tool_calls
-from nanomuse.schema import Function, Message, ToolCall
+from lingtai.llm.base import ThinkStreamFilter, ToolsUnsupported, says_no_tools, split_think
+from lingtai.llm.prompt_tools import convert_messages, parse_tool_calls
+from lingtai.schema import Function, Message, ToolCall
 
 
 def test_think_filter_handles_split_tags():
@@ -65,13 +65,13 @@ def test_split_think_non_streaming():
 
 def test_parse_tool_calls():
     text = (
-        'Let me check.\n<tool_call>\n{"name": "web_search", "arguments": {"query": "北京 天气"}}\n</tool_call>'
+        'Let me check.\n<tool_call>\n{"name": "web_search", "arguments": {"query": "北京天气"}}\n</tool_call>'
         '\n<tool_call>{"name":"terminate","arguments":{"status":"success","summary":"done"}}</tool_call>'
     )
     visible, calls = parse_tool_calls(text)
     assert visible == "Let me check."
     assert [c.name for c in calls] == ["web_search", "terminate"]
-    assert calls[0].arguments == {"query": "北京 天气"}
+    assert calls[0].arguments == {"query": "北京天气"}
 
 
 def test_parse_tool_calls_ignores_garbage():
@@ -97,7 +97,7 @@ def test_parse_tool_calls_accepts_fenced_calls_from_small_models():
     assert [c.function.name for c in calls] == ["files"]
     assert calls[0].arguments == {"action": "list"}
     # JSON the model is merely quoting stays text: not a known tool / no arguments
-    quoted = 'The config is:\n```json\n{"name": "nanomuse", "version": "0.1.0"}\n```'
+    quoted = 'The config is:\n```json\n{"name": "lingtai", "version": "0.1.0"}\n```'
     visible, calls = parse_tool_calls(quoted, known)
     assert calls == [] and visible == quoted
     _, calls = parse_tool_calls('```json\n{"name": "rm", "arguments": {}}\n```', known)
@@ -125,9 +125,9 @@ def test_parse_tool_calls_accepts_fenced_calls_from_small_models():
 
 
 async def test_native_mode_rescues_a_call_written_as_text():
-    from nanomuse.llm.mock import MockLLM
-    from nanomuse.llm.prompt_tools import PromptToolAdapter
-    from nanomuse.schema import LLMResponse
+    from lingtai.llm.mock import MockLLM
+    from lingtai.llm.prompt_tools import PromptToolAdapter
+    from lingtai.schema import LLMResponse
 
     tools = [{"type": "function", "function": {"name": "files", "parameters": {}}}]
     inner = MockLLM(
@@ -191,9 +191,9 @@ def test_says_no_tools_matches_real_endpoint_errors():
 
 
 async def test_auto_mode_switches_to_prompt_tools_when_the_endpoint_rejects_them():
-    from nanomuse.llm.mock import MockLLM
-    from nanomuse.llm.prompt_tools import PromptToolAdapter
-    from nanomuse.schema import LLMResponse
+    from lingtai.llm.mock import MockLLM
+    from lingtai.llm.prompt_tools import PromptToolAdapter
+    from lingtai.schema import LLMResponse
 
     tools = [{"type": "function", "function": {"name": "echo", "parameters": {}}}]
 
@@ -243,8 +243,8 @@ def test_cut_off_tool_arguments_go_to_the_provider_as_an_empty_object():
 
 
 async def test_ask_complete_tries_again_with_room_when_the_reply_was_cut_off():
-    from nanomuse.llm.mock import MockLLM
-    from nanomuse.schema import LLMResponse
+    from lingtai.llm.mock import MockLLM
+    from lingtai.schema import LLMResponse
 
     # a reasoning model that spent the whole budget thinking, then answered on the retry
     llm = MockLLM(

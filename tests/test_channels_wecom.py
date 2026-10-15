@@ -13,8 +13,8 @@ from typing import Any
 
 import pytest
 
-from nanomuse.channels.base import InboundMessage
-from nanomuse.channels.wecom import WS_HOST, WeComChannel
+from lingtai.channels.base import InboundMessage
+from lingtai.channels.wecom import WS_HOST, WeComChannel
 
 
 class Bus:

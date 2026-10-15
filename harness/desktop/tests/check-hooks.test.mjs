@@ -11,15 +11,15 @@ import { test } from "node:test";
 import { checkHooks, hooksOf } from "../scripts/check-hooks.mjs";
 
 const STYLES = `
-html[data-nm-muse] [data-composer-card] [class*="_primary"] { color: red; }
+html[data-lt-muse] [data-composer-card] [class*="_primary"] { color: red; }
 [data-conversation-content][data-content-phase="hero"] > [data-conversation-scroll] { display: flex; }
-html[data-nm-platform='win32'] [data-testid="task-manager-page"] [class*="_pageHeading"] { padding: 0; }
+html[data-lt-platform='win32'] [data-testid="task-manager-page"] [class*="_pageHeading"] { padding: 0; }
 [data-slot="conversation.header"] ~ [data-chat-flow-kind="user"] [class*="_bubble"] a { color: inherit; }
 `;
 
 test("hooksOf reads attribute names, test ids and class stems, and not attribute values", () => {
   const hooks = hooksOf(STYLES);
-  assert.deepEqual(hooks.attributes, ["data-chat-flow-kind", "data-composer-card", "data-content-phase", "data-conversation-content", "data-conversation-scroll", "data-nm-muse", "data-nm-platform", "data-slot"]);
+  assert.deepEqual(hooks.attributes, ["data-chat-flow-kind", "data-composer-card", "data-content-phase", "data-conversation-content", "data-conversation-scroll", "data-lt-muse", "data-lt-platform", "data-slot"]);
   assert.deepEqual(hooks.testIds, ["task-manager-page"]);
   assert.deepEqual(hooks.stems, ["_bubble", "_pageHeading", "_primary"]);
   // `data-testid` itself is not a hook to look for, and `hero`, `user`, `conversation.header` are values
@@ -28,7 +28,7 @@ test("hooksOf reads attribute names, test ids and class stems, and not attribute
 });
 
 function fixture(dshText, oursText) {
-  const dir = mkdtemp("nm-check-hooks-");
+  const dir = mkdtemp("lt-check-hooks-");
   const styles = join(dir, "styles.ts");
   writeFileSync(styles, STYLES);
   const pkg = join(dir, "node_modules", "@deepseek-ai", "dsh-client-ui-conversation", "lib");
@@ -51,7 +51,7 @@ const DSH_ALL = `
   n("data-testid","task-manager-page"); x["data-conversation-content"]; x["data-content-phase"]="hero";
   y("data-conversation-scroll"); z("data-chat-flow-kind"); w("data-slot");
 `;
-const OURS = `document.documentElement.toggleAttribute('data-nm-muse', on); html.dataset.nmPlatform; el.setAttribute('data-nm-platform', p)`;
+const OURS = `document.documentElement.toggleAttribute('data-lt-muse', on); html.dataset.ltPlatform; el.setAttribute('data-lt-platform', p)`;
 
 test("every hook in dsh or set by the bundle passes; the bundle's own are reported as such", () => {
   const f = fixture(DSH_ALL, OURS);
@@ -59,7 +59,7 @@ test("every hook in dsh or set by the bundle passes; the bundle's own are report
     const out = checkHooks(f);
     assert.equal(out.checked, 12);
     assert.deepEqual(out.missing, []);
-    assert.deepEqual(out.own, ["data-nm-muse", "data-nm-platform"]);
+    assert.deepEqual(out.own, ["data-lt-muse", "data-lt-platform"]);
   } finally {
     rmSync(f.dir, { recursive: true, force: true });
   }
@@ -80,20 +80,20 @@ test("a renamed attribute, test id or class stem is named, and a source map does
 test("an attribute the bundle stops setting itself is missing too", () => {
   const f = fixture(DSH_ALL, "nothing of ours sets any data attribute");
   try {
-    assert.deepEqual(checkHooks(f).missing, ["data-nm-muse", "data-nm-platform"]);
+    assert.deepEqual(checkHooks(f).missing, ["data-lt-muse", "data-lt-platform"]);
   } finally {
     rmSync(f.dir, { recursive: true, force: true });
   }
 });
 
 test("a selector in the stylesheet is not a setter: a hook only styles.ts mentions is missing", () => {
-  // the real run points `oursDirs` at dsh-nanomuse/src, where styles.ts lives and names every
+  // the real run points `oursDirs` at dsh-lingtai/src, where styles.ts lives and names every
   // hook it leans on; only a quoted name or a `dataset` form counts as the bundle setting it
-  const f = fixture(DSH_ALL, "document.querySelector('[data-nm-muse]'); el.dataset['nmPlatform'] = p");
+  const f = fixture(DSH_ALL, "document.querySelector('[data-lt-muse]'); el.dataset['ltPlatform'] = p");
   try {
     const out = checkHooks({ ...f, oursDirs: [f.dir] });
-    assert.deepEqual(out.missing, ["data-nm-muse"]);
-    assert.deepEqual(out.own, ["data-nm-platform"]);
+    assert.deepEqual(out.missing, ["data-lt-muse"]);
+    assert.deepEqual(out.own, ["data-lt-platform"]);
   } finally {
     rmSync(f.dir, { recursive: true, force: true });
   }
@@ -101,7 +101,7 @@ test("a selector in the stylesheet is not a setter: a hook only styles.ts mentio
 
 test("the real stylesheet's hooks are the kind the check reads", async () => {
   const { readFileSync } = await import("node:fs");
-  const real = hooksOf(readFileSync(new URL("../../dsh-nanomuse/src/client/styles.ts", import.meta.url), "utf8"));
+  const real = hooksOf(readFileSync(new URL("../../dsh-lingtai/src/client/styles.ts", import.meta.url), "utf8"));
   // the rules the header of styles.ts names as leaning on the harness's DOM
   for (const hook of ["data-composer-card", "data-chat-flow-kind", "data-conversation-scroll", "data-window-drag"]) assert.ok(real.attributes.includes(hook), hook);
   assert.ok(real.testIds.includes("task-manager-page"));

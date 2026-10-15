@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Copies the own-key provider catalogue (nanomuse/llm/providers.json, the source of truth;
+// Copies the own-key provider catalogue (lingtai/llm/providers.json, the source of truth;
 // contract C11) to the clients that cannot read the runtime's package data — the desktop
 // plugin's assets, the Android app's assets, the iPhone app's bundle — and to the relay,
 // which orders it per region for its "ways on" guidance. Run after editing the catalogue:
@@ -27,7 +27,7 @@
 // to send one stable id per conversation (OpenCode Go: `x-opencode-session`). The runtime sends
 // it with its own user agent; the desktop writes such an entry as its model adapter's catalog
 // route of the same id, which sends the header itself; the phones send it to OpenCode's host
-// (io.github.nanomuse.net.OpenCodeSession, NanoMuseOpenCodeSession.swift); the relay's guidance
+// (io.github.lingtai.net.OpenCodeSession, LingTaiOpenCodeSession.swift); the relay's guidance
 // lists such an entry apart, under `session_providers`, so the apps of before never offer it.
 // The copies are byte-identical to the source; the source is validated here so a typo never
 // reaches a client.
@@ -36,13 +36,13 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const source = resolve(root, 'nanomuse/llm/providers.json')
+const source = resolve(root, 'lingtai/llm/providers.json')
 const targets = [
-  resolve(root, 'harness/dsh-nanomuse/assets/providers.json'),
-  resolve(root, 'android/src/android/app/src/main/assets/nanomuse/providers.json'),
-  resolve(root, 'android/src/ios/NanoMuse/Resources/providers.json'),
-  // the relay builds the "ways on" guidance from the same facts (cloud/nanomuse_cloud/providers.py)
-  resolve(root, 'cloud/nanomuse_cloud/providers.json'),
+  resolve(root, 'harness/dsh-lingtai/assets/providers.json'),
+  resolve(root, 'android/src/android/app/src/main/assets/lingtai/providers.json'),
+  resolve(root, 'android/src/ios/LingTai/Resources/providers.json'),
+  // the relay builds the "ways on" guidance from the same facts (cloud/lingtai_cloud/providers.py)
+  resolve(root, 'cloud/lingtai_cloud/providers.json'),
 ]
 
 const PROTOCOLS = new Set(['openai', 'openai-responses', 'anthropic', 'gemini'])

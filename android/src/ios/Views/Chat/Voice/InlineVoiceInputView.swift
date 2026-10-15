@@ -24,9 +24,9 @@ struct InlineVoiceInputView: View {
     /// "张山说食堂今天关门" comes back unchanged; with context, "石塘"→"食堂" is caught
     /// immediately. Context is what makes the feature work on day one.
     var conversationContext: (() -> ConversationContext)?
-    /// nanoMuse: the keyboard button in the panel's header — the way back to typing. The
+    /// lingTai: the keyboard button in the panel's header — the way back to typing. The
     /// composer owns the switch (it keeps the transcript in the field and focuses it).
-    var onBackToTyping: (() -> Void)? = nil // nanoMuse:
+    var onBackToTyping: (() -> Void)? = nil // lingTai:
     /// Tear down voice mode (X button / done).
 
     @FocusState private var editFocused: Bool
@@ -288,10 +288,10 @@ struct InlineVoiceInputView: View {
         // corners in BOTH modes. Leading/trailing insets = 12 to line up with the
         // bottom toolbar's `+` and send buttons (inputBottomRow padding 12).
         .overlay(alignment: .topLeading) {
-            HStack(spacing: 8) { // nanoMuse: the keyboard button sits beside the chevron
+            HStack(spacing: 8) { // lingTai: the keyboard button sits beside the chevron
                 expandCollapseButton
-                if let onBackToTyping { backToTypingButton(onBackToTyping) } // nanoMuse:
-            } // nanoMuse:
+                if let onBackToTyping { backToTypingButton(onBackToTyping) } // lingTai:
+            } // lingTai:
             .padding(.top, 10)
             .padding(.leading, 12)
         }
@@ -732,19 +732,19 @@ struct InlineVoiceInputView: View {
             : Text("Expand voice panel", comment: "Voice panel expand"))
     }
 
-    // nanoMuse: back to the keyboard. Works while the transcript is being edited too: the
+    // lingTai: back to the keyboard. Works while the transcript is being edited too: the
     // composer's handler resets the editor (reset(clearTranscript: false)) before it leaves voice mode.
-    private func backToTypingButton(_ action: @escaping () -> Void) -> some View { // nanoMuse:
-        Button(action: action) { // nanoMuse:
-            Image(systemName: "keyboard") // nanoMuse:
-                .font(.system(size: 13, weight: .semibold)) // nanoMuse:
-                .foregroundStyle(ChatColors.secondaryText) // nanoMuse:
-                .frame(width: 30, height: 30) // nanoMuse:
-                .background(Circle().fill(ChatColors.inputIconBg)) // nanoMuse:
-                .overlay(Circle().strokeBorder(ChatColors.inputIconBorder, lineWidth: 0.5)) // nanoMuse:
-        } // nanoMuse:
-        .accessibilityLabel(Text(AppLocalized("Back to typing"))) // nanoMuse:
-    } // nanoMuse:
+    private func backToTypingButton(_ action: @escaping () -> Void) -> some View { // lingTai:
+        Button(action: action) { // lingTai:
+            Image(systemName: "keyboard") // lingTai:
+                .font(.system(size: 13, weight: .semibold)) // lingTai:
+                .foregroundStyle(ChatColors.secondaryText) // lingTai:
+                .frame(width: 30, height: 30) // lingTai:
+                .background(Circle().fill(ChatColors.inputIconBg)) // lingTai:
+                .overlay(Circle().strokeBorder(ChatColors.inputIconBorder, lineWidth: 0.5)) // lingTai:
+        } // lingTai:
+        .accessibilityLabel(Text(AppLocalized("Back to typing"))) // lingTai:
+    } // lingTai:
 
     // MARK: - Transcript area (display ↔ editable)
 
@@ -874,9 +874,9 @@ struct InlineVoiceInputView: View {
         // menu, 30pt each at x=[12,42]). The panel has 16pt outer horizontal
         // padding; 32pt more → text starts at 48pt, clearing the 42pt button
         // edge by 6pt on each side.
-        // nanoMuse: with the keyboard button beside the chevron the left column reaches 80pt,
+        // lingTai: with the keyboard button beside the chevron the left column reaches 80pt,
         // so the inset grows to 72 (text from 88pt) — kept symmetric so the centred text stays centred.
-        .padding(.horizontal, onBackToTyping == nil ? 32 : 72) // nanoMuse:
+        .padding(.horizontal, onBackToTyping == nil ? 32 : 72) // lingTai:
     }
 
     // MARK: - Controls
@@ -1006,7 +1006,7 @@ struct InlineVoiceInputView: View {
                 runManualCorrection()
             }
         } message: {
-            Text("nanoMuse can store your transcript fixes (original → corrected pairs) and accepted AI corrections in a local on-device database to make future voice corrections smarter. Nothing is uploaded. You can change this or clear the data anytime in Settings → Permissions.",
+            Text("lingTai can store your transcript fixes (original → corrected pairs) and accepted AI corrections in a local on-device database to make future voice corrections smarter. Nothing is uploaded. You can change this or clear the data anytime in Settings → Permissions.",
                  comment: "One-time prompt body: correction data collection")
         }
     }

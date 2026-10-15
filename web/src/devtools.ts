@@ -6,7 +6,7 @@
  */
 import { useSyncExternalStore } from "react";
 
-const STORAGE_KEY = "nanomuse_devtools";
+const STORAGE_KEY = "lingtai_devtools";
 
 function load(): boolean {
   try {

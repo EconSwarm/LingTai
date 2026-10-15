@@ -4,13 +4,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from nanomuse.app import NanoMuseApp
-from nanomuse.cloud import CLOUD_KEY, DEFAULT_CHAT_MODEL, DEFAULT_GUI_MODEL, model_url
-from nanomuse.config import LLMSettings, Settings
-from nanomuse.llm.mock import MockLLM
-from nanomuse.llm.openai_chat import OpenAIChatLLM
-from nanomuse.llm.vision import model_takes_images
-from nanomuse.server.connections import PROVIDERS
+from lingtai.app import LingTaiApp
+from lingtai.cloud import CLOUD_KEY, DEFAULT_CHAT_MODEL, DEFAULT_GUI_MODEL, model_url
+from lingtai.config import LLMSettings, Settings
+from lingtai.llm.mock import MockLLM
+from lingtai.llm.openai_chat import OpenAIChatLLM
+from lingtai.llm.vision import model_takes_images
+from lingtai.server.connections import PROVIDERS
 from tests.test_phone import AutoApproveUI
 
 
@@ -62,7 +62,7 @@ def test_defaults_and_presets():
 
 
 def test_hands_model_follows_the_account(settings: Settings):
-    app = NanoMuseApp(settings, ui=AutoApproveUI(), llm=MockLLM([]))  # type: ignore[arg-type]
+    app = LingTaiApp(settings, ui=AutoApproveUI(), llm=MockLLM([]))  # type: ignore[arg-type]
     # own key, nothing under [gui]: the hands use the chat model
     assert not app.llm_is_cloud() and app.gui_model() == settings.llm.model
     # the account as the model: the relay's hands model, not the chat one
@@ -82,7 +82,7 @@ def test_hands_model_follows_the_account(settings: Settings):
 
 def test_hands_model_shares_the_chat_models_proxy(settings: Settings):
     settings.llm.proxy = "http://127.0.0.1:7890"
-    app = NanoMuseApp(settings, ui=AutoApproveUI(), llm=MockLLM([]))  # type: ignore[arg-type]
+    app = LingTaiApp(settings, ui=AutoApproveUI(), llm=MockLLM([]))  # type: ignore[arg-type]
     # same host as the chat model: reached the same way
     assert app.make_gui_llm().settings.proxy == "http://127.0.0.1:7890"  # type: ignore[attr-defined]
     # a [gui] model on its own host is not sent through the chat model's proxy
@@ -93,9 +93,9 @@ def test_hands_model_shares_the_chat_models_proxy(settings: Settings):
 
 
 def test_llm_ready_reads_the_vault_and_the_sign_in(settings: Settings, tmp_path: Path):
-    from nanomuse.llm.chatgpt import Token, TokenStore
-    from nanomuse.llm.factory import llm_ready
-    from nanomuse.vault import CredentialVault
+    from lingtai.llm.chatgpt import Token, TokenStore
+    from lingtai.llm.factory import llm_ready
+    from lingtai.vault import CredentialVault
 
     vault = CredentialVault(tmp_path / "v.json", tmp_path / "v.key")
     llm = LLMSettings(api_key="")

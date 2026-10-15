@@ -93,7 +93,7 @@ media downloads, health analysis, cloud APIs and more.
 
 > "在很大程度上实现甚至局部超越了 Apple Intelligence"
 >
-> — Ye Han, [**这可能是 iPhone 最强 Agent 软件，没有之一 丨Open Minis 入门指南**](https://zhuanlan.zhihu.com/p/2045570157783807562),
+> — Ye Han, [**这可能是 iPhone 最强 Agent 软件，没有之一丨Open Minis 入门指南**](https://zhuanlan.zhihu.com/p/2045570157783807562),
 > 知乎 / Zhihu (June 2026)
 
 > "可能是 iOS 端最强 AI Agent"

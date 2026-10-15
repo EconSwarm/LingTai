@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// The stylesheet of the nanoMuse bundle (harness/dsh-nanomuse/src/client/styles.ts) dresses
+// The stylesheet of the lingTai bundle (harness/dsh-lingtai/src/client/styles.ts) dresses
 // the harness's own DOM through its `data-*` hooks (`[data-composer-card]`,
 // `[data-chat-flow-kind="user"]`), its test ids (`[data-testid="task-manager-page"]`) and the
 // stems of its CSS-module class names (`[class*="_toBottom"]`). None of those is a contract:
@@ -14,7 +14,7 @@
 //   node scripts/check-hooks.mjs --styles path --ours dir     # other sources (the tests)
 //
 // A hook is fine when the staged dsh's packages mention it, or when the bundle sets it itself
-// (`data-nm-*`, the `data-window-drag` our rooms put on their own top strip). Anything else
+// (`data-lt-*`, the `data-window-drag` our rooms put on their own top strip). Anything else
 // is listed and the exit code is 1. Attribute values (`[data-slot="conversation.header"]`,
 // `[data-state="error"]`) are not checked: too many are built at run time.
 
@@ -84,8 +84,8 @@ export function findIn(roots, needles, spellings = new Map()) {
 
 /**
  * The ways a source of ours *sets* a `data-*` attribute, as opposed to styling it: the name
- * quoted (`setAttribute('data-nm-muse'`, `'data-nm-muse': ''` in JSX) or the camel-cased
- * `dataset` form (`dataset.nmMuse`, `dataset['nmMuse']`). A selector (`[data-nm-muse]`) is
+ * quoted (`setAttribute('data-lt-muse'`, `'data-lt-muse': ''` in JSX) or the camel-cased
+ * `dataset` form (`dataset.ltMuse`, `dataset['ltMuse']`). A selector (`[data-lt-muse]`) is
  * neither, so the stylesheet, which names every hook it leans on, vouches for none of them.
  */
 export function setterSpellings(attribute) {
@@ -104,7 +104,7 @@ export function checkHooks({ styles, dshNodeModules, oursDirs }) {
   const dshRoots = existsSync(scoped) ? readdirSync(scoped).map((name) => join(scoped, name)) : [];
   const needles = [...attributes, ...testIds, ...stems];
   const inDsh = findIn(dshRoots, needles);
-  // what the bundle sets itself: its client sources, and the shell's (`data-nm-platform` comes
+  // what the bundle sets itself: its client sources, and the shell's (`data-lt-platform` comes
   // from the preload); a selector in the stylesheet is not a setter, so it does not count
   const unseen = attributes.filter((a) => !inDsh.has(a));
   const ours = findIn(oursDirs, unseen, new Map(unseen.map((a) => [a, setterSpellings(a)])));
@@ -120,9 +120,9 @@ if (isMain) {
     return i >= 0 ? args[i + 1] : undefined;
   };
   const dshNodeModules = resolve(opt("--dsh") ?? join(appDir, "dsh", "node_modules"));
-  const styles = resolve(opt("--styles") ?? join(appDir, "..", "dsh-nanomuse", "src", "client", "styles.ts"));
+  const styles = resolve(opt("--styles") ?? join(appDir, "..", "dsh-lingtai", "src", "client", "styles.ts"));
   const ours = opt("--ours");
-  const oursDirs = ours ? [resolve(ours)] : [join(appDir, "..", "dsh-nanomuse", "src"), join(appDir, "src")];
+  const oursDirs = ours ? [resolve(ours)] : [join(appDir, "..", "dsh-lingtai", "src"), join(appDir, "src")];
   if (!existsSync(join(dshNodeModules, "@deepseek-ai"))) {
     console.error(`no dsh under ${dshNodeModules}: stage it first (node scripts/prepare-dsh.mjs), or point --dsh at a node_modules that has @deepseek-ai/*`);
     process.exit(2);

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Build the runtime nanoMuse Desktop carries for the hands: a one-folder PyInstaller build of
-`nanomuse` (serve, chat, the hub, this computer's screen and hands — `nanomuse mcp` is what the
+"""Build the runtime lingTai Desktop carries for the hands: a one-folder PyInstaller build of
+`lingtai` (serve, chat, the hub, this computer's screen and hands — `lingtai mcp` is what the
 desktop's preset points at) at harness/desktop/runtime/, where electron-builder picks it up as
 an extra resource.
 
@@ -9,7 +9,7 @@ an extra resource.
     python scripts/desktop-app/build-runtime.py --target build/runtime   # somewhere else
 
 Needs: the repository's Python environment with `pip install -e ".[hands]" pyinstaller`.
-The web app must already be built into nanomuse/server/static (it is committed).
+The web app must already be built into lingtai/server/static (it is committed).
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SPEC = ROOT / "scripts" / "desktop-app" / "nanomuse_runtime.spec"
+SPEC = ROOT / "scripts" / "desktop-app" / "lingtai_runtime.spec"
 WORK = ROOT / "build" / "runtime-pyi"
 DIST = ROOT / "build" / "runtime-dist"
 TARGET = ROOT / "harness" / "desktop" / "runtime"
@@ -51,8 +51,8 @@ def build(target: Path) -> Path:
         str(SPEC),
         cwd=str(ROOT),
     )
-    built = DIST / "nanomuse"
-    exe = built / ("nanomuse.exe" if sys.platform == "win32" else "nanomuse")
+    built = DIST / "lingtai"
+    exe = built / ("lingtai.exe" if sys.platform == "win32" else "lingtai")
     if not exe.exists():
         raise SystemExit(f"PyInstaller produced nothing at {exe}")
     shutil.rmtree(target, ignore_errors=True)
@@ -76,13 +76,13 @@ def check(exe: Path) -> None:
     for d in (home, cwd):
         shutil.rmtree(d, ignore_errors=True)
     cwd.mkdir(parents=True)
-    env = dict(os.environ, NANOMUSE_DATA_DIR=str(home), PYTHONUTF8="1")
+    env = dict(os.environ, LINGTAI_DATA_DIR=str(home), PYTHONUTF8="1")
     for key in (
         "OPENAI_API_KEY",
         "DASHSCOPE_API_KEY",
         "ANTHROPIC_API_KEY",
         "OPENAI_BASE_URL",
-        "NANOMUSE_WORKSPACE",
+        "LINGTAI_WORKSPACE",
     ):
         env.pop(key, None)
     proc = subprocess.Popen(
@@ -144,7 +144,7 @@ def main() -> None:
     if not target.is_absolute():
         target = ROOT / target
     if args.check_only:
-        exe = target / ("nanomuse.exe" if sys.platform == "win32" else "nanomuse")
+        exe = target / ("lingtai.exe" if sys.platform == "win32" else "lingtai")
     else:
         exe = build(target)
     if args.check or args.check_only:

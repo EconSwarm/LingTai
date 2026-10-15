@@ -1,4 +1,4 @@
-"""The hands as an MCP server (`nanomuse mcp`, nanomuse/bridge/mcp_server.py): the tool
+"""The hands as an MCP server (`lingtai mcp`, lingtai/bridge/mcp_server.py): the tool
 listing another host sees, the gate that stands in for the Sentinel, the pictures in
 the result — and the server itself, driven over stdio by the SDK's client."""
 
@@ -11,7 +11,7 @@ from typing import Any
 
 import pytest
 
-from nanomuse.bridge.mcp_server import (
+from lingtai.bridge.mcp_server import (
     CONFIRMED,
     call,
     connector_tools,
@@ -21,8 +21,8 @@ from nanomuse.bridge.mcp_server import (
     hands_tools,
     tool_listing,
 )
-from nanomuse.config import Settings
-from nanomuse.schema import ToolResult
+from lingtai.config import Settings
+from lingtai.schema import ToolResult
 from tests.test_computer import fake_screen, make_link  # noqa: F401  # the fixture
 
 pytestmark = pytest.mark.usefixtures("fake_screen")
@@ -81,7 +81,7 @@ def test_gate_asks_for_what_the_sentinel_would_ask(settings: Settings) -> None:
 def test_with_a_host_secret_only_the_hosts_ticket_confirms(
     settings: Settings, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from nanomuse.bridge.mcp_server import CONFIRM_SECRET_ENV, REFUSED, ticket
+    from lingtai.bridge.mcp_server import CONFIRM_SECRET_ENV, REFUSED, ticket
 
     screen, act = tools(settings)
     monkeypatch.setenv(CONFIRM_SECRET_ENV, "s3cret")
@@ -108,7 +108,7 @@ def test_with_a_host_secret_only_the_hosts_ticket_confirms(
 def test_the_plugins_ticket_with_the_step_words_confirms(
     settings: Settings, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """What harness/dsh-nanomuse/src/cloud.ts `confirmTicket` signs after the person said
+    """What harness/dsh-lingtai/src/cloud.ts `confirmTicket` signs after the person said
     yes on the permission card: every argument but `confirmed`, the `step` words included
     (the model writes them on each call). The server must take that ticket — 0.1.37
     checked one without `step` only, and every approved step came back "Not done"."""
@@ -116,8 +116,8 @@ def test_the_plugins_ticket_with_the_step_words_confirms(
     import hmac
     import json
 
-    from nanomuse.bridge.mcp_server import CONFIRM_SECRET_ENV, ticket
-    from nanomuse.schema import STEP_KEY
+    from lingtai.bridge.mcp_server import CONFIRM_SECRET_ENV, ticket
+    from lingtai.schema import STEP_KEY
 
     _screen, act = tools(settings)
     monkeypatch.setenv(CONFIRM_SECRET_ENV, "s3cret")
@@ -165,27 +165,27 @@ def test_content_blocks_skip_pictures_that_are_not_there(tmp_path: Path) -> None
 
 
 async def test_server_over_stdio(tmp_path: Path) -> None:
-    """`nanomuse mcp` as another host runs it: the tools, a refused step, a look."""
+    """`lingtai mcp` as another host runs it: the tools, a refused step, a look."""
     from mcp import ClientSession, StdioServerParameters
     from mcp.client.stdio import stdio_client
 
     env = {
         **os.environ,
-        "NANOMUSE_WORKSPACE": str(tmp_path / "ws"),
-        "NANOMUSE_DATA_DIR": str(tmp_path / "data"),
-        "NANOMUSE_CONFIG": str(tmp_path / "none.toml"),
+        "LINGTAI_WORKSPACE": str(tmp_path / "ws"),
+        "LINGTAI_DATA_DIR": str(tmp_path / "data"),
+        "LINGTAI_CONFIG": str(tmp_path / "none.toml"),
     }
     params = StdioServerParameters(
         command=sys.executable,
         args=[
             "-c",
-            f"import sys; sys.argv=['nanomuse','mcp']; sys.path.insert(0, {str(Path(__file__).resolve().parents[1])!r}); from nanomuse.cli import app; app()",
+            f"import sys; sys.argv=['lingtai','mcp']; sys.path.insert(0, {str(Path(__file__).resolve().parents[1])!r}); from lingtai.cli import app; app()",
         ],
         env=env,
     )
     async with stdio_client(params) as (read, write), ClientSession(read, write) as session:
         init = await session.initialize()
-        assert "nanoMuse" in (init.instructions or "")
+        assert "lingTai" in (init.instructions or "")
         listed = await session.list_tools()
         # the hands, plus the address book the default config keeps on
         assert sorted(t.name for t in listed.tools) == [
@@ -203,7 +203,7 @@ async def test_server_over_stdio(tmp_path: Path) -> None:
 
 
 def test_cli_has_the_command() -> None:
-    from nanomuse.cli import app
+    from lingtai.cli import app
 
     names = {getattr(c, "name", None) or c.callback.__name__ for c in app.registered_commands}  # type: ignore[union-attr]
     assert "mcp" in names

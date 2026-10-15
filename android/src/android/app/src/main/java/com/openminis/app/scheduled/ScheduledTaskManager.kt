@@ -154,8 +154,8 @@ class ScheduledTaskManager(private val context: Context) {
 
     private fun ensureNotificationChannel() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
-        val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (nm.getNotificationChannel(CHANNEL_ID) != null) return
+        val lt = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (lt.getNotificationChannel(CHANNEL_ID) != null) return
         val channel = NotificationChannel(
             CHANNEL_ID,
             CHANNEL_NAME,
@@ -163,7 +163,7 @@ class ScheduledTaskManager(private val context: Context) {
         ).apply {
             description = "Posts when a scheduled task finishes running."
         }
-        nm.createNotificationChannel(channel)
+        lt.createNotificationChannel(channel)
     }
 
     companion object {

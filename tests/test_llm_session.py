@@ -1,5 +1,5 @@
 """A vendor that wants one id per conversation (OpenCode Go's ``x-opencode-session``) gets it,
-with nanoMuse's own user agent; every other vendor gets neither."""
+with lingTai's own user agent; every other vendor gets neither."""
 
 from __future__ import annotations
 
@@ -11,13 +11,13 @@ import httpx
 import pytest
 from openai import AsyncOpenAI
 
-from nanomuse import __version__
-from nanomuse.config import LLMSettings, Settings
-from nanomuse.llm import openai_chat as chat_mod
-from nanomuse.llm import openai_responses as responses_mod
-from nanomuse.llm import session
-from nanomuse.llm.factory import create_llm, session_header
-from nanomuse.schema import LLMResponse, Message
+from lingtai import __version__
+from lingtai.config import LLMSettings, Settings
+from lingtai.llm import openai_chat as chat_mod
+from lingtai.llm import openai_responses as responses_mod
+from lingtai.llm import session
+from lingtai.llm.factory import create_llm, session_header
+from lingtai.schema import LLMResponse, Message
 
 GO = "https://opencode.ai/zen/go/v1"
 
@@ -93,7 +93,7 @@ def slot(**kw: Any) -> LLMSettings:
     return LLMSettings(**{**base, **kw})
 
 
-async def test_go_calls_carry_the_conversation_and_name_nanomuse(wire: Wire):
+async def test_go_calls_carry_the_conversation_and_name_lingtai(wire: Wire):
     llm = create_llm(slot(provider="opencode-go", base_url=None))
     with session.conversation("thread-1"):
         await llm.ask([Message.user("hi")])
@@ -102,7 +102,7 @@ async def test_go_calls_carry_the_conversation_and_name_nanomuse(wire: Wire):
         await llm.ask([Message.user("another chat")])
     assert str(wire.requests[0].url) == f"{GO}/chat/completions"
     assert wire.headers("x-opencode-session") == ["thread-1", "thread-1", "thread-2"]
-    assert wire.headers("user-agent") == [f"nanoMuse/{__version__}"] * 3
+    assert wire.headers("user-agent") == [f"lingTai/{__version__}"] * 3
 
 
 async def test_a_call_outside_a_conversation_carries_the_clients_own_stable_id(wire: Wire):
@@ -135,7 +135,7 @@ async def test_other_vendors_get_neither_header(wire: Wire):
         with session.conversation("t"):
             await llm.ask([Message.user("hi")])
     assert wire.headers("x-opencode-session") == [None, None, None]
-    assert not any((ua or "").startswith("nanoMuse/") for ua in wire.headers("user-agent"))
+    assert not any((ua or "").startswith("lingTai/") for ua in wire.headers("user-agent"))
 
 
 async def test_a_user_agent_the_person_set_stands(wire: Wire):
@@ -159,11 +159,11 @@ def test_an_id_that_is_no_header_value_is_sent_as_a_stable_uuid():
 
 
 async def test_the_agent_loop_names_its_conversation_for_every_call(settings: Settings):
-    from nanomuse.agent import MuseAgent
-    from nanomuse.llm import MockLLM
-    from nanomuse.sentinel import AuditLog, Sentinel
-    from nanomuse.tools import Terminate, ToolCollection
-    from nanomuse.ui import HeadlessUI
+    from lingtai.agent import MuseAgent
+    from lingtai.llm import MockLLM
+    from lingtai.sentinel import AuditLog, Sentinel
+    from lingtai.tools import Terminate, ToolCollection
+    from lingtai.ui import HeadlessUI
 
     seen: list[str | None] = []
 

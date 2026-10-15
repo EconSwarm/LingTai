@@ -9,7 +9,7 @@ from pathlib import Path
 
 from test_accounts import make
 
-CONSOLE = Path(__file__).resolve().parents[1] / "nanomuse_cloud" / "console"
+CONSOLE = Path(__file__).resolve().parents[1] / "lingtai_cloud" / "console"
 
 # what a signed-in person can get from the relay since 0.22 (service.py, api.py), by code
 CODES_0_22 = [
@@ -75,8 +75,8 @@ def test_web_console_is_one_hub_device_per_tab():
     took turns replacing each other (close 4003) and reconnecting for as long as both
     stayed open."""
     source = (CONSOLE / "app.js").read_text(encoding="utf-8")
-    assert 'sessionStorage.getItem("nm.webid")' in source and 'sessionStorage.setItem("nm.webid"' in source
-    assert 'LS.setItem("nm.webid"' not in source and 'LS.getItem("nm.webid")' not in source
+    assert 'sessionStorage.getItem("lt.webid")' in source and 'sessionStorage.setItem("lt.webid"' in source
+    assert 'LS.setItem("lt.webid"' not in source and 'LS.getItem("lt.webid")' not in source
     # the hello carries that id; the hub keys its connections on it (hub.py _attach)
     assert "device: { id: webId," in source
 

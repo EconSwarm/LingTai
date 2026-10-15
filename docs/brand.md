@@ -1,4 +1,4 @@
-# nanoMuse brand
+# lingTai brand
 
 Decided 2026-09-24. The app icon and the in-app colour system are one decision: the palette
 is derived from the icon so the whole app matches the tile on the home screen.
@@ -9,15 +9,15 @@ One continuous pen stroke that reads as an **N**: a hooked entry, one rounded pe
 diagonal, a tight valley, and an upward exit: an N with one arch, drawn without lifting the
 pen. The mark is abstract on purpose: it is a gesture first and a letter second.
 
-- Source of truth: `assets/brand/nanomuse-icon-source-1024.png` (final render, white squircle on
+- Source of truth: `assets/brand/lingtai-icon-source-1024.png` (final render, white squircle on
   brand blue). Everything else is derived from it.
-- `assets/brand/nanomuse-mark.svg`: the stroke alone, traced as a single filled path, viewBox
+- `assets/brand/lingtai-mark.svg`: the stroke alone, traced as a single filled path, viewBox
   `0 0 100 100` in tile coordinates, gradient fill.
-- `assets/brand/nanomuse-icon.svg`: white squircle tile (`rx=27`) + mark. This is the app icon.
-- `assets/brand/nanomuse-icon-on-blue.svg`: the icon on the brand-blue backdrop, for
+- `assets/brand/lingtai-icon.svg`: white squircle tile (`rx=27`) + mark. This is the app icon.
+- `assets/brand/lingtai-icon-on-blue.svg`: the icon on the brand-blue backdrop, for
   store listings and the splash only. Wherever the icon stands for the app (README, site,
   social card, favicon) it is the plain tile: white, the mark, a hairline edge, no backdrop.
-- `assets/brand/nanomuse-mark-rgba-688.png`: the stroke with alpha, 688 px, raster fallback.
+- `assets/brand/lingtai-mark-rgba-688.png`: the stroke with alpha, 688 px, raster fallback.
 - `docs/app-icon.png`: the tile rendered with rounded corners (27 % radius, transparent
   outside, a hairline `#D9D9DE` edge so it keeps its shape on white), 512 px: the icon as it
   sits on a home screen. This is the README hero and the picture to use wherever

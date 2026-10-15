@@ -16,11 +16,11 @@ import httpx
 import pytest
 from fastapi.testclient import TestClient
 
-from nanomuse.config import MediaSettings, Settings
-from nanomuse.llm import MockLLM
-from nanomuse.llm.chatgpt import LoginFlow, TokenStore
-from nanomuse.server import create_app
-from nanomuse.server.service import MuseService
+from lingtai.config import MediaSettings, Settings
+from lingtai.llm import MockLLM
+from lingtai.llm.chatgpt import LoginFlow, TokenStore
+from lingtai.server import create_app
+from lingtai.server.service import MuseService
 from tests.test_chatgpt import TOKEN_URL, jwt, token
 from tests.test_server import wait_for
 
@@ -88,7 +88,7 @@ def test_providers_signed_out_with_the_default_model(server):
     view = client.get("/api/providers").json()
     assert view["region"] == ""
     ids = [p["id"] for p in view["providers"]]
-    assert len(ids) == 20 and "nanomuse_cloud" not in ids
+    assert len(ids) == 20 and "lingtai_cloud" not in ids
     # DeepSeek is the default chat model, by its host; the hands follow the chat model
     assert view["configured"]["chat"]["provider"] == "deepseek"
     assert view["configured"]["chat"]["protocol"] == "openai"

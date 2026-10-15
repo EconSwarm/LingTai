@@ -10,8 +10,8 @@ from typing import Any
 import httpx
 import pytest
 
-from nanomuse.channels.base import InboundMessage
-from nanomuse.channels.telegram import TelegramChannel, TelegramError, _chunks
+from lingtai.channels.base import InboundMessage
+from lingtai.channels.telegram import TelegramChannel, TelegramError, _chunks
 
 
 class Bus:

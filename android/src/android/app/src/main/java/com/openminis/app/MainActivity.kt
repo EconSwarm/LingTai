@@ -263,7 +263,7 @@ class MainActivity : ComponentActivity() {
                 // onClosed immediately when pendingShareFiles is null, which
                 // is exactly the state after the user dismissed the dialog on
                 // the previous launch — the app would close the instant it was
-                // tapped, reading as "nanoMuse won't open at all". The process
+                // tapped, reading as "lingTai won't open at all". The process
                 // still holds a permanently uninitialized Application, so the
                 // only real recovery is a fresh process: tell the user, then
                 // exit hard so the next tap gets a clean init.
@@ -648,9 +648,9 @@ class MainActivity : ComponentActivity() {
         val mode = getAppearancePrefs(this).getInt(KEY_LAUNCH_SESSION, 0)
         if (mode != 2) return
         val nav = navController ?: return
-        // nanoMuse: the home shell opens on the main chat by itself and the cold-start resolver
+        // lingTai: the home shell opens on the main chat by itself and the cold-start resolver
         // already steps aside for it; a warm return must not push the upstream chat on top.
-        if (io.github.nanomuse.ui.home.HomeShell.active) return
+        if (io.github.lingtai.ui.home.HomeShell.active) return
         val newRoute = Routes.chat("__new__${java.util.UUID.randomUUID()}")
         AppLogger.info("LaunchSession", "resume → mode=NewChat, navigating to $newRoute")
         nav.safeNavigate(newRoute) {
@@ -720,9 +720,9 @@ class MainActivity : ComponentActivity() {
                 nav.navigate(Routes.terminal(action.initCommand))
             }
             is DeepLinkAction.OpenSession -> {
-                // nanoMuse: in compact windows the home shell shows the chat itself —
+                // lingTai: in compact windows the home shell shows the chat itself —
                 // pushing chat/{sessionId} here put the OpenMinis chat screen on top of it.
-                if (io.github.nanomuse.ui.home.HomeShell.openSession(nav, action.sessionId)) return
+                if (io.github.lingtai.ui.home.HomeShell.openSession(nav, action.sessionId)) return
                 // T-double-chat-fix (secondary): mirror AppNavigation's
                 // OpenSession options so a runtime deep-link (notification /
                 // shortcut / onNewIntent) can't stack a duplicate chat on
@@ -747,9 +747,9 @@ class MainActivity : ComponentActivity() {
             is DeepLinkAction.OpenPermissionSettings -> {
                 nav.navigate(Routes.PERMISSIONS)
             }
-            // nanoMuse: a tab of the home shell (the Feed, from its notification)
+            // lingTai: a tab of the home shell (the Feed, from its notification)
             is DeepLinkAction.OpenHomeTab -> {
-                io.github.nanomuse.ui.home.HomeShell.openTab(nav, action.tab)
+                io.github.lingtai.ui.home.HomeShell.openTab(nav, action.tab)
             }
             is DeepLinkAction.OpenHtmlPreview -> {
                 DeepLinkCoordinator.setPendingHtmlPreview(
@@ -774,9 +774,9 @@ class MainActivity : ComponentActivity() {
                     else -> {}
                 }
                 val newId = "__new__${java.util.UUID.randomUUID()}"
-                // nanoMuse: in compact windows the draft opens inside the home shell, whose
+                // lingTai: in compact windows the draft opens inside the home shell, whose
                 // ChatScreen consumes the pending voice / camera action the same way.
-                if (io.github.nanomuse.ui.home.HomeShell.openSession(nav, newId)) return
+                if (io.github.lingtai.ui.home.HomeShell.openSession(nav, newId)) return
                 val newRoute = Routes.chat(newId)
                 nav.navigate(newRoute) {
                     popUpTo(Routes.SESSION_LIST) { inclusive = false }

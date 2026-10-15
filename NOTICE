@@ -1,5 +1,5 @@
-nanoMuse
-Copyright (C) 2026 nanoMuse contributors
+lingTai
+Copyright (C) 2026 lingTai contributors
 
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -16,20 +16,20 @@ Public License in the file LICENSE for more details.
 The Android application in android/ is based on OpenMinis 1.13
 (https://github.com/OpenMinis/OpenMinis, tag 1.13, commit 4ef2900),
 Copyright (C) the OpenMinis authors, released under the GNU General
-Public License version 3. It has been modified by the nanoMuse
+Public License version 3. It has been modified by the lingTai
 contributors since 2026-09-24. The imported tree is in this repository's
 history unchanged (commit "Import OpenMinis 1.13 as android/"); every
 change since is in `git log -- android/`, and edits inside upstream files
-are marked with a `// nanoMuse:` comment.
+are marked with a `// lingTai:` comment.
 
-OpenMinis is a trademark of its authors; nanoMuse does not use the
+OpenMinis is a trademark of its authors; lingTai does not use the
 OpenMinis name or logo for its own application. The complete corresponding
-source of every nanoMuse release is the tagged commit on
-https://github.com/nano-muse/nanoMuse together with the submodule
-android/deps/proot (https://github.com/nano-muse/proot).
+source of every lingTai release is the tagged commit on
+https://github.com/econswarm/lingtai together with the submodule
+android/deps/proot (https://github.com/econswarm/proot).
 
 Other components and their licences: THIRD_PARTY_NOTICES.md.
 
-nanoMuse is not affiliated with, endorsed by, or derived from Meta
+lingTai is not affiliated with, endorsed by, or derived from Meta
 Platforms, Inc. or its Muse product. "Muse" is a trademark of Meta
 Platforms, Inc.

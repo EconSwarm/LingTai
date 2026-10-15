@@ -1,4 +1,4 @@
-// nanoMuse landing page: language toggle + the live phone mock in the hero.
+// lingTai landing page: language toggle + the live phone mock in the hero.
 (function () {
   "use strict";
 
@@ -7,15 +7,15 @@
   function setLang(lang) {
     html.lang = lang;
     try {
-      localStorage.setItem("nanomuse-site-lang", lang);
+      localStorage.setItem("lingtai-site-lang", lang);
     } catch (e) {
       /* private mode */
     }
-    document.title = lang === "zh-CN" ? "nanoMuse — 开源的个人 AI 智能体" : "nanoMuse — an open-source personal AI agent";
+    document.title = lang === "zh-CN" ? "灵台 — 开源的个人 AI 智能体" : "灵台 — an open-source personal AI agent";
   }
   var saved = null;
   try {
-    saved = localStorage.getItem("nanomuse-site-lang");
+    saved = localStorage.getItem("lingtai-site-lang");
   } catch (e) {
     /* ignore */
   }
@@ -28,7 +28,7 @@
   });
 
   // ---- mascot ---------------------------------------------------------------------
-  var MASCOT = window.NANOMUSE_MASCOT || {};
+  var MASCOT = window.LINGTAI_MASCOT || {};
   function panda(el, mood) {
     if (!el || el.dataset.current === mood) return;
     el.dataset.current = mood;

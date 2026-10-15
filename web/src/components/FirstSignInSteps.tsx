@@ -17,8 +17,8 @@ import { inputCls, primaryBtn, secondaryBtn } from "./Form";
  * undone later under Account and Connections. The flag lives in sessionStorage so a reload
  * mid-way does not lose the steps, and is cleared once they are done or skipped.
  */
-const FLAG = "nm.cloud.first_sign_in";
-const EVENT = "nm:first-sign-in";
+const FLAG = "lt.cloud.first_sign_in";
+const EVENT = "lt:first-sign-in";
 
 /** Called by the sign-in form when the relay reports a new account. */
 export function markFirstSignIn(): void {
@@ -163,7 +163,7 @@ export function FirstSignInSteps() {
               <li className="flex items-start gap-2.5 rounded-2xl bg-surface-2 px-3 py-2.5">
                 <CloudCog size={16} className="mt-0.5 shrink-0 text-accent" />
                 <span>
-                  <span className="font-medium">{t("Use the nanoMuse Cloud model")}</span>
+                  <span className="font-medium">{t("Use the lingTai Cloud model")}</span>
                   <span className="block text-muted">{t("DeepSeek for the chat and Qwen for the hands, with a free allowance per account paid by the developer. Nothing to configure.")}</span>
                 </span>
               </li>
@@ -191,7 +191,7 @@ export function FirstSignInSteps() {
                 {t("I have my own API key")}
               </button>
               <button type="button" disabled={busy} onClick={() => void done()} className={cx(primaryBtn, "flex-1 py-3")}>
-                {t("Use the nanoMuse Cloud model")} <ArrowRight size={16} />
+                {t("Use the lingTai Cloud model")} <ArrowRight size={16} />
               </button>
             </div>
           </div>

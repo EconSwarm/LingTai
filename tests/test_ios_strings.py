@@ -59,7 +59,7 @@ def _keys_in(text: str) -> set[str]:
 
 
 def _marked_spots(text: str) -> str:
-    """The lines of an upstream file that are ours: each ``// nanoMuse:`` comment with the
+    """The lines of an upstream file that are ours: each ``// lingTai:`` comment with the
     statement or block that follows it (the lines indented deeper than the comment, and the
     brace that closes them). Upstream's own lines, and their strings, are left out."""
     lines = text.split("\n")
@@ -67,7 +67,7 @@ def _marked_spots(text: str) -> str:
     i = 0
     while i < len(lines):
         line = lines[i]
-        if "nanoMuse:" not in line:
+        if "lingTai:" not in line:
             i += 1
             continue
         base = len(line) - len(line.lstrip(" "))
@@ -95,17 +95,18 @@ def _marked_spots(text: str) -> str:
 
 
 def _our_keys() -> set[str]:
-    """Every string our Swift passes to AppLocalized as a literal: all of NanoMuse/, plus the
-    ``// nanoMuse:`` spots inside upstream's files."""
+    """Every string our Swift passes to AppLocalized as a literal: all of LingTai/, plus the
+    ``// lingTai:`` spots inside upstream's files."""
     keys: set[str] = set()
+    our_dir = IOS / "LingTai"
     for path in sorted(IOS.rglob("*.swift")):
         text = path.read_text(encoding="utf-8")
-        keys |= _keys_in(text if "NanoMuse" in path.parts else _marked_spots(text))
+        keys |= _keys_in(text if our_dir in path.parents else _marked_spots(text))
     return keys
 
 
-@pytest.mark.skipif(not (IOS / "NanoMuse").is_dir(), reason="no iOS tree in this checkout")
-def test_every_nanomuse_string_is_in_the_catalogue_in_every_locale() -> None:
+@pytest.mark.skipif(not (IOS / "LingTai").is_dir(), reason="no iOS tree in this checkout")
+def test_every_lingtai_string_is_in_the_catalogue_in_every_locale() -> None:
     """A user-visible string is added in English first, then 简体中文, then every other locale the
     catalogue already has (AGENTS.md). The keys our own views use must therefore exist and carry
     all nine languages; upstream's strings are upstream's business."""
@@ -130,13 +131,13 @@ def test_every_nanomuse_string_is_in_the_catalogue_in_every_locale() -> None:
 def test_marked_spots_take_the_block_under_the_comment_and_nothing_else() -> None:
     text = (
         'Text(AppLocalized("upstream line"))\n'
-        "// nanoMuse: ours\n"
+        "// lingTai: ours\n"
         'Section(AppLocalized("ours one")) {\n'
         '    Text(AppLocalized("ours two"))\n'
         "\n"
         "}\n"
         'Text(AppLocalized("upstream again"))\n'
-        '    .help(AppLocalized("still upstream")) // nanoMuse: trailing marker\n'
+        '    .help(AppLocalized("still upstream")) // lingTai: trailing marker\n'
         'Text(AppLocalized("not ours"))\n'
     )
     assert _keys_in(_marked_spots(text)) == {"ours one", "ours two", "still upstream"}

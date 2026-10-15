@@ -72,9 +72,9 @@ export interface CodingLive {
   current: string;
 }
 
-const FEED_SEEN_KEY = "nanomuse_feed_seen";
+const FEED_SEEN_KEY = "lingtai_feed_seen";
 /** The browser stepped past the sign-in door for a key of its own. */
-const SIGN_IN_SKIPPED_KEY = "nanomuse_sign_in_skipped";
+const SIGN_IN_SKIPPED_KEY = "lingtai_sign_in_skipped";
 
 export interface Stream {
   id: string;
@@ -187,7 +187,7 @@ type Action =
   | { type: "signInSkipped" }
   | { type: "toast"; toast: string | null };
 
-const LITE_KEY = "nanomuse.ui.lite";
+const LITE_KEY = "lingtai.ui.lite";
 
 /** `?ui=lite` on this load, or remembered from an earlier one in this tab. */
 function liteFromUrl(): boolean {
@@ -573,7 +573,7 @@ interface StoreValue {
   state: AppState;
   dispatch: (a: Action) => void;
   send: (thread: string, text: string, files?: string[]) => Promise<void>;
-  /** *Use nanoMuse Cloud this time*: the words again, one turn on the account's model; rejects with the runtime's sentence */
+  /** *Use lingTai Cloud this time*: the words again, one turn on the account's model; rejects with the runtime's sentence */
   sendViaCloud: (thread: string, text: string, files?: string[]) => Promise<void>;
   decide: (id: string, approved: boolean, scope?: string) => Promise<void>;
   loadEvents: (thread: string, before?: string) => Promise<void>;
@@ -705,7 +705,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     // `?thread=<id>` opens a chat, `?tab=goals` (feed, ideas, library, connections) a tab —
     // used by notification taps and by links into the app.
     // `?draft=<text>&attach=<json>` puts text and already-uploaded files into the composer
-    // without sending — how "Share to nanoMuse" from another app on the phone arrives.
+    // without sending — how "Share to lingTai" from another app on the phone arrives.
     const openFromUrl = (href: string) => {
       const url = new URL(href, window.location.origin);
       const thread = url.searchParams.get("thread");
@@ -736,12 +736,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     };
     navigator.serviceWorker?.addEventListener("message", onMessage);
     // Inside another page's frame (the simulated phone of the showcase), the page may hand
-    // over a draft the same way a link does — `{type: "nanomuse:draft", text}` from the
+    // over a draft the same way a link does — `{type: "lingtai:draft", text}` from the
     // parent window, and only from it. Text in the composer is all it can do; sending is a tap.
     const onParent = (ev: MessageEvent) => {
       if (window.parent === window || ev.source !== window.parent) return;
       const data = ev.data as { type?: unknown; text?: unknown } | null;
-      if (!data || data.type !== "nanomuse:draft" || typeof data.text !== "string") return;
+      if (!data || data.type !== "lingtai:draft" || typeof data.text !== "string") return;
       dispatch({ type: "tab", tab: "chat" });
       dispatch({ type: "draft", text: data.text.slice(0, 4000) });
     };
@@ -754,16 +754,16 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   // The embedding page learns when the app is up (and which agent it shows), so it can hand
   // over a draft only once there is a composer to put it in — and which colour scheme the app
-  // is in, so the frame around it can match (`nanomuse:theme` again whenever that changes).
+  // is in, so the frame around it can match (`lingtai:theme` again whenever that changes).
   const theme = useTheme();
   useEffect(() => {
     if (!state.loaded) return;
-    tellParent({ type: "nanomuse:ready", name: state.profile?.name ?? "", theme });
+    tellParent({ type: "lingtai:ready", name: state.profile?.name ?? "", theme });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.loaded, state.profile?.name]);
   useEffect(() => {
     if (!state.loaded) return;
-    tellParent({ type: "nanomuse:theme", theme });
+    tellParent({ type: "lingtai:theme", theme });
   }, [state.loaded, theme]);
 
   // The number on the app icon: cards waiting for you.

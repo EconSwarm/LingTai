@@ -13,12 +13,12 @@ from starlette.websockets import WebSocketDisconnect
 from test_accounts import auth, make
 from test_cloud import sign_up
 
-from nanomuse_cloud.api import create_app
-from nanomuse_cloud.config import Settings
-from nanomuse_cloud.controls import ControlError, Controls
-from nanomuse_cloud.db import Database
-from nanomuse_cloud.senders import LogSender
-from nanomuse_cloud.service import Cloud
+from lingtai_cloud.api import create_app
+from lingtai_cloud.config import Settings
+from lingtai_cloud.controls import ControlError, Controls
+from lingtai_cloud.db import Database
+from lingtai_cloud.senders import LogSender
+from lingtai_cloud.service import Cloud
 
 ADMIN = {"X-Admin-Token": "admin", "X-Admin-Actor": "tester"}
 HELLO = {

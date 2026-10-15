@@ -12,13 +12,13 @@ from fastapi.testclient import TestClient
 from test_accounts import auth, make
 from test_cloud import sign_up
 
-from nanomuse_cloud.__main__ import main as cli_main
-from nanomuse_cloud.api import create_app
-from nanomuse_cloud.config import Settings
-from nanomuse_cloud.db import Database, utc_day
-from nanomuse_cloud.senders import LogSender
-from nanomuse_cloud.service import Cloud
-from nanomuse_cloud.stats import METRICS, api_group
+from lingtai_cloud.__main__ import main as cli_main
+from lingtai_cloud.api import create_app
+from lingtai_cloud.config import Settings
+from lingtai_cloud.db import Database, utc_day
+from lingtai_cloud.senders import LogSender
+from lingtai_cloud.service import Cloud
+from lingtai_cloud.stats import METRICS, api_group
 
 ADMIN = {"X-Admin-Token": "admin"}
 CHAT = {"model": "qwen3.8-flash", "messages": [{"role": "user", "content": "hi"}]}
@@ -47,7 +47,7 @@ async def test_counters_rows_and_csv_through_the_api():
     assert (await client.post("/v1/chat/completions", json=CHAT, headers=auth(a["api_key"]))).status_code == 200
     assert (await client.post("/v1/chat/completions", json={**CHAT, "model": "boom"}, headers=auth(a["api_key"]))).status_code == 404
     assert (await client.get("/v1/me", headers=auth(b["api_key"]))).status_code == 200
-    assert (await client.get("/v1/me", headers={"Authorization": "Bearer nm_nothing"})).status_code == 401
+    assert (await client.get("/v1/me", headers={"Authorization": "Bearer lt_nothing"})).status_code == 401
     assert (await client.get("/v1/sync/changes", headers=auth(b["api_key"]))).status_code == 200
     r = await client.post(
         "/v1/sync/changes", json={"device": "mac", "conversations": [], "messages": [{"mid": "bad"}]}, headers=auth(b["api_key"])

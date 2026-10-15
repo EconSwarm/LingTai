@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from nanomuse import certs
+from lingtai import certs
 
 
 def test_an_empty_store_is_pointed_at_certifi(

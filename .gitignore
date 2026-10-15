@@ -36,7 +36,7 @@ venv/
 .coverage
 htmlcov/
 
-# web app sources (the production build in nanomuse/server/static IS committed)
+# web app sources (the production build in lingtai/server/static IS committed)
 web/node_modules/
 web/dist/
 web/.vite/
@@ -47,9 +47,9 @@ site/assets/
 # the docs site, built by pages.yml from website/ into site/docs/
 site/docs/
 
-# nanoMuse on DeepSeek Harness (harness/README.md): built by `pnpm build`, not committed
-harness/dsh-nanomuse/node_modules/
-harness/dsh-nanomuse/lib/
+# lingTai on DeepSeek Harness (harness/README.md): built by `pnpm build`, not committed
+harness/dsh-lingtai/node_modules/
+harness/dsh-lingtai/lib/
 
 # android app (the signing key lives outside the repo; see docs/android.md)
 android/.gradle/
@@ -74,5 +74,5 @@ android/native/build/
 # uv lockfile: the project installs with `uv pip install -e .`, not `uv sync`
 uv.lock
 
-# nanoMuse Cloud relay runtime data
+# lingTai Cloud relay runtime data
 cloud/data/

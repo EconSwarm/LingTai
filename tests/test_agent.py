@@ -3,16 +3,16 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from nanomuse.agent import MuseAgent
-from nanomuse.config import Settings
-from nanomuse.goals import GoalStore
-from nanomuse.llm import MockLLM
-from nanomuse.memory import MemoryStore
-from nanomuse.schema import Function, LLMResponse, Message, Role, ToolCall, ToolResult
-from nanomuse.sentinel import AuditLog, Sentinel
-from nanomuse.tools import Goals, Remember, Terminate, ToolCollection
-from nanomuse.tools.base import BaseTool
-from nanomuse.ui import HeadlessUI
+from lingtai.agent import MuseAgent
+from lingtai.config import Settings
+from lingtai.goals import GoalStore
+from lingtai.llm import MockLLM
+from lingtai.memory import MemoryStore
+from lingtai.schema import Function, LLMResponse, Message, Role, ToolCall, ToolResult
+from lingtai.sentinel import AuditLog, Sentinel
+from lingtai.tools import Goals, Remember, Terminate, ToolCollection
+from lingtai.tools.base import BaseTool
+from lingtai.ui import HeadlessUI
 
 
 class Adder(BaseTool):
@@ -142,7 +142,7 @@ async def test_stuck_detection_nudges(settings: Settings):
 async def test_context_window_trims_at_user_boundary(settings: Settings):
     settings.agent.max_context_messages = 4
     agent, *_ = make_agent(settings, [])
-    from nanomuse.schema import Message
+    from lingtai.schema import Message
 
     agent.messages = [
         Message.user("u1"),
@@ -161,7 +161,7 @@ async def test_context_window_keeps_only_the_newest_images(settings: Settings):
     go to the model; older ones are replaced by a note. The history itself keeps them."""
     settings.agent.max_context_images = 2
     agent, *_ = make_agent(settings, [])
-    from nanomuse.schema import Message
+    from lingtai.schema import Message
 
     agent.messages = [
         Message.user("look", images=["/a.png"]),
@@ -222,7 +222,7 @@ class Picky(BaseTool):
     }
 
     def assess(self, args: dict[str, Any]):
-        from nanomuse.tools.base import CallAssessment
+        from lingtai.tools.base import CallAssessment
 
         return CallAssessment(summary=f"picky {args['path'].strip()}")
 
@@ -275,7 +275,7 @@ async def test_fixed_reply_language_wins_over_the_client(settings: Settings):
 
 
 def test_language_name_from_tags():
-    from nanomuse.prompts import language_name
+    from lingtai.prompts import language_name
 
     assert language_name("en") == "English"
     assert language_name("en-US") == "English"

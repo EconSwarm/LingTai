@@ -38,16 +38,16 @@ function fakeHost() {
         res.writeHead(401).end("unauthorized");
         return;
       }
-      if (req.method === "GET" && url.pathname === "/nanomuse/cloud/work") {
+      if (req.method === "GET" && url.pathname === "/lingtai/cloud/work") {
         res.writeHead(workStatus, { "content-type": "application/json" }).end(JSON.stringify(workBody));
         return;
       }
-      if (req.method === "POST" && url.pathname === "/nanomuse/cloud/work/gate") {
+      if (req.method === "POST" && url.pathname === "/lingtai/cloud/work/gate") {
         seen.gates.push(JSON.parse(await collect()));
         res.writeHead(200, { "content-type": "application/json" }).end('{"open":true}');
         return;
       }
-      if (req.method === "POST" && url.pathname === "/nanomuse/cloud/work/stop") {
+      if (req.method === "POST" && url.pathname === "/lingtai/cloud/work/stop") {
         seen.stops += 1;
         res.writeHead(200, { "content-type": "application/json" }).end('{"busy":[]}');
         return;

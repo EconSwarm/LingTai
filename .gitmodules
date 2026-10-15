@@ -1,6 +1,6 @@
 [submodule "android/deps/proot"]
 	path = android/deps/proot
-	url = https://github.com/nano-muse/proot.git
+	url = https://github.com/econswarm/proot.git
 	branch = master
 [submodule "android/deps/ish"]
 	path = android/deps/ish

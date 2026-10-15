@@ -9,25 +9,25 @@ from collections.abc import Iterator
 import pytest
 from fastapi.testclient import TestClient
 
-from nanomuse.config import Settings
-from nanomuse.fences import FENCE_NAMING, clean_name, parse_naming_block, strip_fences
-from nanomuse.llm import MockLLM
-from nanomuse.schema import LLMResponse
-from nanomuse.server import create_app, firstrun
-from nanomuse.server.service import MuseService
+from lingtai.config import Settings
+from lingtai.fences import FENCE_NAMING, clean_name, parse_naming_block, strip_fences
+from lingtai.llm import MockLLM
+from lingtai.schema import LLMResponse
+from lingtai.server import create_app, firstrun
+from lingtai.server.service import MuseService
 
 ASK = (
     "Lin it is. What would you like to call me?\n"
-    '```nanomuse-naming\n{"user_address": "Lin", "suggest": ["Pip", "Wren"]}\n```'
+    '```lingtai-naming\n{"user_address": "Lin", "suggest": ["Pip", "Wren"]}\n```'
 )
-NAMED = 'Juno it is.\n\n- one\n- two\n- three\n\n```nanomuse-naming\n{"agent_name": "Juno"}\n```'
+NAMED = 'Juno it is.\n\n- one\n- two\n- three\n\n```lingtai-naming\n{"agent_name": "Juno"}\n```'
 
 
 # ----------------------------------------------------------------------------- the fence
 def test_naming_block_parsing():
     """The desktop's and the iPhone's samples: quotes stripped, duplicates dropped, three at most."""
     text = (
-        "What should I call you?\n```nanomuse-naming\n"
+        "What should I call you?\n```lingtai-naming\n"
         '{"user_address": "“Li”", "suggest": ["Pip", "Pip", "\'Wren\'", "Sol", "Fig"]}\n```'
     )
     block = parse_naming_block(text)
@@ -36,26 +36,26 @@ def test_naming_block_parsing():
     assert block.suggestions == ["Pip", "Wren", "Sol"]
     assert block.agent_name is None
     zh = parse_naming_block(
-        "好的，Lin，记住了！那我呢——你想叫我什么？\n\n```nanomuse-naming\n"
+        "好的，Lin，记住了！那我呢——你想叫我什么？\n\n```lingtai-naming\n"
         '{"user_address": "Lin", "suggest": ["豆丁", "小满"]}\n```'
     )
     assert zh is not None and zh.user_address == "Lin" and zh.suggestions == ["豆丁", "小满"]
     none = parse_naming_block(
-        'Fine — no name then. What would you like to call me?\n```nanomuse-naming\n{"user_address": null, "suggest": ["Pip", "Wren"]}\n```'
+        'Fine — no name then. What would you like to call me?\n```lingtai-naming\n{"user_address": null, "suggest": ["Pip", "Wren"]}\n```'
     )
     assert none is not None and none.address_given is True and none.user_address is None
     assert parse_naming_block("今天上海多云，22 度左右。对了——我该怎么称呼你？") is None
     assert parse_naming_block(None) is None
     assert parse_naming_block("") is None
-    assert parse_naming_block("```nanomuse-naming\nnot json\n```") is None
+    assert parse_naming_block("```lingtai-naming\nnot json\n```") is None
     assert parse_naming_block("no block here") is None
     named = parse_naming_block(
-        '豆丁，我喜欢这个名字。\n\n- …\n\n```nanomuse-naming\n{"agent_name": "豆丁"}\n```'
+        '豆丁，我喜欢这个名字。\n\n- …\n\n```lingtai-naming\n{"agent_name": "豆丁"}\n```'
     )
     assert named is not None and named.agent_name == "豆丁" and named.address_given is False
     # the last block wins; `a` twice counts once, `d` is beyond the third
     two = parse_naming_block(
-        '```nanomuse-naming\n{"agent_name": "A"}\n```\nlater\n```nanomuse-naming\n'
+        '```lingtai-naming\n{"agent_name": "A"}\n```\nlater\n```lingtai-naming\n'
         '{"user_address": "Kai", "suggest": ["a", "b", "c", "d", "a"]}\n```'
     )
     assert two is not None and two.user_address == "Kai" and two.suggestions == ["a", "b", "c"]
@@ -78,7 +78,7 @@ def test_strip_fences_removes_the_block_and_a_cut_off_one():
     assert strip_fences(ASK, FENCE_NAMING) == "Lin it is. What would you like to call me?"
     assert strip_fences("plain words", FENCE_NAMING) == "plain words"
     # streaming: the fence has begun but not ended — nothing of it shows
-    assert strip_fences('Juno it is.\n```nanomuse-naming\n{"agent_', FENCE_NAMING) == "Juno it is."
+    assert strip_fences('Juno it is.\n```lingtai-naming\n{"agent_', FENCE_NAMING) == "Juno it is."
     # another tag's fence is left alone
     code = "see:\n```python\nprint(1)\n```"
     assert strip_fences(code, FENCE_NAMING) == code
@@ -110,7 +110,7 @@ def test_after_turn_follows_the_block_and_nothing_else():
     assert asked.address_given == "Lin" and asked.state.user_address == "Lin"
     assert asked.state.suggestions == ["Pip", "Wren"]
     # "no name, thanks": the phase moves, no address to save
-    anon = firstrun.after_turn(s, 'Fine.\n```nanomuse-naming\n{"user_address": null}\n```')
+    anon = firstrun.after_turn(s, 'Fine.\n```lingtai-naming\n{"user_address": null}\n```')
     assert anon.state.phase == "ask_agent_name" and anon.address_given is None
     assert anon.address_said is True and anon.state.user_address is None
     # a question asked meanwhile keeps the chooser
@@ -140,7 +140,7 @@ def test_pick_and_dismiss():
 def test_pool_pick_is_stable_distinct_and_the_desktops():
     a = firstrun.built_in_suggestions("session-1", "en")
     assert a == firstrun.built_in_suggestions("session-1", "en") and len(a) == 2 and a[0] != a[1]
-    # the same numbers as `builtInSuggestions` in harness/dsh-nanomuse/src/firstrun.ts
+    # the same numbers as `builtInSuggestions` in harness/dsh-lingtai/src/firstrun.ts
     assert a == ["Remy", "Juno"]
     assert firstrun.built_in_suggestions("x", "zh") == ["一一", "叮叮"]
     assert firstrun.hash_code("session-1") == 607795898
@@ -159,12 +159,12 @@ def test_intro_and_addendum_per_phase():
     assert "on this computer" in en[1] and "what should I call you?" in en[2]
     assert "这台电脑" in zh[1] and "称呼" in zh[2]
     s = fresh()
-    ask = firstrun.prompt_addendum(s, "en", "nanoMuse")
-    assert ask is not None and "```nanomuse-naming" in ask and '"user_address"' in ask
+    ask = firstrun.prompt_addendum(s, "en", "lingTai")
+    assert ask is not None and "```lingtai-naming" in ask and '"user_address"' in ask
     assert "  > Before we start, what should I call you?" in ask
     assert "Siri, Alexa" in ask
     asking = firstrun.after_turn(s, ASK).state
-    name = firstrun.prompt_addendum(asking, "en", "nanoMuse")
+    name = firstrun.prompt_addendum(asking, "en", "lingTai")
     assert name is not None and '"Pip", "Wren"' in name and '(meaning "Pip")' in name
     assert '"agent_name"' in name and 'goes by "Lin"' in name
     picked = firstrun.pick_name(asking, "Wren")
@@ -172,7 +172,7 @@ def test_intro_and_addendum_per_phase():
     named = firstrun.prompt_addendum(picked, "en", "Wren")
     assert named is not None and 'named you "Wren"' in named and "```" not in named
     assert firstrun.prompt_addendum(firstrun.dismiss_chooser(asking), "en", "Wren") is None
-    assert firstrun.prompt_addendum(firstrun.FirstRunState(), "en", "nanoMuse") is None
+    assert firstrun.prompt_addendum(firstrun.FirstRunState(), "en", "lingTai") is None
 
 
 def test_address_memory_writes_and_replaces_the_line():
@@ -261,7 +261,7 @@ def test_the_first_conversation_over_the_api(server, settings: Settings):
     assert "Call them: Lin" in memories
     # the reply is stored whole; the web strips the fence when it draws it
     events = client.get("/api/threads/main/events").json()["events"]
-    assert events[-1]["type"] == "assistant" and "```nanomuse-naming" in events[-1]["text"]
+    assert events[-1]["type"] == "assistant" and "```lingtai-naming" in events[-1]["text"]
 
     # a chip: the name is on the profile at once, the phase is `named`
     picked = client.post("/api/firstrun/pick", json={"name": " Wren "}).json()

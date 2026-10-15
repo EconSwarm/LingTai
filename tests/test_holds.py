@@ -13,21 +13,21 @@ from typing import Any
 import pytest
 from fastapi.testclient import TestClient
 
-from nanomuse.agent.holds import Holds, took_over_note
-from nanomuse.config import GUISettings, Settings
-from nanomuse.llm.mock import MockLLM
-from nanomuse.phone.link import PhoneLink
-from nanomuse.phone.operator import (
+from lingtai.agent.holds import Holds, took_over_note
+from lingtai.config import GUISettings, Settings
+from lingtai.llm.mock import MockLLM
+from lingtai.phone.link import PhoneLink
+from lingtai.phone.operator import (
     COMPUTER_USE_TOOL,
     MOBILE_USE_TOOL,
     PhoneOperator,
     to_computer_action,
     to_device_action,
 )
-from nanomuse.schema import RiskLevel
-from nanomuse.server import create_app
-from nanomuse.server.service import MuseService
-from nanomuse.tools.phone import PhoneAct, PhoneScreen
+from lingtai.schema import RiskLevel
+from lingtai.server import create_app
+from lingtai.server.service import MuseService
+from lingtai.tools.phone import PhoneAct, PhoneScreen
 from tests.test_browser import FakeBackend, tool_with
 from tests.test_phone import (
     HOME_SCREEN,
@@ -210,8 +210,8 @@ def test_dialects_offer_hand_over_and_the_loop_treats_it_as_a_pause():
         props = tool["function"]["parameters"]["properties"]
         assert "hand_over" in props["action"]["enum"]
         assert "hand_over" in props["action"]["description"]
-    from nanomuse.phone.operator import Step
-    from nanomuse.phone.screen import Screen
+    from lingtai.phone.operator import Step
+    from lingtai.phone.screen import Screen
 
     step = Step("t", "a", "mobile_use", {"action": "hand_over", "text": "sign in"})
     screen = Screen(width=100, height=100)

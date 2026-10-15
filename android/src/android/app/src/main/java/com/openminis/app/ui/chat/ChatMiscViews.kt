@@ -882,8 +882,8 @@ internal fun rememberBrowserLiveSnapshot(
             value = next
         }
     }
-    // nanoMuse: remember the last live frame so the finished card keeps it.
-    snapshot?.let { io.github.nanomuse.status.BrowserFrames.remember(block.id, it) }
+    // lingTai: remember the last live frame so the finished card keeps it.
+    snapshot?.let { io.github.lingtai.status.BrowserFrames.remember(block.id, it) }
     return snapshot
 }
 

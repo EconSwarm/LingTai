@@ -6,15 +6,15 @@ from typing import Any
 
 import pytest
 
-from nanomuse.config import SentinelRule, SentinelSettings
-from nanomuse.schema import Function, RiskLevel, ToolCall, ToolResult
-from nanomuse.sentinel import AuditLog, Decision, Policy, Sentinel, host_allowed
-from nanomuse.sentinel import grants as grants_module
-from nanomuse.sentinel.grants import GrantStore
-from nanomuse.tools.base import BaseTool, CallAssessment
-from nanomuse.tools.shell import programs_of
-from nanomuse.ui import ApprovalDecision, ApprovalRequest, HeadlessUI
-from nanomuse.vault import CredentialVault
+from lingtai.config import SentinelRule, SentinelSettings
+from lingtai.schema import Function, RiskLevel, ToolCall, ToolResult
+from lingtai.sentinel import AuditLog, Decision, Policy, Sentinel, host_allowed
+from lingtai.sentinel import grants as grants_module
+from lingtai.sentinel.grants import GrantStore
+from lingtai.tools.base import BaseTool, CallAssessment
+from lingtai.tools.shell import programs_of
+from lingtai.ui import ApprovalDecision, ApprovalRequest, HeadlessUI
+from lingtai.vault import CredentialVault
 
 
 class Echo(BaseTool):

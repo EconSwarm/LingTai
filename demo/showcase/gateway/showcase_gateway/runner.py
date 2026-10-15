@@ -3,7 +3,7 @@
 One container per session, on a network with no way out (``docker network create --internal``):
 the only thing a session can talk to is this gateway, which is also where its model calls go.
 The container is as locked down as the project's own compose file makes it — no capabilities,
-no new privileges, a read-only image with tmpfs for the three places nanoMuse writes — plus a
+no new privileges, a read-only image with tmpfs for the three places lingTai writes — plus a
 memory, CPU and process ceiling so one visitor cannot crowd out the others.
 """
 
@@ -17,7 +17,7 @@ from .config import Settings
 
 log = logging.getLogger("showcase.runner")
 
-LABEL = "io.github.nanomuse.showcase"
+LABEL = "io.github.lingtai.showcase"
 
 
 class RunnerError(RuntimeError):
@@ -74,7 +74,7 @@ class Runner(Protocol):
         ...
 
 
-WEB_LABEL = "io.github.nanomuse.web"
+WEB_LABEL = "io.github.lingtai.web"
 
 
 class DockerRunner:
@@ -107,7 +107,7 @@ class DockerRunner:
             "--name",
             name,
             "--hostname",
-            "nanomuse",
+            "lingtai",
             "--network",
             s.sessions_network,
             "--label",
@@ -211,7 +211,7 @@ class DockerRunner:
                 "--name",
                 name,
                 "--hostname",
-                "nanomuse",
+                "lingtai",
                 "--network",
                 network,
                 "--label",

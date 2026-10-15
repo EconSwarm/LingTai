@@ -11,13 +11,13 @@ from typing import Any
 import pytest
 from fastapi.testclient import TestClient
 
-from nanomuse.channels.base import Channel, ChannelStatus, Field, InboundFile, InboundMessage
-from nanomuse.channels.manager import ChannelManager, thread_id_for
-from nanomuse.config import Settings
-from nanomuse.llm import MockLLM
-from nanomuse.schema import Function, LLMResponse, ToolCall
-from nanomuse.server import create_app
-from nanomuse.server.service import MuseService
+from lingtai.channels.base import Channel, ChannelStatus, Field, InboundFile, InboundMessage
+from lingtai.channels.manager import ChannelManager, thread_id_for
+from lingtai.config import Settings
+from lingtai.llm import MockLLM
+from lingtai.schema import Function, LLMResponse, ToolCall
+from lingtai.server import create_app
+from lingtai.server.service import MuseService
 
 
 def tc(name: str, **args: Any) -> ToolCall:
@@ -145,7 +145,7 @@ def test_first_message_gets_a_pairing_code_and_approval_pairs(chan):
     pending = client.get("/api/channels").json()["pending"]
     assert len(pending) == 1 and pending[0]["sender_name"] == "Ann"
     code = pending[0]["code"]
-    assert chat == "chat1" and code in text and "nanomuse channels approve" in text
+    assert chat == "chat1" and code in text and "lingtai channels approve" in text
     # nothing reached the agent
     assert "channel-fake-chat1" not in service.threads and llm.calls == []
     # the same code again while it is good; a bad code is a 404
@@ -394,7 +394,7 @@ def test_switching_off_and_on_and_removing_a_chat(chan):
 
 def test_reload_picks_up_cli_edits(chan):
     client, service, llm, manager, fake = chan
-    # as `nanomuse channels approve` does when the server runs elsewhere: edit the file
+    # as `lingtai channels approve` does when the server runs elsewhere: edit the file
     fake.bus.inbound(dm("hi", sender="u5", chat="c5"))
     code = wait_for(lambda: client.get("/api/channels").json()["pending"])[0]["code"]
     assert manager.pairing.approve(code)

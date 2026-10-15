@@ -14,7 +14,7 @@ describe("ticket", () => {
       ["a".repeat(56), "b35439a4ac6f0948b6d6f9e3c6af0f5f590ce20f1bde7090ef7970686ec6738a"],
       ["a".repeat(64), "ffe054fe7ae0cb6dc65c3af9b61d5209f439851db43d0ba5997337df154668eb"],
       ["a".repeat(1000), "41edece42d63e8d9bf515a9ba6932e1c20cbc9f5a5d134645adb5db1b9737ea3"],
-      ["中文 文件.webp", "dbd806ea14642abd03cc196f14d07bc73d2a2e36ccdf88afaf0ee44138ca6f9a"],
+      ["中文文件.webp", "dbd806ea14642abd03cc196f14d07bc73d2a2e36ccdf88afaf0ee44138ca6f9a"],
     ];
     for (const [text, digest] of known) expect(hex(sha256(enc.encode(text)))).toBe(digest);
   });

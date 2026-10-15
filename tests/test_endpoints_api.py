@@ -15,13 +15,13 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from nanomuse.config import Settings, apply_app_settings, load_app_settings
-from nanomuse.llm import MockLLM
-from nanomuse.server import connections as conn_module
-from nanomuse.server import create_app
-from nanomuse.server.endpoints import host_label, key_name, typed_model_ids
-from nanomuse.server.service import MuseService
-from nanomuse.vault.vault import CredentialVault
+from lingtai.config import Settings, apply_app_settings, load_app_settings
+from lingtai.llm import MockLLM
+from lingtai.server import connections as conn_module
+from lingtai.server import create_app
+from lingtai.server.endpoints import host_label, key_name, typed_model_ids
+from lingtai.server.service import MuseService
+from lingtai.vault.vault import CredentialVault
 
 GATEWAY = "https://gateway.example/v1"
 SECOND = "https://second.example/v1"
@@ -87,7 +87,7 @@ def test_add_lists_the_models_and_keeps_the_key_in_the_vault(server, listed, set
     relay = client.post(
         "/api/connections/endpoints", json={"base_url": settings.cloud.base_url + "/v1"}
     )
-    assert relay.status_code == 400 and "nanoMuse Cloud" in relay.json()["detail"]
+    assert relay.status_code == 400 and "lingTai Cloud" in relay.json()["detail"]
     added = client.post(
         "/api/connections/endpoints",
         json={"base_url": "gateway.example/v1", "api_key": "sk-gateway-1", "models": "my-typed"},

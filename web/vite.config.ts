@@ -2,16 +2,16 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
-// The dev server proxies the API to a running runtime: `nanomuse serve` on its
-// default port, or wherever NANOMUSE_API points (e.g. NANOMUSE_API=127.0.0.1:8799).
-const api = (process.env.NANOMUSE_API ?? "127.0.0.1:8787").replace(/^https?:\/\//, "");
+// The dev server proxies the API to a running runtime: `lingtai serve` on its
+// default port, or wherever LINGTAI_API points (e.g. LINGTAI_API=127.0.0.1:8799).
+const api = (process.env.LINGTAI_API ?? "127.0.0.1:8787").replace(/^https?:\/\//, "");
 
 // The production build is written straight into the Python package so that
-// `pip install nanomuse` ships the app and `nanomuse serve` can serve it.
+// `pip install lingtai` ships the app and `lingtai serve` can serve it.
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
-    outDir: "../nanomuse/server/static",
+    outDir: "../lingtai/server/static",
     emptyOutDir: true,
     sourcemap: false,
   },

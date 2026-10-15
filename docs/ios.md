@@ -1,10 +1,10 @@
 # iOS
 
-nanoMuse on the iPhone is the iOS half of OpenMinis 1.13 under nanoMuse's name, built by CI on a
+lingTai on the iPhone is the iOS half of OpenMinis 1.13 under lingTai's name, built by CI on a
 Mac runner and handed to TestFlight. This page says what is in the tree, how it is built, what
 the TestFlight pipeline needs, and what is still to be ported from the Android app.
 
-**Status.** The tree, the branding, the nanoMuse Cloud sign-in, the hub client and the pipeline
+**Status.** The tree, the branding, the lingTai Cloud sign-in, the hub client and the pipeline
 were written on a Linux machine. The app **builds, signs and is on TestFlight**: the first build,
 0.1.31 (2), went through the *iOS · TestFlight* workflow on 2026-10-03; 1.0.0 is build 16, which
 passed Apple's beta review, so the public link
@@ -24,7 +24,7 @@ than in a second subtree, is what keeps `git subtree pull` working for both plat
 
 ```
 android/src/ios/                 the Xcode project: Minis.xcodeproj, app, extensions, tests
-android/src/ios/NanoMuse/        ours: nanoMuse Cloud client and screens (a synchronized folder
+android/src/ios/LingTai/        ours: lingTai Cloud client and screens (a synchronized folder
                                  of the Minis target; drop a .swift file in, it is compiled)
 android/src/ios/fastlane/        the TestFlight lane
 android/deps/build_lame.sh       LAME → FFmpeg → iSH → Alpine rootfs → rclone, in that order
@@ -38,25 +38,25 @@ scripts/gen-ios-icons.py         the app icon and the four alternates, from asse
 ```
 
 The rules of [CONTRIBUTING.md](../CONTRIBUTING.md) apply unchanged: new code in new files (here:
-the `NanoMuse/` folder), an edit inside an upstream Swift file carries a `// nanoMuse:` comment,
+the `LingTai/` folder), an edit inside an upstream Swift file carries a `// lingTai:` comment,
 and rebranding is the script, never a hand edit.
 
-## What is nanoMuse here
+## What is lingTai here
 
 Applied by `python scripts/rebrand.py` (idempotent; run after every upstream pull):
 
-- **Identity.** Bundle ids `io.github.nanomuse.app` (+ `.ShareExtension`, `.AgentWidget`,
-  `.FileProvider`), the app group `group.io.github.nanomuse.app`, the iCloud container
-  `iCloud.io.github.nanomuse.app`, the background-task, UTType and URL-scheme ids that carry the
+- **Identity.** Bundle ids `io.github.lingtai.app` (+ `.ShareExtension`, `.AgentWidget`,
+  `.FileProvider`), the app group `group.io.github.lingtai.app`, the iCloud container
+  `iCloud.io.github.lingtai.app`, the background-task, UTType and URL-scheme ids that carry the
   bundle id. Unlike Android there is no source-package constraint on iOS, so the whole family
-  moves. The URL schemes the system knows the app by are `nanomuse` (the share extension opens
-  `nanomuse://share`) and `nanomuse-mcp`, so a phone that also has OpenMinis installed never has
+  moves. The URL schemes the system knows the app by are `lingtai` (the share extension opens
+  `lingtai://share`) and `lingtai-mcp`, so a phone that also has OpenMinis installed never has
   two apps claiming one scheme. Inside the app, links stay `minis://…`: that is upstream's
-  contract with its own sandbox, the system prompt and the model; a `nanomuse://` link arriving
-  from the system is read as its `minis://` form (`NanoMuse/NanoMuseOwnScheme.swift`), and a
+  contract with its own sandbox, the system prompt and the model; a `lingtai://` link arriving
+  from the system is read as its `minis://` form (`LingTai/LingTaiOwnScheme.swift`), and a
   button of ours outside the chat opens such a link through the deep-link router, never through
   the system.
-- **Names.** Display name nanoMuse, "Share to nanoMuse", "nanoMuse Files"; "Minis" → "nanoMuse"
+- **Names.** Display name lingTai, "Share to lingTai", "lingTai Files"; "Minis" → "lingTai"
   in Swift string literals, in `Localizable.xcstrings` (keys renamed, all nine translations
   updated) and in the Info.plist usage descriptions in every language. The OpenRouter
   `HTTP-Referer` keeps pointing at OpenMinis, as on Android: it is attribution, not identity.
@@ -65,15 +65,15 @@ Applied by `python scripts/rebrand.py` (idempotent; run after every upstream pul
 - **Look.** AccentColor `#015CFB` / `#58A6FF` instead of iOS blue; the one-stroke N as the app
   icon (white tile, brand gradient; a dark tile for the dark appearance) and as the four skins of
   the in-app icon picker; the agent's header glyph 🐾 instead of ✨.
-- **About.** Links to this repository and its issues, the privacy page, nanoMuse's own tagline,
+- **About.** Links to this repository and its issues, the privacy page, lingTai's own tagline,
   and a Credits section: based on OpenMinis 1.13 (GPL-3.0), not affiliated with Meta.
 
-Ours, in `NanoMuse/`:
+Ours, in `LingTai/`:
 
-- **nanoMuse Cloud.** *Providers* opens with a "nanoMuse Cloud" row: a phone number or an
+- **lingTai Cloud.** *Providers* opens with a "lingTai Cloud" row: a phone number or an
   e-mail address, a code, and the relay ([cloud.md](cloud.md)) is an ordinary OpenAI-compatible
   provider in the app, with a model group of its own that becomes the default when there is none.
-  Same wire format and the same rules as the Android client (`io.github.nanomuse.cloud`): one
+  Same wire format and the same rules as the Android client (`io.github.lingtai.cloud`): one
   instance per relay, nothing of the user's own replaced, a 401 on refresh removes the provider
   (and keeps the account's data aside, Contract C12 below).
   Any build can point at another relay (*Use a different server*, below). Since 0.1.32 the page is the whole account: the
@@ -82,99 +82,99 @@ Ours, in `NanoMuse/`:
   holding a key, the timeline, deletion, the same sections as the phone's `CloudAccountScreen`.
 - **The agent's steps, the status line.** *Settings → Chat → Steps* keeps the tool capsules out of
   finished messages unless asked for; the typing line reads *〈name〉 is on it*, not *is thinking*.
-  Both are one-line edits in upstream's `AssistantBlockView` / `ContentView`, marked `// nanoMuse:`.
-- **The Muse shell (0.1.33; iPad too since 0.1.34).** `NanoMuseRoot` replaces upstream's
-  `ContentView` at the root; *Settings → nanoMuse* has the two switches (*Muse home*, *Face and
+  Both are one-line edits in upstream's `AssistantBlockView` / `ContentView`, marked `// lingTai:`.
+- **The Muse shell (0.1.33; iPad too since 0.1.34).** `LingTaiRoot` replaces upstream's
+  `ContentView` at the root; *Settings → lingTai* has the two switches (*Muse home*, *Face and
   name in the chat header*), and the OpenMinis layout stays one tap away in the drawer. The chat's
-  navigation title becomes **face · name · status line** (`NanoMuseHeader.swift`): the status
+  navigation title becomes **face · name · status line** (`LingTaiHeader.swift`): the status
   reads *waiting for you* while a question or an approval is up, then the running tool's
   `tool_title` (the model's own words for the step, *打开携程网站*), then *writing the reply*,
   then *On it: 〈brief〉*, and the model's name when idle; while a new face is being drawn it
-  reads the avatar flow's line. The face (`NanoMuseFaces.swift`, the drawn face from Application
+  reads the avatar flow's line. The face (`LingTaiFaces.swift`, the drawn face from Application
   Support, else an emoji on its colour when the desktop or the web console set one (kept in
   `avatar/emoji.json`, rendered as a still; the phone has no picker for it yet), else the dragon
   from the bundle, five moods with the breath, bob, tilt, pop and shake of
   the other clients; with Reduce Motion on the still keeps still and only the mood's crossfade
   remains) is tapped into **the agent's page**. A short clip of your own can play as the
-  face instead (`NanoMuseOwnClip.swift`: *Your own clip…* under the pen on the agent's page and in
+  face instead (`LingTaiOwnClip.swift`: *Your own clip…* under the pen on the agent's page and in
   the avatar studio; MP4 or MOV with H.264 or HEVC video, up to 15 seconds and 30 MB, previewed
-  before it is used, kept on that phone only under `Application Support/nanomuse/avatar/own-clip.mp4`
+  before it is used, kept on that phone only under `Application Support/lingtai/avatar/own-clip.mp4`
   and left out of the iCloud and computer backups with its still, and *Default face* removes it;
   the section in [avatar.md](avatar.md) has the fallback rule).
   The drawer holds the sessions, search,
-  a new side chat, *Pin as the main chat*, *All chats* and the nanoMuse settings; it opens from
+  a new side chat, *Pin as the main chat*, *All chats* and the lingTai settings; it opens from
   the round button and, on the main chat, from a swipe in at the left edge
-  (`NanoMuseEdgeSwipe.swift`, a screen-edge pan on the window, as Android's drawer on the Chat
+  (`LingTaiEdgeSwipe.swift`, a screen-edge pan on the window, as Android's drawer on the Chat
   tab; a pushed side chat keeps the system's back swipe).
-- **The agent's page (0.1.34)** (`NanoMuseAgentPage.swift`, Android `ui/profile`): the big face
+- **The agent's page (0.1.34)** (`LingTaiAgentPage.swift`, Android `ui/profile`): the big face
   with the pen badge (*Change avatar* puts "Change your avatar to " in the main chat's composer,
   *Edit name*, *Avatar studio*), the name, *online*, and four panes, **Activity** (what you asked
   and what the agent did, from the last two days of sessions), **Approvals** (the standing
   "always allow" answers, revocable), **Daily** (the routines and the goal check-ins with their
   next run, *Manage routines*), **Soul & memory** (SOUL.md and GLOBAL.md, editable), and the
-  share sheet (`NanoMuseAvatarShareSheet`, Android `ui/avatar/AvatarShareSheet.kt`).
-- **The avatar, from the chat (0.1.34)** (`NanoMuseAvatarFlow.swift`, Android `avatar/AvatarFlow.kt`):
+  share sheet (`LingTaiAvatarShareSheet`, Android `ui/avatar/AvatarShareSheet.kt`).
+- **The avatar, from the chat (0.1.34)** (`LingTaiAvatarFlow.swift`, Android `avatar/AvatarFlow.kt`):
   "换成一只橘猫" / "change your avatar to a red panda" is read before the model sees it (the same
-  regexes, tested in `MinisTests/NanoMuseLogicTests.swift`); four candidates come up as a card in
+  regexes, tested in `MinisTests/LingTaiLogicTests.swift`); four candidates come up as a card in
   the chat, picked by tap or by words (*the second one*, *第三个*, *regenerate*); then *Finalizing
   poses…*, the new face on, the profile pushed, a line in the memory, the share card. Through the
   relay with a cost card first (`/v1/estimate`), or through the person's own Bailian key
-  (`NanoMuseImageGen.swift`, DashScope's native image endpoint) when the phone has one; the studio
-  (`NanoMuseAvatarStudio.swift`) uses the same path and lets the image model be picked.
-- **The scheduler (0.1.34)** (`NanoMuseScheduler.swift`): routines (a label, a prompt, a time,
+  (`LingTaiImageGen.swift`, DashScope's native image endpoint) when the phone has one; the studio
+  (`LingTaiAvatarStudio.swift`) uses the same path and lets the image model be picked.
+- **The scheduler (0.1.34)** (`LingTaiScheduler.swift`): routines (a label, a prompt, a time,
   daily / weekdays / once or every N hours) run as a headless turn in a conversation of their own
-  (`NanoMuseHeadless`). Honestly: the iPhone runs them only while the app is open (every due
+  (`LingTaiHeadless`). Honestly: the iPhone runs them only while the app is open (every due
   one on becoming active, then a check every minute), and posts a local notification at each
   due time (*Check-in: 〈goal〉. Open to run it*) whose tap opens the conversation. The
   `BGAppRefreshTask` it asks for when it goes to the background
-  (`io.github.nanomuse.app.scheduler`) never runs a routine: when iOS grants it, the handler
+  (`io.github.lingtai.app.scheduler`) never runs a routine: when iOS grants it, the handler
   posts the reminder for whatever came due and asks for the next slot, nothing more. Every piece
-  of copy about routines says so. *Settings → nanoMuse → Scheduled tasks* lists them all, the
+  of copy about routines says so. *Settings → lingTai → Scheduled tasks* lists them all, the
   goal check-ins and the feed's included.
-- **Goals (0.1.34)** (`NanoMuseGoals.swift`, Android `goals/`): *Create a goal › category* sends
+- **Goals (0.1.34)** (`LingTaiGoals.swift`, Android `goals/`): *Create a goal › category* sends
   the opener to the main chat with a system addendum for a few turns; the model's
-  ` ```nanomuse-goal ` block becomes the goal and its check-in routine, ` ```nanomuse-goal-update `
+  ` ```lingtai-goal ` block becomes the goal and its check-in routine, ` ```lingtai-goal-update `
   blocks move the progress; cards in the chat (*Goal created*, *Goal update*), the Goals room
   with progress, steps, pause / check now / done / delete, and the routines beneath.
-- **Feed (0.1.34)** (`NanoMuseFeed.swift`, Android `feed/`): a daily routine writes a few short
+- **Feed (0.1.34)** (`LingTaiFeed.swift`, Android `feed/`): a daily routine writes a few short
   posts from the memory, the diary and the goals into `feed/<day>/<n>.md` with front matter; the
-  ` ```nanomuse-feed ` fence is how the model hands them over. The Feed room shows them by day,
+  ` ```lingtai-feed ` fence is how the model hands them over. The Feed room shows them by day,
   *Discuss* opens a side chat on the post, the sliders hold what the feed is about, the time, the
   switch and *Write it now*. **Ideas** gained *Create routine* (scheduled at the idea's time, the
   editor opens) and *Start goal* beside *Send to chat*.
-- **First run and settings (0.1.34)** (`NanoMuseFirstRun.swift`, `NanoMuseSettings.swift`,
-  `NanoMuseCoding.swift`, `NanoMuseSystemFiles.swift`): the four pages of the Android first run
+- **First run and settings (0.1.34)** (`LingTaiFirstRun.swift`, `LingTaiSettings.swift`,
+  `LingTaiCoding.swift`, `LingTaiSystemFiles.swift`): the four pages of the Android first run
   (welcome → sign in · free → a password once for a fresh account → which model answers → meet
   〈name〉), with *I have my own API key* opening the own-key sheet (the whole catalogue;
   see *Your own key* below), and the first conversation afterwards (the
-  opening lines, "what should I call you?", the name chooser from the model's ` ```nanomuse-naming `
-  block, GLOBAL.md and SOUL.md written). *Settings → nanoMuse*: the account, **Coding agents**
+  opening lines, "what should I call you?", the name chooser from the model's ` ```lingtai-naming `
+  block, GLOBAL.md and SOUL.md written). *Settings → lingTai*: the account, **Coding agents**
   (Cursor / Codex / Claude Code sessions on the computers of the account over the hub's
   `coding.*` actions, a message to any of them), **Scheduled tasks**, **System files** (SOUL,
   GLOBAL, the diary, the feed's instruction, the routines' schedule, *Import memory* from another
   assistant), Connectors, Data controls, the two shell switches, *Show the welcome again*.
-- **Models (0.1.34)** (`NanoMuseModels.swift`): the relay's menu opens on `deepseek-v4.1-flash`
+- **Models (0.1.34)** (`LingTaiModels.swift`): the relay's menu opens on `deepseek-v4.1-flash`
   (the one marked recommended *for chat*; `qwen3.8-27b` is the hands' model and never the chat
   default); a pick made in the chat's picker moves to the front of the Cloud group so new chats
   follow it, as Android's `followPick`. DeepSeek ids are text-only unless they name `v4.1` or
-  later, `vision` or `ocr`: a `// nanoMuse:` step at the top of `LLMModel.withInferredModality()`.
-- **Models as four slots (0.1.41)** (`NanoMuseModelSlots.swift`, `NanoMuseModelsView.swift`;
-  Android `ui/models/ModelsScreen.kt`): the first card of *Settings → nanoMuse* is *Models* and
+  later, `vision` or `ocr`: a `// lingTai:` step at the top of `LLMModel.withInferredModality()`.
+- **Models as four slots (0.1.41)** (`LingTaiModelSlots.swift`, `LingTaiModelsView.swift`;
+  Android `ui/models/ModelsScreen.kt`): the first card of *Settings → lingTai* is *Models* and
   opens four rows: *Chat*, *Operating the screen* (disabled on iPhone, *Not on iPhone*, *Your
   computer uses its own setting.*), *Making pictures*, *Making clips*, each showing
-  `<provider> · <model>` and opening a picker grouped *nanoMuse Cloud* first (the relay's
+  `<provider> · <model>` and opening a picker grouped *lingTai Cloud* first (the relay's
   recommended one marked *Recommended*) and then one group per provider of your own that can do
   it; an empty row says what is missing and offers *Add a provider*, and so does the page's last
   row; under the pictures and clips pickers a key the catalogue says can draw but the phone
-  cannot drive (`NanoMuseModelSlots.notDriven`: only a DashScope host is) is named in one
+  cannot drive (`LingTaiModelSlots.notDriven`: only a DashScope host is) is named in one
   sentence, *Not offered here: …*, with where it does work. Picking a chat model sets the default group for new chats (a group of ours for that
   provider, the pick first; a mixed group you made becomes the default as it is) and moves the
-  main chat's binding with it (`NanoMuseModelSlots.mainChatFollows`: the main chat is never a
-  new chat, so on 0.1.41 it stayed on nanoMuse Cloud after a key of your own was chosen while
+  main chat's binding with it (`LingTaiModelSlots.mainChatFollows`: the main chat is never a
+  new chat, so on 0.1.41 it stayed on lingTai Cloud after a key of your own was chosen while
   side chats answered through the key); the page says *Applies to the main chat and to new
   chats; a side chat keeps its model.*; a pick made in a chat's own picker sticks the same way,
   for any provider, not only Cloud. Pictures and clips resolve in one order (your choice, else the chat
-  provider's own default when it is a Model Studio key that draws, else nanoMuse Cloud when
+  provider's own default when it is a Model Studio key that draws, else lingTai Cloud when
   signed in, else the first key that can), so Cloud is no longer passed over for a Bailian key
   you did not pick; the image and video models come from the catalogue's `defaults`, not from
   names in the code. The pictures and clips pickers open with an *Automatic* entry (*Currently
@@ -184,34 +184,34 @@ Ours, in `NanoMuse/`:
   the list came) and ends in *Show n more* when it has more; once the groups together hold
   more than eight, a *Search models* field under the Automatic row filters every group live
   by model id or display name, every match shown, groups without one hidden, *No model
-  matches* when nothing fits (`NanoMusePickerList`, tested in `NanoMuseModelSlotsTests`).
-  After a key is saved, `NanoMuseVendorSheet` shows *Use it for*: one switch
+  matches* when nothing fits (`LingTaiPickerList`, tested in `LingTaiModelSlotsTests`).
+  After a key is saved, `LingTaiVendorSheet` shows *Use it for*: one switch
   per slot the key covers (pictures and clips only on a DashScope host, the screen never on
   iPhone), all on; *Use it* moves the ticked slots to the provider's defaults, *Not now* changes
   nothing, and saving no longer switches anything by itself. When a model of your own fails, the
-  failure card (and upstream's plain error) gains *Use nanoMuse Cloud this time* while signed
-  in: the retry runs on the relay's chat model (`NanoMuseCloudOnce`, read at the top of
+  failure card (and upstream's plain error) gains *Use lingTai Cloud this time* while signed
+  in: the retry runs on the relay's chat model (`LingTaiCloudOnce`, read at the top of
   `resolveCurrentEntry()`), and no slot changes. The relay's menu is kept on the phone at sign-in
   and refreshed when the page opens. *Image & video models* stays as a shortcut with the animate
   toggle and the clip buttons.
-- **Connections across devices (0.1.34)** (`NanoMuseSharedConnectors` in
-  `NanoMuseConnectors.swift`): the profile's `connectors` list says which device connected what
+- **Connections across devices (0.1.34)** (`LingTaiSharedConnectors` in
+  `LingTaiConnectors.swift`): the profile's `connectors` list says which device connected what
   (id, label, address without the query string, how it signs in, enabled, when, the device) and
   never a token; this phone puts its own entries, reads the others' back, and the Connectors page
   lists them under *On your other devices*: *Connected on 〈device〉. Sign in here to use it on
   this phone*. The ways-on card in the account follows the region: Bailian first in mainland
   China, *Sign in with OpenRouter* first elsewhere.
-- **Connectors** (`NanoMuseConnectors.swift`): the desktop's catalogue from the bundled
+- **Connectors** (`LingTaiConnectors.swift`): the desktop's catalogue from the bundled
   `connectors.json` (`node scripts/connectors-json.mjs` keeps it current, `--check` in CI), the
   MCP authorization flow (initialize → 401 → protected-resource metadata → authorization-server
   metadata → RFC 7591 registration → upstream's `MCPOAuthController`), key / open / auto services,
   and the client-id ask with the callback address to copy for the eight services that register no
   clients. The Settings row that was *MCP Integrations* is **Connectors**; *Your own servers* at
   its end is upstream's MCP page.
-- **Data controls** (`NanoMuseDataControls.swift`): the relay's switch, the kept-turns count, the
-  privacy page, deletion with a confirmation. **Reach** (`NanoMuseReach.swift`): a sheet per device
+- **Data controls** (`LingTaiDataControls.swift`): the relay's switch, the kept-turns count, the
+  privacy page, deletion with a confirmation. **Reach** (`LingTaiReach.swift`): a sheet per device
   of the account (open a link, send a note, a shell line, a screenshot) over the hub.
-  **A task for another device** (`NanoMuseDeviceMention.swift`, `NanoMuseRemoteApproval.swift`):
+  **A task for another device** (`LingTaiDeviceMention.swift`, `LingTaiRemoteApproval.swift`):
   a message that starts with `@〈device〉` goes to that device's Muse as a hub `task`; when a step
   there needs a yes, the `approval` event is answered here, where the task was typed
   ([hub.md](hub.md)), on a card with the Android phone's four answers: *Allow once*, *Allow for
@@ -222,27 +222,27 @@ Ours, in `NanoMuse/`:
   question the person at the other device answered first (`approval_result`) leaves the card
   without an answer from here. The card is a sheet at the root, so one already open (Settings,
   the studio) covers it until it closes. Up to 1.0.3 the phone declined every such question.
-- **When the provider cannot be reached** (`NanoMuseProviderReach.swift`,
-  `NanoMuseProviderReachCard.swift`): a failed turn whose error is the transport's (*Could not
+- **When the provider cannot be reached** (`LingTaiProviderReach.swift`,
+  `LingTaiProviderReachCard.swift`): a failed turn whose error is the transport's (*Could not
   connect to the server*, *A server with the specified hostname could not be found*, a TLS or
   timeout line) or OpenAI's *region not supported* shows a card instead of the red banner: what
   happened, what helps (a VPN, the proxy under *Settings → Network*, another provider with a key
   of your own), *Try again*, the raw line behind *Details*. `LLMError` appends the failing host
   as `[host: …]` to a network error so the card can name it; the 401/403/429 whose bodies
-  `mapHTTPError` drops are kept for a few seconds by `NanoMuseReachSignal` and written into the
-  message as a canonical `nm_reach:` line by `friendlyErrorMessage`: an expired ChatGPT
+  `mapHTTPError` drops are kept for a few seconds by `LingTaiReachSignal` and written into the
+  message as a canonical `lt_reach:` line by `friendlyErrorMessage`: an expired ChatGPT
   sign-in reads *Sign in again*, a spent plan window *The ChatGPT plan has nothing left for now*
   with OpenAI's sentence and the reset time. The same kinds, lines and rules as Android's
   `ProviderReach`.
-- **When the relay refuses a turn** (`NanoMuseRelayRefusal.swift`,
-  `NanoMuseRelayRefusalCard.swift`): every refusal nanoMuse Cloud sends is one plain sentence in
+- **When the relay refuses a turn** (`LingTaiRelayRefusal.swift`,
+  `LingTaiRelayRefusalCard.swift`): every refusal lingTai Cloud sends is one plain sentence in
   the phone's language and the button that fits, never a status code, the relay's JSON or
-  upstream's *Rate limited*. `NanoMuseReachSignal` hands each non-2xx reply of a model call to
-  `NanoMuseRelaySignal` first (the same existing `// nanoMuse:` spot in `mapHTTPError`, nothing
-  new in upstream's files); a reply with `type: nanomuse_cloud` or one of the relay's codes (or a
-  bare 413 / 401 / 5xx from the relay's host) becomes a canonical `nm_relay:` line in the
-  message, which `NanoMuseProviderReachCard` draws as the refusal card. The sentence is
-  `NanoMuseCloud.describe`'s, the same the sign-in and account pages use, in all nine locales:
+  upstream's *Rate limited*. `LingTaiReachSignal` hands each non-2xx reply of a model call to
+  `LingTaiRelaySignal` first (the same existing `// lingTai:` spot in `mapHTTPError`, nothing
+  new in upstream's files); a reply with `type: lingtai_cloud` or one of the relay's codes (or a
+  bare 413 / 401 / 5xx from the relay's host) becomes a canonical `lt_relay:` line in the
+  message, which `LingTaiProviderReachCard` draws as the refusal card. The sentence is
+  `LingTaiCloud.describe`'s, the same the sign-in and account pages use, in all nine locales:
   `413 too_large` → *That message is too large for the model. Shorten it, leave out some
   attachments, or start a new chat.* with *New chat*; `400 content_rejected` (the provider's
   content check declined the words; also a provider's own `DataInspectionFailed` on a key of
@@ -251,32 +251,32 @@ Ours, in `NanoMuse/`:
   conversation.* with *New chat* and *Try again*, and the compaction's split-retry
   (`isSegmentRetryableError`) leaves it alone, since the same words come back refused however
   small the request; an error the relay puts inside a stream (`data: {"error": …}` on a 200)
-  now ends the turn with its card instead of an empty reply (a `// nanoMuse:` spot in
+  now ends the turn with its card instead of an empty reply (a `// lingTai:` spot in
   `OpenAIProvider`'s stream loop); `401 bad_key` / `account_deleted` → *Sign
   in*; `403 not_invited` / `account_disabled` / `signup_closed` → *Open Settings*; `429
   too_many_in_flight` / `locked` / `rate_limited` and `provider_busy` (with the wait from
   `retry_after`) → *Try again*; `404 model_not_offered` → *Open Settings*; `503 service_paused`,
   `sync_paused`, `hub_paused` and any 5xx or empty answer → *Try again*.
-- **The allowance in the chat** (`NanoMuseAllowance.swift`, `NanoMuseAllowanceCard.swift`;
+- **The allowance in the chat** (`LingTaiAllowance.swift`, `LingTaiAllowanceCard.swift`;
   Android `AllowanceSignal` + `AllowanceWaysCard`): a turn refused with `429 allowance_exhausted`
   or `daily_cap` pins a card under the chat header the way the star card is pinned (the shell's
   top inset, no new link on `AIChatView.body`): the lead, which is *The free allowance is used up.*,
   *Today's share …*, or with `paused: true` (relay 0.22) *paused on this relay for now, not
   used up* and that what is left stays as it is; then the ways on and *Try again* (the open
   chat's last turn once more). At 80 % of the pool (`spend.warn` from `/v1/me`) one line sits
-  above the composer in `NanoMuseChatCardsHost`, *Nearly used up: ¥… of ¥… left …*, once per
+  above the composer in `LingTaiChatCardsHost`, *Nearly used up: ¥… of ¥… left …*, once per
   pool size (a new grant says it again), waved away with the ×; the card replaces it.
-- **Your own key** (`NanoMuseCatalogue.swift`, `NanoMuseVendorSheet.swift`,
-  `NanoMuseOwnKeySheet` in `NanoMuseModels.swift`; [own-key.md](own-key.md)): the vendors are
-  the bundled `NanoMuse/Resources/providers.json` (`node scripts/providers-json.mjs` keeps it
+- **Your own key** (`LingTaiCatalogue.swift`, `LingTaiVendorSheet.swift`,
+  `LingTaiOwnKeySheet` in `LingTaiModels.swift`; [own-key.md](own-key.md)): the vendors are
+  the bundled `LingTai/Resources/providers.json` (`node scripts/providers-json.mjs` keeps it
   current, `--check` in CI), and the relay's `spend.guidance` first when it sent one (relay
   0.21; also beside a `429 allowance_exhausted`), kept in `UserDefaults` between runs, so a
-  vendor added on the relay shows before the app is updated. `NanoMuseWaysList` is the one list
-  on the pinned card, Settings → nanoMuse Cloud and the own-key sheet: *Use your own model key*:
+  vendor added on the relay shows before the app is updated. `LingTaiWaysList` is the one list
+  on the pinned card, Settings → lingTai Cloud and the own-key sheet: *Use your own model key*:
   the region's lead first (Alibaba Cloud Bailian on the mainland, OpenRouter and OpenAI
   elsewhere), three at a time behind *More providers*, every row saying what it covers (*chat ·
   screen · pictures · clips*), *Get a key* opening the vendor's key page, *Add* opening
-  `NanoMuseVendorSheet` on that vendor (the key pasted, the instance added with the vendor's
+  `LingTaiVendorSheet` on that vendor (the key pasted, the instance added with the vendor's
   endpoint and `/v1` setting, its models fetched, a group named after it the default when there
   was none); *A subscription you already pay for*: ChatGPT through upstream's `CodexOAuthManager`,
   Claude, OpenRouter, Kimi's device code through `KimiDeviceLoginSheet`, with the line under the
@@ -284,47 +284,47 @@ Ours, in `NanoMuse/`:
   this access cut off before (OpenCode, January 2026), and that an API key works if it stops (the
   relay's own wording when it sent one); *On a computer of your own* (Ollama, LM Studio, vLLM)
   takes the address. No vendor is recommended.
-- **Network** (`NanoMuseProxy.swift`, `NanoMuseNetworkView.swift`, *Settings → nanoMuse →
+- **Network** (`LingTaiProxy.swift`, `LingTaiNetworkView.swift`, *Settings → lingTai →
   Network*): the HTTP proxy for own providers: host, port, optional user name and password, off
   by default, on this phone only: the address and the user name in `UserDefaults`, the password
-  in the Keychain as a device-only item (`io.github.nanomuse.app.proxy`, the relay key's rules;
+  in the Keychain as a device-only item (`io.github.lingtai.app.proxy`, the relay key's rules;
   a password a 1.0.3 build kept in `UserDefaults` moves over at the first read). `URLSession`
   has no per-host proxy switch, so
   the proxy reaches a session as a proxy auto-configuration script in
   `connectionProxyDictionary` that answers the proxy for the catalogue's hosts, `chatgpt.com`,
   `auth.openai.com` and the provider instances' custom hosts (never the relay's, never a LAN
-  address) and `DIRECT` for the rest; `NanoMuseProxy.apply(to:)` is one line in each of upstream's
-  provider sessions, `NanoMuseProxy.session` stands in for `URLSession.shared` on the Codex
+  address) and `DIRECT` for the rest; `LingTaiProxy.apply(to:)` is one line in each of upstream's
+  provider sessions, `LingTaiProxy.session` stands in for `URLSession.shared` on the Codex
   sign-in and the model list. The credentials go to the shared `URLCredentialStorage` for the
   proxy's protection space. *Test* fetches `https://chatgpt.com/` through the proxy as entered.
-- **The phone's chrome (0.1.35)** (`NanoMuseChrome.swift`, `NanoMuseAppearance.swift`, Android
+- **The phone's chrome (0.1.35)** (`LingTaiChrome.swift`, `LingTaiAppearance.swift`, Android
   `ui/chat/MuseHeader.kt` and `ui/settings`): the Muse header (the face disc, the name pill with
   the live status line under it, round drawer and ••• buttons) on the chat and on Feed, Ideas,
   Goals and Library; the side drawer after Android's; the agent's grey bubble for its replies
-  (`NanoMuseAssistantBubble` in `NanoMuseChatCards.swift`); the agent page's toolbar as round
-  buttons; *Settings → nanoMuse* rebuilt as Muse cards in the Android order
-  (`NanoMuseSettingsHomeView`: Image & video models, Avatar, Computers, Appearance (avatar size,
+  (`LingTaiAssistantBubble` in `LingTaiChatCards.swift`); the agent page's toolbar as round
+  buttons; *Settings → lingTai* rebuilt as Muse cards in the Android order
+  (`LingTaiSettingsHomeView`: Image & video models, Avatar, Computers, Appearance (avatar size,
   the model under the name, the steps, the theme), Notifications, Account, Coding, Scheduled
-  tasks, Shared folders, Chat files, System files, Version). A `nmOnChange` helper keeps
+  tasks, Shared folders, Chat files, System files, Version). A `ltOnChange` helper keeps
   `onChange` on iOS 16, the app's deployment target. *New Chat* in the ••• menu, ⌘N, the
   *Context Full* alert and the refusal cards all post upstream's `.newChatRequested`;
-  `NanoMuseHomeView` answers it with a fresh draft side chat, the same as the drawer's new chat
+  `LingTaiHomeView` answers it with a fresh draft side chat, the same as the drawer's new chat
   button, since upstream's `ContentView` is not on screen in this layout (1.0.2 had no listener
   there, so the entry did nothing, #392).
-- **Motion clips (0.1.35)** (`NanoMuseVideoGen.swift`, `NanoMuseAvatarMotion.swift`,
-  `NanoMuseMediaModels.swift`; Android `avatar/VideoGen.kt`, `avatar/AvatarMotion.kt`): a drawn
+- **Motion clips (0.1.35)** (`LingTaiVideoGen.swift`, `LingTaiAvatarMotion.swift`,
+  `LingTaiMediaModels.swift`; Android `avatar/VideoGen.kt`, `avatar/AvatarMotion.kt`): a drawn
   face gets four 4-second clips (idle, working, waiting, happy) from `wan2.2-i2v-flash`
   (DashScope's async API through the relay, or your own Bailian key), the phone's prompts word
   for word, kept per device under `avatar/motion/`; the face plays them with an `AVQueuePlayer`
   and an `AVPlayerLooper` (suspended in the background), the dragon's clips come from the bundle.
   *Image & video models* lists the models, *Animate the avatar after a change* (on by default)
   and *Make / Redo clips*; the studio's cost estimate counts the clips.
-- **Version, star asks, the feed's first day (0.1.35)** (`NanoMuseUpdateCheck.swift`,
-  `NanoMuseNudges.swift`): the Version row shows the installed build and the latest release
-  (`nanomuse.cn/dl/index.json` first, GitHub second, a day's cache: *Latest 0.1.x, you have it*
+- **Version, star asks, the feed's first day (0.1.35)** (`LingTaiUpdateCheck.swift`,
+  `LingTaiNudges.swift`): the Version row shows the installed build and the latest release
+  (`lingtai.cn/dl/index.json` first, GitHub second, a day's cache: *Latest 0.1.x, you have it*
   / *0.1.x is out* / *Could not check, tap to try again*). The star asks follow the relay's
   policy (`/v1/nudges`, `nudges` in `/v1/me`, the same defaults built in): never in the first
-  conversation, then the 3rd / 10th / 30th task (`NanoMuseStarWatch`: a person-started session
+  conversation, then the 3rd / 10th / 30th task (`LingTaiStarWatch`: a person-started session
   leaving `activeSessions` without an error), the 7th / 30th day, a goal reached, a new look,
   sign-in, the allowance spent (seven days apart, four per phone), as a card pinned under the
   header (the message list is a UICollectionView, so nothing can be placed under the last
@@ -333,9 +333,9 @@ Ours, in `NanoMuse/`:
   buttons stay the app's. The Feed opens on the intro card, says when the daily routine runs while it is
   empty, and writes its first day after the first conversation; a Notifications page joined the
   first run.
-- **The composer (0.1.38, 0.1.40)** (`NanoMuseShell.swift` → `NanoMuseHomeView.body`,
-  `NanoMuseChatModifiers.swift`, `NanoMuseComposerField.swift`, `NanoMuseComposerWatch.swift`,
-  `NanoMuseComposerCheck.swift`, the `// nanoMuse:` lines in `Views/Chat/AIChatView.swift`). Four
+- **The composer (0.1.38, 0.1.40)** (`LingTaiShell.swift` → `LingTaiHomeView.body`,
+  `LingTaiChatModifiers.swift`, `LingTaiComposerField.swift`, `LingTaiComposerWatch.swift`,
+  `LingTaiComposerCheck.swift`, the `// lingTai:` lines in `Views/Chat/AIChatView.swift`). Four
   releases reported a chat with no input field (0.1.36 and 0.1.37 on the maintainer's iPhone after
   the first conversation's naming, 0.1.39 on the iPad), and the 0.1.37 watchdog, the 0.1.38 native
   field and the 0.1.38 fail-safe (a second host when the overlay reported nothing) were all written
@@ -348,14 +348,14 @@ Ours, in `NanoMuse/`:
   measure the watchdog had, sat behind it. Since 0.1.40 the **bar is never an inset of the chat's
   ancestor** (a `VStack` row in 0.1.40; bottom padding of the bar's height on the chat layer from
   the floating pill bar to 1.0.3; since then the bar's height reaches the chat as an environment
-  value, `nmBottomOverlay`, and the chat stands its composer that much above the bottom). From
+  value, `ltBottomOverlay`, and the chat stands its composer that much above the bottom). From
   0.1.40 to 1.0.3 the composer column (the cards, the tool strip, the input bar) was a row under a
   shorter message list, which left a plain canvas behind the pill bar's glass; **since 1.0.4 the
-  column is a layer over the list's bottom edge again**: `NanoMuseComposerHost` is a `ZStack`, the
+  column is a layer over the list's bottom edge again**: `LingTaiComposerHost` is a `ZStack`, the
   list keeps the chat's full height and is passed a bottom inset of the column's measured height
   plus the bar, so the rows scroll under the column and the bar and the last row stops above the
   column at rest; the `/` and `@` popup shares a `VStack` with the column and so stands on its top
-  edge by layout. Behind the composer pill, Android's rounded vignette (`NanoMuseComposerVignette`):
+  edge by layout. Behind the composer pill, Android's rounded vignette (`LingTaiComposerVignette`):
   once the list is scrolled away from the latest row, a 90 pt rounded halo of the canvas colour
   follows the composer pill's 26 pt contour and fades to clear in the gap above the bar so the
   glass keeps its rows without a solid rectangular strip. There is no second host to
@@ -375,13 +375,13 @@ Ours, in `NanoMuse/`:
   arrow / Tab navigation of the popups on iOS 16 (iOS 17+ has them via `onKeyPress`). Return on a
   hardware keyboard sends, Shift+Return breaks the line, the on-screen Return follows *Settings →
   Appearance → Return sends*; dictation still ends in *Back to typing*.
-- **The launch screen (0.1.38)** (`NanoMuse/NanoMuseLaunch.storyboard`,
-  `NanoMuse/NanoMuseLaunch.xcassets`): the mark on the system background, no words, light and
+- **The launch screen (0.1.38)** (`LingTai/LingTaiLaunch.storyboard`,
+  `LingTai/LingTaiLaunch.xcassets`): the mark on the system background, no words, light and
   dark. Upstream's storyboard stays in the tree; `scripts/rebrand.py` points
   `INFOPLIST_KEY_UILaunchStoryboardName` at ours. iOS caches launch screens per install: after
   an update the old one can show a few more times, a reinstall shows the new one at once.
-- **Side chats and presence (0.1.38, Contract C9)** (`NanoMuseSync.swift`, `NanoMusePresence.swift`,
-  `NanoMuseSyncSettings.swift`, `NanoMuseFromDeviceCaption.swift`): *Data controls → Also sync
+- **Side chats and presence (0.1.38, Contract C9)** (`LingTaiSync.swift`, `LingTaiPresence.swift`,
+  `LingTaiSyncSettings.swift`, `LingTaiFromDeviceCaption.swift`): *Data controls → Also sync
   side chats* is per device and off by default: only the main conversation goes up and the pull
   asks `scope=main`; side rows that still arrive are ignored. Turning it on pulls once from
   `since=0&scope=all&tail=300` (idempotent by `mid`) and the side chats go up with the next push;
@@ -390,16 +390,16 @@ Ours, in `NanoMuse/`:
   /v1/sync/working {cid, working}` after the user line is pushed and after the turn's end is;
   the hub's `working` frame and `/v1/sync/state`'s `working` list fill a map that expires after
   ten minutes, and the chat shows *〈device〉 is working…* under the last message when it is
-  another device's user line (`ChatMessage.nmWorkingDevice`). A remote user line as the tail is
+  another device's user line (`ChatMessage.ltWorkingDevice`). A remote user line as the tail is
   never this phone's interrupted turn: `recheckCanResumeFromHistory` leaves `canResume` off for
   it, so no banner, no Resume, nothing re-sent.
-- **Sign-in and the relay (0.1.38)** (`NanoMuseCloud.swift`, `NanoMuseCloudView.swift`,
-  `NanoMuseRelayPicker.swift`): a phone number with a country code other than +86 is told
+- **Sign-in and the relay (0.1.38)** (`LingTaiCloud.swift`, `LingTaiCloudView.swift`,
+  `LingTaiRelayPicker.swift`): a phone number with a country code other than +86 is told
   *Text-message codes reach mainland-China numbers only. Use an e-mail address instead.* before
   the code is requested, and the relay's `phone_region` error reads the same. *Use a different
   server* on the sign-in page opens a sheet: the address, *Check* (`GET /healthz`), *Use this
   server*; https is required unless the host is on one's own network, judged by the one rule
-  the proxy's bypass uses too (`NanoMuseProxy.isLocal`, Android's `LanOnly`): the address is
+  the proxy's bypass uses too (`LingTaiProxy.isLocal`, Android's `LanOnly`): the address is
   parsed first, so `10.foo.example.com` is a public name; the private ranges, the carrier-grade
   `100.64/10` Tailscale hands out, loopback, link-local, IPv6 ULA, `localhost`, a name without a
   dot and the suffixes `.local`, `.lan`, `.home`, `.internal`, `.home.arpa`, `.localdomain`,
@@ -407,9 +407,9 @@ Ours, in `NanoMuse/`:
   〈host〉* with *Change*, which signs this phone out first: a key belongs to the relay that
   issued it.
 - **One account's conversations, not the last person's (0.1.39, Contract C10)**
-  (`NanoMuseSync.swift`, `NanoMuseShell.swift`): a conversation belongs to the account that first
+  (`LingTaiSync.swift`, `LingTaiShell.swift`): a conversation belongs to the account that first
   pushed or pulled it: the sync table that maps it is that account's, and every account that has
-  synced on the phone keeps its table (`nanomuse-sync-accounts.json`, keyed by the relay's opaque
+  synced on the phone keeps its table (`lingtai-sync-accounts.json`, keyed by the relay's opaque
   `account.id`, never the phone number or e-mail). Signed in, the chat lists and the Chat tab show
   the account's own conversations and the ones no account has synced yet; another account's stay
   on the phone, hidden, and are never pushed under the signed-in account; an unowned one becomes
@@ -418,26 +418,26 @@ Ours, in `NanoMuse/`:
   first account brings its conversations and its main chat back. Signed out, everything on the
   phone shows and nothing moves. The agent's name and look already follow the account; the local
   memory files do not yet.
-- **Nothing of one account for the next (0.1.40, Contract C12)** (`NanoMuseAccountData.swift`,
-  `NanoMuseSignOutSheet.swift`): every chat has an owner row (`nanomuse-owners.json`), synced or
+- **Nothing of one account for the next (0.1.40, Contract C12)** (`LingTaiAccountData.swift`,
+  `LingTaiSignOutSheet.swift`): every chat has an owner row (`lingtai-owners.json`), synced or
   not, and the lists, the Chat tab, the Library, *Today's chats*, the Siri shortcuts and the
   push show the signed-in owner's only; signed out, only the chats made while signed out. A
   sign-out (here, everywhere, *Use a different server*) is a sheet with one switch, *Keep this
   account's chats on this device*, off by default: off, the account's chats, memory, feed, goals,
   routines and face leave the phone (its sync table too, so a later sign-in never tombstones
-  them on its other devices); on, they are put aside under `MinisConfig/nanomuse/accounts/<hash>/`
+  them on its other devices); on, they are put aside under `MinisConfig/lingtai/accounts/<hash>/`
   and come back with the account. Signing in as another account goes through the same path.
   *Delete the account* removes all of it with no question. A key the relay refuses on a refresh
   (`401 bad_key`: revoked from another device, a relay reset) takes the *keep* path instead:
   the data goes aside, the key goes, and the sign-in form says *Your sign-in on this phone was
   ended. Sign in again to continue; your chats are kept on this device until then* until the
-  next sign-in (`NanoMuseCloud.signInEnded`); only `401 account_deleted` deletes
-  (`NanoMuseAccountData.keepOnRefusedKey`, tested in `NanoMuseAccountsTests`). The relay's key is saved on this
+  next sign-in (`LingTaiCloud.signInEnded`); only `401 account_deleted` deletes
+  (`LingTaiAccountData.keepOnRefusedKey`, tested in `LingTaiAccountsTests`). The relay's key is saved on this
   device only (`kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`, never iCloud Keychain); a
   fresh install with no marker, no provider and no chat sweeps the device-only Keychain items a
   previous install left. The full table is [sync.md](sync.md).
-- **The audit's small things (round 9)** (`NanoMuseCloudView.swift`, `NanoMuseFirstRun.swift`,
-  `NanoMuseAvatarFlow.swift`, `NanoMuseDevicesSection.swift`, `NanoMuseShell.swift`): the
+- **The audit's small things (round 9)** (`LingTaiCloudView.swift`, `LingTaiFirstRun.swift`,
+  `LingTaiAvatarFlow.swift`, `LingTaiDevicesSection.swift`, `LingTaiShell.swift`): the
   sign-in sheet opens with the app's mark above the field, the field says *Mainland China phone
   number or e-mail*, and a number with another country code gets *Text-message codes reach
   mainland-China numbers only…* under the field while it is typed, not after a tap; the footer
@@ -447,63 +447,63 @@ Ours, in `NanoMuse/`:
   new face is picked with a video model set, the reply says the four clips follow in the
   background (Android's sentence). In the account's Devices list an offline device shows when
   it was last seen and a tap on an online one opens the main chat with `@〈name〉 ` in the
-  composer (the Reach sheet's *Ask this device*). `NanoMuseRoot` draws nothing until it knows
+  composer (the Reach sheet's *Ask this device*). `LingTaiRoot` draws nothing until it knows
   whether the setup is due, so a fresh install never shows the shell for a frame before the
   welcome page. The first conversation's fourth line no longer says the messages go *only* to
   the   model: signed in, the main conversation also follows the person to their other devices,
   and *Data controls* switches that off, the same words on Android, in every language.
-- **The audit's second pass (round 10)** (`NanoMuseHub.swift`, `NanoMuseDevicesSection.swift`,
-  `NanoMuseScheduler.swift`, `NanoMuseSync.swift`, `NanoMuseAccountData.swift`,
-  `NanoMuseProxy.swift`, `NanoMuseImageGen.swift`, `NanoMuseVideoGen.swift`): the hub client
+- **The audit's second pass (round 10)** (`LingTaiHub.swift`, `LingTaiDevicesSection.swift`,
+  `LingTaiScheduler.swift`, `LingTaiSync.swift`, `LingTaiAccountData.swift`,
+  `LingTaiProxy.swift`, `LingTaiImageGen.swift`, `LingTaiVideoGen.swift`): the hub client
   reads the relay's close codes ([hub.md](hub.md)): 4001 and 4002 end the attempts until a new
   sign-in and the Devices row says *Sign in again*; 4003 waits 30 s; a close with the reason
   `hub_paused` waits two minutes and the row says *Paused by the relay*; everything else keeps
   the 1 → 30 s backoff and reads *Reconnecting…*. An `open` call from another device opens
   `http` and `https` links only, so a `tel:` or another app's scheme is refused with `usage`;
   a call's timeout timer ends with its answer. A one-off routine made after its time of day
-  runs the next day instead of never. The sync side tables (`nanomuse-sync-accounts.json`,
-  `nanomuse-owners.json`) use the default data-protection class like the chats themselves, and
+  runs the next day instead of never. The sync side tables (`lingtai-sync-accounts.json`,
+  `lingtai-owners.json`) use the default data-protection class like the chats themselves, and
   when the file is there but cannot be read (the phone locked, the app woken in the background)
   the store waits for the next call rather than starting empty and writing that over every
   account's table. The image and video generators go through the Network proxy like a chat
-  turn on the same provider (`NanoMuseProxy.SessionSlot`), and their failures are sentences in
+  turn on the same provider (`LingTaiProxy.SessionSlot`), and their failures are sentences in
   every language, *The provider refused this key (HTTP 401)*, *The video took longer than 12
   minutes*, with the vendor's own words after *The provider says:* when it sent some.
-- **The audit's third pass (round 11)** (`NanoMuseHubTasks.swift`, `NanoMuseHub.swift`): a
+- **The audit's third pass (round 11)** (`LingTaiHubTasks.swift`, `LingTaiHub.swift`): a
   `stop` from another device finds the run by the task frame's id (`stop {call}`, what the
   desktop sends) as well as by conversation, only the device that asked may stop it, and the
   task then answers `cancelled` as [hub.md](hub.md) says. A relay `error` frame about one frame
   (`too_large`, `rate_limited`, `bad_frame`) while the socket stays open is logged and the
   Devices row keeps saying *Connected* instead of showing the relay's sentence until the next
-  reconnect. The header's name and status lines (`NanoMuseNamePill`, `NanoMuseHeaderTitle`) and
+  reconnect. The header's name and status lines (`LingTaiNamePill`, `LingTaiHeaderTitle`) and
   the height reserved for the pill follow Dynamic Type up to 1.35 times their base
-  (`NanoMuseHeaderMetrics`); the side drawer measures its width from the window it is in
+  (`LingTaiHeaderMetrics`); the side drawer measures its width from the window it is in
   (`GeometryReader`) rather than `UIScreen.main`, so an iPad window narrower than the screen gets
   a drawer that fits; the model pickers' rows carry the *selected* trait for VoiceOver and the
   tick is not read as a symbol name.
-- **The audit's strings and layout pass (round 10)** (`NanoMuseChrome.swift`,
-  `NanoMuseFirstRun.swift`, `NanoMuseProviderReachCard.swift`, `NanoMuseSystemFiles.swift`,
-  `*.lproj/InfoPlist.strings`, `Localizable.xcstrings`): `NanoMuseFlowLayout`, a wrapping row
+- **The audit's strings and layout pass (round 10)** (`LingTaiChrome.swift`,
+  `LingTaiFirstRun.swift`, `LingTaiProviderReachCard.swift`, `LingTaiSystemFiles.swift`,
+  `*.lproj/InfoPlist.strings`, `Localizable.xcstrings`): `LingTaiFlowLayout`, a wrapping row
   (iOS 16 `Layout`), holds the name chips of the first conversation and the buttons under the
-  provider card, so four names or *Try again · Use nanoMuse Cloud this time · Network settings ·
+  provider card, so four names or *Try again · Use lingTai Cloud this time · Network settings ·
   Add a key of your own* fit an iPhone SE and a large text size instead of being cut off at the
   right edge; a setup page's fine print is one paragraph with *Learn more* at its end. The
   permission prompts for NFC, Bluetooth and Face ID are in all nine languages (they fell back
   to the English `Info.plist` text), and the local-network prompt describes this app, not a
-  virtual machine. In 简体中文 the relay is *nanoMuse Cloud* everywhere, as the Settings row
-  that the sentences point to is named (it was *nanoMuse 云* or *nanoMuse 云端* in 16 places).
+  virtual machine. In 简体中文 the relay is *灵台云* everywhere, as the Settings row
+  that the sentences point to is named (it was *灵台云* or *灵台云端* in 16 places).
   HEARTBEAT.md renders each routine's cadence with the Routines list's words (*Daily · 08:00*,
   *Checks every 6 hours*) instead of English *daily*, *once*, *every 6 h*; the memory import
   prompt follows an in-app language change.
-- **The audit's follow-ups (round 11)** (`Localizable.xcstrings`, `NanoMuseVendorSheet.swift`,
-  `NanoMuseFeed.swift`, `NanoMuseAppearance.swift`, the `// nanoMuse:` spots of
-  `OpenAIProvider.swift`, `MinisTests/NanoMuseCopyTests.swift`): no sentence a person reads
+- **The audit's follow-ups (round 11)** (`Localizable.xcstrings`, `LingTaiVendorSheet.swift`,
+  `LingTaiFeed.swift`, `LingTaiAppearance.swift`, the `// lingTai:` spots of
+  `OpenAIProvider.swift`, `MinisTests/LingTaiCopyTests.swift`): no sentence a person reads
   carries a dash any more, in any of the nine languages: 73 keys were rewritten as two
   sentences, a comma, a colon or a middle dot (*Before we start, what should I call you?*,
   *Sign in · free*, *Done. My new look is on.*), the rows of HEARTBEAT.md and the diagnostics
   report with them, and ten keys nothing referenced were dropped; upstream OpenMinis keys are
-  not ours and stay. 繁體中文 says *nanoMuse Cloud* as the other languages do, Russian says
-  *Эл. почта*. `NanoMuseCopyTests` reads the catalogue and the `NanoMuse/` sources on the Mac
+  not ours and stay. 繁體中文 says *灵台云* as the other languages do, Russian says
+  *Эл. почта*. `LingTaiCopyTests` reads the catalogue and the `LingTai/` sources on the Mac
   and fails on a dash, an exclamation mark or a translated relay name in our keys. The vendor
   sheet tries a pasted key against the provider's model list before keeping it: a 401 or 403
   leaves the phone as it was and says so under the field, where before upstream's fallback
@@ -511,52 +511,52 @@ Ours, in `NanoMuse/`:
   plan's 429 reaches the reach card, so *Resets in …* shows for a ChatGPT or Claude plan. A
   post's detail rows are a `Grid` whose label column takes the longest label; the avatar size
   is a menu, not five segments.
-- **The third audit: the version row (1.0.x)** (`NanoMuseUpdateCheck.swift`,
-  `MinisTests/NanoMuseLogicTests.swift`): the download index at `nanomuse.cn/dl/index.json` is
+- **The third audit: the version row (1.0.x)** (`LingTaiUpdateCheck.swift`,
+  `MinisTests/LingTaiLogicTests.swift`): the download index at `lingtai.cn/dl/index.json` is
   `{"releases": [{"tag": "v1.0.0", …}, …]}`, newest first, and that is what the row reads now,
   as Android's `UpdateCheck.parseIndex` does; the shapes the row used to look for (`ios.version`,
   `latest`) were never written, so on a phone that cannot reach GitHub the row always said *Could
-  not check*. A release found through the index leads to `nanomuse.cn/dl/`; one found through
+  not check*. A release found through the index leads to `lingtai.cn/dl/`; one found through
   GitHub leads to its release page. `parseIndex` and `parseGitHubLatest` are pure and tested.
-- **The third audit: the sign-in sheet (1.0.x)** (`NanoMuseFirstRun.swift`): *Sign in · free* on
+- **The third audit: the sign-in sheet (1.0.x)** (`LingTaiFirstRun.swift`): *Sign in · free* on
   the welcome page opens the account page as a sheet; once the code or password goes through, the
-  sheet closes on its own (`nmOnChange` on the signed-in state) and the setup is on its next page,
+  sheet closes on its own (`ltOnChange` on the signed-in state) and the setup is on its next page,
   the password or the source. Before, the sheet stayed open on the signed-in account page, with
   its Devices and sync rows, and the person had to swipe it away to find the setup had moved on.
-- **The third audit: Chinese words (1.0.x)** (`Localizable.xcstrings`, `NanoMuseShell.swift`,
-  `NanoMuseAccountView.swift`, `MinisTests/NanoMuseCopyTests.swift`): the Chinese copy says what
-  Android says. The agent is 智能体 (繁體 智慧體) in the 19 keys where it was still "agent" in
+- **The third audit: Chinese words (1.0.x)** (`Localizable.xcstrings`, `LingTaiShell.swift`,
+  `LingTaiAccountView.swift`, `MinisTests/LingTaiCopyTests.swift`): the Chinese copy says what
+  Android says. The agent is 智能体 (繁體智慧體) in the 19 keys where it was still "agent" in
   English (the system files' notes, the routines, *About the agent*, the avatar's failure line) or
   代理, which in Settings → Network means the proxy; the relay is 中继 / 中繼 in the seven
   relay sentences that said 中转 / 中轉 (*The relay says*, *Paused by the relay*, the paused
   sign-ups, allowance, sync and hub, the private relay); *Hands* stays in English as Android's
-  设置 → Hands does; the chat tab has its own key, `tab.chat` (聊天, Android's `nm_tab_chat`),
+  设置 → Hands does; the chat tab has its own key, `tab.chat` (聊天, Android's `lt_tab_chat`),
   instead of upstream's *Chat* (闲聊), and the account page's usage rows say 对话 for the chat
-  kind (`models.slot.chat`, Android's `nm_usage_kind_chat`). `NanoMuseCopyTests` fails on
+  kind (`models.slot.chat`, Android's `lt_usage_kind_chat`). `LingTaiCopyTests` fails on
   "agent" in a Chinese value, 代理 where the English says agent, 中转 and 双手.
-- **The third audit: tasks from other devices (1.0.x)** (`NanoMuseHubTasks.swift`,
-  `MinisTests/NanoMuseHubTasksTests.swift`): a `task` frame carries the asking device's screen
+- **The third audit: tasks from other devices (1.0.x)** (`LingTaiHubTasks.swift`,
+  `MinisTests/LingTaiHubTasksTests.swift`): a `task` frame carries the asking device's screen
   language (`language`, [hub.md](hub.md)); the iPhone's Muse is now told to answer in it, where
   before it went by the text alone, so a person typing `@iPhone` on an English desktop about a
-  Chinese page gets the answer in English. `NanoMuseHubTasks.prompt` is pure and tested. The
+  Chinese page gets the answer in English. `LingTaiHubTasks.prompt` is pure and tested. The
   phone's own `@device` mentions have sent the tag since 1.0.0.
-- **The third audit: the Cloud switch and the chat (1.0.x)** (`NanoMuseModelSlots.swift`,
-  `NanoMuseCloud.swift`, `NanoMuseModelsView.swift`, the `// nanoMuse:` spots of
-  `ProviderInstanceDetailView.swift`, `MinisTests/NanoMuseModelSlotsTests.swift`): *Use nanoMuse
+- **The third audit: the Cloud switch and the chat (1.0.x)** (`LingTaiModelSlots.swift`,
+  `LingTaiCloud.swift`, `LingTaiModelsView.swift`, the `// lingTai:` spots of
+  `ProviderInstanceDetailView.swift`, `MinisTests/LingTaiModelSlotsTests.swift`): *Use lingTai
   Cloud models* off (Settings › Models, or *Enabled* on the Cloud provider's own page) while new
   chats answer through the account now hands the Chat slot and the main chat to the first provider
-  of your own that chats, on the catalogue's default for it (`NanoMuseSlotResolver.nextChat`,
-  Android's `ModelSlots.nextChat`; `NanoMuseModelSlots.chatLeaves` does the move through
-  `useForChat`). With no own chat model the switch is refused: `NanoMuseCloud.setModelsOn` returns
-  false, the switch stays on, and *Add a provider of your own first; with nanoMuse Cloud off,
+  of your own that chats, on the catalogue's default for it (`LingTaiSlotResolver.nextChat`,
+  Android's `ModelSlots.nextChat`; `LingTaiModelSlots.chatLeaves` does the move through
+  `useForChat`). With no own chat model the switch is refused: `LingTaiCloud.setModelsOn` returns
+  false, the switch stays on, and *Add a provider of your own first; with lingTai Cloud off,
   nothing else could answer.* appears under it, inside the card on the Models page and as the
   Status section's footer on the provider page. Before, the switch went off, the Chat row kept
   naming the account, and the main chat stopped with upstream's *No model configured* error; the
   *Not set* state is no longer reachable through this switch. A provider of your own switched off
   on its page keeps upstream's path: the chat re-resolves through the default group and, when
   nothing is left, says *No model configured. Add a provider in Settings.*
-- **The bottom bar is a floating pill** (`NanoMuseShell.swift` → `NanoMuseBottomBar`,
-  `NanoMuseTones.tabIndicator` / `tabIndicatorGlyph` in `NanoMuseFaces.swift`; Android's
+- **The bottom bar is a floating pill** (`LingTaiShell.swift` → `LingTaiBottomBar`,
+  `LingTaiTones.tabIndicator` / `tabIndicatorGlyph` in `LingTaiFaces.swift`; Android's
   `MuseBottomBar`, #329 by @Ichiro786): the five tabs sit in a `Capsule` 12 pt above the bottom
   safe area, as wide as the composer above it (the same 16 pt margins; 420 pt at most on a compact
   width, which no phone reaches; on a regular width, the iPad, it is the chat column's width less
@@ -565,7 +565,7 @@ Ours, in `NanoMuse/`:
   `checkmark.square`, and the three-shape `Category` glyph for Library) and the same accessibility
   labels and selected trait as before. The pill is `.ultraThinMaterial` under the shell's surface tone at 55 percent opacity (the
   tint carries the contrast, the material carries the blur, as Android's 55 percent surface over its
-  backdrop blur) with a 1 pt `NanoMuseTones.hairline` edge; the old full-width strip and its hairline
+  backdrop blur) with a 1 pt `LingTaiTones.hairline` edge; the old full-width strip and its hairline
   on top are gone. The five tabs share the pill's width equally, each slot tappable across; the
   current one shows the filled symbol in `tabIndicatorGlyph` on a 60 by 46 pt capsule of
   `tabIndicator` (the chat's ink: black with a white symbol in light, white with a black symbol
@@ -574,15 +574,15 @@ Ours, in `NanoMuse/`:
   the outlined symbol in the secondary colour. The bar
   still leaves while the keyboard or the chat's voice panel is up. Layout: the pill lies over the
   rooms and the chat in a `ZStack` aligned to the bottom. The chat gets the bar's height (70 pt: 46
-  plus 6 above and below plus the 12 pt gap) as the `nmBottomOverlay` environment value, stands its
+  plus 6 above and below plus the 12 pt gap) as the `ltBottomOverlay` environment value, stands its
   composer that much above the bottom and scrolls its rows under both (the composer note above);
   nothing is an inset of the `NavigationStack`'s ancestor. The rooms, plain SwiftUI scroll views,
   take the same height as a `safeAreaInset`. Either way the glass has the transcript or the room
   behind it to blur; up to 1.0.3 the chat was padded above the bar instead, and over the plain
   canvas the pill read as a white one (seen on the iPad on 1.0.3).
-- **The chat is monochrome** (`NanoMuseTones.ink` / `onInk` / `agentPill` in `NanoMuseFaces.swift`,
-  `NanoMuseHeaderScrim` in `NanoMuseHeader.swift`, `NanoMuseComposer.swift`,
-  `NanoMuseChatCards.swift`, and `// nanoMuse:` lines in `Views/Chat/ChatMessageViews.swift` and
+- **The chat is monochrome** (`LingTaiTones.ink` / `onInk` / `agentPill` in `LingTaiFaces.swift`,
+  `LingTaiHeaderScrim` in `LingTaiHeader.swift`, `LingTaiComposer.swift`,
+  `LingTaiChatCards.swift`, and `// lingTai:` lines in `Views/Chat/ChatMessageViews.swift` and
   `Views/Chat/AIChatView.swift`; Android's #331 by @Ichiro786). With the Muse shell on, your
   messages are pills in the ink colour with text in the canvas colour: black with white text on
   the white canvas in light, white with black text on the black canvas in dark, no blue and no
@@ -604,15 +604,15 @@ Ours, in `NanoMuse/`:
   card it was. Side chats pushed from the drawer keep the system bar for the back button and
   the title, but since 1.0.4 the bar's own background and hairline are hidden and the same
   scrim stands behind it (`NavBarStyleModifier` in `AIChatView.swift`, switched on by the
-  `nmSystemBarScrim` environment value the shell sets on the pushed chat; up to 1.0.3 the bar sat
+  `ltSystemBarScrim` environment value the shell sets on the pushed chat; up to 1.0.3 the bar sat
   on `.ultraThinMaterial`). The rooms since 1.0.4 stand on the chat's canvas, white and black,
   as Android's tabs and [design.md](design.md): Ideas as plain rows with a hairline under each,
   Goals with its cards outlined by a hairline, Library as a plain list; only the Feed keeps the
   grey page its white cards sit on, as Android's FeedTab does. Written on Linux without a Mac:
   the iOS check compiles it, and no device has shown it yet.
-- **The iPad's chat is one column** (`NanoMuseColumn` in `NanoMuseShell.swift`; the
+- **The iPad's chat is one column** (`LingTaiColumn` in `LingTaiShell.swift`; the
   `maxContentWidth` line and the composer's frame in `AIChatView.swift`, the agent's pill in
-  `NanoMuseChatCards.swift`). 1.0.3 on an iPad in portrait showed three widths: upstream caps
+  `LingTaiChatCards.swift`). 1.0.3 on an iPad in portrait showed three widths: upstream caps
   the message list and the composer at 900 pt on a regular width, so the composer ran across
   the 768 pt window, the pill bar sat 420 pt wide under it, and the agent's replies stayed in
   their 340 pt pill at the left edge. On a regular width size class the list, the composer and
@@ -627,7 +627,7 @@ Ours, in `NanoMuse/`:
   composer's edge; the three assistant cells in `CollectionViewMessageListV3.swift` (header,
   block, footer) now pad inside it, as the user's rows always did.
 - **The rows pass under the header.** The shell measures its Muse header and hands the height
-  to the chat as the `nmTopOverlay` environment value (`NanoMuseChatModifiers.swift`); the
+  to the chat as the `ltTopOverlay` environment value (`LingTaiChatModifiers.swift`); the
   message list ignores the container safe area at its top and keeps its rows down by that much
   (`topOverlay` on `CollectionViewMessageListV3`, added to `contentInset.top`), the way it
   already runs under the composer and the pill bar. So the rows scroll under the face and the
@@ -638,8 +638,8 @@ Ours, in `NanoMuse/`:
   at 0 and instead runs its content up under the bar the way upstream's iOS 26 layout does
   (`NavBarStyleModifier`); the bar is UIKit's, so the list's own inset adjustment keeps the
   first row below it, and its rows fade under the scrim behind the bar too.
-- **The feed is written quietly, and a routine speaks first** (`NanoMuseRoutineWakes.swift`;
-  `NanoMuseSync.shows`, `NanoMuseHeadless.run`, the `nmRoutine` spots of `ChatModels.swift`,
+- **The feed is written quietly, and a routine speaks first** (`LingTaiRoutineWakes.swift`;
+  `LingTaiSync.shows`, `LingTaiHeadless.run`, the `ltRoutine` spots of `ChatModels.swift`,
   `AIChatViewModel.swift`, `AIChatViewModel+Persistence.swift` and `ChatMessageViews.swift`).
   Up to 1.0.4 the daily feed was a conversation titled *Feed* in the drawer, with *Write
   today's feed.* as a bubble in the person's voice and the model's answer under it, and every
@@ -647,17 +647,17 @@ Ours, in `NanoMuse/`:
   working room now and the lists leave it out (`shows` says no to it, as it does to another
   account's chats); the posts arrive in the Feed room as before. A routine's turn is marked as the
   routine's: the row that carried its prompt is one quiet line, *Routine · 〈label〉 · 08:00*
-  (`NanoMuseRoutineWakeRow`, kept under the row's id so it stays after a reload), and the model
-  gets a one-turn addendum (`NanoMuseSessionAddenda`) saying the person did not type it, so it
+  (`LingTaiRoutineWakeRow`, kept under the row's id so it stays after a reload), and the model
+  gets a one-turn addendum (`LingTaiSessionAddenda`) saying the person did not type it, so it
   opens with the result instead of thanking them for asking. The prompt's text is unchanged, so
   the turn runs as it did.
-- **The fourth audit (1.0.x)** (`*.lproj/AppShortcuts.strings`, `NanoMuseChrome.swift`,
-  `NanoMuseShell.swift`, `NanoMuseAgentPage.swift`, `NanoMuseHub.swift`,
-  `NanoMuseBackgroundSettings.swift`, `Localizable.xcstrings`): the Siri phrases are in all nine
+- **The fourth audit (1.0.x)** (`*.lproj/AppShortcuts.strings`, `LingTaiChrome.swift`,
+  `LingTaiShell.swift`, `LingTaiAgentPage.swift`, `LingTaiHub.swift`,
+  `LingTaiBackgroundSettings.swift`, `Localizable.xcstrings`): the Siri phrases are in all nine
   languages (they were in English and the two Chinese tables; a phone in Japanese, Korean, German,
   Spanish, French or Russian got the English ones). The Muse pages' titles and the agent's name in
   the drawer and on the agent's page follow Dynamic Type, capped at 1.35 times their base as the
-  header's lines are (`NanoMuseHeaderMetrics`); before, they were fixed at 17 and 24 pt. *Create
+  header's lines are (`LingTaiHeaderMetrics`); before, they were fixed at 17 and 24 pt. *Create
   routine* on an idea opens the routine's editor as it was meant to: the shell owns that sheet
   now, where before the Goals room was asked to open it and that room is not on screen while the
   Ideas room is, so the routine was made at the idea's time and nothing opened. *Background &
@@ -665,16 +665,16 @@ Ours, in `NanoMuse/`:
   another device, and Background App Refresh lets iOS post the reminder, never run the routine
   (the page used to say the app got slots to finish a routine). A failure from the hub or a
   computer (*Coding agents*, the Reach sheet, an `@device` message) is one sentence in the phone's
-  language from the hub's code, as Android's `HubErrors.describe` (`NanoMuseHubErrors`): *That
+  language from the hub's code, as Android's `HubErrors.describe` (`LingTaiHubErrors`): *That
   computer is offline.*, *The computer did not answer in time.*, *The computer runs an older
-  nanoMuse that does not know this action.*; before, the English line the relay or the runtime
+  lingTai that does not know this action.*; before, the English line the relay or the runtime
   sent was shown as it came. The Library's and the account page's segmented pickers and the •••
   menus of a goal, a routine and a feed post carry a VoiceOver label.
 
 ## Voice prompts from the Action Button
 
-*Voice Prompt* is a Shortcut the app registers (`NanoMuse/VoicePromptIntent.swift`): it opens
-nanoMuse and starts listening, so a prompt can be spoken instead of typed. Bind it once in the
+*Voice Prompt* is a Shortcut the app registers (`LingTai/VoicePromptIntent.swift`): it opens
+lingTai and starts listening, so a prompt can be spoken instead of typed. Bind it once in the
 Shortcuts app, to the Action Button (Settings › Action Button › Shortcut), to Back Tap or to a
 widget; one press and the composer is in voice mode with the mic running, and what you say
 appears in the composer as it is recognised. Sending stays a tap on the send button: a sentence
@@ -685,15 +685,15 @@ and for speech recognition the way the mic button does; a refusal shows in the p
 recorded.
 
 How it is built: the intent cannot drive the voice panel itself (on a cold start it runs before
-the window exists, and SwiftUI owns the panel), so it leaves a request in `NanoMuseVoicePrompt`
+the window exists, and SwiftUI owns the panel), so it leaves a request in `LingTaiVoicePrompt`
 and, when a session is named, routes to it the way a notification tap does
 (`NotificationNavigationStore`, `.openSessionFromIntent`). The chat's hooks
-(`NanoMuseChatHooks`) take the request addressed to their chat, switch the composer into the
+(`LingTaiChatHooks`) take the request addressed to their chat, switch the composer into the
 inline voice panel on the mic button's path and press the panel's mic once it is up, through
 `VoiceInputViewModel.handleMainButtonTap` and its permission flow. One recording path, one
 transcription stack; the transcript reaches `inputText` the way it always does. A request older
 than 30 seconds is dropped. iOS gives an App Intent no way to take free-form speech, which is
-why this is a voice entry rather than "ask nanoMuse something" in one breath, and why the app
+why this is a voice entry rather than "ask lingTai something" in one breath, and why the app
 opens: a microphone running with nothing on screen would read as a fault. The Siri phrases are
 in the nine `AppShortcuts.strings` tables (one per `<lang>.lproj`, legacy `.strings` because the
 deployment target is iOS 16), the intent's own strings in `Localizable.xcstrings` (#296, #298).
@@ -705,7 +705,7 @@ Requirements are upstream's, in [android/BUILDING.md](../android/BUILDING.md): a
 for rclone.
 
 ```bash
-git clone --recurse-submodules https://github.com/nano-muse/nanoMuse.git && cd nanoMuse/android
+git clone --recurse-submodules https://github.com/econswarm/lingtai.git && cd lingTai/android
 ./deps/build_lame.sh && ./deps/build_ffmpeg.sh          # FFmpeg links against LAME: this order
 ./deps/build_ish.sh && ./deps/prepare_alpine_rootfs.sh  # the sandbox kernel and its rootfs
 ./deps/build_rclone_ios.sh                              # Rclone.xcframework
@@ -723,9 +723,9 @@ modifiers; its getter keeps copies of the growing value on the stack, and the fo
 added were enough to overflow the main thread's 1 MB on an iPad the moment the chat appeared
 after onboarding: a crash on every launch, in `AIChatView.body.getter` →
 `__swift_instantiateConcreteTypeFromMangledNameV2`. Chat-wide behaviour of ours lives in
-`NanoMuse/NanoMuseChatModifiers.swift` (`NanoMuseChatHooks`, `NanoMuseComposerHost`): add to
+`LingTai/LingTaiChatModifiers.swift` (`LingTaiChatHooks`, `LingTaiComposerHost`): add to
 those, or add a third modifier, one link. The composer stack is an `AnyView` there on purpose.
-`MinisTests/NanoMuseRound6Tests.swift` measures the body's value size and type depth and fails
+`MinisTests/LingTaiRound6Tests.swift` measures the body's value size and type depth and fails
 when either grows past its ceiling.
 
 ## TestFlight
@@ -733,7 +733,7 @@ when either grows past its ceiling.
 Distribution is TestFlight, **internal testers**: the people you add as users of your App Store
 Connect team (up to 100), who get every build minutes after it is processed, with no App Review.
 An external group (public link, up to 10,000 testers) needs Apple's beta review once per version;
-the group *nanoMuse Beta* and its public link exist, and each build is added to it and submitted
+the group *lingTai Beta* and its public link exist, and each build is added to it and submitted
 for review after the internal testers have had it. The pipeline is the same either way.
 
 ### Where it stands
@@ -741,18 +741,18 @@ for review after the internal testers have had it. The pipeline is the same eith
 Set up on 2026-10-03, all of it under the account holder's developer account (team
 `TN43QYW8K4`), nothing of which is in the repository:
 
-- the app record *nanoMuse*, iOS, bundle id `io.github.nanomuse.app`, SKU `nanomuse-ios`,
+- the app record *lingTai*, iOS, bundle id `io.github.lingtai.app`, SKU `lingtai-ios`,
   Apple ID `6818802049`; the three extension bundle ids `…app.ShareExtension`,
-  `…app.FileProvider`, `…app.AgentWidget`; the app group `group.io.github.nanomuse.app` and the
-  iCloud container `iCloud.io.github.nanomuse.app`; the capabilities the four `.entitlements`
+  `…app.FileProvider`, `…app.AgentWidget`; the app group `group.io.github.lingtai.app` and the
+  iCloud container `iCloud.io.github.lingtai.app`; the capabilities the four `.entitlements`
   ask for (App Groups, HealthKit with clinical records, HomeKit, iCloud/CloudKit, NFC tag
   reading, WeatherKit) turned on on the identifiers;
-- the API key *nanoMuse CI* (role App Manager), the Apple Distribution certificate
+- the API key *lingTai CI* (role App Manager), the Apple Distribution certificate
   *Apple Distribution: Guangyi Liu* (valid to 2027-10-03) and the four App Store profiles
-  *nanoMuse App Store*, *nanoMuse ShareExtension App Store*, *nanoMuse FileProvider App Store*,
-  *nanoMuse AgentWidget App Store*;
+  *lingTai App Store*, *lingTai ShareExtension App Store*, *lingTai FileProvider App Store*,
+  *lingTai AgentWidget App Store*;
 - the six repository secrets of the table below;
-- the internal TestFlight group *nanoMuse Core* with automatic distribution, so every processed
+- the internal TestFlight group *lingTai Core* with automatic distribution, so every processed
   build reaches its testers by itself; the device list is empty on purpose (nothing here needs
   one);
 - **the first build**: 0.1.31 (2), archived and uploaded by the workflow on 2026-10-03, processed
@@ -760,13 +760,13 @@ Set up on 2026-10-03, all of it under the account holder's developer account (te
   testing with the internal group: the first thing that can be installed from TestFlight;
 - the test information an external group needs, in English and Simplified Chinese: the beta app
   description, the feedback address, the marketing and privacy-policy links, and *What to Test*
-  on each build (none of it names other products); the external group *nanoMuse Beta* with its
+  on each build (none of it names other products); the external group *lingTai Beta* with its
   public link, `https://testflight.apple.com/join/ZHexbDqc`; the beta-review contact and a
   review account on the relay in *Beta App Review Information*;
-- **build 16 (1.0.0)** was added to *nanoMuse Beta* and submitted to Apple's beta review on
+- **build 16 (1.0.0)** was added to *lingTai Beta* and submitted to Apple's beta review on
   2026-10-09 and passed it, so the public link installs it (build 14, 0.1.41, was what the link
   delivered before); build 17, 1.0.0 with the fixes merged after the tag, went to the internal
-  testers only. **Build 18 (1.0.1)** was added to *nanoMuse Beta* and submitted to the review on
+  testers only. **Build 18 (1.0.1)** was added to *lingTai Beta* and submitted to the review on
   2026-10-10 and **build 19 (1.0.2)** on 2026-10-11; both passed on 2026-10-12, so the link installs build 19. **Build 22 (1.0.3)** was submitted on 2026-10-12 and **build 26 (1.0.4)** on 2026-10-13; both passed on 2026-10-13, so the link installs build 26. **Build 28 (1.0.5)** was submitted on 2026-10-14; builds 23, 24 and 25 (1.0.3 with fixes merged after the tag) and 27 (1.0.4 the same way) went to the internal testers only. The public link delivers a build only
   once a review has passed, and each new version repeats the step (the review is per version;
   later builds of an approved version need none).
@@ -774,15 +774,15 @@ Set up on 2026-10-03, all of it under the account holder's developer account (te
 
 ### Once, in App Store Connect
 
-1. **The app record.** *Apps → + → New App*: platform iOS, name nanoMuse, bundle id
-   `io.github.nanomuse.app`, a SKU. Automatic signing registers identifiers, but the app record
+1. **The app record.** *Apps → + → New App*: platform iOS, name lingTai, bundle id
+   `io.github.lingtai.app`, a SKU. Automatic signing registers identifiers, but the app record
    itself is created once, by hand. If the bundle id is not offered in the list, register it first
    under *Certificates, Identifiers & Profiles → Identifiers*.
 2. **Capabilities on the identifier.** The entitlements ask for App Groups, iCloud (CloudKit),
    HealthKit (with clinical records), HomeKit, NFC tag reading and WeatherKit. Automatic signing
    turns most of these on by itself; if the first archive fails on a capability, enable it on the
-   identifier by hand, and create the iCloud container `iCloud.io.github.nanomuse.app` and the
-   app group `group.io.github.nanomuse.app` there. WeatherKit also has to be enabled on the
+   identifier by hand, and create the iCloud container `iCloud.io.github.lingtai.app` and the
+   app group `group.io.github.lingtai.app` there. WeatherKit also has to be enabled on the
    *Services* tab of the identifier.
 3. **An API key.** *Users and Access → Integrations → App Store Connect API → Team Keys → +*,
    role **App Manager** (Developer is not enough to upload). Download the `.p8` once; note the
@@ -820,14 +820,14 @@ the key is lost (a team may hold two or three distribution certificates; revoke 
 ```sh
 umask 077 && cd ~/.private/apple/dist                                # anywhere outside the repository
 openssl genrsa -out dist.key 2048
-openssl req -new -key dist.key -out dist.csr -subj "/emailAddress=<account e-mail>/CN=nanoMuse CI distribution/C=CN"
+openssl req -new -key dist.key -out dist.csr -subj "/emailAddress=<account e-mail>/CN=lingTai CI distribution/C=CN"
 # POST /v1/certificates { certificateType: DISTRIBUTION, csrContent: <dist.csr> } with a JWT signed
 # by the API key (the key's role must be App Manager or Admin); save certificateContent, base64, as dist.cer
 openssl x509 -inform DER -in dist.cer -out dist.pem
 openssl rand -base64 24 | tr -d '\n' > dist.p12.pass
 openssl pkcs12 -export -inkey dist.key -in dist.pem -out dist.p12 -passout file:dist.p12.pass   # with OpenSSL 3 add -legacy
-base64 -w0 dist.p12 | gh secret set IOS_DIST_P12_BASE64 -R nano-muse/nanoMuse
-gh secret set IOS_DIST_P12_PASSWORD -R nano-muse/nanoMuse < dist.p12.pass
+base64 -w0 dist.p12 | gh secret set IOS_DIST_P12_BASE64 -R ling-tai/lingTai
+gh secret set IOS_DIST_P12_PASSWORD -R ling-tai/lingTai < dist.p12.pass
 ```
 
 The private key stays in that folder on the maintainer's machine (and in the secret); nothing
@@ -843,7 +843,7 @@ that touches `android/src/ios/`, and *Actions → iOS · build check → Run wor
 hand for anything else (a change under `android/deps/`, a branch without a pull request). It
 shares the native-dependency cache with the TestFlight workflow, so let it go green first: a
 compile error costs minutes there, not an upload. The full `xcodebuild` log is attached to the run. The run fails
-when a warning is reported in a file under `NanoMuse/` (upstream's files are not held to this),
+when a warning is reported in a file under `LingTai/` (upstream's files are not held to this),
 so the zero-warnings rule above is checked, not just asked for.
 
 The strings catalogue has a check of its own that runs on every pull request, on Linux:
@@ -866,25 +866,25 @@ The runner is `macos-26`; if the label is not available on your GitHub plan, `ma
 
 ## What follows
 
-The Android app is where nanoMuse's shape lives; since 0.1.34 the iPhone carries the same shape
+The Android app is where lingTai's shape lives; since 0.1.34 the iPhone carries the same shape
 over OpenMinis (the agent's page, the chat-driven avatar, goals, feed, routines, the first run),
 with iOS's limits on background work spelled out in the copy. Where the Android code is, and
 what became of it here:
 
-| Android (`io.github.nanomuse.*`) | On iOS |
+| Android (`io.github.lingtai.*`) | On iOS |
 |---|---|
-| `cloud`: relay client, sign-in, account | Done: `NanoMuse/NanoMuseCloud*.swift`, `NanoMuseAccount*.swift` (0.1.32: password, invite code, the allowance in yuan, usage, sessions, timeline, delete) |
-| `ui.onboarding`: the first run with *Sign in · free* | Done (0.1.34): `NanoMuseFirstRun.swift`, the first conversation included; 0.1.35 the Notifications page; no Hands page on iOS |
-| `community.StarPrompt`, `community.Nudges`: the star asks from the relay's policy | Done (0.1.35): `NanoMuseNudges.swift`, `NanoMuseStar` (the moments, the cooldown and the cap from `/v1/nudges`) |
-| `community.UpdateCheck`, the Version row | Done (0.1.35): `NanoMuseUpdateCheck.swift` (installed and latest, `nanomuse.cn/dl/index.json` then GitHub) |
-| `avatar.VideoGen`, `avatar.AvatarMotion`: the motion clips | Done (0.1.35): `NanoMuseVideoGen.swift`, `NanoMuseAvatarMotion.swift`, `NanoMuseMediaModels.swift` |
-| `nm.show_steps`: the agent's steps, on by default since 0.1.37 | 0.1.32: `NanoMuseSteps.swift`; finished messages keep to the conversation, a running one shows its steps |
-| `connectors`: the catalogue, `SharedConnectors` | Done: `NanoMuseConnectors.swift` (0.1.33 the catalogue, 0.1.34 the other devices' entries) |
-| `ui.home`, `ui.chat`, `ui.settings`, `ui.profile`: the shell, header, agent page | Done: `NanoMuseShell.swift`, `NanoMuseHeader.swift`, `NanoMuseAgentPage.swift`, `NanoMuseSettings.swift`; 0.1.35 the Muse header on every room, the settings as Muse cards (`NanoMuseChrome.swift`, `NanoMuseAppearance.swift`) |
-| `avatar`: the drawn face, the chat-driven change, the studio | Done (0.1.34): `NanoMuseAvatarFlow.swift`, `NanoMuseAvatarStudio.swift`, `NanoMuseImageGen.swift` |
+| `cloud`: relay client, sign-in, account | Done: `LingTai/LingTaiCloud*.swift`, `LingTaiAccount*.swift` (0.1.32: password, invite code, the allowance in yuan, usage, sessions, timeline, delete) |
+| `ui.onboarding`: the first run with *Sign in · free* | Done (0.1.34): `LingTaiFirstRun.swift`, the first conversation included; 0.1.35 the Notifications page; no Hands page on iOS |
+| `community.StarPrompt`, `community.Nudges`: the star asks from the relay's policy | Done (0.1.35): `LingTaiNudges.swift`, `LingTaiStar` (the moments, the cooldown and the cap from `/v1/nudges`) |
+| `community.UpdateCheck`, the Version row | Done (0.1.35): `LingTaiUpdateCheck.swift` (installed and latest, `lingtai.cn/dl/index.json` then GitHub) |
+| `avatar.VideoGen`, `avatar.AvatarMotion`: the motion clips | Done (0.1.35): `LingTaiVideoGen.swift`, `LingTaiAvatarMotion.swift`, `LingTaiMediaModels.swift` |
+| `lt.show_steps`: the agent's steps, on by default since 0.1.37 | 0.1.32: `LingTaiSteps.swift`; finished messages keep to the conversation, a running one shows its steps |
+| `connectors`: the catalogue, `SharedConnectors` | Done: `LingTaiConnectors.swift` (0.1.33 the catalogue, 0.1.34 the other devices' entries) |
+| `ui.home`, `ui.chat`, `ui.settings`, `ui.profile`: the shell, header, agent page | Done: `LingTaiShell.swift`, `LingTaiHeader.swift`, `LingTaiAgentPage.swift`, `LingTaiSettings.swift`; 0.1.35 the Muse header on every room, the settings as Muse cards (`LingTaiChrome.swift`, `LingTaiAppearance.swift`) |
+| `avatar`: the drawn face, the chat-driven change, the studio | Done (0.1.34): `LingTaiAvatarFlow.swift`, `LingTaiAvatarStudio.swift`, `LingTaiImageGen.swift` |
 | `goals`, `feed`, the scheduler | Done (0.1.34) as far as iOS allows: foreground catch-up, `BGAppRefreshTask`, local notifications. No alarm-exact runs while the app is asleep; the copy says so |
-| `coding`: the computers' coding agents over the hub | Done (0.1.34): `NanoMuseCoding.swift`; the computer must run nanoMuse signed in with the same account |
-| `reach`: the phone drives the computer | Done: `NanoMuseReach.swift` over the hub |
+| `coding`: the computers' coding agents over the hub | Done (0.1.34): `LingTaiCoding.swift`; the computer must run lingTai signed in with the same account |
+| `reach`: the phone drives the computer | Done: `LingTaiReach.swift` over the hub |
 | `hands`: the phone's own screen | No equivalent: iOS does not let an app drive another. App Intents / Shortcuts are the door there |
 | Widgets | Upstream's `AgentWidget` as it is |
 

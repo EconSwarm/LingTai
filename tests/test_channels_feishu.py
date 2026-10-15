@@ -14,9 +14,9 @@ from typing import Any
 
 import pytest
 
-from nanomuse.channels import feishu
-from nanomuse.channels.base import InboundMessage
-from nanomuse.channels.feishu import FeishuChannel, _post_text, _strip_mentions
+from lingtai.channels import feishu
+from lingtai.channels.base import InboundMessage
+from lingtai.channels.feishu import FeishuChannel, _post_text, _strip_mentions
 
 
 class Bus:
@@ -298,7 +298,7 @@ def test_rich_text_and_mentions():
 def test_sdk_missing_is_a_hint(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setitem(sys.modules, "lark_oapi", None)
     assert FeishuChannel.sdk_available() is False
-    assert FeishuChannel.install_hint() == "pip install 'nanomuse[feishu]'"
+    assert FeishuChannel.install_hint() == "pip install 'lingtai[feishu]'"
     assert FeishuChannel.missing({"app_id": "x"}) == ["app_secret"]
 
 

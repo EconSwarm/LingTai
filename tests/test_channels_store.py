@@ -8,8 +8,8 @@ from pathlib import Path
 
 import pytest
 
-from nanomuse.channels.base import Channel, Field
-from nanomuse.channels.store import (
+from lingtai.channels.base import Channel, Field
+from lingtai.channels.store import (
     CODE_ALPHABET,
     CODE_LENGTH,
     ChannelSettingsStore,
@@ -17,8 +17,8 @@ from nanomuse.channels.store import (
     new_code,
     vault_name,
 )
-from nanomuse.config import Settings
-from nanomuse.vault.vault import CredentialVault
+from lingtai.config import Settings
+from lingtai.vault.vault import CredentialVault
 
 
 class Demo(Channel):

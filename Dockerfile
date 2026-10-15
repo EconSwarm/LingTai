@@ -1,11 +1,11 @@
-# nanoMuse in a container: the agent sees only /data and /workspace.
+# lingTai in a container: the agent sees only /data and /workspace.
 #
-#   docker build -t nanomuse .
-#   docker run -d -p 8787:8787 --env-file .env -v nanomuse-data:/data -v $PWD/workspace:/workspace nanomuse
-#   docker run -it --rm --env-file .env -v nanomuse-data:/data -v $PWD/workspace:/workspace nanomuse chat
+#   docker build -t lingtai .
+#   docker run -d -p 8787:8787 --env-file .env -v lingtai-data:/data -v $PWD/workspace:/workspace lingtai
+#   docker run -it --rm --env-file .env -v lingtai-data:/data -v $PWD/workspace:/workspace lingtai chat
 #
 # With a browser (Chromium + Playwright, ~400 MB more; the browser tool is on):
-#   docker build --build-arg WITH_BROWSER=1 -t nanomuse:browser .
+#   docker build --build-arg WITH_BROWSER=1 -t lingtai:browser .
 #
 FROM python:3.12-slim
 
@@ -19,10 +19,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_INDEX_URL=${PIP_INDEX_URL} \
-    NANOMUSE_DATA_DIR=/data \
-    NANOMUSE_WORKSPACE=/workspace \
-    NANOMUSE_CONFIG=/app/config/config.toml \
-    NANOMUSE_IN_CONTAINER=1 \
+    LINGTAI_DATA_DIR=/data \
+    LINGTAI_WORKSPACE=/workspace \
+    LINGTAI_CONFIG=/app/config/config.toml \
+    LINGTAI_IN_CONTAINER=1 \
     PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 RUN useradd --create-home --uid 1000 muse \
@@ -31,7 +31,7 @@ RUN useradd --create-home --uid 1000 muse \
 
 WORKDIR /app
 COPY --chown=muse:muse pyproject.toml README.md LICENSE ./
-COPY --chown=muse:muse nanomuse ./nanomuse
+COPY --chown=muse:muse lingtai ./lingtai
 COPY --chown=muse:muse config/config.example.toml ./config/config.example.toml
 
 RUN if [ "$WITH_BROWSER" = "1" ]; then \
@@ -46,7 +46,7 @@ RUN if [ "$WITH_BROWSER" = "1" ]; then \
  && cp config/config.example.toml config/config.toml
 
 # the browser tool is on in the browser image ("1"); anything else leaves config.toml alone
-ENV NANOMUSE_BROWSER_ENABLED=${WITH_BROWSER}
+ENV LINGTAI_BROWSER_ENABLED=${WITH_BROWSER}
 
 USER muse
 VOLUME ["/data", "/workspace"]
@@ -56,6 +56,6 @@ EXPOSE 8787
 # shows unhealthy, which `--no-healthcheck` on `docker run` turns off.
 HEALTHCHECK --interval=30s --timeout=5s CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8787/api/health', timeout=3).status == 200 else 1)"
 
-ENTRYPOINT ["nanomuse"]
+ENTRYPOINT ["lingtai"]
 # The phone app. Override with `chat`, `run "..."`, `daemon`, ...
 CMD ["serve", "--host", "0.0.0.0", "--no-qr"]

@@ -54,8 +54,8 @@ class ConfigConfirmNotifier(
             return false
         }
 
-        val nm = NotificationManagerCompat.from(context)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !nm.areNotificationsEnabled()) {
+        val lt = NotificationManagerCompat.from(context)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !lt.areNotificationsEnabled()) {
             return false
         }
 
@@ -84,8 +84,8 @@ class ConfigConfirmNotifier(
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_stat_nanomuse) // nanoMuse: flat status-bar mark
-            .setLargeIcon(io.github.nanomuse.identity.NanoMuseIdentity.face(context)) // nanoMuse: the agent is the sender
+            .setSmallIcon(R.drawable.ic_stat_lingtai) // lingTai: flat status-bar mark
+            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // lingTai: the agent is the sender
             .setContentTitle(context.getString(R.string.notif_config_confirm_title))
             .setContentText(body)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))
@@ -96,7 +96,7 @@ class ConfigConfirmNotifier(
             .build()
 
         return try {
-            nm.notify(NOTIFICATION_TAG, change.id.hashCode(), notification)
+            lt.notify(NOTIFICATION_TAG, change.id.hashCode(), notification)
             AppLogger.info(TAG, "bg-notify post id=${change.id} bodyLen=${body.length}")
             true
         } catch (se: SecurityException) {

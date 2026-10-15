@@ -3,13 +3,13 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [project]
-name = "nanomuse"
+name = "lingtai"
 version = "1.0.5"
-description = "nanoMuse: an open-source personal agent for every device you own. This is its runtime: the agent, the Sentinel that decides what may run, the hands that work a phone or a computer, and the web app. Bring your own model."
+description = "lingTai: an open-source personal agent for every device you own. This is its runtime: the agent, the Sentinel that decides what may run, the hands that work a phone or a computer, and the web app. Bring your own model."
 readme = "README.md"
 license = { text = "GPL-3.0-or-later" }
 requires-python = ">=3.11"
-authors = [{ name = "nanoMuse Contributors" }]
+authors = [{ name = "lingTai Contributors" }]
 keywords = ["agent", "ai", "llm", "personal-assistant", "personal-agent", "muse", "meta-muse", "gui-agent", "mcp", "deepseek", "feishu", "amap"]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
@@ -56,7 +56,7 @@ hands = [
     "Pillow>=10",
     "pyautogui>=0.9.54",
     "pyperclip>=1.8",
-    # macOS window mode (nanomuse/computer/mac_window.py): one app's window, events to its process
+    # macOS window mode (lingtai/computer/mac_window.py): one app's window, events to its process
     "pyobjc-framework-Quartz>=10; sys_platform == 'darwin'",
     "pyobjc-framework-ApplicationServices>=10; sys_platform == 'darwin'",
 ]
@@ -65,31 +65,31 @@ dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.5", "mypy>=1.10", "httpx>=0
 feishu = ["lark-oapi>=1.5,<2"]
 dingtalk = ["dingtalk-stream>=0.24,<1"]
 wecom = ["wecom-aibot-sdk-python>=0.1.7,<0.2"]
-channels = ["nanomuse[feishu,dingtalk,wecom]"]
-all = ["nanomuse[browser,hands,dev,channels]"]
+channels = ["lingtai[feishu,dingtalk,wecom]"]
+all = ["lingtai[browser,hands,dev,channels]"]
 
 [project.scripts]
-nanomuse = "nanomuse.cli:app"
+lingtai = "lingtai.cli:app"
 # the CLI bridge: for commands the agent runs (docs/local-runtime.md)
-nanomuse-device = "nanomuse.bridge.cli:device_main"
-nanomuse-browser = "nanomuse.bridge.cli:browser_main"
-nanomuse-open = "nanomuse.bridge.cli:open_main"
+lingtai-device = "lingtai.bridge.cli:device_main"
+lingtai-browser = "lingtai.bridge.cli:browser_main"
+lingtai-open = "lingtai.bridge.cli:open_main"
 
 [project.urls]
-Homepage = "https://nanomuse.cn"
-Documentation = "https://nanomuse.cn/docs/"
-Repository = "https://github.com/nano-muse/nanoMuse"
-Issues = "https://github.com/nano-muse/nanoMuse/issues"
-Changelog = "https://github.com/nano-muse/nanoMuse/blob/main/CHANGELOG.md"
+Homepage = "https://lingtai.cn"
+Documentation = "https://lingtai.cn/docs/"
+Repository = "https://github.com/econswarm/lingtai"
+Issues = "https://github.com/econswarm/lingtai/issues"
+Changelog = "https://github.com/econswarm/lingtai/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
-packages = ["nanomuse"]
+packages = ["lingtai"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"config/config.example.toml" = "nanomuse/config.example.toml"
+"config/config.example.toml" = "lingtai/config.example.toml"
 
 [tool.hatch.build.targets.sdist]
-include = ["nanomuse", "config/config.example.toml", "README.md", "docs/readme", "LICENSE"]
+include = ["lingtai", "config/config.example.toml", "README.md", "docs/readme", "LICENSE"]
 
 [tool.ruff]
 line-length = 100
@@ -101,7 +101,7 @@ ignore = ["E501", "B008", "UP042"]
 
 [tool.mypy]
 python_version = "3.11"
-files = ["nanomuse"]
+files = ["lingtai"]
 ignore_missing_imports = true
 check_untyped_defs = true
 warn_redundant_casts = true
@@ -112,4 +112,4 @@ warn_unused_ignores = false
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-markers = ["live: tests that call a real LLM endpoint (set NANOMUSE_LIVE=1)"]
+markers = ["live: tests that call a real LLM endpoint (set LINGTAI_LIVE=1)"]

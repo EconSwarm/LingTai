@@ -14,8 +14,8 @@ import pytest
 from fastapi.testclient import TestClient
 from PIL import Image
 
-from nanomuse.avatar import studio as studio_mod
-from nanomuse.avatar.studio import (
+from lingtai.avatar import studio as studio_mod
+from lingtai.avatar.studio import (
     CLIP_MOODS,
     PICTURES_PER_FACE,
     Endpoint,
@@ -24,10 +24,10 @@ from nanomuse.avatar.studio import (
     parse_choice,
     parse_request,
 )
-from nanomuse.config import Settings
-from nanomuse.llm import MockLLM
-from nanomuse.server import create_app
-from nanomuse.server.service import MuseService
+from lingtai.config import Settings
+from lingtai.llm import MockLLM
+from lingtai.server import create_app
+from lingtai.server.service import MuseService
 
 
 @pytest.mark.parametrize(
@@ -385,7 +385,7 @@ def test_without_an_image_model_the_chat_says_so(settings: Settings) -> None:
 @pytest.mark.parametrize(
     ("base", "host"),
     [
-        ("https://cloud.nanomuse.cn/v1", "https://cloud.nanomuse.cn"),
+        ("https://cloud.lingtai.cn/v1", "https://cloud.lingtai.cn"),
         ("https://dashscope.aliyuncs.com/compatible-mode/v1", "https://dashscope.aliyuncs.com"),
         ("https://dashscope.aliyuncs.com/api/v1", "https://dashscope.aliyuncs.com"),
     ],
@@ -395,7 +395,7 @@ def test_video_host_is_the_root_of_the_model_url(base: str, host: str) -> None:
         base_url=base,
         api_key="k",
         image_model="i",
-        cloud="nanomuse" in base,
+        cloud="lingtai" in base,
         video_model="wan2.2-i2v-flash",
     )
     assert ep.video_host == host and ep.clips

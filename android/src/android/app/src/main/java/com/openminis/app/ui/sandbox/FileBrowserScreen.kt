@@ -100,7 +100,7 @@ fun FileBrowserScreen(
 
     Scaffold(
         topBar = {
-            io.github.nanomuse.ui.muse.MuseTopAppBar( // nanoMuse: Muse's bar (drop-in for TopAppBar)
+            io.github.lingtai.ui.muse.MuseTopAppBar( // lingTai: Muse's bar (drop-in for TopAppBar)
                 title = { Text(stringResource(R.string.filebrowser_title)) },
                 navigationIcon = {
                     IconButton(onClick = handleBack) {

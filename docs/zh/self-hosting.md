@@ -1,11 +1,9 @@
-# 自己部署 nanoMuse
-
-nanoMuse 是跑在你自己设备上的一个智能体，里面没有任何东西非得经过我们的服务器。自己运行它有三条路，从最省事到最费事。多数人要的是第一条；想要自己的登录的一家人或一个小团体要第二条；第三条是给想在自己机器上跑网页版的人。
+# 自己部署灵台灵台是跑在你自己设备上的一个智能体，里面没有任何东西非得经过我们的服务器。自己运行它有三条路，从最省事到最费事。多数人要的是第一条；想要自己的登录的一家人或一个小团体要第二条；第三条是给想在自己机器上跑网页版的人。
 
 | | 你要运行什么 | 你得到什么 |
 |---|---|---|
 | [1. 不要服务器，用自己的 key](#_1-no-server-your-own-key) | 什么都不用 | 各个 App 直接和模型服务商对话；社区中继仍然用于登录和让设备互相找到 |
-| [2. 自己的中继](#_2-your-own-relay) | 一台小 VPS 或家用服务器上的 nanoMuse Cloud | 你自己的账号、登录验证码、hub 和对话同步；关于你账号的一切都不碰 nanomuse.cn |
+| [2. 自己的中继](#_2-your-own-relay) | 一台小 VPS 或家用服务器上的灵台云 | 你自己的账号、登录验证码、hub 和对话同步；关于你账号的一切都不碰 lingtai.cn |
 | [3. 自己的运行时](#_3-a-runtime-of-your-own-for-the-web-app) | Docker 里的 Python 运行时 | 网页版，以及一台常开电脑上的手 |
 
 ## 1. 不要服务器，用自己的 key {#_1-no-server-your-own-key}
@@ -14,7 +12,7 @@ nanoMuse 是跑在你自己设备上的一个智能体，里面没有任何东�
 
 ## 2. 自己的中继 {#_2-your-own-relay}
 
-nanoMuse Cloud 就是 nanomuse.cn 背后的那个中继：邮箱或手机号登录、通过一个 OpenAI 兼容端点提供账号的模型、设备相遇的 hub、对话同步、`/app` 下的网页控制台和 `/app/admin/` 下的管理页。它是一个 Python 服务加一个 SQLite 文件，在这个仓库的 [`cloud/`](../../cloud/README.md) 下，放到你的服务器上照样跑。
+灵台云就是 lingtai.cn 背后的那个中继：邮箱或手机号登录、通过一个 OpenAI 兼容端点提供账号的模型、设备相遇的 hub、对话同步、`/app` 下的网页控制台和 `/app/admin/` 下的管理页。它是一个 Python 服务加一个 SQLite 文件，在这个仓库的 [`cloud/`](../../cloud/README.md) 下，放到你的服务器上照样跑。
 
 ### 你需要什么 {#what-you-need}
 
@@ -26,7 +24,7 @@ nanoMuse Cloud 就是 nanomuse.cn 背后的那个中继：邮箱或手机号登�
 ### 一条命令 {#in-one-command}
 
 ```bash
-git clone https://github.com/nano-muse/nanoMuse.git && cd nanoMuse
+git clone https://github.com/econswarm/lingtai.git && cd lingTai
 bash scripts/self-host.sh
 ```
 
@@ -53,31 +51,31 @@ bash scripts/self-host.sh --local --bind 0.0.0.0   # reachable from the phones o
 
 ### 把各个 App 指向它 {#pointing-the-apps-at-it}
 
-每个 App 默认都在 `https://cloud.nanomuse.cn` 上登录，除非你另外告诉它。同一个账号的设备必须都指向同一个中继；hub 和对话都在那里。
+每个 App 默认都在 `https://cloud.lingtai.cn` 上登录，除非你另外告诉它。同一个账号的设备必须都指向同一个中继；hub 和对话都在那里。
 
 - **Android**（0.1.38）。登录表单下面的「使用其他服务器」填中继地址；「检查」会访问它的 `/healthz` 并显示版本，「使用这个服务器」让这个地址在重启 App 之后也保留。在你自己的网络之外必须用 `https://`；私有地址（`10.x`、`172.16-31.x`、`192.168.x`、`localhost`、`.local` 或 `.ts.net` 名字）接受明文 `http://`。「设置 → 账号」显示当前服务器和「更换」，更换会先把手机退出登录（[android.md](android.md)）。
 - **iPhone / iPad。** 登录页上同样的链接，同样的规则。
-- **nanoMuse 桌面版。** 中继就是插件 cloud 一行的 `baseURL`。把下面这段加进桌面版配置档 `~/.nanomuse/desktop/profiles/nanomuse/`（Windows 上是 `%USERPROFILE%\.nanomuse\desktop\profiles\nanomuse\`；`NANOMUSE_DESKTOP_HOME` 可以把它挪走）里的 `cordis.patch.yml`，然后重启应用：
+- **灵台桌面版。** 中继就是插件 cloud 一行的 `baseURL`。把下面这段加进桌面版配置档 `~/.lingtai/desktop/profiles/lingtai/`（Windows 上是 `%USERPROFILE%\.lingtai\desktop\profiles\lingtai\`；`LINGTAI_DESKTOP_HOME` 可以把它挪走）里的 `cordis.patch.yml`，然后重启应用：
 
   ```yaml
-  - id: nanomuse-cloud
-    name: dsh-nanomuse/cloud
+  - id: lingtai-cloud
+    name: dsh-lingtai/cloud
     config:
       baseURL: https://cloud.example.com
       deviceName: ''
       statePath: ''
   ```
 
-  在应用启动的环境里设 `NANOMUSE_CLOUD_URL=https://cloud.example.com`，不用改文件也是一样的效果（[desktop.md](desktop.md)）。
-- **终端运行时和托管的网页版**（`nanomuse …`、根目录的 `docker-compose.yml`）：环境变量或 `.env` 里的 `NANOMUSE_CLOUD_BASE_URL=https://cloud.example.com`，或者 `config/config.toml` 里的 `[cloud] base_url`（[configuration.md](configuration.md)）。
+  在应用启动的环境里设 `LINGTAI_CLOUD_URL=https://cloud.example.com`，不用改文件也是一样的效果（[desktop.md](desktop.md)）。
+- **终端运行时和托管的网页版**（`lingtai …`、根目录的 `docker-compose.yml`）：环境变量或 `.env` 里的 `LINGTAI_CLOUD_BASE_URL=https://cloud.example.com`，或者 `config/config.toml` 里的 `[cloud] base_url`（[configuration.md](configuration.md)）。
 - **网页控制台**就是中继自己的 `/app`（`https://<your domain>/app/`），不需要指向。
 
-从你的中继发出的邀请链接指向它自己的控制台（`INVITE_URL`，由脚本设置），所以你邀请的朋友落在你的中继上，而不是 nanomuse.cn。
+从你的中继发出的邀请链接指向它自己的控制台（`INVITE_URL`，由脚本设置），所以你邀请的朋友落在你的中继上，而不是 lingtai.cn。
 
 ### 更新 {#updating}
 
 ```bash
-cd nanoMuse && git pull
+cd lingTai && git pull
 bash scripts/self-host.sh        # Enter through the questions; secrets and accounts are kept
 # or: cd cloud && docker compose up -d --build
 ```
@@ -91,7 +89,7 @@ bash scripts/self-host.sh        # Enter through the questions; secrets and acco
 ```bash
 cd cloud && docker compose exec -T relay python - > cloud-$(date -u +%Y%m%d).db <<'EOF'
 import os, shutil, sqlite3, sys
-src = sqlite3.connect("/srv/nanomuse-cloud/data/cloud.db")
+src = sqlite3.connect("/srv/lingtai-cloud/data/cloud.db")
 dst = sqlite3.connect("/tmp/backup.db")
 src.backup(dst)
 dst.close(); src.close()
@@ -111,12 +109,12 @@ Caddy 的证书在 `caddy_data` 卷里，丢了会重新申请。
 
 ## 3. 自己的运行时，给网页版用 {#_3-a-runtime-of-your-own-for-the-web-app}
 
-手机和桌面各自带着自己的智能体。网页版没有；它对话的是 Python 运行时，在 nanomuse.cn 上，每个访客有一个自己的容器。你可以把这个运行时跑在自己的机器上，在 Docker 里，然后从任何浏览器打开它上面的网页版：
+手机和桌面各自带着自己的智能体。网页版没有；它对话的是 Python 运行时，在 lingtai.cn 上，每个访客有一个自己的容器。你可以把这个运行时跑在自己的机器上，在 Docker 里，然后从任何浏览器打开它上面的网页版：
 
 ```bash
-cp .env.example .env && $EDITOR .env      # a model key, NANOMUSE_SERVER_TOKEN; NANOMUSE_CLOUD_BASE_URL for your own relay
-nanomuse config init                      # or copy config/config.example.toml to config/config.toml
+cp .env.example .env && $EDITOR .env      # a model key, LINGTAI_SERVER_TOKEN; LINGTAI_CLOUD_BASE_URL for your own relay
+lingtai config init                      # or copy config/config.example.toml to config/config.toml
 docker compose up -d app                  # the web app on http://<host>:8787, the URL with its token in the logs
 ```
 
-容器只看得到它的数据卷和 `./workspace`；capability 都已丢弃。让它一直跑着、arm64 的发布镜像、从你的网络外面访问它，都在[部署](deployment.md)。这个运行时像其他任何设备一样登录到一个中继（设了 `NANOMUSE_CLOUD_BASE_URL` 的话，就是第 2 节里你自己的那个），之后手机就可以通过 hub 把任务交给它，像交给一台常开的电脑（[every-device.md](every-device.md)）。
+容器只看得到它的数据卷和 `./workspace`；capability 都已丢弃。让它一直跑着、arm64 的发布镜像、从你的网络外面访问它，都在[部署](deployment.md)。这个运行时像其他任何设备一样登录到一个中继（设了 `LINGTAI_CLOUD_BASE_URL` 的话，就是第 2 节里你自己的那个），之后手机就可以通过 hub 把任务交给它，像交给一台常开的电脑（[every-device.md](every-device.md)）。

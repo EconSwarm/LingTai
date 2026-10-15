@@ -1,7 +1,7 @@
 /**
  * The model slots as the web console shows them (the Models contract, 0.1.41): a row's
  * value as `<provider> · <model>`, and what the picker of one capability offers — the
- * nanoMuse Cloud group when signed in, the chat model's provider when it has the
+ * lingTai Cloud group when signed in, the chat model's provider when it has the
  * capability (its key serves), then every catalogue provider that has it (a key to add).
  * Pure functions; `models.test.ts` checks them.
  */
@@ -11,9 +11,9 @@ import { modelSees } from "./region";
 import type { CatalogueProvider, CustomEndpoint, MediaSlotData } from "./types";
 
 /** what the account's model is called when it stands in a provider list (the runtime's id) */
-export const CLOUD_ID = "nanomuse_cloud";
+export const CLOUD_ID = "lingtai_cloud";
 /** the vault reference the runtime keeps the account key under; a slot set to the relay names it */
-export const CLOUD_KEY_REF = "{{vault:NANOMUSE_CLOUD_KEY}}";
+export const CLOUD_KEY_REF = "{{vault:LINGTAI_CLOUD_KEY}}";
 /** the picker's entry for a host the catalogue does not list */
 export const CUSTOM_ID = "custom";
 /** a picker value or provider tile that names a custom endpoint of the runtime's list: `endpoint:<id>` (#294) */
@@ -90,9 +90,9 @@ export function entryFor(provider: string, baseUrl: string, list: CatalogueProvi
   );
 }
 
-/** The name a provider id shows in a row: nanoMuse Cloud, the catalogue's name, or the host. */
+/** The name a provider id shows in a row: lingTai Cloud, the catalogue's name, or the host. */
 export function providerLabel(id: string, locale: string, baseUrl = "", list: CatalogueProvider[] = CATALOGUE): string {
-  if (id === CLOUD_ID) return "nanoMuse Cloud";
+  if (id === CLOUD_ID) return "lingTai Cloud";
   if (id === "chatgpt") return "ChatGPT";
   const entry = list.find((p) => p.id === id);
   if (entry && id !== CUSTOM_ID) return providerName(entry, locale);
@@ -123,7 +123,7 @@ export interface HandsSlot {
 }
 
 /**
- * The hands row's value, `<provider> · <model>`, from the effective fields: nanoMuse Cloud
+ * The hands row's value, `<provider> · <model>`, from the effective fields: lingTai Cloud
  * when the relay's hands model serves, the hands' own host when one is set, else the chat
  * model's provider. An endpoint of the list reads its name. "" while the runtime does not say.
  */
@@ -142,17 +142,17 @@ export function handsValue(
   let name: string;
   const ownHands = endpointNamed(gui.endpoint, endpoints);
   const ownChat = endpointNamed(llm.endpoint, endpoints);
-  if (gui.effective_source === "cloud") name = "nanoMuse Cloud";
+  if (gui.effective_source === "cloud") name = "lingTai Cloud";
   else if (gui.effective_source === "gui" && ownHands) name = endpointLabel(ownHands);
   else if (gui.effective_source === "gui" && (gui.provider_id || gui.base_url || !PROTOCOLS.includes(gui.provider || "openai")))
     name = gui.provider_id ? providerLabel(gui.provider_id, locale, gui.base_url, list) : labelOf(gui.provider, gui.base_url);
-  else if (llm.cloud) name = "nanoMuse Cloud";
+  else if (llm.cloud) name = "lingTai Cloud";
   else name = ownChat ? endpointLabel(ownChat) : labelOf(llm.provider, llm.base_url);
   return `${name} · ${model}`;
 }
 
 export interface MediaChoice {
-  /** `nanomuse_cloud`, a catalogue id, `endpoint:<id>` for an endpoint of the list, or `custom` */
+  /** `lingtai_cloud`, a catalogue id, `endpoint:<id>` for an endpoint of the list, or `custom` */
   value: string;
   label: string;
   group: "cloud" | "chat" | "endpoints" | "add";
@@ -162,7 +162,7 @@ export interface MediaChoice {
 }
 
 /**
- * What the picker of one slot offers, in order: nanoMuse Cloud when signed in; the chat
+ * What the picker of one slot offers, in order: lingTai Cloud when signed in; the chat
  * model's provider when it is an own provider with the capability; the endpoints of the
  * list (their own keys serve); then every catalogue provider with the capability for the
  * region (the chat provider not twice), and a host of one's own last. A provider without
@@ -183,7 +183,7 @@ export function mediaChoices(
 ): MediaChoice[] {
   const list = opts.list ?? CATALOGUE;
   const out: MediaChoice[] = [];
-  if (opts.signedIn) out.push({ value: CLOUD_ID, label: "nanoMuse Cloud", group: "cloud", needsKey: false, entry: null });
+  if (opts.signedIn) out.push({ value: CLOUD_ID, label: "lingTai Cloud", group: "cloud", needsKey: false, entry: null });
   const chat = opts.chat.cloud ? null : entryFor(opts.chat.provider, opts.chat.base_url, list);
   if (chat && chat.capabilities.includes(cap)) {
     out.push({ value: chat.id, label: providerName(chat, opts.locale), group: "chat", needsKey: false, entry: chat });

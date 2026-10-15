@@ -39,16 +39,16 @@ async def test_a_visitor_gets_a_private_muse(world):
             ".s.localhost:8000"
         )
         assert sess["token"] and sess["ttl_s"] == 600 and sess["byok"] is False
-        name = f"nm-{sess['id']}"
+        name = f"lt-{sess['id']}"
         env = runner.running[name]
         # the container's model lives behind this gateway, with a key of its own
-        assert env["NANOMUSE_LLM_BASE_URL"] == f"http://10.0.0.1:8000/llm/{sess['id']}/main"
-        assert env["NANOMUSE_GUI_BASE_URL"] == f"http://10.0.0.1:8000/llm/{sess['id']}/gui"
-        assert env["NANOMUSE_LLM_API_KEY"] != settings.main.api_key
-        assert env["NANOMUSE_SERVER_TOKEN"] == sess["token"]
-        assert env["NANOMUSE_GUI_ENABLED"] == "1"
+        assert env["LINGTAI_LLM_BASE_URL"] == f"http://10.0.0.1:8000/llm/{sess['id']}/main"
+        assert env["LINGTAI_GUI_BASE_URL"] == f"http://10.0.0.1:8000/llm/{sess['id']}/gui"
+        assert env["LINGTAI_LLM_API_KEY"] != settings.main.api_key
+        assert env["LINGTAI_SERVER_TOKEN"] == sess["token"]
+        assert env["LINGTAI_GUI_ENABLED"] == "1"
         # no account to sign in to: the web app opens on the chat, not the Cloud sign-in
-        assert env["NANOMUSE_CLOUD_REQUIRED"] == "0"
+        assert env["LINGTAI_CLOUD_REQUIRED"] == "0"
         # the phone's traffic on the session host reaches the container
         host = sess["server_url"].split("//")[1]
         r = await c.get("/api/state?token=x", headers={"host": host})
@@ -115,9 +115,9 @@ async def test_the_visitors_clock_reaches_the_container(world):
             headers={"x-forwarded-for": "1.2.3.4"},
         )
         assert r.status_code == 201, r.text
-        assert runner.running[f"nm-{body(r)['id']}"]["TZ"] == "America/Argentina/Buenos_Aires"
+        assert runner.running[f"lt-{body(r)['id']}"]["TZ"] == "America/Argentina/Buenos_Aires"
         r = await c.post("/api/demo/session", json={}, headers={"x-forwarded-for": "5.6.7.8"})
-        assert r.status_code == 201 and "TZ" not in runner.running[f"nm-{body(r)['id']}"]
+        assert r.status_code == 201 and "TZ" not in runner.running[f"lt-{body(r)['id']}"]
         for bad in ("Asia/Shanghai; rm -rf /", "../etc", "x" * 65, "Europe/"):
             r = await c.post(
                 "/api/demo/session", json={"time_zone": bad}, headers={"x-forwarded-for": "9.9.9.9"}
@@ -248,8 +248,8 @@ async def test_model_calls_are_metered(world):
     async with app.router.lifespan_context(app):
         c = await client_for(app)
         sess = body(await c.post("/api/demo/session", json={}))
-        env = runner.running[f"nm-{sess['id']}"]
-        key = env["NANOMUSE_LLM_API_KEY"]
+        env = runner.running[f"lt-{sess['id']}"]
+        key = env["LINGTAI_LLM_API_KEY"]
         path = f"/llm/{sess['id']}/main/chat/completions"
         # wrong key
         r = await c.post(path, json={"model": "x"}, headers={"authorization": "Bearer nope"})
@@ -325,11 +325,11 @@ async def test_bring_your_own_key(world):
         assert r.status_code == 201, r.text
         sess = body(r)
         assert sess["byok"] is True and sess["quota"]["requests"] is None
-        env = runner.running[f"nm-{sess['id']}"]
-        assert env["NANOMUSE_LLM_MODEL"] == "m" and env["NANOMUSE_GUI_MODEL"] == "m"
+        env = runner.running[f"lt-{sess['id']}"]
+        assert env["LINGTAI_LLM_MODEL"] == "m" and env["LINGTAI_GUI_MODEL"] == "m"
         # the visitor's key never reaches the container
         assert "sk-visitor-1" not in env.values()
-        key = env["NANOMUSE_LLM_API_KEY"]
+        key = env["LINGTAI_LLM_API_KEY"]
         for _ in range(5):  # no budget of ours applies
             r = await c.post(
                 f"/llm/{sess['id']}/main/chat/completions",
@@ -356,7 +356,7 @@ async def test_sessions_end_on_their_own(world):
         clock.now += 130  # past the idle limit, both untouched
         await c.get("/api/state", headers={"host": f"{b['id']}.s.localhost"})  # b is in use
         await manager.reap_once()
-        assert manager.get(a["id"]) is None and f"nm-{a['id']}" in runner.stopped
+        assert manager.get(a["id"]) is None and f"lt-{a['id']}" in runner.stopped
         assert manager.get(b["id"]) is not None
         clock.now += 600  # past the session's whole lifetime
         await manager.reap_once()
@@ -405,7 +405,7 @@ def test_usage_parsing():
 
 
 def test_which_deepseek_models_see():
-    # the rule shared by every client (contract C4, nanomuse/llm/vision.py): DeepSeek is
+    # the rule shared by every client (contract C4, lingtai/llm/vision.py): DeepSeek is
     # text-only before v4.1, except the Flash line, which V4.1 Flash serves under its older
     # names too; anything whose id says vision or ocr sees
     assert text_only("deepseek-v4-pro")
@@ -477,13 +477,13 @@ def test_a_visitors_own_provider_gets_its_own_gui_lane():
         ip="1.2.3.4",
         created_at=0.0,
         expires_at=1.0,
-        container="nm-abc",
+        container="lt-abc",
         byok=Provider("https://openrouter.ai/api/v1", "sk-or", "deepseek/deepseek-v4.1-flash"),
     )
     env = manager._env_for(sess)
-    assert env["NANOMUSE_LLM_MODEL"] == "deepseek/deepseek-v4.1-flash"
-    assert env["NANOMUSE_GUI_MODEL"] == "qwen/qwen3.8-27b"
-    assert "NANOMUSE_LLM_VISION" not in env  # v4.1 sees
+    assert env["LINGTAI_LLM_MODEL"] == "deepseek/deepseek-v4.1-flash"
+    assert env["LINGTAI_GUI_MODEL"] == "qwen/qwen3.8-27b"
+    assert "LINGTAI_LLM_VISION" not in env  # v4.1 sees
     assert manager.llm_lane(sess, "k", "gui").model == "qwen/qwen3.8-27b"
     assert manager.llm_lane(sess, "k", "main").model == "deepseek/deepseek-v4.1-flash"
 
@@ -501,13 +501,13 @@ def test_a_text_only_chat_model_is_kept_away_from_the_screenshots():
         ip="1.2.3.4",
         created_at=0.0,
         expires_at=1.0,
-        container="nm-abc",
+        container="lt-abc",
     )
     env = SessionManager(blind, runner, http=client)._env_for(sess)
-    assert env["NANOMUSE_LLM_VISION"] == "off"
-    assert env["NANOMUSE_GUI_MODEL"] == "gui-model"  # the operator lane still looks
+    assert env["LINGTAI_LLM_VISION"] == "off"
+    assert env["LINGTAI_GUI_MODEL"] == "gui-model"  # the operator lane still looks
     sighted = make_settings(main=Lane("openai", "qwen3.5-plus", "https://m.example", "sk"))
-    assert "NANOMUSE_LLM_VISION" not in SessionManager(sighted, runner, http=client)._env_for(sess)
+    assert "LINGTAI_LLM_VISION" not in SessionManager(sighted, runner, http=client)._env_for(sess)
     # DeepSeek V4.1 Flash reads pictures: the default chat model keeps its eyes
     flash = make_settings(main=Lane("openai", "deepseek-v4.1-flash", "https://m.example", "sk"))
-    assert "NANOMUSE_LLM_VISION" not in SessionManager(flash, runner, http=client)._env_for(sess)
+    assert "LINGTAI_LLM_VISION" not in SessionManager(flash, runner, http=client)._env_for(sess)

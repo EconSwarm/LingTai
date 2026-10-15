@@ -1,8 +1,8 @@
 #!/bin/sh
-# Keeps the project site current. Fetches nano-muse/nano-muse.github.io (the homepage at
-# https://nanomuse.cn; GitHub Pages publishes the same tree at nano-muse.github.io) into a
+# Keeps the project site current. Fetches ling-tai/ling-tai.github.io (the homepage at
+# https://lingtai.cn; GitHub Pages publishes the same tree at ling-tai.github.io) into a
 # shallow checkout and, when the tip moved, exports the tree — no dotfiles, no README — into
-# the directory Caddy serves (mirror/nanomuse.cn.caddy).
+# the directory Caddy serves (mirror/lingtai.cn.caddy).
 # The systemd timer runs it every minute; a run with nothing new is one small request to GitHub
 # and no output. Idempotent: the first run clones, later runs fetch.
 #
@@ -11,9 +11,9 @@
 #   MIRROR_*   the repository, its branch and the site's name, for a different site or fork
 set -eu
 
-repo=${MIRROR_REPO:-https://github.com/nano-muse/nano-muse.github.io.git}
+repo=${MIRROR_REPO:-https://github.com/econswarm/ling-tai.github.io.git}
 branch=${MIRROR_BRANCH:-main}
-name=${MIRROR_NAME:-nanomuse.cn}
+name=${MIRROR_NAME:-lingtai.cn}
 root=${WWW_ROOT:-$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)/www}
 src=$root/.src/$name
 dst=$root/$name

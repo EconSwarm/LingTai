@@ -91,7 +91,7 @@ object Routes {
     const val SETTINGS = "settings"
     const val PROVIDER_LIST = "providers"
     const val ADD_PROVIDER = "add_provider"
-    // nanoMuse: the same form, pre-filled for a known vendor (`bailian` = Alibaba Cloud Bailian)
+    // lingTai: the same form, pre-filled for a known vendor (`bailian` = Alibaba Cloud Bailian)
     const val ADD_PROVIDER_PATTERN = "add_provider?preset={preset}"
     fun addProvider(preset: String?): String = if (preset.isNullOrBlank()) ADD_PROVIDER else "add_provider?preset=$preset"
     const val PROVIDER_DETAIL = "provider/{instanceId}"
@@ -244,18 +244,18 @@ fun AppNavigation(
         (context.applicationContext as com.openminis.app.MinisApp).mountedFoldersStore
     }
 
-    // nanoMuse: whether SESSION_LIST renders the home shell (compact windows) — decided here,
+    // lingTai: whether SESSION_LIST renders the home shell (compact windows) — decided here,
     // ahead of the deep-link effects, and published for the non-composable entry points
     // (MainActivity's warm deep links). Written during composition on purpose so the effects
     // below already see it. Wide windows keep the upstream list/detail behaviour.
-    val nmHomeActive = !shouldUseTwoPane()
-    io.github.nanomuse.ui.home.HomeShell.active = nmHomeActive
+    val ltHomeActive = !shouldUseTwoPane()
+    io.github.lingtai.ui.home.HomeShell.active = ltHomeActive
 
     // App-icon quick action (New chat / Voice / Camera): the draft's id, decided once per
     // launch, with the voice / camera action seeded so ChatScreen consumes it on its first
     // LaunchedEffect tick. Upstream mounted the NavHost straight into chat/<draft>; in compact
     // windows the home shell opens the draft itself (see the deep-link effect and the
-    // startDestination block below). nanoMuse: remembered, so a recomposition does not mint a
+    // startDestination block below). lingTai: remembered, so a recomposition does not mint a
     // new id and re-seed the action.
     val quickActionSession: String? = remember(initialDeepLink) {
         when (initialDeepLink) {
@@ -279,8 +279,8 @@ fun AppNavigation(
                 navController.safeNavigate(Routes.terminal(initialDeepLink.initCommand))
             }
             is DeepLinkAction.OpenSession -> {
-                // nanoMuse: in compact windows the home shell shows the chat itself.
-                if (io.github.nanomuse.ui.home.HomeShell.openSession(navController, initialDeepLink.sessionId)) {
+                // lingTai: in compact windows the home shell shows the chat itself.
+                if (io.github.lingtai.ui.home.HomeShell.openSession(navController, initialDeepLink.sessionId)) {
                     return@LaunchedEffect
                 }
                 // T-double-chat-fix: on process-death recreation NavController
@@ -318,10 +318,10 @@ fun AppNavigation(
             is DeepLinkAction.OpenPermissionSettings -> {
                 navController.safeNavigate(Routes.PERMISSIONS)
             }
-            // nanoMuse: a cold start from the feed's notification: the shell mounts on its own and
+            // lingTai: a cold start from the feed's notification: the shell mounts on its own and
             // picks the tab up from the bus
             is DeepLinkAction.OpenHomeTab -> {
-                io.github.nanomuse.ui.home.HomeShell.openTab(navController, initialDeepLink.tab)
+                io.github.lingtai.ui.home.HomeShell.openTab(navController, initialDeepLink.tab)
             }
             // OpenHtmlPreview is handled by setting startDestination
             // (see below) so the NavHost mounts directly into the right
@@ -337,9 +337,9 @@ fun AppNavigation(
                 // Navigation handled by startDestination = chat/<__new__…>
                 // when the launch intent carries one of these actions.
                 // Nothing to do here — see startDestination block below.
-                // nanoMuse: except in compact windows, where the home shell opens the draft.
-                if (nmHomeActive && quickActionSession != null) {
-                    io.github.nanomuse.ui.home.HomeShell.openSession(navController, quickActionSession)
+                // lingTai: except in compact windows, where the home shell opens the draft.
+                if (ltHomeActive && quickActionSession != null) {
+                    io.github.lingtai.ui.home.HomeShell.openSession(navController, quickActionSession)
                 }
             }
             else -> {}
@@ -356,15 +356,15 @@ fun AppNavigation(
     // regardless of mode 1 / 2 / 0. Wait for the start destination to
     // settle into RESUMED before navigating; for mode 3 (Home) we don't
     // need to navigate at all so we can skip the wait entirely.
-    // nanoMuse: in compact windows SESSION_LIST renders the home shell
-    // (io.github.nanomuse.ui.home), which opens on the main chat by itself —
+    // lingTai: in compact windows SESSION_LIST renders the home shell
+    // (io.github.lingtai.ui.home), which opens on the main chat by itself —
     // the launch-session resolver and the warm-share fallback below step
-    // aside for it (`nmHomeActive`, decided above). Wide windows keep the
+    // aside for it (`ltHomeActive`, decided above). Wide windows keep the
     // upstream list/detail behaviour.
     LaunchedEffect(Unit) {
         val hasDeepLink = initialDeepLink != null && initialDeepLink !is DeepLinkAction.Unknown
         if (hasDeepLink) return@LaunchedEffect
-        if (nmHomeActive) return@LaunchedEffect // nanoMuse
+        if (ltHomeActive) return@LaunchedEffect // lingTai
         val hasPendingShare =
             com.openminis.app.share.ShareCoordinator.bufferVersion.value > 0
         val rawMode = getAppearancePrefs(context).getInt(KEY_LAUNCH_SESSION, 0)
@@ -489,8 +489,8 @@ fun AppNavigation(
     LaunchedEffect(shareBufferVersion) {
         if (shareBufferVersion == 0) return@LaunchedEffect
         val current = navController.currentDestination?.route ?: return@LaunchedEffect
-        // nanoMuse: the home shell has a ChatScreen mounted that drains the buffer itself.
-        if (current == Routes.SESSION_LIST && !nmHomeActive) {
+        // lingTai: the home shell has a ChatScreen mounted that drains the buffer itself.
+        if (current == Routes.SESSION_LIST && !ltHomeActive) {
             navController.safeNavigate(Routes.chat("__new__${java.util.UUID.randomUUID()}")) {
                 popUpTo(Routes.SESSION_LIST) { inclusive = false }
             }
@@ -508,9 +508,9 @@ fun AppNavigation(
     // draft chat, seeding the pending action so ChatScreen consumes it on
     // its first LaunchedEffect tick. Mirrors the htmlShortcut path —
     // avoids a sessions-list flash and a duplicate back-stack entry.
-    // nanoMuse: the draft id is minted (and the action seeded) in `quickActionSession` above;
+    // lingTai: the draft id is minted (and the action seeded) in `quickActionSession` above;
     // in compact windows the home shell opens it, so the NavHost starts on SESSION_LIST.
-    val quickActionStart: String? = quickActionSession?.takeIf { !nmHomeActive }?.let { Routes.chat(it) }
+    val quickActionStart: String? = quickActionSession?.takeIf { !ltHomeActive }?.let { Routes.chat(it) }
     val startDestination = when {
         htmlShortcut != null -> {
             // Seed coordinator before NavHost composition so ChatScreen sees
@@ -591,10 +591,10 @@ fun AppNavigation(
         // them keeps working unchanged. On a phone the scaffold resolves to a
         // single pane, so those pushes look and behave exactly as before.
         composable(Routes.SESSION_LIST) {
-            // nanoMuse: compact windows open on the home shell (main chat +
+            // lingTai: compact windows open on the home shell (main chat +
             // bottom tabs); the upstream split keeps wide windows.
             if (!shouldUseTwoPane()) {
-                io.github.nanomuse.ui.home.NanoMuseHome(
+                io.github.lingtai.ui.home.LingTaiHome(
                     navController = navController,
                     chatRepository = chatRepository,
                     providerRepository = providerRepository,
@@ -614,176 +614,176 @@ fun AppNavigation(
             )
         }
 
-        // nanoMuse: the agent's system files (SOUL / USER / MEMORY / feed
+        // lingTai: the agent's system files (SOUL / USER / MEMORY / feed
         // preferences / HEARTBEAT), one file page, and the memory import.
-        composable(io.github.nanomuse.ui.sysfiles.ROUTE_SYSTEM_FILES) {
-            io.github.nanomuse.ui.sysfiles.SystemFilesScreen(
+        composable(io.github.lingtai.ui.sysfiles.ROUTE_SYSTEM_FILES) {
+            io.github.lingtai.ui.sysfiles.SystemFilesScreen(
                 onBack = { navController.safePopBackStack() },
-                onOpen = { kind -> navController.safeNavigate(io.github.nanomuse.ui.sysfiles.systemFileRoute(kind)) },
-                onImport = { navController.safeNavigate(io.github.nanomuse.ui.sysfiles.ROUTE_MEMORY_IMPORT) },
+                onOpen = { kind -> navController.safeNavigate(io.github.lingtai.ui.sysfiles.systemFileRoute(kind)) },
+                onImport = { navController.safeNavigate(io.github.lingtai.ui.sysfiles.ROUTE_MEMORY_IMPORT) },
                 onOpenMemory = { navController.safeNavigate(Routes.MEMORY) },
             )
         }
         composable(
-            route = io.github.nanomuse.ui.sysfiles.ROUTE_SYSTEM_FILE,
+            route = io.github.lingtai.ui.sysfiles.ROUTE_SYSTEM_FILE,
             arguments = listOf(navArgument("key") { type = NavType.StringType }),
         ) { entry ->
             val kind = entry.arguments?.getString("key")
-                ?.let { k -> io.github.nanomuse.sysfiles.SystemFiles.entries.firstOrNull { it.name == k } }
+                ?.let { k -> io.github.lingtai.sysfiles.SystemFiles.entries.firstOrNull { it.name == k } }
                 ?: return@composable
-            io.github.nanomuse.ui.sysfiles.SystemFileScreen(
+            io.github.lingtai.ui.sysfiles.SystemFileScreen(
                 kind = kind,
                 onBack = { navController.safePopBackStack() },
                 onOpenMemory = { navController.safeNavigate(Routes.MEMORY) },
                 onOpenRoutines = { navController.safeNavigate(Routes.SCHEDULED_TASKS) },
             )
         }
-        composable(io.github.nanomuse.ui.sysfiles.ROUTE_MEMORY_IMPORT) {
-            io.github.nanomuse.ui.sysfiles.MemoryImportScreen(onBack = { navController.safePopBackStack() })
+        composable(io.github.lingtai.ui.sysfiles.ROUTE_MEMORY_IMPORT) {
+            io.github.lingtai.ui.sysfiles.MemoryImportScreen(onBack = { navController.safePopBackStack() })
         }
-        // nanoMuse: the face — generate, pick, pose.
-        composable(io.github.nanomuse.ui.avatar.ROUTE_AVATAR_STUDIO) {
-            io.github.nanomuse.ui.avatar.AvatarStudioScreen(
+        // lingTai: the face — generate, pick, pose.
+        composable(io.github.lingtai.ui.avatar.ROUTE_AVATAR_STUDIO) {
+            io.github.lingtai.ui.avatar.AvatarStudioScreen(
                 onBack = { navController.safePopBackStack() },
                 onOpenSoul = { navController.safeNavigate(Routes.SOUL) },
-                onOpenMediaModels = { navController.safeNavigate(io.github.nanomuse.ui.media.ROUTE_MEDIA_MODELS) },
+                onOpenMediaModels = { navController.safeNavigate(io.github.lingtai.ui.media.ROUTE_MEDIA_MODELS) },
             )
         }
-        // nanoMuse: Settings → Models — the four slots (chat, the screen, pictures, clips), each
+        // lingTai: Settings → Models — the four slots (chat, the screen, pictures, clips), each
         // row a picker; and the "Use it for" card after a provider of the person's own is saved.
-        composable(io.github.nanomuse.ui.models.ROUTE_MODELS) {
-            io.github.nanomuse.ui.models.ModelsScreen(
+        composable(io.github.lingtai.ui.models.ROUTE_MODELS) {
+            io.github.lingtai.ui.models.ModelsScreen(
                 onBack = { navController.safePopBackStack() },
-                onPick = { slot -> navController.safeNavigate(io.github.nanomuse.ui.models.modelPickRoute(slot)) },
+                onPick = { slot -> navController.safeNavigate(io.github.lingtai.ui.models.modelPickRoute(slot)) },
                 onAddProvider = { navController.safeNavigate(Routes.ADD_PROVIDER) },
-                onOpenMedia = { navController.safeNavigate(io.github.nanomuse.ui.media.ROUTE_MEDIA_MODELS) },
+                onOpenMedia = { navController.safeNavigate(io.github.lingtai.ui.media.ROUTE_MEDIA_MODELS) },
             )
         }
         composable(
-            route = io.github.nanomuse.ui.models.ROUTE_MODEL_PICK,
+            route = io.github.lingtai.ui.models.ROUTE_MODEL_PICK,
             arguments = listOf(navArgument("slot") { type = NavType.StringType }),
         ) { backStackEntry ->
-            val slot = io.github.nanomuse.models.ModelSlots.Slot.byKey(backStackEntry.arguments?.getString("slot")) ?: return@composable
-            io.github.nanomuse.ui.models.SlotPickerScreen(
+            val slot = io.github.lingtai.models.ModelSlots.Slot.byKey(backStackEntry.arguments?.getString("slot")) ?: return@composable
+            io.github.lingtai.ui.models.SlotPickerScreen(
                 slot = slot,
                 onBack = { navController.safePopBackStack() },
                 onAddProvider = { navController.safeNavigate(Routes.ADD_PROVIDER) },
             )
         }
         composable(
-            route = io.github.nanomuse.ui.models.ROUTE_USE_IT_FOR,
+            route = io.github.lingtai.ui.models.ROUTE_USE_IT_FOR,
             arguments = listOf(navArgument("instanceId") { type = NavType.StringType }),
         ) { backStackEntry ->
             val instanceId = backStackEntry.arguments?.getString("instanceId") ?: return@composable
-            io.github.nanomuse.ui.models.UseItForScreen(
+            io.github.lingtai.ui.models.UseItForScreen(
                 instanceId = instanceId,
                 onDone = { navController.safePopBackStack() },
             )
         }
-        // nanoMuse: the three models — chat, image, video — and what stops without each.
-        composable(io.github.nanomuse.ui.media.ROUTE_MEDIA_MODELS) {
-            io.github.nanomuse.ui.media.MediaModelsScreen(
+        // lingTai: the three models — chat, image, video — and what stops without each.
+        composable(io.github.lingtai.ui.media.ROUTE_MEDIA_MODELS) {
+            io.github.lingtai.ui.media.MediaModelsScreen(
                 onBack = { navController.safePopBackStack() },
                 onOpenModelGroups = { navController.safeNavigate(Routes.MODEL_GROUPS) },
                 onOpenProviders = { navController.safeNavigate(Routes.PROVIDER_LIST) },
             )
         }
-        // nanoMuse: nanoMuse Cloud — sign in with a phone/e-mail code for a starter allowance,
+        // lingTai: lingTai Cloud — sign in with a phone/e-mail code for a starter allowance,
         // and the account page (balance, sign out) behind Settings.
-        composable(io.github.nanomuse.ui.cloud.ROUTE_CLOUD_SIGN_IN) {
-            io.github.nanomuse.ui.cloud.CloudSignInScreen(
+        composable(io.github.lingtai.ui.cloud.ROUTE_CLOUD_SIGN_IN) {
+            io.github.lingtai.ui.cloud.CloudSignInScreen(
                 onBack = { navController.safePopBackStack() },
                 onSignedIn = { navController.safePopBackStack() },
             )
         }
-        composable(io.github.nanomuse.ui.cloud.ROUTE_CLOUD_ACCOUNT) {
-            io.github.nanomuse.ui.cloud.CloudAccountScreen(
+        composable(io.github.lingtai.ui.cloud.ROUTE_CLOUD_ACCOUNT) {
+            io.github.lingtai.ui.cloud.CloudAccountScreen(
                 onBack = { navController.safePopBackStack() },
-                onSignIn = { navController.safeNavigate(io.github.nanomuse.ui.cloud.ROUTE_CLOUD_SIGN_IN) },
+                onSignIn = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_CLOUD_SIGN_IN) },
                 onOpenProvider = { id -> navController.safeNavigate(Routes.providerDetail(id)) },
                 onOpenModelGroups = { navController.safeNavigate(Routes.MODEL_GROUPS) },
-                onOpenDataControls = { navController.safeNavigate(io.github.nanomuse.ui.cloud.ROUTE_DATA_CONTROLS) },
-                // nanoMuse: "Ask this device" — back to the chat with "@<name> " in the composer
-                onAskDevice = { name -> io.github.nanomuse.ui.home.HomeShell.prefill(navController, "@$name ") },
+                onOpenDataControls = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_DATA_CONTROLS) },
+                // lingTai: "Ask this device" — back to the chat with "@<name> " in the composer
+                onAskDevice = { name -> io.github.lingtai.ui.home.HomeShell.prefill(navController, "@$name ") },
             )
         }
-        // nanoMuse: Settings → Data controls — the switch over what nanoMuse Cloud keeps of the chats.
-        composable(io.github.nanomuse.ui.cloud.ROUTE_DATA_CONTROLS) {
-            io.github.nanomuse.ui.cloud.DataControlsScreen(
+        // lingTai: Settings → Data controls — the switch over what lingTai Cloud keeps of the chats.
+        composable(io.github.lingtai.ui.cloud.ROUTE_DATA_CONTROLS) {
+            io.github.lingtai.ui.cloud.DataControlsScreen(
                 onBack = { navController.safePopBackStack() },
-                onSignIn = { navController.safeNavigate(io.github.nanomuse.ui.cloud.ROUTE_CLOUD_SIGN_IN) },
+                onSignIn = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_CLOUD_SIGN_IN) },
             )
         }
-        // nanoMuse: Settings → Network — the HTTP proxy for own providers and the ChatGPT plan.
-        composable(io.github.nanomuse.ui.net.ROUTE_NETWORK) {
-            io.github.nanomuse.ui.net.NetworkScreen(onBack = { navController.safePopBackStack() })
+        // lingTai: Settings → Network — the HTTP proxy for own providers and the ChatGPT plan.
+        composable(io.github.lingtai.ui.net.ROUTE_NETWORK) {
+            io.github.lingtai.ui.net.NetworkScreen(onBack = { navController.safePopBackStack() })
         }
-        // nanoMuse: the phone's screen as a hand — the switch, what it needs, the screen model.
-        composable(io.github.nanomuse.ui.hands.ROUTE_HANDS) {
-            io.github.nanomuse.ui.hands.HandsScreen(
+        // lingTai: the phone's screen as a hand — the switch, what it needs, the screen model.
+        composable(io.github.lingtai.ui.hands.ROUTE_HANDS) {
+            io.github.lingtai.ui.hands.HandsScreen(
                 onBack = { navController.safePopBackStack() },
                 onOpenProviders = { navController.safeNavigate(Routes.PROVIDER_LIST) },
-                onOpenHandsModel = { navController.safeNavigate(io.github.nanomuse.ui.models.modelPickRoute(io.github.nanomuse.models.ModelSlots.Slot.HANDS)) },
+                onOpenHandsModel = { navController.safeNavigate(io.github.lingtai.ui.models.modelPickRoute(io.github.lingtai.models.ModelSlots.Slot.HANDS)) },
             )
         }
-        // nanoMuse: the account's computers, and how one joins.
-        composable(io.github.nanomuse.ui.reach.ROUTE_COMPUTERS) {
-            io.github.nanomuse.ui.reach.ComputersScreen(
+        // lingTai: the account's computers, and how one joins.
+        composable(io.github.lingtai.ui.reach.ROUTE_COMPUTERS) {
+            io.github.lingtai.ui.reach.ComputersScreen(
                 onBack = { navController.safePopBackStack() },
-                onOpenAccount = { navController.safeNavigate(io.github.nanomuse.ui.cloud.ROUTE_CLOUD_ACCOUNT) },
+                onOpenAccount = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_CLOUD_ACCOUNT) },
             )
         }
-        // nanoMuse: the services the agent can be let into — the connectors catalogue, each a remote MCP server.
-        composable(io.github.nanomuse.ui.connectors.ROUTE_CONNECTORS) {
-            io.github.nanomuse.ui.connectors.ConnectorsScreen(
+        // lingTai: the services the agent can be let into — the connectors catalogue, each a remote MCP server.
+        composable(io.github.lingtai.ui.connectors.ROUTE_CONNECTORS) {
+            io.github.lingtai.ui.connectors.ConnectorsScreen(
                 onBack = { navController.safePopBackStack() },
                 onOpenMcp = { navController.safeNavigate(Routes.MCP) },
             )
         }
-        // nanoMuse: the coding agents (Cursor, Codex, Claude Code) on the account's computers.
-        composable(io.github.nanomuse.ui.coding.ROUTE_CODING) {
-            io.github.nanomuse.ui.coding.CodingScreen(
+        // lingTai: the coding agents (Cursor, Codex, Claude Code) on the account's computers.
+        composable(io.github.lingtai.ui.coding.ROUTE_CODING) {
+            io.github.lingtai.ui.coding.CodingScreen(
                 onBack = { navController.safePopBackStack() },
-                onOpenDevices = { navController.safeNavigate(io.github.nanomuse.ui.cloud.ROUTE_CLOUD_ACCOUNT) },
+                onOpenDevices = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_CLOUD_ACCOUNT) },
             )
         }
-        // nanoMuse: the agent's page behind the face — today's activity, approvals, daily,
+        // lingTai: the agent's page behind the face — today's activity, approvals, daily,
         // soul & memory; the pen offers "Change avatar" (back to the chat, pre-typed) and
         // "Edit name".
-        composable(io.github.nanomuse.ui.profile.ROUTE_AGENT_PROFILE) {
+        composable(io.github.lingtai.ui.profile.ROUTE_AGENT_PROFILE) {
             val ctx = LocalContext.current
-            io.github.nanomuse.ui.profile.AgentProfileScreen(
+            io.github.lingtai.ui.profile.AgentProfileScreen(
                 chatRepository = chatRepository,
                 onBack = { navController.safePopBackStack() },
                 onEditName = { navController.safeNavigate(Routes.SOUL) },
                 onChangeAvatar = {
-                    io.github.nanomuse.ui.home.HomeBus.prefillComposer(ctx.getString(com.openminis.app.R.string.nm_profile_change_avatar_prefill))
+                    io.github.lingtai.ui.home.HomeBus.prefillComposer(ctx.getString(com.openminis.app.R.string.lt_profile_change_avatar_prefill))
                     navController.safePopBackStack()
                 },
-                onOpenAvatarStudio = { navController.safeNavigate(io.github.nanomuse.ui.avatar.ROUTE_AVATAR_STUDIO) },
+                onOpenAvatarStudio = { navController.safeNavigate(io.github.lingtai.ui.avatar.ROUTE_AVATAR_STUDIO) },
                 onOpenSession = { id ->
-                    io.github.nanomuse.ui.home.HomeBus.showSession(id)
+                    io.github.lingtai.ui.home.HomeBus.showSession(id)
                     navController.safePopBackStack()
                 },
                 onOpenPermissions = { navController.safeNavigate(Routes.PERMISSIONS) },
                 onOpenRoutines = { navController.safeNavigate(Routes.SCHEDULED_TASKS) },
-                onOpenSystemFile = { kind -> navController.safeNavigate(io.github.nanomuse.ui.sysfiles.systemFileRoute(kind)) },
+                onOpenSystemFile = { kind -> navController.safeNavigate(io.github.lingtai.ui.sysfiles.systemFileRoute(kind)) },
             )
         }
 
-        // nanoMuse: the full OpenMinis session list (folders, search, bulk
+        // lingTai: the full OpenMinis session list (folders, search, bulk
         // actions), one tap behind the drawer's archive glyph. Picking a chat
         // hands it to the home shell underneath.
-        composable(io.github.nanomuse.ui.home.ROUTE_ALL_CHATS) {
+        composable(io.github.lingtai.ui.home.ROUTE_ALL_CHATS) {
             com.openminis.app.ui.sessions.SessionListScreen(
                 chatRepository = chatRepository,
                 providerRepository = providerRepository,
                 onSessionClick = { id ->
-                    io.github.nanomuse.ui.home.HomeBus.showSession(id)
+                    io.github.lingtai.ui.home.HomeBus.showSession(id)
                     navController.safePopBackStack()
                 },
                 onNewChat = { id ->
-                    io.github.nanomuse.ui.home.HomeBus.showSession(id)
+                    io.github.lingtai.ui.home.HomeBus.showSession(id)
                     navController.safePopBackStack()
                 },
                 onSettingsClick = { navController.safeNavigate(Routes.SETTINGS) },
@@ -824,16 +824,16 @@ fun AppNavigation(
                 onMemoryClick = { navController.safeNavigate(Routes.MEMORY) },
                 onMcpClick = { navController.safeNavigate(Routes.MCP) },
                 onSoulClick = { navController.safeNavigate(Routes.SOUL) },
-                onSystemFilesClick = { navController.safeNavigate(io.github.nanomuse.ui.sysfiles.ROUTE_SYSTEM_FILES) }, // nanoMuse
-                onAvatarClick = { navController.safeNavigate(io.github.nanomuse.ui.avatar.ROUTE_AVATAR_STUDIO) }, // nanoMuse
-                onModelsClick = { navController.safeNavigate(io.github.nanomuse.ui.models.ROUTE_MODELS) }, // nanoMuse
-                onCloudClick = { navController.safeNavigate(io.github.nanomuse.ui.cloud.ROUTE_CLOUD_ACCOUNT) }, // nanoMuse
-                onHandsClick = { navController.safeNavigate(io.github.nanomuse.ui.hands.ROUTE_HANDS) }, // nanoMuse
-                onDataControlsClick = { navController.safeNavigate(io.github.nanomuse.ui.cloud.ROUTE_DATA_CONTROLS) }, // nanoMuse
-                onNetworkClick = { navController.safeNavigate(io.github.nanomuse.ui.net.ROUTE_NETWORK) }, // nanoMuse
-                onComputersClick = { navController.safeNavigate(io.github.nanomuse.ui.reach.ROUTE_COMPUTERS) }, // nanoMuse
-                onCodingClick = { navController.safeNavigate(io.github.nanomuse.ui.coding.ROUTE_CODING) }, // nanoMuse
-                onConnectorsClick = { navController.safeNavigate(io.github.nanomuse.ui.connectors.ROUTE_CONNECTORS) }, // nanoMuse
+                onSystemFilesClick = { navController.safeNavigate(io.github.lingtai.ui.sysfiles.ROUTE_SYSTEM_FILES) }, // lingTai
+                onAvatarClick = { navController.safeNavigate(io.github.lingtai.ui.avatar.ROUTE_AVATAR_STUDIO) }, // lingTai
+                onModelsClick = { navController.safeNavigate(io.github.lingtai.ui.models.ROUTE_MODELS) }, // lingTai
+                onCloudClick = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_CLOUD_ACCOUNT) }, // lingTai
+                onHandsClick = { navController.safeNavigate(io.github.lingtai.ui.hands.ROUTE_HANDS) }, // lingTai
+                onDataControlsClick = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_DATA_CONTROLS) }, // lingTai
+                onNetworkClick = { navController.safeNavigate(io.github.lingtai.ui.net.ROUTE_NETWORK) }, // lingTai
+                onComputersClick = { navController.safeNavigate(io.github.lingtai.ui.reach.ROUTE_COMPUTERS) }, // lingTai
+                onCodingClick = { navController.safeNavigate(io.github.lingtai.ui.coding.ROUTE_CODING) }, // lingTai
+                onConnectorsClick = { navController.safeNavigate(io.github.lingtai.ui.connectors.ROUTE_CONNECTORS) }, // lingTai
                 onPermissionsClick = { navController.safeNavigate(Routes.PERMISSIONS) },
                 onUsageClick = { navController.safeNavigate(Routes.USAGE_STATS) },
                 onAppearanceClick = { navController.safeNavigate(Routes.APPEARANCE) },
@@ -1104,16 +1104,16 @@ fun AppNavigation(
         }
 
         composable(
-            route = Routes.ADD_PROVIDER_PATTERN, // nanoMuse: optional ?preset=…; plain ADD_PROVIDER still matches
+            route = Routes.ADD_PROVIDER_PATTERN, // lingTai: optional ?preset=…; plain ADD_PROVIDER still matches
             arguments = listOf(navArgument("preset") { type = NavType.StringType; nullable = true; defaultValue = null }),
         ) { backStackEntry ->
-            // nanoMuse: the instances before the form, so the save can open "Use it for" on the new one
-            val nmBefore = remember { providerRepository.config.value.instances.map { it.id }.toSet() }
+            // lingTai: the instances before the form, so the save can open "Use it for" on the new one
+            val ltBefore = remember { providerRepository.config.value.instances.map { it.id }.toSet() }
             AddProviderScreen(
                 providerRepository = providerRepository,
                 onBack = { navController.safePopBackStack() },
-                onSaved = { io.github.nanomuse.ui.models.UseItFor.afterProviderSaved(navController, providerRepository, nmBefore) }, // nanoMuse
-                preset = backStackEntry.arguments?.getString("preset"), // nanoMuse
+                onSaved = { io.github.lingtai.ui.models.UseItFor.afterProviderSaved(navController, providerRepository, ltBefore) }, // lingTai
+                preset = backStackEntry.arguments?.getString("preset"), // lingTai
             )
         }
 
@@ -1135,7 +1135,7 @@ fun AppNavigation(
                 onVoiceServiceClick = { id ->
                     navController.safeNavigate(Routes.shadowVoiceDetail(id))
                 },
-                onKeyAdded = { id -> io.github.nanomuse.ui.models.UseItFor.open(navController, id) }, // nanoMuse: the "Use it for" card
+                onKeyAdded = { id -> io.github.lingtai.ui.models.UseItFor.open(navController, id) }, // lingTai: the "Use it for" card
             )
         }
 

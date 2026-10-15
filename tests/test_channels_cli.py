@@ -1,4 +1,4 @@
-"""``nanomuse channels`` from a terminal, with no server running (the files are edited)
+"""``lingtai channels`` from a terminal, with no server running (the files are edited)
 and with one (the API is called)."""
 
 from __future__ import annotations
@@ -12,8 +12,8 @@ import httpx
 import pytest
 from typer.testing import CliRunner
 
-from nanomuse.channels.cli import channels_app
-from nanomuse.channels.store import PairingStore
+from lingtai.channels.cli import channels_app
+from lingtai.channels.store import PairingStore
 
 runner = CliRunner()
 
@@ -146,7 +146,7 @@ def test_a_bad_setting_is_named(tmp_path: Path):
     assert "2 setting(s)" in result.output
     assert "sentinel.mode" in result.output and "agent.max_steps" in result.output
 
-    from nanomuse.cli import app
+    from lingtai.cli import app
 
     result = CliRunner().invoke(app, ["chatgpt", "status", "--config", str(path)])
     assert result.exit_code == 1

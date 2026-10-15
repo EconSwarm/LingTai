@@ -423,9 +423,9 @@ class MinisApp : Application(), ImageLoaderFactory {
         database = AppDatabase.getInstance(this)
         chatRepository = ChatRepository(database.chatDao())
         providerRepository = ProviderRepository(this)
-        // nanoMuse: Settings → Network — the proxy for own providers and the ChatGPT plan is
+        // lingTai: Settings → Network — the proxy for own providers and the ChatGPT plan is
         // the process's proxy selector, so it must be in place before the first OkHttp client.
-        io.github.nanomuse.net.OwnProviderProxy.install(this, providerRepository.config)
+        io.github.lingtai.net.OwnProviderProxy.install(this, providerRepository.config)
         envVarRepository = EnvVarRepository(this)
         // [T-android-safemode-lateinit-crash-147] SkillRepository parses
         // third-party content (skills imported from external hubs), which
@@ -435,7 +435,7 @@ class MinisApp : Application(), ImageLoaderFactory {
         // breaks the Application and produces the GH#147 crash loop.
         skillRepository = SkillRepository(this)
         mcpRepository = MCPRepository(this)
-        io.github.nanomuse.connectors.Connectors.refreshStaleAsync(this) // nanoMuse: connectors' OAuth tokens near their end → refreshed, headers rewritten
+        io.github.lingtai.connectors.Connectors.refreshStaleAsync(this) // lingTai: connectors' OAuth tokens near their end → refreshed, headers rewritten
         memoryRepository = MemoryRepository(java.io.File(filesDir, "minis-global/memory"))
         webAppShortcutRepository = WebAppShortcutRepository(database.webAppShortcutDao())
 
@@ -549,14 +549,14 @@ class MinisApp : Application(), ImageLoaderFactory {
         // T323: UI-layer automation backed by MinisAccessibilityService.
         NativeOffloadServer.register("android-a11y-cli", AccessibilityOffloadHandler(this))
         NativeOffloadServer.register("minis-model-use", ModelUseOffloadHandler(this, providerRepository))
-        // nanoMuse: nanomuse-media — pictures and clips through the user's image / video models.
-        NativeOffloadServer.register("nanomuse-media", io.github.nanomuse.media.MediaOffloadHandler(this))
-        // nanoMuse: nanomuse-hands — the phone's screen as a hand (screenshot → screen model → gesture).
-        NativeOffloadServer.register("nanomuse-hands", io.github.nanomuse.hands.HandsOffloadHandler(this))
-        // nanoMuse: nanomuse-pc — the phone drives the user's other devices (shell, files, browser, screen, tasks).
-        NativeOffloadServer.register("nanomuse-pc", io.github.nanomuse.reach.ReachOffloadHandler(this))
-        // nanoMuse: join the hub, so the user's other devices can reach this phone and it can reach them.
-        io.github.nanomuse.hub.Hub.autoStart(this)
+        // lingTai: lingtai-media — pictures and clips through the user's image / video models.
+        NativeOffloadServer.register("lingtai-media", io.github.lingtai.media.MediaOffloadHandler(this))
+        // lingTai: lingtai-hands — the phone's screen as a hand (screenshot → screen model → gesture).
+        NativeOffloadServer.register("lingtai-hands", io.github.lingtai.hands.HandsOffloadHandler(this))
+        // lingTai: lingtai-pc — the phone drives the user's other devices (shell, files, browser, screen, tasks).
+        NativeOffloadServer.register("lingtai-pc", io.github.lingtai.reach.ReachOffloadHandler(this))
+        // lingTai: join the hub, so the user's other devices can reach this phone and it can reach them.
+        io.github.lingtai.hub.Hub.autoStart(this)
         // T-config: minis-config — agent-facing settings management
         // (read/write registered ConfigFields with audit + revert).
         // Mirrors iOS `config_offload_register()` in ISHKernel.m.
@@ -656,18 +656,18 @@ class MinisApp : Application(), ImageLoaderFactory {
         com.openminis.app.config.confirm.ConfigConfirmationGate.cancelNotification = {
             configConfirmNotifier.cancel(it)
         }
-        // nanoMuse: remembered approvals + the approval gate's background notification.
-        io.github.nanomuse.guard.Grants.init(this)
-        io.github.nanomuse.feed.FeedFlow.init(this) // nanoMuse
-        io.github.nanomuse.chat.RoutineWakes.init(this) // nanoMuse: which chat rows a routine sent
-        io.github.nanomuse.avatar.AvatarStore.init(this) // nanoMuse: the user's own face, if any
-        io.github.nanomuse.cloud.ProfileSync.init(this) // nanoMuse: the name and face the account's devices share
-        io.github.nanomuse.account.AccountData.init(this) // nanoMuse: whose chat is whose (contract C12)
-        io.github.nanomuse.sync.ConversationSync.init(this) // nanoMuse: the conversations, the same on every device
-        io.github.nanomuse.avatar.AvatarStudio.init(this) // nanoMuse: the feed's files and its built-in routine
-        val nmRiskNotifier = io.github.nanomuse.guard.RiskApprovalNotifier(this, ::isAppForeground)
-        io.github.nanomuse.guard.RiskGate.backgroundNotifier = { nmRiskNotifier.notifyIfBackgrounded(it) }
-        io.github.nanomuse.guard.RiskGate.cancelNotification = { nmRiskNotifier.cancel(it) }
+        // lingTai: remembered approvals + the approval gate's background notification.
+        io.github.lingtai.guard.Grants.init(this)
+        io.github.lingtai.feed.FeedFlow.init(this) // lingTai
+        io.github.lingtai.chat.RoutineWakes.init(this) // lingTai: which chat rows a routine sent
+        io.github.lingtai.avatar.AvatarStore.init(this) // lingTai: the user's own face, if any
+        io.github.lingtai.cloud.ProfileSync.init(this) // lingTai: the name and face the account's devices share
+        io.github.lingtai.account.AccountData.init(this) // lingTai: whose chat is whose (contract C12)
+        io.github.lingtai.sync.ConversationSync.init(this) // lingTai: the conversations, the same on every device
+        io.github.lingtai.avatar.AvatarStudio.init(this) // lingTai: the feed's files and its built-in routine
+        val ltRiskNotifier = io.github.lingtai.guard.RiskApprovalNotifier(this, ::isAppForeground)
+        io.github.lingtai.guard.RiskGate.backgroundNotifier = { ltRiskNotifier.notifyIfBackgrounded(it) }
+        io.github.lingtai.guard.RiskGate.cancelNotification = { ltRiskNotifier.cancel(it) }
 
         // Track foreground state via ActivityLifecycleCallbacks. Counting
         // started/stopped balances out around configuration changes (the
@@ -733,7 +733,7 @@ class MinisApp : Application(), ImageLoaderFactory {
                     // while a config-confirm dialog may still be showing — nudge
                     // them so they can come back before the 120s timeout.
                     com.openminis.app.config.confirm.ConfigConfirmationGate.notifyPending()
-                    io.github.nanomuse.guard.RiskGate.notifyPending() // nanoMuse
+                    io.github.lingtai.guard.RiskGate.notifyPending() // lingTai
                 }
             }
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}

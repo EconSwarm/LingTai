@@ -32,26 +32,26 @@ sequenceDiagram
 
 | Area | Files | Notes |
 |---|---|---|
-| Composition root | `nanomuse/app.py` | `NanoMuseApp` wires settings → LLM, tools, vault, Sentinel, memory, goals, agent |
-| Agent loop | `nanomuse/agent/core.py` | prompt assembly, context trimming, stuck detection, session persistence, inbox |
-| Prompts | `nanomuse/prompts.py` | system prompt, language rule and script detection, goal-advance prompt |
-| Sentinel | `nanomuse/sentinel/gate.py`, `policy.py`, `audit.py` | guard, decision order, approvals, taint, vault resolution, redaction, JSONL audit |
-| Vault | `nanomuse/vault/vault.py` | Fernet store, `{{vault:NAME}}` placeholders |
-| Tool base | `nanomuse/tools/base.py` | `BaseTool`, `CallAssessment`, `ToolCollection`, `safe_execute` |
-| Built-in tools | `nanomuse/tools/files.py`, `shell.py`, `web.py`, `email_tool.py`, `browser.py` + `browser_backends.py` (Playwright on the server or the phone's WebView; see [browser.md](browser.md)), `memory_tools.py`, `goal_tools.py`, `terminate.py` | |
-| MCP | `nanomuse/tools/mcp_tools.py` | stdio / streamable HTTP / SSE clients, one `MCPTool` per remote tool; per-tool risk overrides from `MCPServerSettings.tools` |
-| On a phone | `nanomuse/runtime.py`, `nanomuse/bridge/` | `device()` reads `NANOMUSE_DEVICE*`; `DEVICE_TOOLS` (the Sentinel defaults of the phone's tools) and `device_mcp_server()` (the app's MCP server as the `device` entry, tools `device__*`); the CLI bridge (`/api/bridge/*`, one-command tokens) behind `nanomuse-device` / `nanomuse-browser` / `nanomuse-open`; see [device.md](device.md), [local-runtime.md](local-runtime.md) |
-| The phone | `nanomuse/phone/link.py`, `screen.py`, `operator.py`, `trace.py`, `nanomuse/tools/phone.py` | connected devices and request/response over the app's WebSocket; the screen as a screenshot plus a caption; the operator loop (MemGUI `mobile_use` dialect, coordinates on a 999 grid) with its own model; JSONL traces and their HTML rendering; `phone_screen` / `phone_act` / `phone_task` and their Sentinel assessment ([gui.md](gui.md)) |
-| LLM | `nanomuse/llm/base.py`, `openai_chat.py`, `openai_responses.py`, `prompt_tools.py`, `factory.py`, `mock.py`; `catalogue.py` + `providers.json`, `chatgpt.py`, `codex.py`, `chatgpt_proxy.py` | `BaseLLM`, streaming with `<think>` filter, retries, prompt-based tool calling, `MockLLM` for tests; the provider catalogue (who covers chat, vision, image, video); the ChatGPT sign-in (PKCE, the token store) and the Chat Completions ↔ Codex Responses translation behind `provider = "chatgpt"` and `nanomuse chatgpt proxy` |
-| Memory, goals | `nanomuse/memory/store.py`, `nanomuse/memory/consolidate.py`, `nanomuse/goals/store.py` | SQLite; rare-word (IDF) ranking for memory injection, words in any alphabetic script plus CJK bigrams; the tidy-up planner and its checks, which refuse a merge they cannot judge; a change log with undo |
-| App server | `nanomuse/server/service.py`, `api.py`, `webui.py`, `events.py` | threads and workers, REST + WebSocket, `UI` implementation that turns callbacks into events, timeline persistence |
+| Composition root | `lingtai/app.py` | `LingTaiApp` wires settings → LLM, tools, vault, Sentinel, memory, goals, agent |
+| Agent loop | `lingtai/agent/core.py` | prompt assembly, context trimming, stuck detection, session persistence, inbox |
+| Prompts | `lingtai/prompts.py` | system prompt, language rule and script detection, goal-advance prompt |
+| Sentinel | `lingtai/sentinel/gate.py`, `policy.py`, `audit.py` | guard, decision order, approvals, taint, vault resolution, redaction, JSONL audit |
+| Vault | `lingtai/vault/vault.py` | Fernet store, `{{vault:NAME}}` placeholders |
+| Tool base | `lingtai/tools/base.py` | `BaseTool`, `CallAssessment`, `ToolCollection`, `safe_execute` |
+| Built-in tools | `lingtai/tools/files.py`, `shell.py`, `web.py`, `email_tool.py`, `browser.py` + `browser_backends.py` (Playwright on the server or the phone's WebView; see [browser.md](browser.md)), `memory_tools.py`, `goal_tools.py`, `terminate.py` | |
+| MCP | `lingtai/tools/mcp_tools.py` | stdio / streamable HTTP / SSE clients, one `MCPTool` per remote tool; per-tool risk overrides from `MCPServerSettings.tools` |
+| On a phone | `lingtai/runtime.py`, `lingtai/bridge/` | `device()` reads `LINGTAI_DEVICE*`; `DEVICE_TOOLS` (the Sentinel defaults of the phone's tools) and `device_mcp_server()` (the app's MCP server as the `device` entry, tools `device__*`); the CLI bridge (`/api/bridge/*`, one-command tokens) behind `lingtai-device` / `lingtai-browser` / `lingtai-open`; see [device.md](device.md), [local-runtime.md](local-runtime.md) |
+| The phone | `lingtai/phone/link.py`, `screen.py`, `operator.py`, `trace.py`, `lingtai/tools/phone.py` | connected devices and request/response over the app's WebSocket; the screen as a screenshot plus a caption; the operator loop (MemGUI `mobile_use` dialect, coordinates on a 999 grid) with its own model; JSONL traces and their HTML rendering; `phone_screen` / `phone_act` / `phone_task` and their Sentinel assessment ([gui.md](gui.md)) |
+| LLM | `lingtai/llm/base.py`, `openai_chat.py`, `openai_responses.py`, `prompt_tools.py`, `factory.py`, `mock.py`; `catalogue.py` + `providers.json`, `chatgpt.py`, `codex.py`, `chatgpt_proxy.py` | `BaseLLM`, streaming with `<think>` filter, retries, prompt-based tool calling, `MockLLM` for tests; the provider catalogue (who covers chat, vision, image, video); the ChatGPT sign-in (PKCE, the token store) and the Chat Completions ↔ Codex Responses translation behind `provider = "chatgpt"` and `lingtai chatgpt proxy` |
+| Memory, goals | `lingtai/memory/store.py`, `lingtai/memory/consolidate.py`, `lingtai/goals/store.py` | SQLite; rare-word (IDF) ranking for memory injection, words in any alphabetic script plus CJK bigrams; the tidy-up planner and its checks, which refuse a merge they cannot judge; a change log with undo |
+| App server | `lingtai/server/service.py`, `api.py`, `webui.py`, `events.py` | threads and workers, REST + WebSocket, `UI` implementation that turns callbacks into events, timeline persistence |
 | Front-end | `web/src/` | React + TypeScript + Tailwind; `store.tsx` (state, WebSocket), `screens/` (tabs), `components/` (cards, avatar, markdown) |
-| Terminal | `nanomuse/console.py`, `nanomuse/cli.py` | Rich console UI with inline approvals; Typer commands |
-| Config, schema | `nanomuse/config.py`, `nanomuse/schema.py` | Pydantic settings, message and tool-call models |
+| Terminal | `lingtai/console.py`, `lingtai/cli.py` | Rich console UI with inline approvals; Typer commands |
+| Config, schema | `lingtai/config.py`, `lingtai/schema.py` | Pydantic settings, message and tool-call models |
 
 ## The `UI` protocol
 
-Anything that can show the agent to a person implements `nanomuse/ui.py::UI`: text deltas, assistant messages, tool calls and results, Sentinel notices, `ask_approval()` and `ask_user()`. `ConsoleUI` is the terminal; `WebUI` turns the same callbacks into timeline events and WebSocket messages and parks approvals in futures until the app answers. A Telegram or desktop front-end would be another implementation of the same protocol, or a client of the HTTP API.
+Anything that can show the agent to a person implements `lingtai/ui.py::UI`: text deltas, assistant messages, tool calls and results, Sentinel notices, `ask_approval()` and `ask_user()`. `ConsoleUI` is the terminal; `WebUI` turns the same callbacks into timeline events and WebSocket messages and parks approvals in futures until the app answers. A Telegram or desktop front-end would be another implementation of the same protocol, or a client of the HTTP API.
 
 ## Threads in the app
 
@@ -61,7 +61,7 @@ Anything that can show the agent to a person implements `nanomuse/ui.py::UI`: te
 
 | Want to add… | Do this |
 |---|---|
-| A tool | subclass `BaseTool` in `nanomuse/tools/`, set `risk`, override `assess()` if a call can be more dangerous than the default, register it in `app.py::_build_tools`, add a test with `MockLLM` |
+| A tool | subclass `BaseTool` in `lingtai/tools/`, set `risk`, override `assess()` if a call can be more dangerous than the default, register it in `app.py::_build_tools`, add a test with `MockLLM` |
 | A connector | prefer an MCP server (`[[mcp.servers]]`); write a tool only if the protocol does not fit |
 | A model provider | most endpoints are covered by `openai` / `openai_responses`; otherwise implement `BaseLLM` and register it in `llm/factory.py` |
 | A front-end | implement `UI` or drive the HTTP/WebSocket API in `docs/app.md` |
@@ -71,8 +71,8 @@ Anything that can show the agent to a person implements `nanomuse/ui.py::UI`: te
 
 ```bash
 python -m pytest -q                 # unit tests with MockLLM, no network
-NANOMUSE_LIVE=1 python -m pytest -q -m live    # smoke test against your configured model
-ruff check nanomuse tests && ruff format --check nanomuse tests
+LINGTAI_LIVE=1 python -m pytest -q -m live    # smoke test against your configured model
+ruff check lingtai tests && ruff format --check lingtai tests
 cd web && npm run build             # type-checks and rebuilds the app
 ```
 

@@ -1,11 +1,11 @@
-"""The sentence a failed run leaves in the chat (nanomuse/server/failures.py)."""
+"""The sentence a failed run leaves in the chat (lingtai/server/failures.py)."""
 
 from __future__ import annotations
 
 import httpx
 import openai
 
-from nanomuse.server.failures import describe_failure, failure_notice
+from lingtai.server.failures import describe_failure, failure_notice
 
 
 def _status_error(cls, status: int, body: dict):
@@ -61,13 +61,13 @@ def test_an_exhausted_allowance_carries_the_ways_on():
         "message": "Your free allowance (¥10) is used up. …",
         "left": 0,
         "grant": 10,
-        "invite_url": "https://nanomuse.cn/web/?invite=ABCD2345",
+        "invite_url": "https://lingtai.cn/web/?invite=ABCD2345",
         "invite_bonus_cny": 5,
         "invitee_bonus_cny": 5,
         "contribute_bonus_available": False,
         "contribute_bonus_cny": 0,
-        "own_key_docs": "https://nanomuse.cn/own-key",
-        "type": "nanomuse_cloud",
+        "own_key_docs": "https://lingtai.cn/own-key",
+        "type": "lingtai_cloud",
     }
     exc = _status_error(openai.RateLimitError, 429, body)
     code, text = describe_failure(exc)
@@ -81,12 +81,12 @@ def test_an_exhausted_allowance_carries_the_ways_on():
     assert notice["code"] == "allowance" and notice["allowance"] == {
         "left": 0,
         "grant": 10,
-        "invite_url": "https://nanomuse.cn/web/?invite=ABCD2345",
+        "invite_url": "https://lingtai.cn/web/?invite=ABCD2345",
         "invite_bonus_cny": 5,
         "invitee_bonus_cny": 5,
         "contribute_bonus_available": False,
         "contribute_bonus_cny": 0,
-        "own_key_docs": "https://nanomuse.cn/own-key",
+        "own_key_docs": "https://lingtai.cn/own-key",
     }
     # any other failure carries no such block
     other = _status_error(openai.RateLimitError, 429, {"code": "rate_limited", "message": "slow"})
@@ -153,7 +153,7 @@ def test_the_operators_switches_say_paused_not_broken():
         "reason": "allowance_paused",
         "left": 7,
         "grant": 10,
-        "invite_url": "https://nanomuse.cn/web/?invite=ABCD2345",
+        "invite_url": "https://lingtai.cn/web/?invite=ABCD2345",
         "invite_bonus_cny": 5,
     }
     exc = _status_error(openai.RateLimitError, 429, body)
@@ -211,7 +211,7 @@ def test_timeline_writes_are_coalesced_on_a_loop_and_immediate_off_one(tmp_path)
     import asyncio
     import json
 
-    from nanomuse.server.events import Timeline
+    from lingtai.server.events import Timeline
 
     path = tmp_path / "t.json"
     off = Timeline("t", path)
@@ -240,21 +240,21 @@ def test_timeline_writes_are_coalesced_on_a_loop_and_immediate_off_one(tmp_path)
 
 # ----------------------------------------------------------------------------- update check
 def test_update_check_versions_and_opt_out(monkeypatch):
-    from nanomuse.server import update
+    from lingtai.server import update
 
     assert update.parse_version("v0.1.21") == (0, 1, 21)
     assert update.parse_version("0.2.0-rc1") == (0, 2, 0)
     assert update.parse_version("nightly") == ()
     assert update.newer_than("0.1.21", "0.1.20") and not update.newer_than("0.1.20", "0.1.20")
     assert not update.newer_than("nightly", "0.1.20")
-    monkeypatch.delenv("NANOMUSE_CLOUD_KEY", raising=False)
-    monkeypatch.delenv("NANOMUSE_NO_UPDATE_CHECK", raising=False)
+    monkeypatch.delenv("LINGTAI_CLOUD_KEY", raising=False)
+    monkeypatch.delenv("LINGTAI_NO_UPDATE_CHECK", raising=False)
     assert update.enabled(True) and not update.enabled(False)
-    monkeypatch.setenv("NANOMUSE_NO_UPDATE_CHECK", "1")
+    monkeypatch.setenv("LINGTAI_NO_UPDATE_CHECK", "1")
     assert not update.enabled(True)
-    monkeypatch.delenv("NANOMUSE_NO_UPDATE_CHECK")
+    monkeypatch.delenv("LINGTAI_NO_UPDATE_CHECK")
     monkeypatch.setenv(
-        "NANOMUSE_CLOUD_KEY", "nm_hosted"
+        "LINGTAI_CLOUD_KEY", "lt_hosted"
     )  # a hosted web session: the operator updates
     assert not update.enabled(True)
 
@@ -263,10 +263,10 @@ def test_update_check_caches_and_survives_failures(monkeypatch):
     import asyncio
     import time
 
-    from nanomuse.server import update
+    from lingtai.server import update
 
-    monkeypatch.delenv("NANOMUSE_CLOUD_KEY", raising=False)
-    monkeypatch.delenv("NANOMUSE_NO_UPDATE_CHECK", raising=False)
+    monkeypatch.delenv("LINGTAI_CLOUD_KEY", raising=False)
+    monkeypatch.delenv("LINGTAI_NO_UPDATE_CHECK", raising=False)
     calls = 0
     real_check = update.UpdateCheck._check
 
@@ -275,7 +275,7 @@ def test_update_check_caches_and_survives_failures(monkeypatch):
         calls += 1
         self.checked_at = time.monotonic()
         self.latest = "0.1.21"
-        self.url = "https://github.com/nano-muse/nanoMuse/releases/tag/v0.1.21"
+        self.url = "https://github.com/econswarm/lingtai/releases/tag/v0.1.21"
         self.error = None
 
     monkeypatch.setattr(update.UpdateCheck, "_check", fake_check)

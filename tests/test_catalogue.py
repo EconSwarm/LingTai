@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from nanomuse.config import LLMSettings, check_provider, resolve_provider
-from nanomuse.llm import catalogue
-from nanomuse.llm.factory import create_llm
+from lingtai.config import LLMSettings, check_provider, resolve_provider
+from lingtai.llm import catalogue
+from lingtai.llm.factory import create_llm
 
 
 def test_the_packaged_file_is_read_once_and_has_the_twenty_providers():

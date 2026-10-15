@@ -9,10 +9,10 @@ from zoneinfo import ZoneInfo
 import httpx
 import pytest
 
-from nanomuse.calendar import CalendarFeeds, expand, make_ics, parse_ics
-from nanomuse.calendar.ics import parse_duration, unescape, unfold
-from nanomuse.config import CalendarFeedSettings, CalendarSettings
-from nanomuse.tools import Calendar
+from lingtai.calendar import CalendarFeeds, expand, make_ics, parse_ics
+from lingtai.calendar.ics import parse_duration, unescape, unfold
+from lingtai.config import CalendarFeedSettings, CalendarSettings
+from lingtai.tools import Calendar
 
 TZ = ZoneInfo("Asia/Shanghai")
 

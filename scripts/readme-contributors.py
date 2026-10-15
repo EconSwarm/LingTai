@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-REPO = "nano-muse/nanoMuse"
+REPO = "ling-tai/lingTai"
 API = f"https://api.github.com/repos/{REPO}/contributors"
 START = "<!-- contributors:start -->"
 END = "<!-- contributors:end -->"
@@ -48,7 +48,7 @@ def fetch(token: str | None = None) -> list[dict[str, Any]]:
             f"{API}?per_page=100&page={page}",
             headers={
                 "Accept": "application/vnd.github+json",
-                "User-Agent": "nanomuse-readme-contributors",
+                "User-Agent": "lingtai-readme-contributors",
                 **({"Authorization": f"Bearer {token}"} if token else {}),
             },
         )

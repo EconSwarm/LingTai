@@ -11,20 +11,20 @@ import pytest
 from fastapi.testclient import TestClient
 from typer.testing import CliRunner
 
-from nanomuse.cli import app as cli_app
-from nanomuse.config import (
+from lingtai.cli import app as cli_app
+from lingtai.config import (
     ContactSourceSettings,
     ContactsSettings,
     EmailSettings,
     Settings,
     load_app_settings,
 )
-from nanomuse.contacts import OWN, ContactBook, parse_vcards, render_vcard
-from nanomuse.llm import MockLLM
-from nanomuse.schema import RiskLevel
-from nanomuse.server import create_app
-from nanomuse.server.service import MuseService
-from nanomuse.tools import Contacts, SendEmail
+from lingtai.contacts import OWN, ContactBook, parse_vcards, render_vcard
+from lingtai.llm import MockLLM
+from lingtai.schema import RiskLevel
+from lingtai.server import create_app
+from lingtai.server.service import MuseService
+from lingtai.tools import Contacts, SendEmail
 
 
 def private(path: Path) -> bool:

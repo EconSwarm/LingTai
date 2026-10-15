@@ -94,17 +94,17 @@ class BackgroundTaskNotifier(
         // is the right gate — POST_NOTIFICATIONS is requested at toggle-on
         // time in Settings (separate flow), and if it was denied we silently
         // skip rather than crash.
-        val nm = NotificationManagerCompat.from(context)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !nm.areNotificationsEnabled()) {
+        val lt = NotificationManagerCompat.from(context)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !lt.areNotificationsEnabled()) {
             return
         }
 
         val deepLink = Uri.parse("minis://session/$sessionId")
-        // nanoMuse: to MainActivity by name, never through the system's choice of an app for the scheme.
+        // lingTai: to MainActivity by name, never through the system's choice of an app for the scheme.
         // FLAG_ACTIVITY_NEW_TASK because we're posting from a background scope without an Activity
         // context; FLAG_ACTIVITY_CLEAR_TOP so MainActivity (singleTask) reuses the existing instance
         // and routes the deep-link via onNewIntent rather than spawning a duplicate.
-        val launchIntent: Intent = io.github.nanomuse.deeplink.OwnScheme.intent(
+        val launchIntent: Intent = io.github.lingtai.deeplink.OwnScheme.intent(
             context, deepLink, Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP,
         )
         val pendingIntent = PendingIntent.getActivity(
@@ -115,8 +115,8 @@ class BackgroundTaskNotifier(
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_stat_nanomuse) // nanoMuse: flat status-bar mark
-            .setLargeIcon(io.github.nanomuse.identity.NanoMuseIdentity.face(context)) // nanoMuse: the agent is the sender
+            .setSmallIcon(R.drawable.ic_stat_lingtai) // lingTai: flat status-bar mark
+            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // lingTai: the agent is the sender
             .setContentTitle(title)
             .setContentText(body)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))
@@ -127,7 +127,7 @@ class BackgroundTaskNotifier(
             .build()
 
         try {
-            nm.notify(sessionId.hashCode(), notification)
+            lt.notify(sessionId.hashCode(), notification)
         } catch (se: SecurityException) {
             // POST_NOTIFICATIONS not granted — silently no-op rather
             // than crashing the agent-completion path.
@@ -150,13 +150,13 @@ class BackgroundTaskNotifier(
      */
     fun cancelAllCompletedNotifications() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
-        val nm = ContextCompat.getSystemService(context, NotificationManager::class.java)
+        val lt = ContextCompat.getSystemService(context, NotificationManager::class.java)
             ?: return
         try {
-            val active = nm.activeNotifications ?: return
+            val active = lt.activeNotifications ?: return
             for (sb in active) {
                 if (sb.notification?.channelId == CHANNEL_ID) {
-                    nm.cancel(sb.tag, sb.id)
+                    lt.cancel(sb.tag, sb.id)
                 }
             }
         } catch (t: Throwable) {

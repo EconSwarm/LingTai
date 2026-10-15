@@ -5,7 +5,7 @@ import { useT } from "../i18n";
 import { useStore } from "../store";
 import { readStorage, writeStorage } from "../util";
 
-const SEEN_KEY = "nm.desktop.remote_hint";
+const SEEN_KEY = "lt.desktop.remote_hint";
 
 /**
  * The desktop app's one first-run line: once this computer is on the hub with remote control

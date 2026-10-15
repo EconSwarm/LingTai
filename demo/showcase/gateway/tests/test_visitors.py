@@ -1,4 +1,4 @@
-"""The visitors' sign-in: a nanoMuse Cloud account before a demo Muse."""
+"""The visitors' sign-in: a lingTai Cloud account before a demo Muse."""
 
 from __future__ import annotations
 
@@ -69,7 +69,7 @@ async def test_a_demo_needs_a_sign_in(showcase):
         ticket = data["ticket"]
         assert data["visitor"] == {"hint": "so…", "channel": "email", "created": True}
         # the key the relay issued for the sign-in is revoked at once
-        assert upstream.revoked == ["nm_key1"]
+        assert upstream.revoked == ["lt_key1"]
         # the relay saw the visitor's address, not the gateway's
         verify = [q for q in upstream.calls if q.url.path == "/v1/auth/verify"][-1]
         assert verify.headers["x-forwarded-for"] == "1.2.3.4"
@@ -79,7 +79,7 @@ async def test_a_demo_needs_a_sign_in(showcase):
         r = await c.post("/api/demo/session", json={}, headers=auth)
         assert r.status_code == 201, r.text
         sid = r.json()["id"]
-        assert list(runner.running) == [f"nm-{sid}"]
+        assert list(runner.running) == [f"lt-{sid}"]
         me = (await c.get("/api/demo/me", headers=auth)).json()
         assert me["visitor"]["hint"] == "so…"
         assert book.store.get("acct-someone-at-example.com").sessions == 1
@@ -279,17 +279,17 @@ async def test_switched_off_means_the_old_way(showcase):
         ),
         # a JSON list, a string, a bare message and FastAPI's detail: no code to pass on, and
         # no AttributeError on this side of the wire
-        (400, "[1, 2]", "relay_error", "nanoMuse Cloud refused the request."),
-        (400, '"nope"', "relay_error", "nanoMuse Cloud refused the request."),
+        (400, "[1, 2]", "relay_error", "lingTai Cloud refused the request."),
+        (400, '"nope"', "relay_error", "lingTai Cloud refused the request."),
         (400, '{"error": "nope"}', "relay_error", "nope"),
         (422, '{"detail": "identifier: too short"}', "relay_error", "identifier: too short"),
         (
             422,
             '{"detail": [{"loc": ["body"]}]}',
             "relay_error",
-            "nanoMuse Cloud refused the request.",
+            "lingTai Cloud refused the request.",
         ),
-        (502, "<html>bad gateway</html>", "relay_error", "nanoMuse Cloud refused the request."),
+        (502, "<html>bad gateway</html>", "relay_error", "lingTai Cloud refused the request."),
     ],
 )
 async def test_a_refusal_of_any_shape_reaches_the_browser_as_a_refusal(status, text, code, message):

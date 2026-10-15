@@ -195,9 +195,9 @@ object MarkdownParser {
                 val startNum = numMatch.groupValues[1].toIntOrNull() ?: 1
                 val items = mutableListOf<ListItem>()
                 while (i < lines.size) {
-                    val nm = Regex("^\\s{0,3}(\\d{1,2})[.)\\s]\\s*(.*)$").find(lines[i])
-                    if (nm == null) break
-                    items.add(ListItem(nm.groupValues[2]))
+                    val lt = Regex("^\\s{0,3}(\\d{1,2})[.)\\s]\\s*(.*)$").find(lines[i])
+                    if (lt == null) break
+                    items.add(ListItem(lt.groupValues[2]))
                     i++
                 }
                 blocks.add(Block.NumberedList(startNum, items))

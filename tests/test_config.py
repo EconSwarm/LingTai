@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from nanomuse.config import Settings, load_settings
+from lingtai.config import Settings, load_settings
 
 
 def test_env_expansion_and_overrides(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
@@ -29,7 +29,7 @@ action = "deny"
     )
     monkeypatch.setenv("TEST_KEY", "sk-test")
     monkeypatch.delenv("TEST_URL", raising=False)
-    monkeypatch.delenv("NANOMUSE_LLM_MODEL", raising=False)
+    monkeypatch.delenv("LINGTAI_LLM_MODEL", raising=False)
     s = load_settings(cfg)
     assert s.llm.api_key == "sk-test"
     assert s.llm.base_url == "https://api.deepseek.com"  # trailing slash stripped
@@ -37,10 +37,10 @@ action = "deny"
     assert s.sentinel.mode == "strict"
     assert s.sentinel.rules[0].action == "deny"
 
-    monkeypatch.setenv("NANOMUSE_LLM_MODEL", "other-model")
-    monkeypatch.setenv("NANOMUSE_LLM_IMAGE_MODEL", "qwen-image-3.0")
-    monkeypatch.setenv("NANOMUSE_LLM_VIDEO_BASE_URL", "http://gateway:8000/llm/abc/main")
-    monkeypatch.setenv("NANOMUSE_SENTINEL_MODE", "auto")
+    monkeypatch.setenv("LINGTAI_LLM_MODEL", "other-model")
+    monkeypatch.setenv("LINGTAI_LLM_IMAGE_MODEL", "qwen-image-3.0")
+    monkeypatch.setenv("LINGTAI_LLM_VIDEO_BASE_URL", "http://gateway:8000/llm/abc/main")
+    monkeypatch.setenv("LINGTAI_SENTINEL_MODE", "auto")
     s = load_settings(cfg)
     assert s.llm.model == "other-model"
     assert s.llm.image_model == "qwen-image-3.0"
@@ -48,8 +48,8 @@ action = "deny"
     assert s.sentinel.mode == "auto"
 
     # container-style overrides win over values set in the file
-    monkeypatch.setenv("NANOMUSE_DATA_DIR", str(tmp_path / "data"))
-    monkeypatch.setenv("NANOMUSE_WORKSPACE", str(tmp_path / "ws"))
+    monkeypatch.setenv("LINGTAI_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("LINGTAI_WORKSPACE", str(tmp_path / "ws"))
     s = load_settings(cfg)
     assert s.data_dir == tmp_path / "data"
     assert s.agent.workspace == tmp_path / "ws"
@@ -62,7 +62,7 @@ def test_missing_explicit_config_raises(tmp_path: Path):
 
 def test_defaults_without_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.delenv("NANOMUSE_CONFIG", raising=False)
+    monkeypatch.delenv("LINGTAI_CONFIG", raising=False)
     monkeypatch.setenv("DEEPSEEK_API_KEY", "sk-from-env")
     monkeypatch.setenv("HOME", str(tmp_path))
     s = load_settings()
@@ -74,7 +74,7 @@ def test_provider_key_fallback_follows_the_host(tmp_path: Path, monkeypatch: pyt
     """A missing api_key is filled from the provider's own variable, never another's."""
     monkeypatch.setenv("DEEPSEEK_API_KEY", "sk-deepseek")
     monkeypatch.setenv("OPENAI_API_KEY", "sk-openai")
-    monkeypatch.delenv("NANOMUSE_LLM_API_KEY", raising=False)
+    monkeypatch.delenv("LINGTAI_LLM_API_KEY", raising=False)
     cfg = tmp_path / "config.toml"
 
     def key_for(base_url: str | None) -> str | None:
@@ -101,11 +101,11 @@ def test_provider_key_fallback_follows_the_host(tmp_path: Path, monkeypatch: pyt
 def test_bad_server_port_in_the_environment_is_ignored(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ):
-    monkeypatch.setenv("NANOMUSE_SERVER_PORT", "eight")
+    monkeypatch.setenv("LINGTAI_SERVER_PORT", "eight")
     cfg = tmp_path / "config.toml"
     cfg.write_text(f'data_dir = "{(tmp_path / "data").as_posix()}"\n')
     assert load_settings(cfg).server.port == Settings().server.port
-    monkeypatch.setenv("NANOMUSE_SERVER_PORT", "8123")
+    monkeypatch.setenv("LINGTAI_SERVER_PORT", "8123")
     assert load_settings(cfg).server.port == 8123
 
 
@@ -114,16 +114,16 @@ def test_workspace_defaults_under_the_data_dir(tmp_path: Path, monkeypatch: pyte
     terminal user's convention); otherwise inside the data directory, wherever the process was
     started — a launcher's cwd may be Program Files or System32 (the 0.1.21 Windows failure)."""
     monkeypatch.chdir(tmp_path)
-    monkeypatch.delenv("NANOMUSE_WORKSPACE", raising=False)
-    monkeypatch.setenv("NANOMUSE_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.delenv("LINGTAI_WORKSPACE", raising=False)
+    monkeypatch.setenv("LINGTAI_DATA_DIR", str(tmp_path / "data"))
     assert load_settings().agent.workspace == tmp_path / "data" / "workspace"
 
     (tmp_path / "workspace").mkdir()
     assert load_settings().agent.workspace == Path("./workspace")
 
-    monkeypatch.setenv("NANOMUSE_WORKSPACE", str(tmp_path / "elsewhere"))
+    monkeypatch.setenv("LINGTAI_WORKSPACE", str(tmp_path / "elsewhere"))
     assert load_settings().agent.workspace == tmp_path / "elsewhere"
-    monkeypatch.delenv("NANOMUSE_WORKSPACE")
+    monkeypatch.delenv("LINGTAI_WORKSPACE")
     cfg = tmp_path / "config.toml"
     cfg.write_text(
         f'data_dir = "{(tmp_path / "data").as_posix()}"\n[agent]\nworkspace = "./mine"\n'
@@ -137,7 +137,7 @@ def test_unknown_keys_are_named_and_the_rest_still_loads(
     """Pydantic drops a key it has no field for without a word; a misspelt key would read as
     "not set". The loader names each one, with its path, and the free-form tables and the
     tables other modules read (``[channels.<name>]``) are not mistaken for typos."""
-    from nanomuse.config import unknown_keys
+    from lingtai.config import unknown_keys
 
     cfg = tmp_path / "config.toml"
     cfg.write_text(
@@ -177,7 +177,7 @@ anything = 1
         ]
 
     warnings: list[str] = []
-    from nanomuse.logger import logger
+    from lingtai.logger import logger
 
     sink = logger.add(lambda m: warnings.append(m.record["message"]), level="WARNING")
     try:

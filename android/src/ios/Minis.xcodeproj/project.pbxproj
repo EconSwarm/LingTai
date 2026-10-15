@@ -1219,7 +1219,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AA0838CB2F3CA8A900049557 /* Terminal */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Terminal; sourceTree = "<group>"; };
-		4E4D0000000000000000AA01 /* NanoMuse */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NanoMuse; sourceTree = "<group>"; };
+		4E4D0000000000000000AA01 /* LingTai */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LingTai; sourceTree = "<group>"; };
 		AA8A568C2F6FBB7A00A3E54E /* MinisUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MinisUITests; sourceTree = "<group>"; };
 		BB1000012F700000000000AA /* MinisTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E5EXC0001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = MinisTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -1466,7 +1466,7 @@
 				E5L000030 /* NativeOffloads */,
 				E54000030 /* Debug */,
 				E5CR00100 /* Diagnostics */,
-				4E4D0000000000000000AA01 /* NanoMuse */,
+				4E4D0000000000000000AA01 /* LingTai */,
 				E51000013 /* Assets.xcassets */,
 				E51000033 /* Preview Content */,
 				AA71B0212F44BEB200A28A5E /* Launch Screen.storyboard */,
@@ -2381,7 +2381,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				AA0838CB2F3CA8A900049557 /* Terminal */,
-				4E4D0000000000000000AA01 /* NanoMuse */,
+				4E4D0000000000000000AA01 /* LingTai */,
 			);
 			name = Minis;
 			packageProductDependencies = (
@@ -2625,7 +2625,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# [T-ios-strip-vad-symbols] Strip local symbols from the prebuilt\n# RealTimeCutVADCXXLibrary framework (RealTimeCutVADLibrary SPM package).\n#\n# WHY: the upstream xcframework ships unstripped. It statically links a full\n# ONNX Runtime + MLAS kernel set, so the arm64 binary is ~26MB of which ~9MB is\n# nothing but local symbols the app can never call. `strip -x` discards ONLY\n# local symbols; all 3610 global exports (_OrtGetApiBase, _MlasGemm*, the\n# Obj-C/C++ entry points) survive, so dynamic linking is unaffected.\n#\n# WHY THIS PHASE RUNS LAST (after Embed Frameworks):\n# This framework comes from an SPM binaryTarget, and Xcode embeds those by\n# copying STRAIGHT FROM THE PACKAGE ARTIFACT DIRECTORY\n# ($BUILD_DIR/../../SourcePackages/artifacts/...), not from $BUILT_PRODUCTS_DIR.\n# Verified empirically: stripping the $BUILT_PRODUCTS_DIR copy before the embed\n# left the .app copy untouched at the original 26.45MB, because that copy is\n# never the source. So the strip has to happen on the binary already inside\n# .app/Frameworks, which necessarily means after the embed phase.\n#\n# WHY WE RE-SIGN HERE (and why that is unavoidable):\n# Xcode signs an embedded framework as part of the copy. Modifying the Mach-O\n# afterwards invalidates that signature, and nothing downstream re-signs the\n# framework for us, so this script must do it. That is a deliberate deviation\n# from \"strip before the copy and let Xcode's codesign-on-copy handle it\" —\n# which is the tidier pattern but simply does not apply to SPM binaryTargets.\n# The re-sign is narrow: same ${EXPANDED_CODE_SIGN_IDENTITY} the app itself\n# uses, no entitlements (the framework has none — verified with\n# `codesign -d --entitlements`), and only this one framework is touched. The\n# app bundle's own signature is applied after all build phases, so re-signing a\n# nested framework here is seen by that final pass, and\n# `codesign --verify --deep --strict` passes on the result.\n#\n# Release only: Debug keeps full symbols so the framework stays debuggable.\n# The gate is $CONFIGURATION rather than runOnlyForDeploymentPostprocessing,\n# because that field means \"only during install/archive\" and would skip a plain\n# `xcodebuild -configuration Release` build.\nset -eu\nif [ \"${CONFIGURATION}\" != \"Release\" ]; then\n  echo \"note: skipping VAD strip (CONFIGURATION=${CONFIGURATION}, Release only)\"\n  exit 0\nfi\nFW=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealTimeCutVADCXXLibrary.framework\"\nBIN=\"$FW/RealTimeCutVADCXXLibrary\"\nif [ ! -f \"$BIN\" ]; then\n  echo \"note: $BIN not present — nothing to strip\"\n  exit 0\nfi\nif [ \"$(/usr/bin/nm \"$BIN\" 2>/dev/null | wc -l)\" -le \"$(/usr/bin/nm -g \"$BIN\" 2>/dev/null | wc -l)\" ]; then\n  echo \"note: $BIN already stripped — skipping\"\n  exit 0\nfi\nBEFORE=$(/usr/bin/stat -f%z \"$BIN\")\n/usr/bin/strip -x \"$BIN\"\nAFTER=$(/usr/bin/stat -f%z \"$BIN\")\n# Re-sign: stripping invalidated the signature Xcode applied during the copy.\nif [ -n \"${EXPANDED_CODE_SIGN_IDENTITY:-}\" ] && [ \"${CODE_SIGNING_REQUIRED:-YES}\" != \"NO\" ]; then\n  /usr/bin/codesign --force --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" ${OTHER_CODE_SIGN_FLAGS:-} --preserve-metadata=identifier,flags --timestamp=none \"$FW\"\n  echo \"note: re-signed $FW with ${EXPANDED_CODE_SIGN_IDENTITY_NAME:-$EXPANDED_CODE_SIGN_IDENTITY}\"\nelse\n  echo \"note: code signing disabled — skipped re-sign\"\nfi\necho \"note: stripped VAD framework ($BEFORE -> $AFTER bytes)\"\n";
+			shellScript = "# [T-ios-strip-vad-symbols] Strip local symbols from the prebuilt\n# RealTimeCutVADCXXLibrary framework (RealTimeCutVADLibrary SPM package).\n#\n# WHY: the upstream xcframework ships unstripped. It statically links a full\n# ONNX Runtime + MLAS kernel set, so the arm64 binary is ~26MB of which ~9MB is\n# nothing but local symbols the app can never call. `strip -x` discards ONLY\n# local symbols; all 3610 global exports (_OrtGetApiBase, _MlasGemm*, the\n# Obj-C/C++ entry points) survive, so dynamic linking is unaffected.\n#\n# WHY THIS PHASE RUNS LAST (after Embed Frameworks):\n# This framework comes from an SPM binaryTarget, and Xcode embeds those by\n# copying STRAIGHT FROM THE PACKAGE ARTIFACT DIRECTORY\n# ($BUILD_DIR/../../SourcePackages/artifacts/...), not from $BUILT_PRODUCTS_DIR.\n# Verified empirically: stripping the $BUILT_PRODUCTS_DIR copy before the embed\n# left the .app copy untouched at the original 26.45MB, because that copy is\n# never the source. So the strip has to happen on the binary already inside\n# .app/Frameworks, which necessarily means after the embed phase.\n#\n# WHY WE RE-SIGN HERE (and why that is unavoidable):\n# Xcode signs an embedded framework as part of the copy. Modifying the Mach-O\n# afterwards invalidates that signature, and nothing downstream re-signs the\n# framework for us, so this script must do it. That is a deliberate deviation\n# from \"strip before the copy and let Xcode's codesign-on-copy handle it\" —\n# which is the tidier pattern but simply does not apply to SPM binaryTargets.\n# The re-sign is narrow: same ${EXPANDED_CODE_SIGN_IDENTITY} the app itself\n# uses, no entitlements (the framework has none — verified with\n# `codesign -d --entitlements`), and only this one framework is touched. The\n# app bundle's own signature is applied after all build phases, so re-signing a\n# nested framework here is seen by that final pass, and\n# `codesign --verify --deep --strict` passes on the result.\n#\n# Release only: Debug keeps full symbols so the framework stays debuggable.\n# The gate is $CONFIGURATION rather than runOnlyForDeploymentPostprocessing,\n# because that field means \"only during install/archive\" and would skip a plain\n# `xcodebuild -configuration Release` build.\nset -eu\nif [ \"${CONFIGURATION}\" != \"Release\" ]; then\n  echo \"note: skipping VAD strip (CONFIGURATION=${CONFIGURATION}, Release only)\"\n  exit 0\nfi\nFW=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealTimeCutVADCXXLibrary.framework\"\nBIN=\"$FW/RealTimeCutVADCXXLibrary\"\nif [ ! -f \"$BIN\" ]; then\n  echo \"note: $BIN not present — nothing to strip\"\n  exit 0\nfi\nif [ \"$(/usr/bin/lt \"$BIN\" 2>/dev/null | wc -l)\" -le \"$(/usr/bin/lt -g \"$BIN\" 2>/dev/null | wc -l)\" ]; then\n  echo \"note: $BIN already stripped — skipping\"\n  exit 0\nfi\nBEFORE=$(/usr/bin/stat -f%z \"$BIN\")\n/usr/bin/strip -x \"$BIN\"\nAFTER=$(/usr/bin/stat -f%z \"$BIN\")\n# Re-sign: stripping invalidated the signature Xcode applied during the copy.\nif [ -n \"${EXPANDED_CODE_SIGN_IDENTITY:-}\" ] && [ \"${CODE_SIGNING_REQUIRED:-YES}\" != \"NO\" ]; then\n  /usr/bin/codesign --force --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" ${OTHER_CODE_SIGN_FLAGS:-} --preserve-metadata=identifier,flags --timestamp=none \"$FW\"\n  echo \"note: re-signed $FW with ${EXPANDED_CODE_SIGN_IDENTITY_NAME:-$EXPANDED_CODE_SIGN_IDENTITY}\"\nelse\n  echo \"note: code signing disabled — skipped re-sign\"\nfi\necho \"note: stripped VAD framework ($BEFORE -> $AFTER bytes)\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3213,7 +3213,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.MinisUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.MinisUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -3233,7 +3233,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.MinisUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.MinisUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -3265,7 +3265,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.MinisTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.MinisTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -3294,7 +3294,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.MinisTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.MinisTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -3459,11 +3459,11 @@
 					"$(SRCROOT)/Vendor/cppjieba/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = nanoMuse;
+				INFOPLIST_KEY_CFBundleDisplayName = lingTai;
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "VM requires network access for SLIRP networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = NanoMuseLaunch;
+				INFOPLIST_KEY_UILaunchStoryboardName = LingTaiLaunch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -3479,7 +3479,7 @@
 					"-lfakefs",
 				);
 				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.app;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/MinisApp-Bridging-Header.h";
@@ -3514,11 +3514,11 @@
 					"$(SRCROOT)/Vendor/cppjieba/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = nanoMuse;
+				INFOPLIST_KEY_CFBundleDisplayName = lingTai;
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "VM requires network access for SLIRP networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = NanoMuseLaunch;
+				INFOPLIST_KEY_UILaunchStoryboardName = LingTaiLaunch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -3534,7 +3534,7 @@
 					"-lfakefs",
 				);
 				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.app;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/MinisApp-Bridging-Header.h";
@@ -3552,7 +3552,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Share to nanoMuse";
+				INFOPLIST_KEY_CFBundleDisplayName = "Share to lingTai";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3561,7 +3561,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.app.ShareExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.app.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -3579,7 +3579,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Share to nanoMuse";
+				INFOPLIST_KEY_CFBundleDisplayName = "Share to lingTai";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3588,7 +3588,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.app.ShareExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.app.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -3606,7 +3606,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FileProvider/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "nanoMuse Files";
+				INFOPLIST_KEY_CFBundleDisplayName = "lingTai Files";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3615,7 +3615,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.app.FileProvider;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.app.FileProvider;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -3633,7 +3633,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FileProvider/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "nanoMuse Files";
+				INFOPLIST_KEY_CFBundleDisplayName = "lingTai Files";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3642,7 +3642,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.app.FileProvider;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.app.FileProvider;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -3669,7 +3669,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.app.AgentWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.app.AgentWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -3696,7 +3696,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.nanomuse.app.AgentWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.lingtai.app.AgentWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;

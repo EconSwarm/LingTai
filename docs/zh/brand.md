@@ -1,25 +1,23 @@
-# nanoMuse 品牌
+# 灵台品牌
 
-2026-09-24 定稿。应用图标和应用内的配色体系是同一个决定：调色板由图标推导出来，这样整个应用
-才会和主屏幕上的那块图标是一个样子。
+2026-09-24 定稿。应用图标和应用内的配色体系是同一个决定：调色板由图标推导出来，这样整个应用才会和主屏幕上的那块图标是一个样子。
 
 ## 标志 {#the-mark}
 
 一笔连续的笔画，读出来是一个 **N**：带钩的起笔、一个圆峰、一条长斜线、一个收紧的谷、向上的收笔；
 一个只有一个拱的 N，一笔画成，不抬笔。标志刻意做得抽象：它先是一个手势，然后才是一个字母。
 
-- 源文件只有一个：`assets/brand/nanomuse-icon-source-1024.png`（最终渲染，品牌蓝底上的白色圆角方块）。
+- 源文件只有一个：`assets/brand/lingtai-icon-source-1024.png`（最终渲染，品牌蓝底上的白色圆角方块）。
   其余一切都由它派生。
-- `assets/brand/nanomuse-mark.svg`：只有笔画本身，描成一条填充路径，viewBox
+- `assets/brand/lingtai-mark.svg`：只有笔画本身，描成一条填充路径，viewBox
   `0 0 100 100`，用方块坐标，渐变填充。
-- `assets/brand/nanomuse-icon.svg`：白色圆角方块（`rx=27`）加标志。这就是应用图标。
-- `assets/brand/nanomuse-icon-on-blue.svg`：放在品牌蓝背景上的图标，只用于商店页面和启动页。
+- `assets/brand/lingtai-icon.svg`：白色圆角方块（`rx=27`）加标志。这就是应用图标。
+- `assets/brand/lingtai-icon-on-blue.svg`：放在品牌蓝背景上的图标，只用于商店页面和启动页。
   凡是用图标代表这个应用的地方（README、网站、社交卡片、favicon）都用素净的那块：白底、标志、
   一道细边，没有背景。
-- `assets/brand/nanomuse-mark-rgba-688.png`：带透明通道的笔画，688 px，位图兜底。
+- `assets/brand/lingtai-mark-rgba-688.png`：带透明通道的笔画，688 px，位图兜底。
 - `docs/app-icon.png`：带圆角渲染出来的方块（27 % 圆角半径，外侧透明，一道 `#D9D9DE` 细边，
-  放在白底上也保得住形状），512 px：图标在主屏幕上的样子。它是 README 的头图，也是任何把 nanoMuse
-  当作一个 App 展示的地方该用的那张图。
+  放在白底上也保得住形状），512 px：图标在主屏幕上的样子。它是 README 的头图，也是任何把灵台当作一个 App 展示的地方该用的那张图。
 
 图标**不是**吉祥物。默认的脸是随附的**小龙**（`web/public/avatars/`，Android 应用的 `avatar/`）；
 其他可选的是一个放在色块上的 emoji，或在形象工作室里做出来的一张脸。早期版本的小熊猫在 0.1.23 退役了。
@@ -64,8 +62,7 @@
 
 ## Android 映射（S1 已完成） {#android-mapping-done-in-s1}
 
-- 自适应图标：背景层 = 纯色 `#FFFFFF`；前景层 = 标志，一个 `VectorDrawable`，`fillColor` 是上面那个
-  两档线性渐变；单色层 = 同一条路径，平涂填充（由 Android 着色）。
+- 自适应图标：背景层 = 纯色 `#FFFFFF`；前景层 = 标志，一个 `VectorDrawable`，`fillColor` 是上面那个两档线性渐变；单色层 = 同一条路径，平涂填充（由 Android 着色）。
 - 图标皮肤（从 OpenMinis 保留下来的 activity 别名）：*自动* = 白色方块；*浅色* = 白色方块；
   *深色* = `#0F1B33` 方块加白色标志。
 - 通知小图标：标志，平涂白色，24 dp。

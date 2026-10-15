@@ -46,7 +46,7 @@ enum OpenAIModelsAPI {
     }
 
     private static func performFetch(_ request: URLRequest, filterOpenAIOnly: Bool = true) async throws -> [LLMModel] {
-        let (data, response) = try await NanoMuseProxy.session.data(for: request) // nanoMuse: Settings → Network
+        let (data, response) = try await LingTaiProxy.session.data(for: request) // lingTai: Settings → Network
         let http = response as? HTTPURLResponse
         let statusCode = http?.statusCode ?? -1
 
@@ -173,7 +173,7 @@ private enum OpenAIModelsCache {
 
     private static var cacheDir: URL {
         FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("io.github.nanomuse.app.openai-models-cache", isDirectory: true)
+            .appendingPathComponent("io.github.lingtai.app.openai-models-cache", isDirectory: true)
     }
 
     private static func cacheKey(for credential: String) -> String {

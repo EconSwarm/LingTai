@@ -34,10 +34,10 @@ describe("failureDetail", () => {
 
   it("never shows a validation list, a JSON body or the status number", () => {
     const list = failureDetail(422, { detail: [{ loc: ["body", "text"], msg: "field required", type: "missing" }] });
-    expect(list).toBe("Your nanoMuse could not do that.");
-    expect(failureDetail(500, undefined)).toBe("Your nanoMuse hit a problem; try again in a moment.");
-    expect(failureDetail(502, { error: "upstream" })).toBe("Your nanoMuse hit a problem; try again in a moment.");
-    expect(failureDetail(404, { detail: "" })).toBe("Your nanoMuse could not do that.");
+    expect(list).toBe("Your lingTai could not do that.");
+    expect(failureDetail(500, undefined)).toBe("Your lingTai hit a problem; try again in a moment.");
+    expect(failureDetail(502, { error: "upstream" })).toBe("Your lingTai hit a problem; try again in a moment.");
+    expect(failureDetail(404, { detail: "" })).toBe("Your lingTai could not do that.");
     for (const text of [list, failureDetail(500, undefined)]) {
       expect(text).not.toMatch(/\d{3}|\[object|\{/);
     }
@@ -63,12 +63,12 @@ describe("connectWs", () => {
   it("reconnects after an ordinary drop, and stops for good when the gateway says the session is gone", () => {
     vi.useFakeTimers();
     vi.stubGlobal("WebSocket", FakeSocket);
-    stubWindow({ protocol: "https:", host: "s1.s.nanomuse.dev" });
+    stubWindow({ protocol: "https:", host: "s1.s.lingtai.dev" });
     const gone = vi.fn();
     const closed = vi.fn();
     connectWs({ onMessage: () => undefined, onClose: closed, onGone: gone });
     expect(FakeSocket.made).toHaveLength(1);
-    expect(FakeSocket.made[0].url.startsWith("wss://s1.s.nanomuse.dev/ws")).toBe(true);
+    expect(FakeSocket.made[0].url.startsWith("wss://s1.s.lingtai.dev/ws")).toBe(true);
 
     // a drop mid-way: one retry after the first backoff step
     FakeSocket.made[0].onclose?.({ code: 1006 });

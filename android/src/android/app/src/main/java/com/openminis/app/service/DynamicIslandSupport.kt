@@ -41,8 +41,8 @@ object DynamicIslandSupport {
     fun isDynamicIslandCapable(context: Context): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.BAKLAVA) return false
         return try {
-            val nm = context.getSystemService(NotificationManager::class.java)
-            nm?.canPostPromotedNotifications() == true
+            val lt = context.getSystemService(NotificationManager::class.java)
+            lt?.canPostPromotedNotifications() == true
         } catch (t: Throwable) {
             // Defensive: some early/partial Baklava builds may throw if the
             // feature isn't fully wired. Treat any failure as "not capable"

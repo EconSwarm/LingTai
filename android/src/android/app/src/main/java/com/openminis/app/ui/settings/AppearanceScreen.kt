@@ -46,8 +46,8 @@ import androidx.compose.material.icons.outlined.Psychology
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.ScreenLockPortrait
 import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material.icons.outlined.Face // nanoMuse
-import androidx.compose.material.icons.outlined.VisibilityOff // nanoMuse
+import androidx.compose.material.icons.outlined.Face // lingTai
+import androidx.compose.material.icons.outlined.VisibilityOff // lingTai
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -146,19 +146,19 @@ fun showChatTitleEnabled(context: Context): Boolean =
 fun autoExpandThinkingEnabled(context: Context): Boolean =
     getAppearancePrefs(context).getBoolean(KEY_AUTO_EXPAND_THINKING, true)
 
-// nanoMuse: Muse's header shows only the agent's name; the model group and
+// lingTai: Muse's header shows only the agent's name; the model group and
 // provider · model under it are off by default and a Setting turns them on.
-const val KEY_NM_HEADER_MODEL = "nm.header_model"  // Boolean, default false
+const val KEY_LT_HEADER_MODEL = "lt.header_model"  // Boolean, default false
 fun headerModelEnabled(context: Context): Boolean =
-    getAppearancePrefs(context).getBoolean(KEY_NM_HEADER_MODEL, false)
+    getAppearancePrefs(context).getBoolean(KEY_LT_HEADER_MODEL, false)
 
-// nanoMuse: the agent's steps in the chat — the tool pills, the reasoning
+// lingTai: the agent's steps in the chat — the tool pills, the reasoning
 // blocks, the bar over the composer that opens the Computer sheet — are on
 // by default (0.1.37); a Setting hides them for whoever only wants the line
 // under the face. A stored false wins over the default.
-const val KEY_NM_SHOW_STEPS = "nm.show_steps"  // Boolean, default true
+const val KEY_LT_SHOW_STEPS = "lt.show_steps"  // Boolean, default true
 fun showStepsEnabled(context: Context): Boolean =
-    getAppearancePrefs(context).getBoolean(KEY_NM_SHOW_STEPS, true)
+    getAppearancePrefs(context).getBoolean(KEY_LT_SHOW_STEPS, true)
 
 /** Font scale levels matching iOS: XS(-2) Small(-1) Default(0) Medium(1) Large(2) XL(3) */
 /**
@@ -171,14 +171,14 @@ fun showStepsEnabled(context: Context): Boolean =
  */
 private val APP_ICON_TILE_MAX_WIDTH = 192.dp
 
-// nanoMuse: resolve font scale labels in the current app language.
+// lingTai: resolve font scale labels in the current app language.
 private val fontScaleLabelResIds = listOf(
-    R.string.nm_font_scale_extra_small,
-    R.string.nm_font_scale_small,
+    R.string.lt_font_scale_extra_small,
+    R.string.lt_font_scale_small,
     R.string.common_default,
-    R.string.nm_font_scale_medium,
-    R.string.nm_font_scale_large,
-    R.string.nm_font_scale_extra_large,
+    R.string.lt_font_scale_medium,
+    R.string.lt_font_scale_large,
+    R.string.lt_font_scale_extra_large,
 )
 private val fontScaleValues = listOf(-2, -1, 0, 1, 2, 3)
 private val fontScaleMultipliers = listOf(0.88f, 0.94f, 1.0f, 1.06f, 1.12f, 1.21f)
@@ -291,9 +291,9 @@ fun AppearanceScreen(
     var appBaseLevel by remember { mutableIntStateOf(prefs.getInt(KEY_FONT_APP_BASE, 0)) }
     var selectedLanguage by remember { mutableStateOf(prefs.getString(KEY_LANGUAGE, "") ?: "") }
     var selectedAppIcon by remember { mutableStateOf(AppIconRepository.current(context)) }
-    var headerModel by remember { mutableStateOf(prefs.getBoolean(KEY_NM_HEADER_MODEL, false)) } // nanoMuse
-    var showSteps by remember { mutableStateOf(prefs.getBoolean(KEY_NM_SHOW_STEPS, true)) } // nanoMuse: on by default
-    var avatarSize by remember { mutableStateOf(io.github.nanomuse.ui.avatar.AvatarSize.current(context)) } // nanoMuse
+    var headerModel by remember { mutableStateOf(prefs.getBoolean(KEY_LT_HEADER_MODEL, false)) } // lingTai
+    var showSteps by remember { mutableStateOf(prefs.getBoolean(KEY_LT_SHOW_STEPS, true)) } // lingTai: on by default
+    var avatarSize by remember { mutableStateOf(io.github.lingtai.ui.avatar.AvatarSize.current(context)) } // lingTai
 
     val fontsModified = chatInputLevel != 0 || messageLevel != 0 || appBaseLevel != 0
 
@@ -305,56 +305,56 @@ fun AppearanceScreen(
 
     SettingsScaffold(title = stringResource(R.string.appearance_title), onBack = onBack) {
 
-        // nanoMuse: -- Home header -- the model under the name, off by default as on Muse.
+        // lingTai: -- Home header -- the model under the name, off by default as on Muse.
         SettingsSection(
-            header = stringResource(R.string.nm_appearance_section_home),
-            footer = stringResource(R.string.nm_appearance_header_model_footer),
+            header = stringResource(R.string.lt_appearance_section_home),
+            footer = stringResource(R.string.lt_appearance_header_model_footer),
         ) {
             SettingsSwitchRow(
                 icon = Icons.Outlined.Visibility,
                 iconColor = tileBlue,
-                title = stringResource(R.string.nm_appearance_header_model_title),
+                title = stringResource(R.string.lt_appearance_header_model_title),
                 checked = headerModel,
                 onCheckedChange = {
                     headerModel = it
-                    prefs.edit().putBoolean(KEY_NM_HEADER_MODEL, it).apply()
+                    prefs.edit().putBoolean(KEY_LT_HEADER_MODEL, it).apply()
                 },
                 showDivider = false,
             )
         }
 
-        // nanoMuse: -- Conversation -- the agent's steps, on by default (0.1.37); off, the
+        // lingTai: -- Conversation -- the agent's steps, on by default (0.1.37); off, the
         // status line under the face carries the gist instead.
         SettingsSection(
-            header = stringResource(R.string.nm_appearance_section_chat),
-            footer = stringResource(R.string.nm_appearance_steps_footer),
+            header = stringResource(R.string.lt_appearance_section_chat),
+            footer = stringResource(R.string.lt_appearance_steps_footer),
         ) {
             SettingsSwitchRow(
                 icon = Icons.Outlined.Psychology,
                 iconColor = tilePurple,
-                title = stringResource(R.string.nm_appearance_steps_title),
+                title = stringResource(R.string.lt_appearance_steps_title),
                 checked = showSteps,
                 onCheckedChange = {
                     showSteps = it
-                    prefs.edit().putBoolean(KEY_NM_SHOW_STEPS, it).apply()
+                    prefs.edit().putBoolean(KEY_LT_SHOW_STEPS, it).apply()
                 },
                 showDivider = false,
             )
         }
 
-        // nanoMuse: -- Avatar size -- Muse's five steps for the face on the home header.
+        // lingTai: -- Avatar size -- Muse's five steps for the face on the home header.
         SettingsSection(
-            header = stringResource(R.string.nm_appearance_section_avatar_size),
-            footer = stringResource(R.string.nm_appearance_avatar_size_footer),
+            header = stringResource(R.string.lt_appearance_section_avatar_size),
+            footer = stringResource(R.string.lt_appearance_avatar_size_footer),
         ) {
-            val sizes = io.github.nanomuse.ui.avatar.AvatarSize.entries
+            val sizes = io.github.lingtai.ui.avatar.AvatarSize.entries
             sizes.forEachIndexed { idx, size ->
                 SettingsChoiceRow(
                     title = stringResource(size.label),
                     selected = avatarSize == size,
                     onSelect = {
                         avatarSize = size
-                        io.github.nanomuse.ui.avatar.AvatarSize.save(context, size)
+                        io.github.lingtai.ui.avatar.AvatarSize.save(context, size)
                     },
                     leading = {
                         androidx.compose.material3.Icon(
@@ -563,7 +563,7 @@ fun AppearanceScreen(
         }
 
         // -- Chat Title (T-chat-title-pill) --
-        // nanoMuse: not offered. The chat top bar shows the agent's name, not
+        // lingTai: not offered. The chat top bar shows the agent's name, not
         // the session title (see ChatScreen), so the "Show chat title" switch
         // has nothing left to govern. KEY_SHOW_CHAT_TITLE and its strings stay
         // for minis-config compatibility; session titles live in the session
@@ -860,7 +860,7 @@ private fun FontScaleSliderRow(
 ) {
     val idx = fontScaleValues.indexOf(level).coerceIn(0, fontScaleValues.lastIndex)
     var sliderPos by remember(level) { mutableFloatStateOf(idx.toFloat()) }
-    // nanoMuse: localize the selected label and the default fallback.
+    // lingTai: localize the selected label and the default fallback.
     val currentLabel = stringResource(
         fontScaleLabelResIds.getOrElse(sliderPos.roundToInt()) { R.string.common_default },
     )

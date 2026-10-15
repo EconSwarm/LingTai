@@ -50,7 +50,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map // nanoMuse
+import kotlinx.coroutines.flow.map // lingTai
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -133,9 +133,9 @@ import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material.icons.filled.StopCircle
 import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.outlined.Tune // nanoMuse
+import androidx.compose.material.icons.outlined.Tune // lingTai
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreHoriz // nanoMuse
+import androidx.compose.material.icons.filled.MoreHoriz // lingTai
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.RadioButtonChecked
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
@@ -531,12 +531,12 @@ fun ChatScreen(
      *  management screen — wired to the "Edit" button on the model picker's
      *  Model Groups section header. */
     onModelGroupsClick: () -> Unit = {},
-    // nanoMuse: non-null when this chat is a tab of the home shell — hamburger
+    // lingTai: non-null when this chat is a tab of the home shell — hamburger
     // instead of back, round kebab, big-face header on the main chat.
-    nmHome: io.github.nanomuse.ui.chat.NmHomeChrome? = null,
-    // nanoMuse: height of the floating pill bar overlaying the bottom. The
+    ltHome: io.github.lingtai.ui.chat.LtHomeChrome? = null,
+    // lingTai: height of the floating pill bar overlaying the bottom. The
     // composer sits above it; the message list slides behind it for the blur.
-    nmBottomOverlay: androidx.compose.ui.unit.Dp = 0.dp,
+    ltBottomOverlay: androidx.compose.ui.unit.Dp = 0.dp,
 ) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -568,67 +568,67 @@ fun ChatScreen(
     val messages by viewModel.uiMessages.collectAsState()
     val hasOlderMessages by viewModel.hasOlderMessages.collectAsState()
     val isStreaming by viewModel.isStreaming.collectAsState()
-    // nanoMuse: the screen stays on while the agent drives the browser or another app's screen.
-    io.github.nanomuse.status.KeepAwake.Effect(isStreaming)
+    // lingTai: the screen stays on while the agent drives the browser or another app's screen.
+    io.github.lingtai.status.KeepAwake.Effect(isStreaming)
     val canResume by viewModel.canResume.collectAsState()
-    // nanoMuse: the rows the account's other devices wrote — never this phone's turn to resume (C9)
-    val nmRemoteRows by io.github.nanomuse.sync.ConversationSync.remoteRows.collectAsState()
-    val nmContinueAsk by viewModel.nmContinueAsk.collectAsState() // nanoMuse: "continue?" card replaces the banner while shown
-    // nanoMuse: Muse's header carries only the name; the model rows under it are a
+    // lingTai: the rows the account's other devices wrote — never this phone's turn to resume (C9)
+    val ltRemoteRows by io.github.lingtai.sync.ConversationSync.remoteRows.collectAsState()
+    val ltContinueAsk by viewModel.ltContinueAsk.collectAsState() // lingTai: "continue?" card replaces the banner while shown
+    // lingTai: Muse's header carries only the name; the model rows under it are a
     // Setting (Appearance → Home), off by default on the main chat of the home shell.
-    val nmHeaderModelShown by io.github.nanomuse.ui.chat.rememberHeaderModelShown()
-    val nmHideModelRows = nmHome != null && nmHome.isMainChat && !nmHeaderModelShown
-    val nmAvatarSize by io.github.nanomuse.ui.avatar.rememberAvatarSize() // nanoMuse: Settings → Appearance → Avatar size
-    // nanoMuse: the agent's steps (tool pills, reasoning, the bar over the
+    val ltHeaderModelShown by io.github.lingtai.ui.chat.rememberHeaderModelShown()
+    val ltHideModelRows = ltHome != null && ltHome.isMainChat && !ltHeaderModelShown
+    val ltAvatarSize by io.github.lingtai.ui.avatar.rememberAvatarSize() // lingTai: Settings → Appearance → Avatar size
+    // lingTai: the agent's steps (tool pills, reasoning, the bar over the
     // composer) are a Setting (Appearance → Conversation), off by default;
     // the status line under the face carries what it is doing instead.
-    val nmShowSteps by io.github.nanomuse.ui.chat.rememberShowSteps()
-    // nanoMuse: for that status line — true while the reply's own words are
+    val ltShowSteps by io.github.lingtai.ui.chat.rememberShowSteps()
+    // lingTai: for that status line — true while the reply's own words are
     // arriving; mapped and de-duplicated here so the per-token stream never
     // recomposes the screen for it.
-    val nmReplying by remember(viewModel) {
+    val ltReplying by remember(viewModel) {
         viewModel.streamingById.map { stream ->
             stream.values.any { d -> !d.isAwaitingModelResponse && d.toolBlocks.lastOrNull()?.let { it.kind == "text" && it.content.isNotEmpty() } == true }
         }.distinctUntilChanged()
     }.collectAsState(initial = false)
-    // nanoMuse: …and the request it is on, for the moments between steps.
-    val nmRequestBrief = remember(messages) {
-        io.github.nanomuse.ui.header.requestBrief(messages.lastOrNull { it.role == "user" }?.content)
+    // lingTai: …and the request it is on, for the moments between steps.
+    val ltRequestBrief = remember(messages) {
+        io.github.lingtai.ui.header.requestBrief(messages.lastOrNull { it.role == "user" }?.content)
     }
-    // nanoMuse: after a finished task, one card under the reply asking for a star when the
+    // lingTai: after a finished task, one card under the reply asking for a star when the
     // relay's policy says this is a moment for it (StarPrompt / Nudges: a few counts, a
     // cooldown, a lifetime cap, and never again after the person went).
-    var nmStarNudge by remember { mutableStateOf<io.github.nanomuse.community.StarPrompt.Ask?>(null) }
-    var nmSawRun by remember { mutableStateOf(false) }
+    var ltStarNudge by remember { mutableStateOf<io.github.lingtai.community.StarPrompt.Ask?>(null) }
+    var ltSawRun by remember { mutableStateOf(false) }
     LaunchedEffect(isStreaming) {
-        if (isStreaming) { nmSawRun = true; return@LaunchedEffect }
-        if (!nmSawRun) return@LaunchedEffect
-        nmSawRun = false
+        if (isStreaming) { ltSawRun = true; return@LaunchedEffect }
+        if (!ltSawRun) return@LaunchedEffect
+        ltSawRun = false
         // A task is a turn the person started, after the first conversation (the naming) was
         // over; a routine, the feed or a goal check streaming in this session is not one.
-        val countable = viewModel.nmTakeCountableTurn()
-        if (!countable || nmStarNudge != null) return@LaunchedEffect
+        val countable = viewModel.ltTakeCountableTurn()
+        if (!countable || ltStarNudge != null) return@LaunchedEffect
         kotlinx.coroutines.delay(400) // the turn's last words land in the list a beat after the stream ends
         val last = viewModel.uiMessages.value.lastOrNull() ?: return@LaunchedEffect
         val replied = last.role == "assistant" && last.error.isNullOrBlank() &&
             (last.content.isNotBlank() || last.toolBlocks.any { it.kind == "text" && it.content.isNotBlank() })
         if (!replied) return@LaunchedEffect
-        val ask = io.github.nanomuse.community.StarPrompt.taskAsk(context, io.github.nanomuse.community.StarPrompt.countTask(context))
+        val ask = io.github.lingtai.community.StarPrompt.taskAsk(context, io.github.lingtai.community.StarPrompt.countTask(context))
             ?: return@LaunchedEffect
-        io.github.nanomuse.community.StarPrompt.markShown(context, ask)
-        nmStarNudge = ask
+        io.github.lingtai.community.StarPrompt.markShown(context, ask)
+        ltStarNudge = ask
     }
-    // nanoMuse: the asks that arrive away from any screen (the 7th / 30th day the app was
+    // lingTai: the asks that arrive away from any screen (the 7th / 30th day the app was
     // opened) show here, in the main chat, when the agent is not mid-reply.
-    if (nmHome != null && nmHome.isMainChat) {
-        val nmPendingAsk by io.github.nanomuse.community.StarPrompt.pending.collectAsState()
-        LaunchedEffect(nmPendingAsk, isStreaming) {
-            val ask = nmPendingAsk ?: return@LaunchedEffect
-            if (ask.moment != io.github.nanomuse.community.StarPrompt.Moment.DAYS_USED || isStreaming || nmStarNudge != null) return@LaunchedEffect
-            io.github.nanomuse.community.StarPrompt.clearPending(ask)
-            if (!io.github.nanomuse.community.StarPrompt.due(context, ask)) return@LaunchedEffect
-            io.github.nanomuse.community.StarPrompt.markShown(context, ask)
-            nmStarNudge = ask
+    if (ltHome != null && ltHome.isMainChat) {
+        val ltPendingAsk by io.github.lingtai.community.StarPrompt.pending.collectAsState()
+        LaunchedEffect(ltPendingAsk, isStreaming) {
+            val ask = ltPendingAsk ?: return@LaunchedEffect
+            if (ask.moment != io.github.lingtai.community.StarPrompt.Moment.DAYS_USED || isStreaming || ltStarNudge != null) return@LaunchedEffect
+            io.github.lingtai.community.StarPrompt.clearPending(ask)
+            if (!io.github.lingtai.community.StarPrompt.due(context, ask)) return@LaunchedEffect
+            io.github.lingtai.community.StarPrompt.markShown(context, ask)
+            ltStarNudge = ask
         }
     }
     // [T-android-compact-progress] null when no compaction is running.
@@ -1079,7 +1079,7 @@ fun ChatScreen(
         // [T-android-overlay-hide-camera] Suppress the floating bg-overlay
         // BEFORE handing off to the system camera. The camera Activity
         // takes foreground, which by #451's rule would otherwise satisfy
-        // "nanoMuse backgrounded → show overlay" and the capsule would draw
+        // "lingTai backgrounded → show overlay" and the capsule would draw
         // on top of the viewfinder. Cleared in the ActivityResult callback.
         com.openminis.app.service.SessionActivityTracker.setCameraSuppressActive(true)
         runCatching { cameraLauncher.launch(intent) }
@@ -1195,7 +1195,7 @@ fun ChatScreen(
             "ScrollSrc",
             "scrollToItem src=$source idx=$idx off=$off canBwd=${listState.canScrollBackward} firstIdx=${listState.firstVisibleItemIndex} firstOff=${listState.firstVisibleItemScrollOffset} inProgress=${listState.isScrollInProgress}",
         )
-        // nanoMuse: contentPadding clears the measured footer. Offset zero
+        // lingTai: contentPadding clears the measured footer. Offset zero
         // pins the latest row above it; another overlay offset would count it twice.
         runCatching { listState.scrollToItem(idx, off) }
         Unit
@@ -1751,7 +1751,7 @@ fun ChatScreen(
         viewModel.endSlashSessionForSend()
         viewModel.setInputText("")
         releaseComposerAfterSend()
-        viewModel.nmMarkPersonTurn() // nanoMuse: the person started this turn (StarPrompt counts those)
+        viewModel.ltMarkPersonTurn() // lingTai: the person started this turn (StarPrompt counts those)
         viewModel.sendMessage(rawText)
         noteSendForInputModePref()
         userScrolledAway = false
@@ -2302,11 +2302,11 @@ fun ChatScreen(
             }
         }
     }
-    // nanoMuse: the profile page's "Change avatar" pre-fills the composer and
+    // lingTai: the profile page's "Change avatar" pre-fills the composer and
     // asks for the keyboard (Muse hands you back to the chat with "把虚拟形象改成"
     // already typed). Same guard as above.
     LaunchedEffect(viewModel) {
-        viewModel.nmFocusComposer.collect {
+        viewModel.ltFocusComposer.collect {
             kotlinx.coroutines.delay(250)
             try {
                 inputFocusRequester.requestFocus()
@@ -2607,7 +2607,7 @@ fun ChatScreen(
         containerColor = ChatColors.background,
         contentWindowInsets = WindowInsets(0),
         topBar = {
-            // nanoMuse: the header is an overlay. The list slides underneath and
+            // lingTai: the header is an overlay. The list slides underneath and
             // the scrim melts it away: a soft shade at the top edge dissolving
             // to clear, never a bar.
             Box(
@@ -2623,7 +2623,7 @@ fun ChatScreen(
             ) {
             TopAppBar(
                 title = {
-                    // iOS-style centered layout: "nanoMuse" + group row + provider·model row
+                    // iOS-style centered layout: "lingTai" + group row + provider·model row
                     Box(
                         modifier = Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.Center,
@@ -2656,21 +2656,21 @@ fun ChatScreen(
                                 // the longest title.
                                 .padding(horizontal = 32.dp, vertical = 2.dp),
                         ) {
-                            // nanoMuse: the face above the name, as in Muse's
+                            // lingTai: the face above the name, as in Muse's
                             // header. Its mood follows this session's streaming
                             // state and the app-wide "needs you" gates; tapping
                             // it opens Settings → Soul (name / icon / style).
-                            val nmMood = io.github.nanomuse.ui.avatar.rememberAgentMood(isStreaming, error)
-                            // nanoMuse: side chats inside the home shell show
+                            val ltMood = io.github.lingtai.ui.avatar.rememberAgentMood(isStreaming, error)
+                            // lingTai: side chats inside the home shell show
                             // their title where the face would be (Muse puts
                             // the face only on the main chat); the main chat
                             // gets the big face on its disc.
-                            val nmSideChat = nmHome != null && !nmHome.isMainChat
-                            val nmMainChat = nmHome != null && nmHome.isMainChat
-                            if (nmSideChat) {
+                            val ltSideChat = ltHome != null && !ltHome.isMainChat
+                            val ltMainChat = ltHome != null && ltHome.isMainChat
+                            if (ltSideChat) {
                                 Text(
                                     text = sessionTitle?.trim()?.ifEmpty { null }
-                                        ?: stringResource(R.string.nm_drawer_untitled),
+                                        ?: stringResource(R.string.lt_drawer_untitled),
                                     fontSize = 17.sp,
                                     lineHeight = 21.sp,
                                     fontWeight = FontWeight.Medium,
@@ -2680,30 +2680,30 @@ fun ChatScreen(
                                     style = noFontPad,
                                     modifier = Modifier.padding(bottom = 1.dp),
                                 )
-                            } else if (nmMainChat) {
-                                // nanoMuse: the disc follows Settings → Appearance → Avatar size;
+                            } else if (ltMainChat) {
+                                // lingTai: the disc follows Settings → Appearance → Avatar size;
                                 // "hidden" leaves the name tag alone. Tapping the face opens the
                                 // agent's profile page, as in Muse.
-                                val nmDisc = nmAvatarSize.disc
-                                if (nmDisc != null) {
-                                    io.github.nanomuse.ui.avatar.AgentAvatarDisc(
-                                        mood = nmMood,
-                                        discSize = nmDisc,
-                                        contentDescription = stringResource(R.string.nm_avatar_content_description),
-                                        onClick = { io.github.nanomuse.ui.header.openAgentProfile(context) },
+                                val ltDisc = ltAvatarSize.disc
+                                if (ltDisc != null) {
+                                    io.github.lingtai.ui.avatar.AgentAvatarDisc(
+                                        mood = ltMood,
+                                        discSize = ltDisc,
+                                        contentDescription = stringResource(R.string.lt_avatar_content_description),
+                                        onClick = { io.github.lingtai.ui.header.openAgentProfile(context) },
                                     )
                                 } else {
                                     Spacer(Modifier.height(10.dp))
                                 }
                             } else
-                            io.github.nanomuse.ui.avatar.AgentAvatar(
-                                mood = nmMood,
+                            io.github.lingtai.ui.avatar.AgentAvatar(
+                                mood = ltMood,
                                 size = 36.dp,
-                                contentDescription = stringResource(R.string.nm_avatar_content_description),
-                                onClick = { io.github.nanomuse.ui.header.openAgentProfile(context) },
+                                contentDescription = stringResource(R.string.lt_avatar_content_description),
+                                onClick = { io.github.lingtai.ui.header.openAgentProfile(context) },
                             )
-                            if (!nmSideChat && !nmMainChat) Spacer(Modifier.height(2.dp))
-                            // nanoMuse: the pill is the agent's name (Muse's
+                            if (!ltSideChat && !ltMainChat) Spacer(Modifier.height(2.dp))
+                            // lingTai: the pill is the agent's name (Muse's
                             // header), never the session title — that one
                             // stays in the session list and in the chat
                             // menu's "Rename chat" (showChatTitlePill is
@@ -2716,31 +2716,31 @@ fun ChatScreen(
                             val topBarSoul by com.openminis.app.agent.SoulStore
                                 .cachedMetadata.collectAsState()
                             val displayTitle = topBarSoul.name.trim().ifEmpty { stringResource(R.string.app_name) }
-                            // nanoMuse: while the agent works or waits, the
+                            // lingTai: while the agent works or waits, the
                             // status line says what it is doing (Muse's
                             // "Generating options" / "正在等待批准").
-                            val nmStatusLine = io.github.nanomuse.ui.header.rememberNanoMuseStatusLine(isStreaming, nmMood, replying = nmReplying, request = nmRequestBrief)
-                            // nanoMuse: no name pill on side chats — their
+                            val ltStatusLine = io.github.lingtai.ui.header.rememberLingTaiStatusLine(isStreaming, ltMood, replying = ltReplying, request = ltRequestBrief)
+                            // lingTai: no name pill on side chats — their
                             // title took the slot above.
-                            if (nmMainChat) {
-                                // nanoMuse: Muse's name tag hangs off the chin
+                            if (ltMainChat) {
+                                // lingTai: Muse's name tag hangs off the chin
                                 // of the face and carries the status as its
                                 // second line; two lines are always reserved so
                                 // the bar never jumps. Tap: the profile page.
                                 Box(
                                     modifier = Modifier
-                                        .height(io.github.nanomuse.ui.home.PILL_AREA_HEIGHT)
-                                        .then(io.github.nanomuse.ui.home.pullUp(if (nmAvatarSize.shown) io.github.nanomuse.ui.home.PILL_OVERLAP else 0.dp)),
+                                        .height(io.github.lingtai.ui.home.PILL_AREA_HEIGHT)
+                                        .then(io.github.lingtai.ui.home.pullUp(if (ltAvatarSize.shown) io.github.lingtai.ui.home.PILL_OVERLAP else 0.dp)),
                                     contentAlignment = Alignment.TopCenter,
                                 ) {
-                                    io.github.nanomuse.ui.home.MuseNamePill(
+                                    io.github.lingtai.ui.home.MuseNamePill(
                                         name = displayTitle,
-                                        statusLine = nmStatusLine,
-                                        statusColor = if (nmMood == io.github.nanomuse.ui.avatar.AgentMood.WAITING) ChatColors.sendButton else ChatColors.secondaryText,
-                                        onClick = { io.github.nanomuse.ui.header.openAgentProfile(context) },
+                                        statusLine = ltStatusLine,
+                                        statusColor = if (ltMood == io.github.lingtai.ui.avatar.AgentMood.WAITING) ChatColors.sendButton else ChatColors.secondaryText,
+                                        onClick = { io.github.lingtai.ui.header.openAgentProfile(context) },
                                     )
                                 }
-                            } else if (!nmSideChat) Text(
+                            } else if (!ltSideChat) Text(
                                 text = displayTitle,
                                 fontSize = 16.sp,
                                 lineHeight = 19.sp,
@@ -2750,21 +2750,21 @@ fun ChatScreen(
                                 overflow = TextOverflow.Ellipsis,
                                 style = noFontPad,
                                 modifier = Modifier
-                                    // nanoMuse: the name sits in a capsule under the face (Muse's name pill).
+                                    // lingTai: the name sits in a capsule under the face (Muse's name pill).
                                     .clip(CircleShape)
-                                    // nanoMuse: not userBubble, which is now the
+                                    // lingTai: not userBubble, which is now the
                                     // white message pill; the capsule keeps a
                                     // neutral wash.
                                     .background(ChatColors.secondaryBg)
-                                    .clickable { io.github.nanomuse.ui.header.openSoulSettings(context) }
+                                    .clickable { io.github.lingtai.ui.header.openSoulSettings(context) }
                                     .padding(horizontal = 12.dp, vertical = 3.dp),
                             )
-                            // nanoMuse: outside the home shell the status line
+                            // lingTai: outside the home shell the status line
                             // takes the model rows' slot; on the main chat it
                             // is inside the name tag, so the rows stay put.
-                            if (nmStatusLine != null && !nmMainChat) io.github.nanomuse.ui.header.NanoMuseStatusLine(nmStatusLine, nmMood)
-                            // nanoMuse: no model rows under the name unless the Setting asks for them.
-                            else if (!nmHideModelRows)
+                            if (ltStatusLine != null && !ltMainChat) io.github.lingtai.ui.header.LingTaiStatusLine(ltStatusLine, ltMood)
+                            // lingTai: no model rows under the name unless the Setting asks for them.
+                            else if (!ltHideModelRows)
                             // Model picker subtitle: green dot + group +
                             // provider/model. Tap opens the model picker —
                             // separated from the title above so tapping the
@@ -2959,13 +2959,13 @@ fun ChatScreen(
                     }
                 },
                 navigationIcon = {
-                    // nanoMuse: inside the home shell the slot is Muse's round
+                    // lingTai: inside the home shell the slot is Muse's round
                     // hamburger, which opens the chats drawer.
-                    if (nmHome != null) {
-                        io.github.nanomuse.ui.home.MuseRoundButton(
+                    if (ltHome != null) {
+                        io.github.lingtai.ui.home.MuseRoundButton(
                             icon = Icons.Filled.Menu,
-                            contentDescription = stringResource(R.string.nm_open_drawer),
-                            onClick = nmHome.onOpenDrawer,
+                            contentDescription = stringResource(R.string.lt_open_drawer),
+                            onClick = ltHome.onOpenDrawer,
                             modifier = Modifier.padding(start = 12.dp),
                         )
                     } else
@@ -3049,11 +3049,11 @@ fun ChatScreen(
                 actions = {
                     // iOS: "..." circle button → dropdown menu
                     Box {
-                        // nanoMuse: Muse's round "•••" when hosted in the home shell.
-                        if (nmHome != null) {
-                            io.github.nanomuse.ui.home.MuseRoundButton(
+                        // lingTai: Muse's round "•••" when hosted in the home shell.
+                        if (ltHome != null) {
+                            io.github.lingtai.ui.home.MuseRoundButton(
                                 icon = Icons.Filled.MoreHoriz,
-                                contentDescription = stringResource(R.string.nm_more),
+                                contentDescription = stringResource(R.string.lt_more),
                                 onClick = { showChatMenu = true },
                                 modifier = Modifier.padding(end = 12.dp),
                             )
@@ -3089,11 +3089,11 @@ fun ChatScreen(
                                     Icon(Icons.Outlined.Forum, contentDescription = null)
                                 },
                             )
-                            // nanoMuse: the top-bar pill now carries the agent's
+                            // lingTai: the top-bar pill now carries the agent's
                             // name, so the session edit sheet (title / emoji)
                             // moved here from the title tap.
                             DropdownMenuItem(
-                                text = { Text(stringResource(R.string.nm_chat_menu_rename)) },
+                                text = { Text(stringResource(R.string.lt_chat_menu_rename)) },
                                 onClick = {
                                     showChatMenu = false
                                     coroutineScope.launch {
@@ -3104,15 +3104,15 @@ fun ChatScreen(
                                     Icon(Icons.Default.Edit, contentDescription = null)
                                 },
                             )
-                            // nanoMuse: with the model rows off the header, the
+                            // lingTai: with the model rows off the header, the
                             // picker opens from here.
-                            if (nmHideModelRows) {
+                            if (ltHideModelRows) {
                                 DropdownMenuItem(
                                     text = {
                                         // the model answering right now, so the menu says what
                                         // "Model" would change
                                         Column {
-                                            Text(stringResource(R.string.nm_chat_menu_model))
+                                            Text(stringResource(R.string.lt_chat_menu_model))
                                             if (modelName.isNotBlank()) {
                                                 Text(
                                                     modelName,
@@ -3351,7 +3351,7 @@ fun ChatScreen(
                     }
                 },
                 windowInsets = WindowInsets.statusBars,
-                // nanoMuse: transparent; the gradient wrapper behind this bar
+                // lingTai: transparent; the gradient wrapper behind this bar
                 // carries the header fade from the top edge.
                 colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
@@ -3370,19 +3370,19 @@ fun ChatScreen(
                 // user-configured font scale on xhdpi/xxhdpi without
                 // re-clipping (T-topbar-model-row-clip regression check).
                 // Font sizes + lineHeights stay untouched per spec.
-                // nanoMuse: 68dp held the 3-row title; the face (36dp) and the
+                // lingTai: 68dp held the 3-row title; the face (36dp) and the
                 // capsule padding sit on top of that. In the home shell the
                 // main chat's disc (76dp) needs more, a side chat's one-line
                 // title less.
                 expandedHeight = when {
-                    nmHome == null -> 108.dp
-                    // nanoMuse: disc (per the Avatar size setting; 10dp spacer when hidden)
+                    ltHome == null -> 108.dp
+                    // lingTai: disc (per the Avatar size setting; 10dp spacer when hidden)
                     // + the two-line name tag area, + the model rows when on.
-                    nmHome.isMainChat -> (nmAvatarSize.disc ?: 10.dp) + 55.dp + (if (nmHideModelRows) 0.dp else 20.dp)
+                    ltHome.isMainChat -> (ltAvatarSize.disc ?: 10.dp) + 55.dp + (if (ltHideModelRows) 0.dp else 20.dp)
                     else -> 72.dp
                 },
             )
-            } // nanoMuse: close the header-fade wrapper
+            } // lingTai: close the header-fade wrapper
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
@@ -3392,14 +3392,14 @@ fun ChatScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                // nanoMuse: the message list slides under the header, which is an
+                // lingTai: the message list slides under the header, which is an
                 // overlay, so only the bottom bar insets the content. The
                 // header itself is a scrim over the scrolling list.
                 .padding(bottom = padding.calculateBottomPadding())
                 .imePadding()
                 .onGloballyPositioned { chatPaneWidthPx = it.size.width },
         ) {
-        // nanoMuse: merge live steps once so the footer and its reserve agree
+        // lingTai: merge live steps once so the footer and its reserve agree
         // on the same frame, including tools still in the streaming side channel.
         val streamingById by viewModel.streamingById.collectAsState()
         val lastToolBlocks = remember(messages, streamingById) {
@@ -3409,39 +3409,39 @@ fun ChatScreen(
                 .flatMap { it.toolBlocks }
                 .filter { it.toolStatus != null && it.kind != "thinking" && it.kind != "info" }
         }
-        var nmBarLingers by remember { mutableStateOf(false) }
+        var ltBarLingers by remember { mutableStateOf(false) }
         LaunchedEffect(isStreaming) {
-            if (isStreaming) nmBarLingers = true
-            else if (nmBarLingers) { kotlinx.coroutines.delay(1_500); nmBarLingers = false }
+            if (isStreaming) ltBarLingers = true
+            else if (ltBarLingers) { kotlinx.coroutines.delay(1_500); ltBarLingers = false }
         }
-        val nmToolBarShown = nmShowSteps && (isStreaming || nmBarLingers) && lastToolBlocks.isNotEmpty()
-        // nanoMuse: only live browser controls suppress the scrolling fade.
-        val nmBrowserHandOver by io.github.nanomuse.browser.BrowserHandOver.pending.collectAsState()
-        val nmBrowserToolMenuShown =
-            nmToolBarShown && lastToolBlocks.lastOrNull()?.toolName == "browser_use"
-        val nmComposerFadeSuppressed =
-            nmBrowserToolMenuShown || showBrowserSheet || nmBrowserHandOver != null
+        val ltToolBarShown = ltShowSteps && (isStreaming || ltBarLingers) && lastToolBlocks.isNotEmpty()
+        // lingTai: only live browser controls suppress the scrolling fade.
+        val ltBrowserHandOver by io.github.lingtai.browser.BrowserHandOver.pending.collectAsState()
+        val ltBrowserToolMenuShown =
+            ltToolBarShown && lastToolBlocks.lastOrNull()?.toolName == "browser_use"
+        val ltComposerFadeSuppressed =
+            ltBrowserToolMenuShown || showBrowserSheet || ltBrowserHandOver != null
 
-        // nanoMuse: the composer and scrolling fade share one rounded outline.
-        val nmRecState by com.openminis.app.speech.SpeechRecognitionManager.state.collectAsState()
-        val nmRecording = nmRecState == com.openminis.app.speech.RecognitionState.RECORDING ||
-            nmRecState == com.openminis.app.speech.RecognitionState.STARTING ||
-            nmRecState == com.openminis.app.speech.RecognitionState.FINISHING
+        // lingTai: the composer and scrolling fade share one rounded outline.
+        val ltRecState by com.openminis.app.speech.SpeechRecognitionManager.state.collectAsState()
+        val ltRecording = ltRecState == com.openminis.app.speech.RecognitionState.RECORDING ||
+            ltRecState == com.openminis.app.speech.RecognitionState.STARTING ||
+            ltRecState == com.openminis.app.speech.RecognitionState.FINISHING
         val editingId by viewModel.editingMessageId.collectAsState()
-        val nmPill = nmHome != null &&
+        val ltPill = ltHome != null &&
             !com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive &&
-            !nmRecording && editingId == null
-        val nmComposerCorner = if (nmPill) 26.dp else 20.dp
-        val nmComposerShape = RoundedCornerShape(nmComposerCorner)
-        val nmComposerHorizontalInset = if (nmPill) 16.dp else 12.dp
-        val nmComposerTopPadding = 2.dp
-        val nmComposerBottomPadding = io.github.nanomuse.ui.chat.NM_CHAT_COMPOSER_BOTTOM_GAP
+            !ltRecording && editingId == null
+        val ltComposerCorner = if (ltPill) 26.dp else 20.dp
+        val ltComposerShape = RoundedCornerShape(ltComposerCorner)
+        val ltComposerHorizontalInset = if (ltPill) 16.dp else 12.dp
+        val ltComposerTopPadding = 2.dp
+        val ltComposerBottomPadding = io.github.lingtai.ui.chat.LT_CHAT_COMPOSER_BOTTOM_GAP
 
-        // nanoMuse: measure the whole footer before the list, while keeping the
+        // lingTai: measure the whole footer before the list, while keeping the
         // list full-size behind the pill for Haze. No asynchronous height feedback.
-        io.github.nanomuse.ui.chat.NmChatBottomLayout(
+        io.github.lingtai.ui.chat.LtChatBottomLayout(
             modifier = Modifier.fillMaxSize(),
-            bottomInset = nmBottomOverlay,
+            bottomInset = ltBottomOverlay,
             content = { bottomChromeHeight ->
             // Dismiss keyboard when the USER scrolls the messages. Gated on
             // `isUserDragging` (a real finger drag) rather than
@@ -3462,14 +3462,14 @@ fun ChatScreen(
             }
 
             // Messages + scroll-to-bottom button
-            // nanoMuse: the list fills the whole Box, extending behind the
+            // lingTai: the list fills the whole Box, extending behind the
             // pill bar so the haze has content to blur. Bottom contentPadding
             // keeps the last message clear of the composer + pill.
             Box(modifier = Modifier.fillMaxSize()) {
-                // nanoMuse: the measured footer already includes the tool preview,
+                // lingTai: the measured footer already includes the tool preview,
                 // approval cards, composer and pill inset. Only breathing room is extra.
-                val bottomReserve = if (nmToolBarShown) 14.dp else 20.dp
-                // nanoMuse: when the measured footer changes (tools, composer,
+                val bottomReserve = if (ltToolBarShown) 14.dp else 20.dp
+                // lingTai: when the measured footer changes (tools, composer,
                 // approval or keyboard), re-pin to bottom
                 // if we are currently following. Without this, the new
                 // contentPadding is honoured for layout but reverseLayout
@@ -3547,9 +3547,9 @@ fun ChatScreen(
                 // scope. The flatten still runs per token (cheap-ish; ran
                 // before too), but the rebuild stays off the main UI
                 // composable's invalidation list.
-                // nanoMuse: keyed on the steps switch too — flipping it in
+                // lingTai: keyed on the steps switch too — flipping it in
                 // Settings rebuilds the rows with or without the steps.
-                LaunchedEffect(messages, sessionId, nmShowSteps) {
+                LaunchedEffect(messages, sessionId, ltShowSteps) {
                     // [T-android-stream-pipeline-incremental] Frozen/live split.
                     //
                     // `messages` is CONSTANT within this effect (the effect is
@@ -3637,7 +3637,7 @@ fun ChatScreen(
                                     // threw ConcurrentModificationException from
                                     // a later frame's SubList.equals. Copying
                                     // severs the view so it can't comodify.
-                                    buildFlatChatItems(msgs.take(splitIdx), sessionId, showSteps = nmShowSteps) // nanoMuse
+                                    buildFlatChatItems(msgs.take(splitIdx), sessionId, showSteps = ltShowSteps) // lingTai
                                 }
                                 val buildMs = (System.nanoTime() - tBuildStart) / 1_000_000
                                 frozenRows = rows
@@ -3713,7 +3713,7 @@ fun ChatScreen(
                             } else {
                                 withContext(Dispatchers.Default) {
                                     val merged = mergeStreamingOverlay(msgs, stream)
-                                    buildFlatChatItems(merged, null, fromIndex = splitIdx, seedKeys = frozenKeys, showSteps = nmShowSteps) // nanoMuse
+                                    buildFlatChatItems(merged, null, fromIndex = splitIdx, seedKeys = frozenKeys, showSteps = ltShowSteps) // lingTai
                                 }
                             }
                             flatItems = if (liveRows.isEmpty()) frozenRows else frozenRows + liveRows
@@ -3777,7 +3777,7 @@ fun ChatScreen(
                     // covers. contentPadding.bottom already reserves that space
                     // via bottomReserve, yet the reserve does NOT change here:
                     // a tool bar was already on screen before the enqueue, so
-                    // nmToolBarShown stays true and the footer resize effect never
+                    // ltToolBarShown stays true and the footer resize effect never
                     // re-fires (verified: zero `reserve-change` events at the
                     // enqueue moment). The bubble is laid out inside the
                     // reserved band and stays half-occluded.
@@ -3829,11 +3829,11 @@ fun ChatScreen(
                     is FlatChatItem.AssistantThinking -> grayedMap[originalMessageId(messageId)] == true
                     is FlatChatItem.AssistantToolUse -> grayedMap[originalMessageId(messageId)] == true
                     is FlatChatItem.AssistantInfo -> false  // system rows never grayed
-                    is FlatChatItem.NanoMuseNaming -> false // nanoMuse
-                    is FlatChatItem.NanoMuseAvatarOptions -> false // nanoMuse
-                    is FlatChatItem.NanoMuseAvatarShare -> false // nanoMuse
-                    is FlatChatItem.NanoMuseAvatarConfirm -> false // nanoMuse
-                    is FlatChatItem.NanoMuseAllowance -> false // nanoMuse
+                    is FlatChatItem.LingTaiNaming -> false // lingTai
+                    is FlatChatItem.LingTaiAvatarOptions -> false // lingTai
+                    is FlatChatItem.LingTaiAvatarShare -> false // lingTai
+                    is FlatChatItem.LingTaiAvatarConfirm -> false // lingTai
+                    is FlatChatItem.LingTaiAllowance -> false // lingTai
                     is FlatChatItem.AssistantTyping -> false
                     is FlatChatItem.AssistantError -> grayedMap[originalMessageId(messageId)] == true
                     is FlatChatItem.AssistantLegacyContent -> grayedMap[originalMessageId(messageId)] == true
@@ -3982,13 +3982,13 @@ fun ChatScreen(
                     // the bubble's 4dp = 8dp (≈22px), tighter but still a clear
                     // breath under the title bar. Bottom padding and inter-
                     // message spacing are untouched.
-                    // nanoMuse: the list slides under the overlay header, so it
+                    // lingTai: the list slides under the overlay header, so it
                     // starts below it: the Scaffold's top inset is the header's
                     // measured height (status bar included), plus breathing room.
                     // The bottom clears the floating pill bar the same way.
                     contentPadding = PaddingValues(
                         top = padding.calculateTopPadding() + 8.dp,
-                        // nanoMuse: use this layout pass's full footer height.
+                        // lingTai: use this layout pass's full footer height.
                         bottom = bottomChromeHeight + bottomReserve,
                     ),
                     modifier = Modifier
@@ -4094,22 +4094,22 @@ fun ChatScreen(
                             )
                         }
                     }
-                    // nanoMuse: the last line came from another device (C9) — never this phone's
+                    // lingTai: the last line came from another device (C9) — never this phone's
                     // turn to resume; while that device works, say so in the banner's place.
-                    val nmLastId = messages.lastOrNull()?.id
-                    val nmRemoteTail = nmLastId != null && nmLastId.substringBefore('#') in nmRemoteRows
-                    if (nmRemoteTail) {
-                        item(key = "__nm_working__", contentType = "nm_working") {
-                            io.github.nanomuse.ui.chat.NmWorkingLine(viewModel.realSessionId.ifEmpty { sessionId }, nmLastId)
+                    val ltLastId = messages.lastOrNull()?.id
+                    val ltRemoteTail = ltLastId != null && ltLastId.substringBefore('#') in ltRemoteRows
+                    if (ltRemoteTail) {
+                        item(key = "__lt_working__", contentType = "lt_working") {
+                            io.github.lingtai.ui.chat.LtWorkingLine(viewModel.realSessionId.ifEmpty { sessionId }, ltLastId)
                         }
                     }
-                    if (canResume && !isStreaming && error == null && !lastAssistantHasError && nmContinueAsk == null && !nmRemoteTail) {
+                    if (canResume && !isStreaming && error == null && !lastAssistantHasError && ltContinueAsk == null && !ltRemoteTail) {
                         item(key = "__resume_banner__", contentType = "resume_banner") {
                             ResumeBanner(onResume = {
                                 viewModel.resume()
                                 // T282: same dual-scroll trick as the regular
                                 // send paths (T281). Resume kicks off a fresh
-                                // stream, so the "nanoMuse is thinking" indicator
+                                // stream, so the "lingTai is thinking" indicator
                                 // mounts a frame or two later — pin once now,
                                 // then again after 100ms so the indicator
                                 // doesn't land below the fold.
@@ -4122,15 +4122,15 @@ fun ChatScreen(
                             })
                         }
                     }
-                    // nanoMuse: the ask for a star under a finished task, or on the 7th / 30th
+                    // lingTai: the ask for a star under a finished task, or on the 7th / 30th
                     // day (reverseLayout: declared first, drawn at the bottom).
-                    val nmStarAsk = nmStarNudge
-                    if (nmStarAsk != null && !isStreaming) {
+                    val ltStarAsk = ltStarNudge
+                    if (ltStarAsk != null && !isStreaming) {
                         item(key = "__star_nudge__", contentType = "star_nudge") {
-                            io.github.nanomuse.community.StarNudgeCard(
-                                text = remember(nmStarAsk) { io.github.nanomuse.community.StarPrompt.text(context, nmStarAsk) },
+                            io.github.lingtai.community.StarNudgeCard(
+                                text = remember(ltStarAsk) { io.github.lingtai.community.StarPrompt.text(context, ltStarAsk) },
                                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                                onDone = { nmStarNudge = null },
+                                onDone = { ltStarNudge = null },
                             )
                         }
                     }
@@ -4246,11 +4246,11 @@ fun ChatScreen(
                                 ),
                         ) {
                         when (item) {
-                            is FlatChatItem.UserBubble -> Column { // nanoMuse: a column, for the sync caption over the bubble
-                                // nanoMuse: "From Pixel 8" when the line was written on another device (C8)
-                                io.github.nanomuse.ui.chat.NmSyncCaption(item.message.id.substringBefore('#'), end = true)
-                                // nanoMuse: a row a routine sent is one quiet line, not a bubble in the person's voice
-                                io.github.nanomuse.ui.chat.NmRoutineWakeRow(item.message.id.substringBefore('#')) {
+                            is FlatChatItem.UserBubble -> Column { // lingTai: a column, for the sync caption over the bubble
+                                // lingTai: "From Pixel 8" when the line was written on another device (C8)
+                                io.github.lingtai.ui.chat.LtSyncCaption(item.message.id.substringBefore('#'), end = true)
+                                // lingTai: a row a routine sent is one quiet line, not a bubble in the person's voice
+                                io.github.lingtai.ui.chat.LtRoutineWakeRow(item.message.id.substringBefore('#')) {
                                 // User bubbles intentionally don't register
                                 // MinisTextKit shards — long-press on a user
                                 // bubble shows its own action menu (Copy /
@@ -4326,22 +4326,22 @@ fun ChatScreen(
                                     }
                                 },
                             )
-                            } // nanoMuse: close NmRoutineWakeRow
+                            } // lingTai: close LtRoutineWakeRow
                             } // close UserBubble SideEffect + UserMessageBubble block
-                            // nanoMuse: in the home shell the agent's reply is Muse's —
+                            // lingTai: in the home shell the agent's reply is Muse's —
                             // grey bubbles per block, no name above each turn (the face
                             // in the header says who is talking); a small gap keeps the
                             // turns apart.
                             is FlatChatItem.AssistantHeader -> Column {
-                                if (nmHome != null) Spacer(Modifier.height(6.dp)) else AssistantHeader()
-                                // nanoMuse: "From Pixel 8" when the reply was written on another device (C8)
-                                io.github.nanomuse.ui.chat.NmSyncCaption(item.messageId.substringBefore('#'), end = false)
+                                if (ltHome != null) Spacer(Modifier.height(6.dp)) else AssistantHeader()
+                                // lingTai: "From Pixel 8" when the reply was written on another device (C8)
+                                io.github.lingtai.ui.chat.LtSyncCaption(item.messageId.substringBefore('#'), end = false)
                             }
                             is FlatChatItem.AssistantText -> BoundsTrackedBlock(
                                 messageId = item.messageId,
                                 slotKey = "text:${item.block.id}",
                                 markdown = item.messageMarkdown,
-                            ) { io.github.nanomuse.ui.chat.NmAssistantBubble(enabled = nmHome != null, rawText = item.block.content) {
+                            ) { io.github.lingtai.ui.chat.LtAssistantBubble(enabled = ltHome != null, rawText = item.block.content) {
                                 // T-android-gc-storm-issue17: collapse oversized frozen
                                 // assistant text before feeding the markdown parser, which
                                 // is the GC-storm hotspot for legacy sessions.
@@ -4362,12 +4362,12 @@ fun ChatScreen(
                                         ),
                                     )
                                 }
-                            } } // nanoMuse: bubble
+                            } } // lingTai: bubble
                             is FlatChatItem.AssistantMarkdownBlock -> BoundsTrackedBlock(
                                 messageId = item.messageId,
                                 slotKey = "mdblock:${item.parentBlockId}:${item.blockIndex}",
                                 markdown = item.messageMarkdown,
-                            ) { io.github.nanomuse.ui.chat.NmAssistantBubble(enabled = nmHome != null, rawText = item.rawText) {
+                            ) { io.github.lingtai.ui.chat.LtAssistantBubble(enabled = ltHome != null, rawText = item.rawText) {
                                 LargeContentGuard(
                                     content = item.rawText,
                                     isStreaming = item.isStreaming,
@@ -4385,7 +4385,7 @@ fun ChatScreen(
                                         ),
                                     )
                                 }
-                            } } // nanoMuse: bubble
+                            } } // lingTai: bubble
                             is FlatChatItem.AssistantThinking -> {
                                 // T300: hide Deep Thinking block when the user
                                 // currently has thinking turned off — even if
@@ -4469,16 +4469,16 @@ fun ChatScreen(
                                     { viewModel.revertCompact() }
                                 } else null,
                             )
-                            // nanoMuse: the first-conversation name chooser.
+                            // lingTai: the first-conversation name chooser.
                             // A chip names the agent (and sends the name as the
                             // user's message, as Muse does); the dashed row
                             // hands over to the composer.
-                            is FlatChatItem.NanoMuseNaming -> {
-                                val nmCard by viewModel.nmNamingCard.collectAsState()
-                                nmCard?.let { card ->
-                                    io.github.nanomuse.ui.onboarding.NamingCard(
+                            is FlatChatItem.LingTaiNaming -> {
+                                val ltCard by viewModel.ltNamingCard.collectAsState()
+                                ltCard?.let { card ->
+                                    io.github.lingtai.ui.onboarding.NamingCard(
                                         state = card,
-                                        onPick = { name -> viewModel.nmPickName(name) },
+                                        onPick = { name -> viewModel.ltPickName(name) },
                                         onCustom = {
                                             try { inputFocusRequester.requestFocus() } catch (_: IllegalStateException) {}
                                             keyboardController?.show()
@@ -4486,48 +4486,48 @@ fun ChatScreen(
                                     )
                                 }
                             }
-                            // nanoMuse: the four candidates for a new face;
+                            // lingTai: the four candidates for a new face;
                             // tapping one adopts it (typing "第二个" works too).
-                            is FlatChatItem.NanoMuseAvatarOptions -> io.github.nanomuse.ui.avatar.AvatarOptionsCard(
-                                onPick = { index -> viewModel.nmChooseAvatar(index) },
-                                onAgain = { viewModel.nmRegenerateAvatar() },
-                                onDismiss = { viewModel.nmCancelAvatar() },
+                            is FlatChatItem.LingTaiAvatarOptions -> io.github.lingtai.ui.avatar.AvatarOptionsCard(
+                                onPick = { index -> viewModel.ltChooseAvatar(index) },
+                                onAgain = { viewModel.ltRegenerateAvatar() },
+                                onDismiss = { viewModel.ltCancelAvatar() },
                             )
-                            // nanoMuse: the new face is done — show it off.
-                            is FlatChatItem.NanoMuseAvatarShare -> io.github.nanomuse.ui.avatar.AvatarShareCard(
+                            // lingTai: the new face is done — show it off.
+                            is FlatChatItem.LingTaiAvatarShare -> io.github.lingtai.ui.avatar.AvatarShareCard(
                                 description = item.description,
-                                onDismiss = { viewModel.nmDismissAvatarShare() },
+                                onDismiss = { viewModel.ltDismissAvatarShare() },
                             )
-                            // nanoMuse: what the face costs on the Cloud allowance — drawn only after the yes.
-                            is FlatChatItem.NanoMuseAvatarConfirm -> io.github.nanomuse.ui.avatar.AvatarConfirmCard(
+                            // lingTai: what the face costs on the Cloud allowance — drawn only after the yes.
+                            is FlatChatItem.LingTaiAvatarConfirm -> io.github.lingtai.ui.avatar.AvatarConfirmCard(
                                 text = item.text,
-                                blocked = viewModel.nmAvatarConfirmBlocked(),
-                                onConfirm = { viewModel.nmConfirmAvatar() },
-                                onDismiss = { viewModel.nmDeclineAvatar() },
+                                blocked = viewModel.ltAvatarConfirmBlocked(),
+                                onConfirm = { viewModel.ltConfirmAvatar() },
+                                onDismiss = { viewModel.ltDeclineAvatar() },
                             )
-                            // nanoMuse: the relay refused the turn for a spent allowance — the two ways on.
-                            is FlatChatItem.NanoMuseAllowance -> {
-                                val info by viewModel.nmAllowance.collectAsState()
+                            // lingTai: the relay refused the turn for a spent allowance — the two ways on.
+                            is FlatChatItem.LingTaiAllowance -> {
+                                val info by viewModel.ltAllowance.collectAsState()
                                 info?.let {
-                                    io.github.nanomuse.ui.cloud.AllowanceWaysCard(
+                                    io.github.lingtai.ui.cloud.AllowanceWaysCard(
                                         info = it,
                                         exhausted = true,
                                     )
                                 }
                             }
                             is FlatChatItem.AssistantTyping -> TypingIndicator()
-                            // nanoMuse: a provider that could not be reached (or refused the
+                            // lingTai: a provider that could not be reached (or refused the
                             // region, or whose sign-in ran out) is a card, not the socket's text
-                            is FlatChatItem.AssistantError -> io.github.nanomuse.ui.chat.NmProviderErrorOrBanner(
+                            is FlatChatItem.AssistantError -> io.github.lingtai.ui.chat.LtProviderErrorOrBanner(
                                 error = item.error,
                                 onRetry = {
                                     coroutineScope.launch { tracedScrollToItem("INLINE-RETRY-LAST", 0, 0) }
                                     safeMutate { viewModel.retryLast() }
                                 },
-                                // nanoMuse: one turn on nanoMuse Cloud after a model of the person's own failed; nothing is switched
-                                onRetryOnCloud = if (viewModel.nmOffersCloudRetry()) ({
+                                // lingTai: one turn on lingTai Cloud after a model of the person's own failed; nothing is switched
+                                onRetryOnCloud = if (viewModel.ltOffersCloudRetry()) ({
                                     coroutineScope.launch { tracedScrollToItem("INLINE-RETRY-LAST", 0, 0) }
-                                    safeMutate { viewModel.nmRetryLastOnCloud() }
+                                    safeMutate { viewModel.ltRetryLastOnCloud() }
                                 }) else null,
                             ) {
                                 InlineErrorBanner(
@@ -4542,7 +4542,7 @@ fun ChatScreen(
                                 messageId = item.messageId,
                                 slotKey = "legacy",
                                 markdown = item.messageMarkdown,
-                            ) { io.github.nanomuse.ui.chat.NmAssistantBubble(enabled = nmHome != null, rawText = item.content) {
+                            ) { io.github.lingtai.ui.chat.LtAssistantBubble(enabled = ltHome != null, rawText = item.content) {
                                 LargeContentGuard(
                                     content = item.content,
                                     isStreaming = item.isStreaming,
@@ -4560,7 +4560,7 @@ fun ChatScreen(
                                         ),
                                     )
                                 }
-                            } } // nanoMuse: bubble
+                            } } // lingTai: bubble
                         }
                         } // Box (alpha wrapper)
                     }
@@ -4684,7 +4684,7 @@ fun ChatScreen(
                 // draws above the list, the FABs and the floating tool bar
                 // (iOS mounts its SpeechPlayerControl at app root; chat-screen
                 // scope is the Android first pass).
-                // nanoMuse: speech controls and scroll buttons share the same
+                // lingTai: speech controls and scroll buttons share the same
                 // measured footer obstruction, even when no tools are shown.
                 val upFabVisible = messages.isNotEmpty() && !isNearBottom.value
                 val downFabVisible =
@@ -4749,58 +4749,58 @@ fun ChatScreen(
                     if (leftover > 0.dp) leftover / 2 else 0.dp
                 }
 
-                // nanoMuse: fade into the canvas above the composer while reading
+                // lingTai: fade into the canvas above the composer while reading
                 // older messages. Live browser controls hide it immediately, even
                 // if a scroll animation or the alpha tween is still in progress.
-                val nmEdgeFade = ChatColors.background
-                val nmScrolledUp = listState.firstVisibleItemIndex > 0 ||
+                val ltEdgeFade = ChatColors.background
+                val ltScrolledUp = listState.firstVisibleItemIndex > 0 ||
                     listState.firstVisibleItemScrollOffset > 0
-                val nmBottomFadeAlpha by animateFloatAsState(
-                    targetValue = if (nmScrolledUp && !nmComposerFadeSuppressed) 1f else 0f,
+                val ltBottomFadeAlpha by animateFloatAsState(
+                    targetValue = if (ltScrolledUp && !ltComposerFadeSuppressed) 1f else 0f,
                     animationSpec = tween(250),
-                    label = "nmBottomFade",
+                    label = "ltBottomFade",
                 )
-                if (!nmComposerFadeSuppressed) {
-                    val nmFadeHeight = 90.dp
-                    val nmFooterHeight = (bottomChromeHeight - nmBottomOverlay).coerceAtLeast(0.dp)
-                    // nanoMuse: a rounded halo fades into the composer and
+                if (!ltComposerFadeSuppressed) {
+                    val ltFadeHeight = 90.dp
+                    val ltFooterHeight = (bottomChromeHeight - ltBottomOverlay).coerceAtLeast(0.dp)
+                    // lingTai: a rounded halo fades into the composer and
                     // away before the navigation glass, without square edges.
-                    io.github.nanomuse.ui.chat.NmComposerVignette(
-                        color = nmEdgeFade,
-                        opacity = nmBottomFadeAlpha,
-                        spread = nmFadeHeight,
-                        cornerRadius = nmComposerCorner,
-                        horizontalInset = nmComposerHorizontalInset,
-                        topPadding = nmComposerTopPadding,
-                        bottomPadding = nmComposerBottomPadding,
+                    io.github.lingtai.ui.chat.LtComposerVignette(
+                        color = ltEdgeFade,
+                        opacity = ltBottomFadeAlpha,
+                        spread = ltFadeHeight,
+                        cornerRadius = ltComposerCorner,
+                        horizontalInset = ltComposerHorizontalInset,
+                        topPadding = ltComposerTopPadding,
+                        bottomPadding = ltComposerBottomPadding,
                         maxContentWidth = CHAT_MAX_CONTENT_WIDTH,
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
-                            .padding(bottom = nmBottomOverlay)
-                            .height(nmFadeHeight + nmFooterHeight),
+                            .padding(bottom = ltBottomOverlay)
+                            .height(ltFadeHeight + ltFooterHeight),
                     )
                 }
 
-                // nanoMuse: the top vignette. When scrolled up away from the
+                // lingTai: the top vignette. When scrolled up away from the
                 // latest, the top edge gets a slow fade in the canvas colour so
                 // messages dissolve under the header instead of hitting a hard
                 // edge. Distinct from the header's static scrim; this one comes
                 // and goes with the scroll.
-                val nmTopFadeAlpha by animateFloatAsState(
-                    targetValue = if (nmScrolledUp) 1f else 0f,
+                val ltTopFadeAlpha by animateFloatAsState(
+                    targetValue = if (ltScrolledUp) 1f else 0f,
                     animationSpec = tween(250),
-                    label = "nmTopFade",
+                    label = "ltTopFade",
                 )
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopCenter)
                         .fillMaxWidth()
                         .height(80.dp)
-                        .graphicsLayer { alpha = nmTopFadeAlpha }
+                        .graphicsLayer { alpha = ltTopFadeAlpha }
                         .background(
                             Brush.verticalGradient(
-                                0f to nmEdgeFade,
+                                0f to ltEdgeFade,
                                 1f to Color.Transparent,
                             )
                         ),
@@ -4827,7 +4827,7 @@ fun ChatScreen(
                 // spacing). Tapping walks BACK one user turn at a time rather
                 // than jumping to the oldest message.
                 if (messages.isNotEmpty() && !isNearBottom.value) {
-                    // nanoMuse: clear every visible part of the measured footer.
+                    // lingTai: clear every visible part of the measured footer.
                     val upBaseBottom = bottomChromeHeight + 8.dp
                     androidx.compose.material3.FilledIconButton(
                         onClick = {
@@ -4870,7 +4870,7 @@ fun ChatScreen(
                 }
 
                 if (userScrolledAway && contentOverflows.value && messages.isNotEmpty()) {
-                    // nanoMuse: clear every visible part of the measured footer.
+                    // lingTai: clear every visible part of the measured footer.
                     val fabBottomPadding = bottomChromeHeight + 8.dp
                     androidx.compose.material3.FilledIconButton(
                         onClick = {
@@ -4900,7 +4900,7 @@ fun ChatScreen(
                                 tracedScrollToItem("FAB-DOWN/settle", 0, 0)
                             }
                         },
-                        // nanoMuse: scroll-to-latest, centered under the conversation:
+                        // lingTai: scroll-to-latest, centered under the conversation:
                         // a disc in the send button's colour with an arrow in the
                         // canvas colour (white on black in dark, inverted in light).
                         modifier = Modifier
@@ -4932,15 +4932,15 @@ fun ChatScreen(
                 // T-chat-title-pill: sticky session title overlay. Sits
                 // above the LazyColumn (top-center), animates in once the
 
-                // nanoMuse: dim the conversation while the approval card is up.
-                io.github.nanomuse.ui.guard.RiskScrim(sessionId = viewModel.activeSessionId)
+                // lingTai: dim the conversation while the approval card is up.
+                io.github.lingtai.ui.guard.RiskScrim(sessionId = viewModel.activeSessionId)
             }
 
             },
             bottomContent = {
-            // nanoMuse: tools and composer are siblings in one footer, so their
+            // lingTai: tools and composer are siblings in one footer, so their
             // bounds cannot overlap regardless of composer/preview height.
-            if (nmToolBarShown) {
+            if (ltToolBarShown) {
                 Box(
                     modifier = Modifier
                         .widthIn(max = CHAT_MAX_CONTENT_WIDTH)
@@ -4958,15 +4958,15 @@ fun ChatScreen(
                 }
             }
 
-            // nanoMuse: Muse's "Needs approval" card sits between the messages and the composer.
-            io.github.nanomuse.ui.guard.RiskApprovalHost(
+            // lingTai: Muse's "Needs approval" card sits between the messages and the composer.
+            io.github.lingtai.ui.guard.RiskApprovalHost(
                 sessionId = viewModel.activeSessionId,
                 onOpenSession = { onMoveToSession(it) },
             )
-            // nanoMuse: a long task that hit the step ceiling asks "continue?" here.
-            io.github.nanomuse.ui.chat.ContinueAskHost(viewModel)
-            // nanoMuse: the browser handed to the person (a login, a code) — "Your turn", Open, Done.
-            io.github.nanomuse.ui.chat.BrowserHandOverHost(viewModel)
+            // lingTai: a long task that hit the step ceiling asks "continue?" here.
+            io.github.lingtai.ui.chat.ContinueAskHost(viewModel)
+            // lingTai: the browser handed to the person (a login, a code) — "Your turn", Open, Done.
+            io.github.lingtai.ui.chat.BrowserHandOverHost(viewModel)
 
             // T-chat-title-pill-edit: reuse SessionEditSheet from the session
             // list (same composable, exposed `internal`) so title + category
@@ -4988,7 +4988,7 @@ fun ChatScreen(
             var composerWidthPx by remember { mutableStateOf(0) }
 
             // ─── Input area (iOS-style: rounded box with text + buttons below) ───
-            // nanoMuse: the footer places the composer above the pill.
+            // lingTai: the footer places the composer above the pill.
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -5013,15 +5013,15 @@ fun ChatScreen(
                     // which is exactly how the first attempt at this fix still
                     // looked broken.
                     .onGloballyPositioned { composerWidthPx = it.size.width }
-                    // nanoMuse: the footer owns the home pill inset; standalone
+                    // lingTai: the footer owns the home pill inset; standalone
                     // chats still consume their system navigation inset here.
                     .then(
-                        if (nmBottomOverlay > 0.dp) Modifier
+                        if (ltBottomOverlay > 0.dp) Modifier
                         else Modifier.navigationBarsPadding()
                     )
-                    // nanoMuse: match the fade and the nav surround's upper edge.
-                    .padding(horizontal = nmComposerHorizontalInset)
-                    .padding(top = nmComposerTopPadding, bottom = nmComposerBottomPadding),
+                    // lingTai: match the fade and the nav surround's upper edge.
+                    .padding(horizontal = ltComposerHorizontalInset)
+                    .padding(top = ltComposerTopPadding, bottom = ltComposerBottomPadding),
             ) {
                 // T13 banner moved INSIDE the LazyColumn so it renders at the
                 // visual end of the message list (mirrors iOS — see the
@@ -5542,21 +5542,21 @@ fun ChatScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        // nanoMuse: fill, clip and soft shadow follow the same outline.
+                        // lingTai: fill, clip and soft shadow follow the same outline.
                         .shadow(
                             elevation = 4.dp,
-                            shape = nmComposerShape,
+                            shape = ltComposerShape,
                             clip = false,
                             ambientColor = Color.Black.copy(alpha = 0.06f),
                             spotColor = Color.Black.copy(alpha = 0.12f),
                         )
-                        .clip(nmComposerShape)
+                        .clip(ltComposerShape)
                         .background(
-                            color = if (nmPill) io.github.nanomuse.ui.home.MuseTones.bubble
+                            color = if (ltPill) io.github.lingtai.ui.home.MuseTones.bubble
                             else ChatColors.inputBg,
-                            shape = nmComposerShape,
+                            shape = ltComposerShape,
                         )
-                        .padding(top = if (attachments.isNotEmpty()) 8.dp else if (nmPill) 0.dp else 4.dp), // nanoMuse: pill composer
+                        .padding(top = if (attachments.isNotEmpty()) 8.dp else if (ltPill) 0.dp else 4.dp), // lingTai: pill composer
                 ) {
                     // T185: Move-to capsule lives INSIDE the composer card,
                     // pinned 8dp from the top-right corner, mirroring iOS
@@ -5855,11 +5855,11 @@ fun ChatScreen(
                     // InlineVoiceInputView). The legacy in-composer waveform
                     // branch below only serves captures started OUTSIDE the
                     // panel (none today, kept as a safety net).
-                    // nanoMuse: the text field, declared once and placed either
+                    // lingTai: the text field, declared once and placed either
                     // on its own row (upstream layout) or between the buttons
-                    // (the pill — see nmPill above).
-                    val nmTextField: @Composable (Modifier) -> Unit = { nmFieldModifier ->
-                    // Text field (iOS: placeholder "Message nanoMuse", no border)
+                    // (the pill — see ltPill above).
+                    val ltTextField: @Composable (Modifier) -> Unit = { ltFieldModifier ->
+                    // Text field (iOS: placeholder "Message lingTai", no border)
                     run {
                         val interactionSource = remember { MutableInteractionSource() }
                         // [T-android-composer-placeholder-rotation] Which entry
@@ -5923,7 +5923,7 @@ fun ChatScreen(
                             lastSendTimeMs = System.currentTimeMillis()
                             viewModel.setInputText("")
                             releaseComposerAfterSend()
-                            viewModel.nmMarkPersonTurn() // nanoMuse: the person started this turn (StarPrompt counts those)
+                            viewModel.ltMarkPersonTurn() // lingTai: the person started this turn (StarPrompt counts those)
                             viewModel.sendMessage(toSend)
                             noteSendForInputModePref()
                             userScrolledAway = false
@@ -6075,7 +6075,7 @@ fun ChatScreen(
                                     caret = value.selection.end,
                                 )
                             },
-                            modifier = nmFieldModifier // nanoMuse: fillMaxWidth on its own row, weight(1f) in the pill
+                            modifier = ltFieldModifier // lingTai: fillMaxWidth on its own row, weight(1f) in the pill
                                 .heightIn(min = 25.dp)
                                 .focusRequester(inputFocusRequester)
                                 .onFocusChanged {
@@ -6258,22 +6258,22 @@ fun ChatScreen(
                                         // swaps instantly — matching the iOS
                                         // Reduce Motion branch.
                                         val fadeMs = if (animationsDisabled(context)) 0 else 220
-                                        // nanoMuse: while the name chooser is
+                                        // lingTai: while the name chooser is
                                         // up, the composer asks for a name
                                         // (Muse: "Write a name here").
-                                        val nmNamingCard by viewModel.nmNamingCard.collectAsState()
-                                        val nmChoosingName = nmNamingCard != null && nmNamingCard?.chosen == null
+                                        val ltNamingCard by viewModel.ltNamingCard.collectAsState()
+                                        val ltChoosingName = ltNamingCard != null && ltNamingCard?.chosen == null
                                         Crossfade(
                                             targetState = placeholderIndex,
                                             animationSpec = tween(durationMillis = fadeMs),
                                             label = "composerPlaceholder",
                                         ) { idx ->
                                             Text(
-                                                if (nmChoosingName) stringResource(R.string.nm_naming_placeholder)
-                                                // nanoMuse: Muse's pill says just "Message".
-                                                else if (nmPill) stringResource(R.string.nm_composer_placeholder)
+                                                if (ltChoosingName) stringResource(R.string.lt_naming_placeholder)
+                                                // lingTai: Muse's pill says just "Message".
+                                                else if (ltPill) stringResource(R.string.lt_composer_placeholder)
                                                 else composerPlaceholderText(idx, soulName.name),
-                                                color = if (nmPill) MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                                                color = if (ltPill) MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                                                 else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.25f),
                                                 fontSize = 16.5.sp * chatInputFontScale,
                                                 maxLines = 1,
@@ -6309,7 +6309,7 @@ fun ChatScreen(
                             },
                         )
                     }
-                    } // nmTextField
+                    } // ltTextField
                     if (com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive) {
                         com.openminis.app.ui.chat.voice.InlineVoiceInputPanel(
                             providerRepository = providerRepository,
@@ -6354,10 +6354,10 @@ fun ChatScreen(
                                 )
                             }
                         }
-                    } else if (!nmPill) nmTextField(Modifier.fillMaxWidth())
+                    } else if (!ltPill) ltTextField(Modifier.fillMaxWidth())
 
                     // Button row below text field (iOS layout: + / ... mic send)
-                    // nanoMuse: in the pill this is THE row — "+", the field, mic/send.
+                    // lingTai: in the pill this is THE row — "+", the field, mic/send.
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -6365,34 +6365,34 @@ fun ChatScreen(
                             // mic/send icon-button column up with the
                             // attachment row + textfield + Move-to popup.
                             .padding(
-                                horizontal = if (nmPill) 6.dp else 12.dp,
-                                vertical = if (nmPill) 4.dp else 10.dp,
+                                horizontal = if (ltPill) 6.dp else 12.dp,
+                                vertical = if (ltPill) 4.dp else 10.dp,
                             ),
-                        verticalAlignment = if (nmPill) Alignment.Bottom else Alignment.CenterVertically,
+                        verticalAlignment = if (ltPill) Alignment.Bottom else Alignment.CenterVertically,
                     ) {
                         // Left: + button (iOS: 34×34 circle, secondary bg)
                         Box {
                             InputCircleButton(
                                 onClick = { showAttachMenu = true },
-                                plain = nmPill, // nanoMuse: a bare glyph inside the pill
+                                plain = ltPill, // lingTai: a bare glyph inside the pill
                             ) {
                                 Icon(
                                     Icons.Default.Add,
                                     contentDescription = "Attach",
-                                    tint = if (nmPill) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.size(if (nmPill) 24.dp else 20.dp),
+                                    tint = if (ltPill) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(if (ltPill) 24.dp else 20.dp),
                                 )
                             }
                             MinisMenu(
                                 expanded = showAttachMenu,
                                 onDismissRequest = { showAttachMenu = false },
                             ) {
-                                // nanoMuse: the "/" button has no seat in the pill,
+                                // lingTai: the "/" button has no seat in the pill,
                                 // so the slash commands open from here (typing "/"
                                 // still opens them inline).
-                                if (nmPill) {
+                                if (ltPill) {
                                     DropdownMenuItem(
-                                        text = { Text(stringResource(R.string.nm_attach_commands)) },
+                                        text = { Text(stringResource(R.string.lt_attach_commands)) },
                                         leadingIcon = { Icon(Icons.Default.Terminal, contentDescription = null) },
                                         onClick = {
                                             showAttachMenu = false
@@ -6443,8 +6443,8 @@ fun ChatScreen(
                             }
                         }
 
-                        if (nmPill) {
-                            nmTextField(Modifier.weight(1f)) // nanoMuse: the field between the buttons
+                        if (ltPill) {
+                            ltTextField(Modifier.weight(1f)) // lingTai: the field between the buttons
                         } else {
                         Spacer(modifier = Modifier.width(8.dp))
 
@@ -6469,7 +6469,7 @@ fun ChatScreen(
                         // is non-null. Tap clears the edit flag + composer text
                         // without truncating history. iOS parity:
                         // AIChatView.swift L1586 editExitButton.
-                        // (nanoMuse: editingId is read once, above the text field.)
+                        // (lingTai: editingId is read once, above the text field.)
                         if (editingId != null) {
                             Spacer(modifier = Modifier.width(8.dp))
                             Surface(
@@ -6490,7 +6490,7 @@ fun ChatScreen(
                         }
 
                         Spacer(modifier = Modifier.weight(1f))
-                        } // nanoMuse: end of the two-row layout's left group
+                        } // lingTai: end of the two-row layout's left group
 
                         // Right: Mic button — only renders when a speech engine
                         // is actually available on this device (handles the
@@ -6892,11 +6892,11 @@ fun ChatScreen(
                         // RECOVERABLE states, explained inside the panel with a
                         // link to the relevant settings rather than by silently
                         // removing the control.
-                        // nanoMuse: in the pill the mic gives way to the send
+                        // lingTai: in the pill the mic gives way to the send
                         // arrow once there is something to send (or a stop
                         // square while the agent answers), as on Muse.
-                        val nmPillBusy = nmPill && (inputText.isNotBlank() || attachments.isNotEmpty() || isStreaming)
-                        if (com.openminis.app.speech.SpeechRecognitionManager.hasMicrophoneHardware && !nmPillBusy) {
+                        val ltPillBusy = ltPill && (inputText.isNotBlank() || attachments.isNotEmpty() || isStreaming)
+                        if (com.openminis.app.speech.SpeechRecognitionManager.hasMicrophoneHardware && !ltPillBusy) {
                             MicButton(
                                 isRecording = !com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive &&
                                     (sttState == com.openminis.app.speech.RecognitionState.RECORDING ||
@@ -6905,12 +6905,12 @@ fun ChatScreen(
                                 onClick = { triggerVoiceInput() },
                                 onLongClick = { showLangSheet = true },
                                 isVoiceActive = com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive,
-                                plain = nmPill, // nanoMuse
+                                plain = ltPill, // lingTai
                             )
                         }
 
-                        if (!nmPill) Spacer(modifier = Modifier.width(8.dp))
-                        if (!nmPill || nmPillBusy) { // nanoMuse: the pill shows send/stop only when there is something to do
+                        if (!ltPill) Spacer(modifier = Modifier.width(8.dp))
+                        if (!ltPill || ltPillBusy) { // lingTai: the pill shows send/stop only when there is something to do
 
                         // Right: 3-state Send / Enqueue / Stop button (mirrors iOS sendButton).
                         //   • streaming + hasText  → SEND (routes through viewModel.sendMessage,
@@ -6929,7 +6929,7 @@ fun ChatScreen(
                         val hasContent = hasText || attachments.isNotEmpty()
                         val showStop = isStreaming && !hasContent
                         if (showStop) {
-                            // nanoMuse: match the monochrome send button (black disc with
+                            // lingTai: match the monochrome send button (black disc with
                             // white square in light theme, inverted in dark, matching iOS).
                             Box(
                                 modifier = Modifier
@@ -6950,15 +6950,15 @@ fun ChatScreen(
                             // Streaming with content → Send-into-queue; Idle with content → Send.
                             // Idle without text or attachments → disabled.
                             val canActivate = hasContent
-                            // nanoMuse: monochrome send. The palette's sendButton is
+                            // lingTai: monochrome send. The palette's sendButton is
                             // white in the dark theme and black in the light one, the
                             // arrow takes the canvas colour; no blue accent.
-                            val nmSendBg = if (canActivate) {
+                            val ltSendBg = if (canActivate) {
                                 ChatColors.sendButton
                             } else {
                                 ChatColors.sendButton.copy(alpha = if (ChatColors.isDark) 0.15f else 0.08f)
                             }
-                            val nmSendFg = if (canActivate) {
+                            val ltSendFg = if (canActivate) {
                                 ChatColors.background
                             } else {
                                 ChatColors.primaryText.copy(alpha = 0.4f)
@@ -6966,7 +6966,7 @@ fun ChatScreen(
                             Box(
                                 modifier = Modifier
                                     .size(38.dp)
-                                    .background(nmSendBg, CircleShape)
+                                    .background(ltSendBg, CircleShape)
                                     .clip(CircleShape)
                                     .clickable(enabled = canActivate) {
                                         // T-drag-send-queue: route through the
@@ -6986,12 +6986,12 @@ fun ChatScreen(
                                 Icon(
                                     Icons.Default.ArrowUpward,
                                     contentDescription = "Send",
-                                    tint = nmSendFg,
+                                    tint = ltSendFg,
                                     modifier = Modifier.size(20.dp),
                                 )
                             }
                         }
-                        } // nanoMuse: send/stop
+                        } // lingTai: send/stop
                     }
                 }
             }
@@ -7270,15 +7270,15 @@ fun ChatScreen(
                 } else {
                     viewModel.selectGroup(groupId)
                     showModelPicker = false
-                    // nanoMuse: a group picked here is the default for new chats too, and the
+                    // lingTai: a group picked here is the default for new chats too, and the
                     // main chat follows it (ModelSlots.followPick, with the member the
                     // view-model resolved); the same line as for a model says so.
                     viewModel.activeEntryId.value?.let { resolved ->
-                        val sticks = io.github.nanomuse.models.ModelSlots.followPick(context, resolved, groupId)
+                        val sticks = io.github.lingtai.models.ModelSlots.followPick(context, resolved, groupId)
                         val name = group?.name?.takeIf { it.isNotBlank() } ?: entryById(resolved)?.model?.displayName ?: resolved
                         android.widget.Toast.makeText(
                             context,
-                            context.getString(if (sticks) R.string.nm_model_switched_sticky else R.string.nm_model_switched, name),
+                            context.getString(if (sticks) R.string.lt_model_switched_sticky else R.string.lt_model_switched, name),
                             android.widget.Toast.LENGTH_SHORT,
                         ).show()
                     }
@@ -7297,13 +7297,13 @@ fun ChatScreen(
                 } else {
                     viewModel.selectGroupEntry(groupId, entryId)
                     showModelPicker = false
-                    // nanoMuse: as for a group pick, the default for new chats and the main chat follow
+                    // lingTai: as for a group pick, the default for new chats and the main chat follow
                     if (entry != null) {
                         val name = entry.model.displayName.ifBlank { entry.model.id }
-                        val sticks = io.github.nanomuse.models.ModelSlots.followPick(context, entryId, groupId)
+                        val sticks = io.github.lingtai.models.ModelSlots.followPick(context, entryId, groupId)
                         android.widget.Toast.makeText(
                             context,
-                            context.getString(if (sticks) R.string.nm_model_switched_sticky else R.string.nm_model_switched, name),
+                            context.getString(if (sticks) R.string.lt_model_switched_sticky else R.string.lt_model_switched, name),
                             android.widget.Toast.LENGTH_SHORT,
                         ).show()
                     }
@@ -7321,7 +7321,7 @@ fun ChatScreen(
                 } else {
                     viewModel.selectEntry(entryId)
                     showModelPicker = false
-                    // nanoMuse: a pick in the picker is meant as "the model from now on" —
+                    // lingTai: a pick in the picker is meant as "the model from now on" —
                     // the default for new chats follows it (a group named after the pick's
                     // provider, Settings → Models shows the same), and a line says so, since
                     // the picker's own binding is per chat and the next new chat would
@@ -7329,10 +7329,10 @@ fun ChatScreen(
                     // 0.1.41 this holds for every provider, not the Cloud's models alone.
                     if (entry != null) {
                         val name = entry.model.displayName.ifBlank { entry.model.id }
-                        val sticks = io.github.nanomuse.models.ModelSlots.followPick(context, entryId)
+                        val sticks = io.github.lingtai.models.ModelSlots.followPick(context, entryId)
                         android.widget.Toast.makeText(
                             context,
-                            context.getString(if (sticks) R.string.nm_model_switched_sticky else R.string.nm_model_switched, name),
+                            context.getString(if (sticks) R.string.lt_model_switched_sticky else R.string.lt_model_switched, name),
                             android.widget.Toast.LENGTH_SHORT,
                         ).show()
                     }

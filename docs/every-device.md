@@ -1,6 +1,6 @@
 # Every device
 
-The fourth thing that defines nanoMuse ([roadmap](roadmap.md)): one agent, and
+The fourth thing that defines lingTai ([roadmap](roadmap.md)): one agent, and
 every device you own is a pair of hands and a front door for it. This page is
 the design for that stage: what every device's app looks like, what each one
 can do on its own and for the others, how a task travels, and which existing
@@ -10,7 +10,7 @@ this page is about the product shape and the code around it.
 ## One Muse per device, one shape
 
 Every device runs its own Muse (the phone its OpenMinis-based agent, the
-computer nanoMuse Desktop with the Python runtime for the hands) and every one of them shows the same app. The
+computer lingTai Desktop with the Python runtime for the hands) and every one of them shows the same app. The
 Android app is the reference; the others follow its shape, not its pixels:
 
 | On every device | Android today | Computer (this stage) |
@@ -59,7 +59,7 @@ person *at* the device still agrees before another device runs, reads or writes
 something there: a card on that screen, *once* or *always for that device*
 (a standing permission listed under Permissions like any other, revocable there).
 A `task` runs under the device's own Sentinel instead; `notify` never asks. On
-nanoMuse Desktop the switch is off by default and means "each device asks here";
+lingTai Desktop the switch is off by default and means "each device asks here";
 on lets every device of the account through without the question.
 
 ## How a task travels
@@ -144,8 +144,8 @@ devices*, on by default; off tells the relay to delete the account's store, and
 every other device's switch follows. *Delete synced conversations* empties the
 store and keeps the switch. The phone and the web app map each local chat to a
 conversation id and apply the other devices' changes straight into their chat
-lists. **nanoMuse Desktop (the dsh plugin)** keeps another device's turns in
-its own store (`$DSH_HOME/nanomuse/sync-remote.json`, by session; a dsh session
+lists. **lingTai Desktop (the dsh plugin)** keeps another device's turns in
+its own store (`$DSH_HOME/lingtai/sync-remote.json`, by session; a dsh session
 log is append-only and owned by its agent loop, and a row written into it
 outside a turn is neither shown nor safe), shows them in the browser as the
 other device's bubbles (`client/RemoteBubbles.ts`), placed by time among the
@@ -167,11 +167,11 @@ session log, so the harness cannot take one for an unfinished turn. The host
 reads a session's log once per change (title, lines and prompt positions are
 kept until the session's next event) and turns a burst of `sync` frames into
 one pull a second, so a big account costs the chat nothing while idle.
-Code: the runtime's [`nanomuse/sync/`](../nanomuse/sync/)
+Code: the runtime's [`lingtai/sync/`](../lingtai/sync/)
 (`ConversationSync`, `/api/sync/*` in [app.md](app.md#api)), the web app's
 `SyncControls` and the message captions in `web/src/`, the plugin's
 `src/sync.ts`, `client/RemoteBubbles.ts` and `tests/sync.test.mjs`, the relay's
-[`cloud/nanomuse_cloud/sync.py`](../cloud/nanomuse_cloud/sync.py).
+[`cloud/lingtai_cloud/sync.py`](../cloud/lingtai_cloud/sync.py).
 
 **Work on another device.** The default is always the device you are typing
 on. To send one message elsewhere, start it with `@` and the device's name as
@@ -179,13 +179,13 @@ the hub lists it (`@Desk compile the project and send me the log`), a prefix
 match, case-insensitive; the composer offers the names as you type, the mention
 is taken off the text, the bubble says *to Desk*, and a one-line note in front
 of the turn tells this device's agent to hand it to that device with `delegate`
-(`nanomuse-pc task … --on` on the phone) and report what it did; the Devices
+(`lingtai-pc task … --on` on the phone) and report what it did; the Devices
 page's *Ask this device* does the same. On the iPhone, which has no delegate
 tool, the mention goes to the hub directly (`task` to that device, its answer
 shown as a turn in the chat) and only devices that are online are matched.
-Which devices can be a target: **computers** (nanoMuse Desktop, a runtime)
+Which devices can be a target: **computers** (lingTai Desktop, a runtime)
 whenever they are online, since their hub socket stays up; **phones** (Android
-and the iPhone) only while the nanoMuse app is open, because the socket lives
+and the iPhone) only while the lingTai app is open, because the socket lives
 in the app and neither keeps it in the background. A device that is not online
 is offered as a target all the same on the web and the desktop and answers
 `device_offline`; the web console is never one. The session a device runs for
@@ -226,28 +226,28 @@ device* is turned on; deleting the account removes all of it; a key the relay
 refuses keeps it aside for the account's return. The table of every piece of
 state is [sync.md](sync.md). On the desktop and the web console
 the 0.1.39 rule above still holds, and the memory files are per device.
-Code: the runtime's `nanomuse/sync/engine.py` and the session list in
-`nanomuse/server/api.py`, the desktop's `harness/dsh-nanomuse/src/{sync,cloud}.ts`,
-Android's `io.github.nanomuse.sync.*`, the iPhone's `NanoMuse/NanoMuseSync.swift`.
+Code: the runtime's `lingtai/sync/engine.py` and the session list in
+`lingtai/server/api.py`, the desktop's `harness/dsh-lingtai/src/{sync,cloud}.ts`,
+Android's `io.github.lingtai.sync.*`, the iPhone's `LingTai/LingTaiSync.swift`.
 
-## The computer: nanoMuse Desktop
+## The computer: lingTai Desktop
 
-The desktop is the Python runtime (`nanomuse serve`) with three front doors on
-the same local service: the terminal (`nanomuse chat`), the browser (the web
+The desktop is the Python runtime (`lingtai serve`) with three front doors on
+the same local service: the terminal (`lingtai chat`), the browser (the web
 app it serves, also reachable from the phone on the same network) and a
 window. That is the shape OpenCode v2 and Codex take (a local service, a CLI
 and a desktop app over it) and it is what the runtime already was; this stage
 adds the hub, the Cloud account and the hands to it.
 
 ```
-   nanomuse serve  ─ FastAPI + WebSocket, 127.0.0.1:8787 ─┬─ web/ (React) in a browser or on the phone
-      │ MuseAgent · Sentinel · tools                        ├─ nanomuse mcp → nanoMuse Desktop (harness/, on DeepSeek Harness)
-      │ nanomuse/hub  ── wss://…/v1/hub ── the other devices └─ nanomuse chat (terminal)
-      │ nanomuse/computer ── mss + pyautogui: the screen as a hand
-      └ nanomuse/cloud ── the nanoMuse Cloud account (e-mail code → key → models + hub)
+   lingtai serve  ─ FastAPI + WebSocket, 127.0.0.1:8787 ─┬─ web/ (React) in a browser or on the phone
+      │ MuseAgent · Sentinel · tools                        ├─ lingtai mcp → lingTai Desktop (harness/, on DeepSeek Harness)
+      │ lingtai/hub  ── wss://…/v1/hub ── the other devices └─ lingtai chat (terminal)
+      │ lingtai/computer ── mss + pyautogui: the screen as a hand
+      └ lingtai/cloud ── the lingTai Cloud account (e-mail code → key → models + hub)
 ```
 
-- **Runtime** (`nanomuse/`): `cloud.py` signs in to nanoMuse Cloud with an
+- **Runtime** (`lingtai/`): `cloud.py` signs in to lingTai Cloud with an
   e-mail (or phone) code, keeps the key in the vault and can make the relay the
   model provider, the same *Sign in (free)* first step as on the
   phone. `hub/` is the async port of the desktop binary's hub client: one
@@ -259,20 +259,20 @@ adds the hub, the Cloud account and the hands to it.
 - **Web app** (`web/`): the Devices page, side chats addressed to a device,
   the approval card's tiers and *remember* pills, the Hands card with Stop,
   Settings → Hands, the Cloud sign-in in the first run and under Connections,
-  the dragon as the default face. Built into `nanomuse/server/static/`.
-- **Window**: from 0.1.30 the window is [nanoMuse Desktop](desktop.md) on
+  the dragon as the default face. Built into `lingtai/server/static/`.
+- **Window**: from 0.1.30 the window is [lingTai Desktop](desktop.md) on
   DeepSeek Harness (`harness/`): the harness's Host and web app in an Electron
-  shell of ours, nanoMuse's account, face, Hands and Reach as plugins, and this
-  runtime bundled for the hands (`nanomuse mcp` over stdio). The Electron shell
+  shell of ours, lingTai's account, face, Hands and Reach as plugins, and this
+  runtime bundled for the hands (`lingtai mcp` over stdio). The Electron shell
   around this runtime and the web app (`desktop/app`, 0.1.19–0.1.29; the
   tray, the transparent stage window that drew the ring where the hands were
   about to click, the global Stop and quick-chat shortcuts, *Start with the
   computer*) is retired; those come back on the harness's seams
   ([harness.md](harness.md), phase 7). The web app still lays itself out the
-  Muse way on a wide window for anyone who opens `nanomuse serve` in a browser.
-- **The standard-library binary** (`desktop/nanomuse_desktop`) was the
+  Muse way on a wide window for anyone who opens `lingtai serve` in a browser.
+- **The standard-library binary** (`desktop/lingtai_desktop`) was the
   zero-install fallback for a machine without Python and the origin of
-  `nanomuse/hub`; dropped in 0.1.39, since nanoMuse Desktop carries the runtime.
+  `lingtai/hub`; dropped in 0.1.39, since lingTai Desktop carries the runtime.
 
 ### Hands on this computer
 
@@ -287,14 +287,14 @@ report, the same Stop. What differs is the dialect and the device:
   vision model serves both. The reply format (Thought / Action / one
   `<tool_call>`) and the parser are the phone's.
 - **Device.** Screenshots through `mss` (every platform, scaled for the
-  model); actions through `pyautogui` (`pip install "nanomuse[hands]"`), with
+  model); actions through `pyautogui` (`pip install "lingtai[hands]"`), with
   `xdotool` as the fallback on Linux when it is there and pyautogui is not; the
   active window's title from the platform (`xdotool` / `osascript` /
   `GetForegroundWindow`) so the card and the log say *in Firefox*, not *on the
   screen*.
 - **Permissions.** macOS asks for Screen Recording and Accessibility once;
   Settings → Hands says so and opens the panes. Under the desktop app both
-  belong to its helper *nanoMuse Computer Use*
+  belong to its helper *lingTai Computer Use*
   ([desktop.md](desktop.md#macos-permissions)); a runtime run on its own is
   attributed to whatever started it (the terminal, say). Linux
   needs X11 (Wayland has no portable way to move the pointer yet; the page
@@ -312,10 +312,10 @@ report, the same Stop. What differs is the dialect and the device:
 
 On a Mac the hands can work in **one application's window** instead of the
 whole screen (`[hands] mode`, and *Where* on the Hands card: *Auto* / *One
-window* / *Whole screen*; `nanomuse/computer/mac_window.py`):
+window* / *Whole screen*; `lingtai/computer/mac_window.py`):
 
 - the picture the model sees is that window only, taken by the desktop app's
-  helper *nanoMuse Computer Use* with ScreenCaptureKit on macOS 14 and later
+  helper *lingTai Computer Use* with ScreenCaptureKit on macOS 14 and later
   (`POST /window` of the operator, [gui.md](gui.md#hands-on-the-computer-the-picture-is-the-unit)),
   or by the runtime's own `CGWindowListCreateImage` when there is no helper,
   and scaled for the model; coordinates are pixels of that picture and are mapped
@@ -341,13 +341,13 @@ the layer itself fails (the helper not there, pyobjc, the window server) *Auto* 
 screen for the rest of that target, says so once, and tries the window again
 when the next application is named; *One window* keeps trying, as asked.
 The Hands card's *Where* line shows the reason either way. Linux and Windows stay
-on the shared screen; `pip install "nanomuse[hands]"` brings the pyobjc
+on the shared screen; `pip install "lingtai[hands]"` brings the pyobjc
 frameworks on macOS only.
 
 ## The phone
 
 Already both roles since 0.1.12/0.1.13/0.1.17: the sandbox shell and Hands
-locally, `nanomuse-pc` and the hub outward, `task` inward through the headless
+locally, `lingtai-pc` and the hub outward, `task` inward through the headless
 chat runner. This stage's Android pass, in order: the hub `approve`
 reaching the RiskGate card, a *Devices* entry in the drawer (both done in
 0.1.19, see [The phone, in 0.1.19](#the-phone-in-0-1-19)), and the desk's
@@ -355,18 +355,18 @@ Hands events shown while it works. None of it blocks the desktop work.
 
 ## The browser: a demo on a simulated phone
 
-[nanomuse.cn/web](https://nanomuse.cn/web/) leads to the showcase: a simulated
-phone in the browser (MobileGym, with the nanoMuse app brought to the front:
-`demo/mobilegym/apps/nanoMuse`) and, behind it, a private nanoMuse of the
+[lingtai.cn/web](https://lingtai.cn/web/) leads to the showcase: a simulated
+phone in the browser (MobileGym, with the lingTai app brought to the front:
+`demo/mobilegym/apps/LingTai`) and, behind it, a private lingTai of the
 visitor's own that the showcase gateway starts for the visit, the
-`ghcr.io/nano-muse/nanomuse` image on a network with no way out but the
+`ghcr.io/ling-tai/lingtai` image on a network with no way out but the
 gateway, talking with the showcase's model, gone when the visit ends. A visitor
-signs in to nanoMuse Cloud first (a code to a phone or an inbox, or the
+signs in to lingTai Cloud first (a code to a phone or an inbox, or the
 account's password; `demo/showcase/gateway/showcase_gateway/visitors.py`), so
 the project knows who is trying it and the same account is there on the day
 the app is installed. The page says so plainly: this is a demo, a long way from
 the Android app, and where the apps are. The homepage at
-[nanomuse.cn](https://nanomuse.cn/) shows the same page in a frame (`?embed=1`,
+[lingtai.cn](https://lingtai.cn/) shows the same page in a frame (`?embed=1`,
 no header of its own). The phone turns itself on; the Muse behind it is started
 once the page has reason to think a person is looking (a few seconds in view,
 or a pointer, key or wheel), never for a scripted browser, and never before the
@@ -394,29 +394,29 @@ the hands elsewhere; the hub is already enough for them.
 - **OpenCode v2** (MIT): the desktop as a thin Electron shell that starts a
   local service and renders a web app against it (electron-vite,
   electron-builder, a tray, deep links later). Not its agent: it is a coding
-  agent around a project directory; nanoMuse is a personal one around a person.
+  agent around a project directory; lingTai is a personal one around a person.
 - **Codex** (Apache-2.0): the CLI as a first-class front door to the same
   agent, approvals in the terminal, a sandbox for commands; the runtime's
-  `nanomuse chat` and the Sentinel already have that shape.
+  `lingtai chat` and the Sentinel already have that shape.
 - **Qwen-Agent / MemGUI-Bench** (MIT): the `mobile_use` and `computer_use`
-  dialects and the reply parser, already in `nanomuse/phone/operator.py`.
+  dialects and the reply parser, already in `lingtai/phone/operator.py`.
 - **pyautogui**, **mss**, **xdotool**: mouse, keyboard and screenshots. No
   input library of our own.
 
 ## Status
 
-| | Phone | Computer | nanoMuse Web (`WEB_ENABLED=1`; the demo phone since 0.1.26) | Web console | iOS |
+| | Phone | Computer | lingTai Web (`WEB_ENABLED=1`; the demo phone since 0.1.26) | Web console | iOS |
 |---|---|---|---|---|---|
 | Local shell / files / browser | yes | yes (runtime) | yes, inside its container | no hands | no |
 | Screen as a hand | Hands (0.1.12) | `computer_*` (0.1.19) | — | — | — |
-| Drives other devices | `nanomuse-pc`, hub | `device_*`, `delegate` (0.1.19) | the same runtime | picks a device, sends a task | — |
+| Drives other devices | `lingtai-pc`, hub | `device_*`, `delegate` (0.1.19) | the same runtime | picks a device, sends a task | — |
 | Answers other devices | yes | in a visible side chat (0.1.19) | yes | — | info / open / notify / task |
 | GUI in the Android shape | reference | web app (sidebar on wide screens) + window (0.1.19) | the web app | console | since 0.1.34 |
 | Stage while the hands work | `HandsStage` | Hands card; the stage overlay in the window | — | — | — |
 
-Released with 0.1.19: the APK, the desktop installers (`nanoMuse-Desktop-…`,
+Released with 0.1.19: the APK, the desktop installers (`lingTai-Desktop-…`,
 [`.github/workflows/desktop-app.yml`](../.github/workflows/desktop-app.yml)),
-the terminal binary (dropped in 0.1.39), and nanoMuse Web at nanomuse.cn/web (the demo on a
+the terminal binary (dropped in 0.1.39), and lingTai Web at lingtai.cn/web (the demo on a
 simulated phone since 0.1.26).
 
 ## Debugging it all on one machine
@@ -430,27 +430,27 @@ provider or a phone.
 #    hub are on by default. Without UPSTREAM_KEY the proxy answers 503 while sign-up
 #    and the hub still work; give the relay a real key (from the environment, never
 #    on the command line) if you want the Cloud model to answer.
-mkdir -p /tmp/nm-dev/cloud
-CLOUD_DB=/tmp/nm-dev/cloud/cloud.db CODE_SENDER=log PUBLIC_BASE=http://127.0.0.1:8790 \
-  PYTHONPATH=cloud .venv/bin/python -m nanomuse_cloud --host 127.0.0.1 --port 8790 \
-  > /tmp/nm-dev/cloud/relay.log 2>&1 &
+mkdir -p /tmp/lt-dev/cloud
+CLOUD_DB=/tmp/lt-dev/cloud/cloud.db CODE_SENDER=log PUBLIC_BASE=http://127.0.0.1:8790 \
+  PYTHONPATH=cloud .venv/bin/python -m lingtai_cloud --host 127.0.0.1 --port 8790 \
+  > /tmp/lt-dev/cloud/relay.log 2>&1 &
 
 # 2. two runtimes, each with its own data dir, workspace and port
 for d in a b; do
-  mkdir -p /tmp/nm-dev/$d/home /tmp/nm-dev/$d/ws
-  printf 'data_dir = "/tmp/nm-dev/%s/home"\nworkspace = "/tmp/nm-dev/%s/ws"\n\n[llm]\napi_key = ""\n\n[cloud]\nbase_url = "http://127.0.0.1:8790"\n\n[hub]\nname = "%s"\n' \
-    $d $d "$([ $d = a ] && echo 'Desk A' || echo 'Laptop B')" > /tmp/nm-dev/$d/config.toml
+  mkdir -p /tmp/lt-dev/$d/home /tmp/lt-dev/$d/ws
+  printf 'data_dir = "/tmp/lt-dev/%s/home"\nworkspace = "/tmp/lt-dev/%s/ws"\n\n[llm]\napi_key = ""\n\n[cloud]\nbase_url = "http://127.0.0.1:8790"\n\n[hub]\nname = "%s"\n' \
+    $d $d "$([ $d = a ] && echo 'Desk A' || echo 'Laptop B')" > /tmp/lt-dev/$d/config.toml
 done
 # ambient provider keys would be picked up as the model — clear them for a clean first run
 env -u OPENAI_API_KEY -u DASHSCOPE_API_KEY -u ANTHROPIC_API_KEY -u OPENAI_BASE_URL \
-  .venv/bin/nanomuse serve -c /tmp/nm-dev/a/config.toml --no-auth --no-qr --port 8799 > /tmp/nm-dev/a/serve.log 2>&1 &
+  .venv/bin/lingtai serve -c /tmp/lt-dev/a/config.toml --no-auth --no-qr --port 8799 > /tmp/lt-dev/a/serve.log 2>&1 &
 env -u OPENAI_API_KEY -u DASHSCOPE_API_KEY -u ANTHROPIC_API_KEY -u OPENAI_BASE_URL \
-  .venv/bin/nanomuse serve -c /tmp/nm-dev/b/config.toml --no-auth --no-qr --port 8798 > /tmp/nm-dev/b/serve.log 2>&1 &
+  .venv/bin/lingtai serve -c /tmp/lt-dev/b/config.toml --no-auth --no-qr --port 8798 > /tmp/lt-dev/b/serve.log 2>&1 &
 
 # 3. sign both in with the same e-mail in the first run (the code is in relay.log:
-#    grep -i code /tmp/nm-dev/cloud/relay.log), pick "Use the Cloud model" on each.
+#    grep -i code /tmp/lt-dev/cloud/relay.log), pick "Use the Cloud model" on each.
 # 4. (0.1.19–0.1.29) the Electron window over Desk A came from desktop/app; now open
-#    http://127.0.0.1:8799/ in a browser, or sign nanoMuse Desktop in as a third device.
+#    http://127.0.0.1:8799/ in a browser, or sign lingTai Desktop in as a third device.
 ```
 
 Then on Desk A: *Devices* shows Laptop B online; *Ask* (or the chip under the

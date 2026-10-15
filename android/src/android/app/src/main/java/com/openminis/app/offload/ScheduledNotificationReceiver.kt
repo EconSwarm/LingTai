@@ -78,7 +78,7 @@ class ScheduledNotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val id = intent.getStringExtra(EXTRA_ID) ?: "unknown"
-        val title = intent.getStringExtra(EXTRA_TITLE) ?: "nanoMuse"
+        val title = intent.getStringExtra(EXTRA_TITLE) ?: "lingTai"
         val body = intent.getStringExtra(EXTRA_BODY) ?: ""
         AppLogger.debug(TAG, "scheduled notification fired: id=$id title='$title'")
 
@@ -91,17 +91,17 @@ class ScheduledNotificationReceiver : BroadcastReceiver() {
 
         val notifId = id.hashCode() and 0x7FFFFFFF
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_stat_nanomuse) // nanoMuse: flat status-bar mark
-            .setLargeIcon(io.github.nanomuse.identity.NanoMuseIdentity.face(context)) // nanoMuse: the agent is the sender
+            .setSmallIcon(R.drawable.ic_stat_lingtai) // lingTai: flat status-bar mark
+            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // lingTai: the agent is the sender
             .setContentTitle(title)
             .setContentText(body)
             .setAutoCancel(true)
             .setContentIntent(contentIntentFor(context, notifId))
             .build()
         try {
-            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE)
+            val lt = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as android.app.NotificationManager
-            nm.notify(notifId, notification)
+            lt.notify(notifId, notification)
         } catch (e: SecurityException) {
             AppLogger.error(TAG, "post denied — POST_NOTIFICATIONS missing: ${e.message}")
         }

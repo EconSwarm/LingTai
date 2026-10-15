@@ -22,14 +22,14 @@ import pytest
 from fastapi.testclient import TestClient
 from websockets.asyncio.server import ServerConnection, serve
 
-from nanomuse.cloud import CloudClient, hub_url, model_url
-from nanomuse.config import Settings
-from nanomuse.hub import actions
-from nanomuse.hub.client import HubClient, HubError
-from nanomuse.llm import MockLLM
-from nanomuse.schema import Function, LLMResponse, ToolCall
-from nanomuse.server import create_app
-from nanomuse.server.service import MuseService
+from lingtai.cloud import CloudClient, hub_url, model_url
+from lingtai.config import Settings
+from lingtai.hub import actions
+from lingtai.hub.client import HubClient, HubError
+from lingtai.llm import MockLLM
+from lingtai.schema import Function, LLMResponse, ToolCall
+from lingtai.server import create_app
+from lingtai.server.service import MuseService
 
 pytestmark = pytest.mark.skipif(sys.platform == "win32", reason="posix shell in the tests")
 
@@ -95,9 +95,9 @@ def test_files_get_put(tmp_path: Path) -> None:
 
 
 def test_cloud_urls() -> None:
-    assert hub_url("https://cloud.nanomuse.cn/") == "wss://cloud.nanomuse.cn/v1/hub"
+    assert hub_url("https://cloud.lingtai.cn/") == "wss://cloud.lingtai.cn/v1/hub"
     assert hub_url("http://127.0.0.1:8080") == "ws://127.0.0.1:8080/v1/hub"
-    assert model_url("https://cloud.nanomuse.cn") == "https://cloud.nanomuse.cn/v1"
+    assert model_url("https://cloud.lingtai.cn") == "https://cloud.lingtai.cn/v1"
     # contract C4: the chat default when offered, else the first chat model; the hands
     # default is a separate pick (the relay's `for` field, else what the id says it sees)
     assert (
@@ -129,7 +129,7 @@ def test_cloud_urls() -> None:
                 {
                     "id": "a",
                     "for": ["gui"],
-                    "nanomuse": {"recommended": True, "recommended_for": ["gui"]},
+                    "lingtai": {"recommended": True, "recommended_for": ["gui"]},
                 },
                 {"id": "qwen3.8-27b", "for": ["gui"]},
             ],
@@ -137,18 +137,18 @@ def test_cloud_urls() -> None:
         )
         == "a"
     )
-    # the relay 0.17 shape: the lanes live under `nanomuse`, next to its other flags
+    # the relay 0.17 shape: the lanes live under `lingtai`, next to its other flags
     menu = [
         {
             "id": "deepseek-v4.1-flash",
-            "nanomuse": {"for": ["chat"], "recommended": True, "recommended_for": ["chat"]},
+            "lingtai": {"for": ["chat"], "recommended": True, "recommended_for": ["chat"]},
         },
         {
             "id": "qwen3.8-27b",
-            "nanomuse": {"for": ["gui", "chat"], "recommended": True, "recommended_for": ["gui"]},
+            "lingtai": {"for": ["gui", "chat"], "recommended": True, "recommended_for": ["gui"]},
         },
-        {"id": "qwen3.8-flash", "nanomuse": {"for": ["chat"], "recommended": False}},
-        {"id": "qwen-image-3.0", "nanomuse": {"for": [], "kind": "image"}},
+        {"id": "qwen3.8-flash", "lingtai": {"for": ["chat"], "recommended": False}},
+        {"id": "qwen-image-3.0", "lingtai": {"for": [], "kind": "image"}},
     ]
     assert [m["id"] for m in CloudClient.models_for(menu, "chat")] == [
         "deepseek-v4.1-flash",
@@ -475,7 +475,7 @@ def test_a_paused_hub_is_waited_out_not_hammered(monkeypatch: pytest.MonkeyPatch
             aw.close()
 
         monkeypatch.setattr(client, "_session", paused)
-        monkeypatch.setattr("nanomuse.hub.client.asyncio.wait_for", spy)
+        monkeypatch.setattr("lingtai.hub.client.asyncio.wait_for", spy)
         client.start()
         for _ in range(100):
             if seen:
@@ -538,7 +538,7 @@ def hub_server(
     ) -> dict[str, Any]:
         relay.invites.append(invite)  # what the web/app sent along (a friend's code, or "")
         if code != "123456":
-            from nanomuse.cloud import CloudError
+            from lingtai.cloud import CloudError
 
             raise CloudError(400, "bad_code", "wrong code")
         self.api_key = "test-key"
@@ -600,8 +600,8 @@ def test_sign_in_joins_hub_and_lists_devices(hub_server) -> None:
     # the relay as the model provider: the key stays a vault reference
     llm = client.post("/api/cloud/use-as-model", json={}).json()
     assert llm["model"] == "qwen3.8-27b" and llm["base_url"] == model_url(relay.base_url)
-    assert service.settings.llm.api_key == "{{vault:NANOMUSE_CLOUD_KEY}}"
-    assert service.app.vault.get("NANOMUSE_CLOUD_KEY") == "test-key"
+    assert service.settings.llm.api_key == "{{vault:LINGTAI_CLOUD_KEY}}"
+    assert service.app.vault.get("LINGTAI_CLOUD_KEY") == "test-key"
     assert client.get("/api/cloud").json()["is_model"] is True
     # leaving takes the tools away; signing out clears the account
     client.post("/api/hub/leave")
@@ -614,16 +614,16 @@ def test_sign_in_joins_hub_and_lists_devices(hub_server) -> None:
 def test_hosted_runtime_starts_signed_in_from_the_environment(
     settings: Settings, relay: FakeRelay, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """nanoMuse Web: the gateway hands the container the account key; the runtime comes up
+    """lingTai Web: the gateway hands the container the account key; the runtime comes up
     signed in, on the hub under the given name, with the relay as its model and no first run."""
     settings.server.token = "secret-token"
     settings.cloud.base_url = relay.base_url
     settings.hub.name = "Web"
     settings.llm.api_key = ""
-    monkeypatch.setenv("NANOMUSE_CLOUD_KEY", "test-key")
-    monkeypatch.setenv("NANOMUSE_CLOUD_HINT", "a***@example.com")
-    monkeypatch.setenv("NANOMUSE_CLOUD_CHANNEL", "email")
-    monkeypatch.setenv("NANOMUSE_ONBOARDED", "1")
+    monkeypatch.setenv("LINGTAI_CLOUD_KEY", "test-key")
+    monkeypatch.setenv("LINGTAI_CLOUD_HINT", "a***@example.com")
+    monkeypatch.setenv("LINGTAI_CLOUD_CHANNEL", "email")
+    monkeypatch.setenv("LINGTAI_ONBOARDED", "1")
 
     async def fake_models(self: CloudClient) -> list[dict[str, Any]]:
         return [{"id": "qwen3.8-27b"}]
@@ -636,7 +636,7 @@ def test_hosted_runtime_starts_signed_in_from_the_environment(
         account = client.get("/api/cloud").json()
         assert account["signed_in"] is True and account["hint"] == "a***@example.com"
         assert account["is_model"] is True
-        assert service.app.vault.get("NANOMUSE_CLOUD_KEY") == "test-key"
+        assert service.app.vault.get("LINGTAI_CLOUD_KEY") == "test-key"
         assert client.get("/api/state").json()["settings"]["onboarded"] is True
         wait_for(lambda: client.get("/api/hub").json()["state"] == "connected")
         assert relay.hello["device"]["name"] == "Web"
@@ -659,20 +659,20 @@ def test_a_signed_in_runtime_with_no_model_key_makes_the_relay_its_model(
 
     monkeypatch.setattr(CloudClient, "models", fake_models)
     service = MuseService(settings, llm=MockLLM([]))
-    service.app.vault.set("NANOMUSE_CLOUD_KEY", "old-key")
+    service.app.vault.set("LINGTAI_CLOUD_KEY", "old-key")
     app = create_app(settings, service)
     with TestClient(app) as client:
         client.headers["Authorization"] = "Bearer secret-token"
         account = client.get("/api/cloud").json()
         assert account["signed_in"] is True and account["is_model"] is True
         assert settings.llm.base_url.startswith(relay.base_url)
-        assert settings.llm.api_key == "{{vault:NANOMUSE_CLOUD_KEY}}"
+        assert settings.llm.api_key == "{{vault:LINGTAI_CLOUD_KEY}}"
 
     settings2 = settings.model_copy(deep=True)
     settings2.llm.api_key = ""
     settings2.llm.base_url = "http://localhost:11434/v1"
     service2 = MuseService(settings2, llm=MockLLM([]))
-    service2.app.vault.set("NANOMUSE_CLOUD_KEY", "old-key")
+    service2.app.vault.set("LINGTAI_CLOUD_KEY", "old-key")
     service2.hub.data.pop("llm", None)
     with TestClient(create_app(settings2, service2)) as client:
         client.headers["Authorization"] = "Bearer secret-token"
@@ -684,7 +684,7 @@ def test_the_model_picker_groups_the_menu_and_the_models_under_the_key(
     settings: Settings, relay: FakeRelay, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Relay 0.10 lists, for a member, the usable models under the operator's key after the
-    menu (`nanomuse.catalog`); /api/llm/models for the Cloud preset hands the pickers the
+    menu (`lingtai.catalog`); /api/llm/models for the Cloud preset hands the pickers the
     whole list in groups — menu, the rest, the picture / clip models likewise — plus which
     chat models read pictures. Nothing to type: the member picks."""
     settings.server.token = "secret-token"
@@ -695,13 +695,13 @@ def test_the_model_picker_groups_the_menu_and_the_models_under_the_key(
     ) -> dict[str, Any]:
         inputs = ["text", "image"] if vision or kind != "chat" else ["text"]
         out = ["text"] if kind == "chat" else [kind]
-        nm: dict[str, Any] = {"kind": kind, "listed": listed, "recommended": rec}
+        lt: dict[str, Any] = {"kind": kind, "listed": listed, "recommended": rec}
         if not listed:
-            nm.update(catalog=True, vision=vision)
+            lt.update(catalog=True, vision=vision)
         return {
             "id": mid,
             "architecture": {"input_modalities": inputs, "output_modalities": out},
-            "nanomuse": nm,
+            "lingtai": lt,
         }
 
     async def fake_models(self: CloudClient) -> list[dict[str, Any]]:
@@ -717,10 +717,10 @@ def test_the_model_picker_groups_the_menu_and_the_models_under_the_key(
 
     monkeypatch.setattr(CloudClient, "models", fake_models)
     service = MuseService(settings, llm=MockLLM([]))
-    service.app.vault.set("NANOMUSE_CLOUD_KEY", "member-key")
+    service.app.vault.set("LINGTAI_CLOUD_KEY", "member-key")
     with TestClient(create_app(settings, service)) as client:
         client.headers["Authorization"] = "Bearer secret-token"
-        got = client.post("/api/llm/models", json={"preset": "nanomuse_cloud"}).json()
+        got = client.post("/api/llm/models", json={"preset": "lingtai_cloud"}).json()
     assert got["source"] == "live"
     assert got["models"] == ["qwen3.8-27b", "qwen3.8-flash", "deepseek-v4.1-flash", "qwen3-vl-plus"]
     assert got["menu"] == ["qwen3.8-27b", "qwen3.8-flash"]
@@ -1060,7 +1060,7 @@ def test_coding_actions_are_served_to_other_devices(
     hub_server, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """The phone asks this computer about its coding agents (docs/coding-agents.md)."""
-    from nanomuse.coding import agents as coding_agents
+    from lingtai.coding import agents as coding_agents
 
     home = tmp_path / "home"
     ws = tmp_path / "ws"
@@ -1076,7 +1076,7 @@ def test_coding_actions_are_served_to_other_devices(
         )
         + "\n"
     )
-    monkeypatch.setenv("NANOMUSE_CODING_HOME", str(home))
+    monkeypatch.setenv("LINGTAI_CODING_HOME", str(home))
     monkeypatch.setattr(coding_agents, "which", lambda agent: None)
     client, service, _llm, relay = hub_server
     sign_in(client)
@@ -1120,7 +1120,7 @@ def test_password_sign_in_and_account_management(
     async def fake_login(
         self: CloudClient, identifier: str, password: str, device: str = ""
     ) -> dict[str, Any]:
-        from nanomuse.cloud import CloudError
+        from lingtai.cloud import CloudError
 
         calls.append(("login", (identifier, password, device)))
         if password != "correct horse":
@@ -1188,7 +1188,7 @@ def test_password_sign_in_and_account_management(
         and account["account_id"] == "acc_1"
     )
     assert calls[-1][1][2] == "Desk"  # the device name travels with the sign-in
-    assert service.app.vault.get("NANOMUSE_CLOUD_KEY") == "test-key"
+    assert service.app.vault.get("LINGTAI_CLOUD_KEY") == "test-key"
     wait_for(lambda: client.get("/api/hub").json()["state"] == "connected")
 
     # change the password (the relay checks the current one)
@@ -1213,7 +1213,7 @@ def test_password_sign_in_and_account_management(
     r = client.post("/api/cloud/sign-out-all", json={"all": True})
     assert r.json()["signed_out"] == 2
     assert client.get("/api/cloud").json()["signed_in"] is False
-    assert service.app.vault.get("NANOMUSE_CLOUD_KEY") is None
+    assert service.app.vault.get("LINGTAI_CLOUD_KEY") is None
     assert client.get("/api/cloud/sessions").status_code == 401
 
 
@@ -1253,7 +1253,7 @@ def _fake_profile_relay(
 
     monkeypatch.setattr(CloudClient, "profile", fake_profile)
     monkeypatch.setattr(CloudClient, "put_profile", fake_put)
-    monkeypatch.setattr("nanomuse.hub.profile.PUSH_DELAY_S", 0.05)
+    monkeypatch.setattr("lingtai.hub.profile.PUSH_DELAY_S", 0.05)
     return puts
 
 
@@ -1389,7 +1389,7 @@ def test_connections_travel_by_name_only(hub_server, monkeypatch: pytest.MonkeyP
     """Contract C3: the remote MCP servers this device connected go to the account as a
     name, an address and a kind — never the key — and the other devices' come back and show
     under Connections as held elsewhere."""
-    from nanomuse.config import MCPServerSettings
+    from lingtai.config import MCPServerSettings
 
     client, service, _llm, relay = hub_server
     phone_entry = {

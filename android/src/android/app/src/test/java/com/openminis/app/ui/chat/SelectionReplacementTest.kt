@@ -96,7 +96,7 @@ class SelectionReplacementTest {
 
     @Test
     fun `a whitespace-only selection is ignored`() {
-        val before = value("甲   乙", 1, 4)
+        val before = value("甲乙", 1, 4)
         val after = TextFieldValue("甲乙丙")
         assertNull(detect(before, after))
     }

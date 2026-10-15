@@ -611,7 +611,7 @@ object PRootKernel {
         // for app uids, so PRoot would otherwise pass link() straight through
         // to the host kernel and the host kernel rejects with EPERM. Alpine's
         // apk installs busybox-applet packages (binutils, gcc deps, etc.) by
-        // hardlinking ar/ld/nm/strip → busybox; without this flag every such
+        // hardlinking ar/ld/lt/strip → busybox; without this flag every such
         // install fails with "Permission denied". Symlinks are functionally
         // equivalent for the apk consumer.
         cmd.add("--link2symlink")

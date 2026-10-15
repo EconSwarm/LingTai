@@ -16,12 +16,12 @@ from typing import Any
 import pytest
 from fastapi.testclient import TestClient
 
-from nanomuse.coding import agents, runner
-from nanomuse.coding.runner import Run, _normalise, start_run
-from nanomuse.config import Settings
-from nanomuse.llm import MockLLM
-from nanomuse.server import create_app
-from nanomuse.server.service import MuseService
+from lingtai.coding import agents, runner
+from lingtai.coding.runner import Run, _normalise, start_run
+from lingtai.config import Settings
+from lingtai.llm import MockLLM
+from lingtai.server import create_app
+from lingtai.server.service import MuseService
 
 pytestmark = pytest.mark.skipif(sys.platform == "win32", reason="posix shell in the tests")
 
@@ -266,7 +266,7 @@ def coding_home(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
             ],
         ],
     )
-    monkeypatch.setenv("NANOMUSE_CODING_HOME", str(home))
+    monkeypatch.setenv("LINGTAI_CODING_HOME", str(home))
     return home
 
 
@@ -733,7 +733,7 @@ def test_runs_survive_a_restart(
     rows.append({**rows[0], "id": "run_lost", "status": "running", "ended_at": None})
     store.write_text(json.dumps(rows), encoding="utf-8")
 
-    from nanomuse.coding.service import CodingService
+    from lingtai.coding.service import CodingService
 
     again = CodingService(service)
     listed = {r["id"]: r for r in again.list_runs()}
@@ -787,16 +787,16 @@ def test_offline_device_is_refused(server: tuple[TestClient, MuseService]) -> No
     client, _ = server
     r = client.get("/api/coding/sessions?device=laptop")
     assert r.status_code in (404, 409, 502)
-    assert os.environ.get("NANOMUSE_CODING_HOME")
+    assert os.environ.get("LINGTAI_CODING_HOME")
 
 
 def test_coding_clis_get_a_scrubbed_environment_plus_their_own_keys() -> None:
-    from nanomuse.coding.runner import agent_env
+    from lingtai.coding.runner import agent_env
 
     parent = {
         "PATH": "/usr/bin",
         "HOME": "/home/me",
-        "NANOMUSE_CLOUD_TOKEN": "ours",
+        "LINGTAI_CLOUD_TOKEN": "ours",
         "DEEPSEEK_API_KEY": "model-key",
         "OPENAI_API_KEY": "codex-key",
         "ANTHROPIC_API_KEY": "claude-key",
@@ -807,7 +807,7 @@ def test_coding_clis_get_a_scrubbed_environment_plus_their_own_keys() -> None:
     codex = agent_env("codex", parent)
     assert codex["OPENAI_API_KEY"] == "codex-key" and codex["PATH"] == "/usr/bin"
     for name in (
-        "NANOMUSE_CLOUD_TOKEN",
+        "LINGTAI_CLOUD_TOKEN",
         "DEEPSEEK_API_KEY",
         "ANTHROPIC_API_KEY",
         "CURSOR_API_KEY",
@@ -815,7 +815,7 @@ def test_coding_clis_get_a_scrubbed_environment_plus_their_own_keys() -> None:
         "SSH_AUTH_SOCK",
     ):
         assert name not in codex, name
-    assert "NANOMUSE_SANDBOX" not in codex and codex["CI"] == "1" and codex["NO_COLOR"] == "1"
+    assert "LINGTAI_SANDBOX" not in codex and codex["CI"] == "1" and codex["NO_COLOR"] == "1"
 
     claude = agent_env("claude", parent)
     assert claude["ANTHROPIC_API_KEY"] == "claude-key" and "OPENAI_API_KEY" not in claude
@@ -830,8 +830,8 @@ def test_coding_clis_get_a_scrubbed_environment_plus_their_own_keys() -> None:
     dsh = agent_env("dsh", parent)
     assert dsh["DEEPSEEK_API_KEY"] == "model-key"
     assert "OPENAI_API_KEY" not in dsh and "ANTHROPIC_API_KEY" not in dsh
-    assert "NANOMUSE_CLOUD_TOKEN" not in dsh and dsh["CI"] == "1"
+    assert "LINGTAI_CLOUD_TOKEN" not in dsh and dsh["CI"] == "1"
     # and it runs in the store the readers list, whatever DSH_HOME it inherited (the desktop
     # app points it at its own home)
-    moved = agent_env("dsh", {**parent, "DSH_HOME": "/app/home", "NANOMUSE_CODING_HOME": "/h"})
+    moved = agent_env("dsh", {**parent, "DSH_HOME": "/app/home", "LINGTAI_CODING_HOME": "/h"})
     assert moved["DSH_HOME"] == str(Path("/h") / ".dsh")

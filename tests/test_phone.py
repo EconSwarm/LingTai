@@ -14,26 +14,26 @@ from typing import Any
 import pytest
 from fastapi.testclient import TestClient
 
-from nanomuse.config import GUISettings, Settings
-from nanomuse.llm import MockLLM
-from nanomuse.phone import PhoneLink, Screen
-from nanomuse.phone.link import STOP_MARKER, DeviceError, DeviceStopped
-from nanomuse.phone.operator import (
+from lingtai.config import GUISettings, Settings
+from lingtai.llm import MockLLM
+from lingtai.phone import PhoneLink, Screen
+from lingtai.phone.link import STOP_MARKER, DeviceError, DeviceStopped
+from lingtai.phone.operator import (
     PhoneOperator,
     Step,
     parse_step,
     parse_tagged_text,
     to_device_action,
 )
-from nanomuse.phone.screen import image_size
-from nanomuse.phone.trace import list_traces, read_trace, render_html
-from nanomuse.schema import LLMResponse, RiskLevel
-from nanomuse.sentinel import AuditLog, Sentinel
-from nanomuse.sentinel.audit import channel_of
-from nanomuse.server import create_app
-from nanomuse.server.service import MuseService
-from nanomuse.tools.phone import PhoneAct, PhoneScreen, PhoneTask
-from nanomuse.ui import ApprovalDecision, ApprovalRequest
+from lingtai.phone.screen import image_size
+from lingtai.phone.trace import list_traces, read_trace, render_html
+from lingtai.schema import LLMResponse, RiskLevel
+from lingtai.sentinel import AuditLog, Sentinel
+from lingtai.sentinel.audit import channel_of
+from lingtai.server import create_app
+from lingtai.server.service import MuseService
+from lingtai.tools.phone import PhoneAct, PhoneScreen, PhoneTask
+from lingtai.ui import ApprovalDecision, ApprovalRequest
 
 
 def png(width: int, height: int) -> str:
@@ -165,7 +165,7 @@ class CapsulePhone(FakePhone):
     def __init__(self, link: PhoneLink, screens: list[dict[str, Any]], stop_after: int = 0):
         super().__init__(link, screens)
         self.tasks: list[dict[str, Any]] = []
-        self.stop_after = stop_after  # the n-th action comes back "nanomuse:stop"
+        self.stop_after = stop_after  # the n-th action comes back "lingtai:stop"
         self.hang = False  # a phone that never answers a screen or an action
         self.hung = 0  # how many requests it swallowed that way
         self.hold_next_task = False  # the next task event is recorded but never answered
@@ -542,7 +542,7 @@ async def test_operator_speaks_the_users_language_not_the_goals(settings: Settin
 
 
 def test_detect_language_names_english_outright():
-    from nanomuse.prompts import detect_language
+    from lingtai.prompts import detect_language
 
     assert detect_language("Open WeChat and tell me what Zhang Wei said") == "English"
     assert detect_language("打开微信") == "Chinese"
@@ -795,7 +795,7 @@ async def test_link_raises_device_stopped_on_the_marker():
     link.attach("c", {"name": "P", "platform": "android", "gui": True}, send)
     task = asyncio.ensure_future(link.screen())
     await asyncio.sleep(0)
-    link.resolve({"id": sent[0]["id"], "ok": False, "error": "stopped (nanomuse:stop)"})
+    link.resolve({"id": sent[0]["id"], "ok": False, "error": "stopped (lingtai:stop)"})
     with pytest.raises(DeviceStopped) as info:
         await task
     assert isinstance(info.value, DeviceError) and "pressed Stop" in str(info.value)
@@ -891,7 +891,7 @@ async def test_operator_handles_bad_replies_step_limits_and_loops(settings: Sett
 async def test_operator_gives_up_after_steps_that_act_on_nothing(settings: Settings):
     """With no step cap (the default) a model that keeps naming the wrong function, or an
     action the dialect refuses, used to run until Stop; six such steps in a row end it."""
-    from nanomuse.phone.operator import MAX_IDLE_STEPS
+    from lingtai.phone.operator import MAX_IDLE_STEPS
 
     shots = settings.agent.workspace / "screenshots"
     phone = FakePhone(PhoneLink(shots_dir=shots), [HOME_SCREEN])
@@ -983,8 +983,8 @@ async def test_phone_task_tool_reports_the_outcome(settings: Settings):
 
 
 async def test_prompt_puts_the_screen_on_the_last_rung(settings: Settings):
-    from nanomuse.agent.core import MuseAgent
-    from nanomuse.tools import Terminate, ToolCollection
+    from lingtai.agent.core import MuseAgent
+    from lingtai.tools import Terminate, ToolCollection
 
     link = PhoneLink(shots_dir=settings.agent.workspace / "screenshots")
     CapsulePhone(link, [HOME_SCREEN])

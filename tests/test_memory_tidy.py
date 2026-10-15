@@ -6,11 +6,11 @@ from pathlib import Path
 
 import pytest
 
-from nanomuse.llm import MockLLM
-from nanomuse.memory import MemoryStore, tidy
-from nanomuse.memory.consolidate import plan
-from nanomuse.schema import LLMResponse
-from nanomuse.tools.memory_tools import Remember
+from lingtai.llm import MockLLM
+from lingtai.memory import MemoryStore, tidy
+from lingtai.memory.consolidate import plan
+from lingtai.schema import LLMResponse
+from lingtai.tools.memory_tools import Remember
 
 
 def seeded(tmp_path: Path) -> MemoryStore:
@@ -134,8 +134,8 @@ async def test_remember_updates_instead_of_duplicating(tmp_path: Path):
 
 
 def test_tidy_summary_follows_the_reply_language():
-    from nanomuse.memory import MemoryChange, MemoryItem, TidyReport
-    from nanomuse.server.service import _tidy_summary
+    from lingtai.memory import MemoryChange, MemoryItem, TidyReport
+    from lingtai.server.service import _tidy_summary
 
     def item(content: str) -> MemoryItem:
         return MemoryItem(
@@ -183,8 +183,8 @@ def test_tidy_summary_follows_the_reply_language():
 def test_the_guard_judges_every_script_and_refuses_what_it_cannot_judge():
     """#270: the tokenizer was ASCII only, so a Russian merge had nothing to compare
     against and the guard approved anything, invented facts included."""
-    from nanomuse.memory import MemoryItem
-    from nanomuse.memory.consolidate import _no_new_words
+    from lingtai.memory import MemoryItem
+    from lingtai.memory.consolidate import _no_new_words
 
     def item(content: str) -> MemoryItem:
         return MemoryItem(id="m", content=content, category="fact", created_at="", source="user")
@@ -214,7 +214,7 @@ def test_the_guard_judges_every_script_and_refuses_what_it_cannot_judge():
 
 
 def test_tokens_and_similarity_cover_cyrillic_and_the_other_alphabets():
-    from nanomuse.memory.store import similarity, tokenize
+    from lingtai.memory.store import similarity, tokenize
 
     assert tokenize("Пользователь предпочитает окна у прохода") == {
         "пользователь",

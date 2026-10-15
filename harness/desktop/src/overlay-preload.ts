@@ -7,18 +7,18 @@ type Listener = (state: unknown) => void;
 
 function onState(listener: Listener): () => void {
   const handler = (_e: Electron.IpcRendererEvent, state: unknown) => listener(state);
-  ipcRenderer.on("nanomuse:overlay:state", handler);
-  ipcRenderer.send("nanomuse:overlay:ready");
-  return () => ipcRenderer.off("nanomuse:overlay:state", handler);
+  ipcRenderer.on("lingtai:overlay:state", handler);
+  ipcRenderer.send("lingtai:overlay:ready");
+  return () => ipcRenderer.off("lingtai:overlay:state", handler);
 }
 
-contextBridge.exposeInMainWorld("nanomuseGlow", {
+contextBridge.exposeInMainWorld("lingtaiGlow", {
   onState,
   platform: process.platform,
-  leak: (x: number, y: number, type: string) => ipcRenderer.send("nanomuse:overlay:leak", { x, y, type }),
+  leak: (x: number, y: number, type: string) => ipcRenderer.send("lingtai:overlay:leak", { x, y, type }),
 });
-contextBridge.exposeInMainWorld("nanomuseCapsule", {
+contextBridge.exposeInMainWorld("lingtaiCapsule", {
   onState,
-  act: (card: string, action: string) => ipcRenderer.send("nanomuse:overlay:act", { card, action }),
-  resize: (height: number) => ipcRenderer.send("nanomuse:overlay:resize", height),
+  act: (card: string, action: string) => ipcRenderer.send("lingtai:overlay:act", { card, action }),
+  resize: (height: number) => ipcRenderer.send("lingtai:overlay:resize", height),
 });

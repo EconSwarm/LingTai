@@ -149,24 +149,24 @@ describe("the counters", () => {
 
 describe("migration from the first version", () => {
   it("turns the per-moment flags into asks made, keeps the task count, runs once", () => {
-    const kv = mem({ "nm.star.first_task": "1", "nm.star.signed_in": "1", "nm.star.tasks": "6", "nm.star.starred": "0" });
+    const kv = mem({ "lt.star.first_task": "1", "lt.star.signed_in": "1", "lt.star.tasks": "6", "lt.star.starred": "0" });
     const l = migrateLedger(kv);
     expect(l.tasks).toBe(6);
     expect(l.asks).toBe(2);
     expect(l.shown.sort()).toEqual(["first_task", "signed_in"]);
     expect(l.lastAsk).toBeNull(); // unknown when: the cooldown does not pretend to know
-    expect(kv.getItem("nm.star.first_task")).toBeNull();
+    expect(kv.getItem("lt.star.first_task")).toBeNull();
     expect(kv.getItem(KEYS.migrated)).toBe("1");
     // the old flag does not come back as a new ask; the next steps still do
     expect(askDue("signed_in", DEFAULT_POLICY, l, T0)).toBe(false);
     expect(askDue("tasks", DEFAULT_POLICY, l, T0, 10)).toBe(true);
     // running again changes nothing, even if an old key reappears
-    kv.setItem("nm.star.new_look", "1");
+    kv.setItem("lt.star.new_look", "1");
     expect(migrateLedger(kv).asks).toBe(2);
   });
 
   it("keeps a starred browser starred", () => {
-    const kv = mem({ "nm.star.starred": "1" });
+    const kv = mem({ "lt.star.starred": "1" });
     expect(migrateLedger(kv).starred).toBe(true);
     expect(readLedger(kv).starred).toBe(true);
   });

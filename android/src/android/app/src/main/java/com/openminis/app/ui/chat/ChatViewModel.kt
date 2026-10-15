@@ -13,7 +13,7 @@ import com.openminis.app.agent.Level
 import com.openminis.app.agent.ToolLoopDetector
 import com.openminis.app.browser.BrowserActionInput
 import com.openminis.app.browser.BrowserTabPool
-import io.github.nanomuse.browser.nmBrowserHandOver // nanoMuse
+import io.github.lingtai.browser.ltBrowserHandOver // lingTai
 import com.openminis.app.data.db.MessageEntity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Compress
@@ -167,10 +167,10 @@ class ChatViewModel(
          */
         internal fun shouldSplitOnError(error: Throwable): Boolean {
             if (error is CancellationException) return false
-            // nanoMuse: a content check saying no (the relay's `content_rejected`, a provider's
+            // lingTai: a content check saying no (the relay's `content_rejected`, a provider's
             // `DataInspectionFailed`) is about the words, not the size; halving sends the same
             // words twice, and one long chat was refused two hundred times in an hour that way.
-            if (error is LLMError.ProviderError && io.github.nanomuse.cloud.RelayRefusal.contentCheck(error.detail)) return false
+            if (error is LLMError.ProviderError && io.github.lingtai.cloud.RelayRefusal.contentCheck(error.detail)) return false
             if (error is LLMError) {
                 return when (error) {
                     // Never worth a smaller payload:
@@ -804,10 +804,10 @@ class ChatViewModel(
      */
     private val _canResume = MutableStateFlow(false)
     val canResume: StateFlow<Boolean> = _canResume.asStateFlow()
-    // nanoMuse: set when the turn ceiling stops a long task; the chat shows a "continue?" card.
+    // lingTai: set when the turn ceiling stops a long task; the chat shows a "continue?" card.
     private val _nmContinueAsk = MutableStateFlow<Int?>(null)
-    val nmContinueAsk: StateFlow<Int?> = _nmContinueAsk.asStateFlow()
-    fun nmContinue(keepGoing: Boolean) {
+    val ltContinueAsk: StateFlow<Int?> = _nmContinueAsk.asStateFlow()
+    fun ltContinue(keepGoing: Boolean) {
         _nmContinueAsk.value = null
         if (keepGoing) resume()
     }
@@ -2576,7 +2576,7 @@ class ChatViewModel(
     private fun applyRequestImageBudget(messages: List<LLMMessage>): List<LLMMessage> {
         // Collect every image in chronological order so the planner can
         // walk in reverse and protect the most recent images.
-        // nanoMuse: `screenshot` marks a tool-result image (a screen the agent took), which the
+        // lingTai: `screenshot` marks a tool-result image (a screen the agent took), which the
         // count rule below applies to; the person's own pictures are never counted (C9).
         data class ImageRef(val msgIdx: Int, val partIdx: Int, val image: ImageBudget.BudgetImage, val screenshot: Boolean = false)
         val images = mutableListOf<ImageRef>()
@@ -2602,7 +2602,7 @@ class ChatViewModel(
                                         part.imageLinuxPath,
                                         part.imageMimeType ?: "image/jpeg",
                                     ),
-                                    screenshot = true, // nanoMuse
+                                    screenshot = true, // lingTai
                                 )
                             )
                         }
@@ -2613,8 +2613,8 @@ class ChatViewModel(
         }
         if (images.isEmpty()) return messages
 
-        // nanoMuse: the four newest screenshots only, whatever the bytes — the relay caps a request at 6 MiB (C9)
-        val plan = io.github.nanomuse.chat.ScreenshotBudget.apply(
+        // lingTai: the four newest screenshots only, whatever the bytes — the relay caps a request at 6 MiB (C9)
+        val plan = io.github.lingtai.chat.ScreenshotBudget.apply(
             ImageBudget.planRequestBudget(images.map { it.image }),
             images.map { it.image },
             images.map { it.screenshot },
@@ -3616,48 +3616,48 @@ class ChatViewModel(
     /** The real session ID (same as sessionId for existing sessions, generated on first message for drafts). */
     internal var realSessionId: String = if (isDraft) "" else sessionId
 
-    // nanoMuse: the first conversation — scripted opening, "what should I call
-    // you?", then the name chooser. Logic lives in io.github.nanomuse.onboarding;
+    // lingTai: the first conversation — scripted opening, "what should I call
+    // you?", then the name chooser. Logic lives in io.github.lingtai.onboarding;
     // this VM only seeds the virtual messages, intercepts the name, and appends
     // the phase addendum to the system prompt. Declared before init so
     // loadSession() can use it.
-    internal val nmFirstConversation =
-        io.github.nanomuse.onboarding.FirstConversation(context, memoryRepository)
-    val nmNamingCard: StateFlow<io.github.nanomuse.onboarding.NamingCardState?>
-        get() = nmFirstConversation.namingCard
+    internal val ltFirstConversation =
+        io.github.lingtai.onboarding.FirstConversation(context, memoryRepository)
+    val ltNamingCard: StateFlow<io.github.lingtai.onboarding.NamingCardState?>
+        get() = ltFirstConversation.namingCard
 
-    // nanoMuse: the home shell asks the composer to take focus (profile page →
+    // lingTai: the home shell asks the composer to take focus (profile page →
     // "Change avatar" pre-fills the text and wants the keyboard up).
     private val _nmFocusComposer = kotlinx.coroutines.flow.MutableSharedFlow<Unit>(extraBufferCapacity = 1)
-    val nmFocusComposer: kotlinx.coroutines.flow.SharedFlow<Unit> = _nmFocusComposer
+    val ltFocusComposer: kotlinx.coroutines.flow.SharedFlow<Unit> = _nmFocusComposer
 
     /** Pre-fill the composer with [text] and ask for the keyboard. */
-    fun nmPrefillComposer(text: String) {
+    fun ltPrefillComposer(text: String) {
         setInputText(text)
         _nmFocusComposer.tryEmit(Unit)
     }
 
     init {
         loadSession()
-        // nanoMuse: rows synced from the account's other devices land in this chat while it is
+        // lingTai: rows synced from the account's other devices land in this chat while it is
         // open — reloaded from the database between turns, never under a running one; what
         // arrives during a turn is shown the moment the turn ends (C8: no reload by hand).
         viewModelScope.launch {
-            var nmPulledWhileStreaming = false
+            var ltPulledWhileStreaming = false
             launch {
-                io.github.nanomuse.sync.ConversationSync.pulled.collect { ids ->
+                io.github.lingtai.sync.ConversationSync.pulled.collect { ids ->
                     if (realSessionId.ifEmpty { sessionId } !in ids) return@collect
-                    if (_isStreaming.value) nmPulledWhileStreaming = true else reloadSessionFromDb()
+                    if (_isStreaming.value) ltPulledWhileStreaming = true else reloadSessionFromDb()
                 }
             }
             _isStreaming.collect { streaming ->
                 // the turn is over: the reply goes up and the other devices hear "done" (C9)
-                if (!streaming) io.github.nanomuse.sync.ConversationSync.turnEnded(realSessionId.ifEmpty { sessionId })
-                if (!streaming && nmPulledWhileStreaming) {
+                if (!streaming) io.github.lingtai.sync.ConversationSync.turnEnded(realSessionId.ifEmpty { sessionId })
+                if (!streaming && ltPulledWhileStreaming) {
                     // a breath after the end: the turn's last rows are still being written
                     kotlinx.coroutines.delay(1_500)
                     if (_isStreaming.value) return@collect
-                    nmPulledWhileStreaming = false
+                    ltPulledWhileStreaming = false
                     reloadSessionFromDb()
                 }
             }
@@ -3719,7 +3719,7 @@ class ChatViewModel(
                         }
                 }
             }
-        // nanoMuse: the main chat follows the chat slot (Settings › Models, the "Use it for"
+        // lingTai: the main chat follows the chat slot (Settings › Models, the "Use it for"
         // card, a pick in a chat's picker: ModelSlots.followPick → mainChatFollows). Its row is
         // rewritten there; this view-model lives as long as the app, so it is told as well and
         // re-resolves to the group that now leads with the pick. A draft (no row yet, not opened
@@ -3728,16 +3728,16 @@ class ChatViewModel(
         // whatever the Models page says. A side chat with a row keeps its model.
         viewModelScope.launch {
             sessionLoaded.first { it }
-            io.github.nanomuse.models.ModelSlots.chatSlotWritten.collect { pick ->
+            io.github.lingtai.models.ModelSlots.chatSlotWritten.collect { pick ->
                 val sid = realSessionId.ifEmpty { sessionId }
-                val isMain = io.github.nanomuse.home.MainChat.isMain(context, sid)
+                val isMain = io.github.lingtai.home.MainChat.isMain(context, sid)
                 val isNew = realSessionId.isEmpty() && initialGroupId == null
-                if (!io.github.nanomuse.models.MainChatFollow.shouldMove(isMain, _activeEntryId.value, _selectedGroupId.value, pick, isNew)) return@collect
+                if (!io.github.lingtai.models.MainChatFollow.shouldMove(isMain, _activeEntryId.value, _selectedGroupId.value, pick, isNew)) return@collect
                 if (resolveProviderFromGroup(pick.groupId, pick.entryId)) {
                     _selectedGroupId.value = pick.groupId
                     val group = providerRepository.group(pick.groupId)
                     _selectedGroupName.value = group?.name ?: ""
-                    _activeEntryId.value?.let { persistBinding(io.github.nanomuse.models.MainChatFollow.binding(pick.copy(entryId = it))) }
+                    _activeEntryId.value?.let { persistBinding(io.github.lingtai.models.MainChatFollow.binding(pick.copy(entryId = it))) }
                     // the group's default thinking level comes along, as it does when the group is
                     // picked in this chat's own picker (applyGroupSessionDefaults) and on the
                     // iPhone; a draft has no row to write it to and keeps it in memory
@@ -3799,7 +3799,7 @@ class ChatViewModel(
                 // untouched (it has no in-group alternative to fall back to).
                 val groupBound = _selectedGroupId.value
                 val activeEntry = _activeEntryId.value
-                // nanoMuse: a member taken out of the bound group reaches the chats already
+                // lingTai: a member taken out of the bound group reaches the chats already
                 // open, too. Upstream re-resolved only when the member's provider was
                 // disabled; a group edited in Settings (the Cloud card's "Change": the
                 // recommended model swapped for another) left every open chat — the main
@@ -3837,7 +3837,7 @@ class ChatViewModel(
                         currentProvider = null
                     }
                 }
-                // nanoMuse: a chat pinned to one of the Cloud's models (the picker in the
+                // lingTai: a chat pinned to one of the Cloud's models (the picker in the
                 // chat's menu) follows the Cloud group once that model leaves it. The group
                 // is where Settings chooses the model, and a pick in the picker already
                 // moves the group (ModelSlots.followPick), so the two never disagree
@@ -3847,10 +3847,10 @@ class ChatViewModel(
                 } else {
                     null
                 }
-                if (pinned != null && io.github.nanomuse.cloud.NanoMuseCloud.owns(context, pinned)) {
+                if (pinned != null && io.github.lingtai.cloud.LingTaiCloud.owns(context, pinned)) {
                     val cloudGroup = providerRepository.defaultPrimaryGroupId
                         ?.let { id -> config.modelGroups.firstOrNull { it.id == id } }
-                        ?.takeIf { it.name == io.github.nanomuse.cloud.NanoMuseCloud.LABEL && pinned.id !in it.memberEntryIds }
+                        ?.takeIf { it.name == io.github.lingtai.cloud.LingTaiCloud.LABEL && pinned.id !in it.memberEntryIds }
                     if (cloudGroup != null && resolveProviderFromGroup(cloudGroup.id)) {
                         _selectedGroupId.value = cloudGroup.id
                         AppLogger.info(
@@ -3862,8 +3862,8 @@ class ChatViewModel(
                         }
                     }
                 }
-                // nanoMuse: a pin on a provider switched off since (the Cloud instance above
-                // all: Settings › Models › Use nanoMuse Cloud models) must not keep answering,
+                // lingTai: a pin on a provider switched off since (the Cloud instance above
+                // all: Settings › Models › Use lingTai Cloud models) must not keep answering,
                 // and spending, on it; upstream re-resolves group bindings only. Drop the
                 // provider so the default chain below runs; restoreFromBinding refuses the
                 // pin too, so a reload cannot bring it back.
@@ -3965,11 +3965,11 @@ class ChatViewModel(
         // sessionId so re-entering the session reuses the same instance.
         if (isDraft) {
             ChatViewModelStore.rename(sessionId, session.id)
-            nmFirstConversation.rebind(fromDraft = sessionId, toReal = session.id) // nanoMuse
-            // nanoMuse: the home shell's main chat may have been this draft;
+            ltFirstConversation.rebind(fromDraft = sessionId, toReal = session.id) // lingTai
+            // lingTai: the home shell's main chat may have been this draft;
             // prompt addenda (goal creation etc.) follow the id too.
-            io.github.nanomuse.home.MainChat.onPromoted(context, sessionId, session.id)
-            io.github.nanomuse.chat.SessionAddenda.rebind(sessionId, session.id)
+            io.github.lingtai.home.MainChat.onPromoted(context, sessionId, session.id)
+            io.github.lingtai.chat.SessionAddenda.rebind(sessionId, session.id)
             // Bring every disk/shell resource that was opened with the draft
             // id over to the real id *before* agent tools start running against
             // the persisted session — otherwise the first tool call (e.g.
@@ -4083,7 +4083,7 @@ class ChatViewModel(
     }.getOrDefault(false)
 
     private fun loadSession() {
-        _nmContinueAsk.value = null // nanoMuse: the "continue?" card belongs to the session that hit the ceiling
+        _nmContinueAsk.value = null // lingTai: the "continue?" card belongs to the session that hit the ceiling
         // T-android-crash-detected-halt: when CrashFrequencyDetector
         // tripped (#459, ≥3 crashes in last hour), skip the heavy
         // session-restore path entirely. Re-running the same persisted
@@ -4139,7 +4139,7 @@ class ChatViewModel(
                     // newest-provider/newest-text-model. Was firstOrNull().
                     applyNewChatDefaultModel()
                 }
-                nmSeedFirstConversation() // nanoMuse: a fresh draft is where the first conversation starts
+                ltSeedFirstConversation() // lingTai: a fresh draft is where the first conversation starts
                 return@launch
             }
 
@@ -4174,7 +4174,7 @@ class ChatViewModel(
                         // session whose model lives on an OAuth provider unable
                         // to restore, despite being signed in.
                         val apiKey = providerRepository.usableApiKey(instance) ?: ""
-                        // nanoMuse: `&& instance.isEnabled`, so a remembered model on a provider
+                        // lingTai: `&& instance.isEnabled`, so a remembered model on a provider
                         // switched off since (the Cloud instance) falls back to the default.
                         if (providerRepository.hasAnyCredential(instance) && instance.isEnabled) {
                             currentProvider = ProviderFactory.create(instance, apiKey, entry.model, context)
@@ -4398,7 +4398,7 @@ class ChatViewModel(
                 }
                 applyCompactMarkerGraying(ordered, marker, loaded.messages, historyDbIds)
             }
-            nmSeedFirstConversation() // nanoMuse: re-seat the virtual opening in the session it belongs to
+            ltSeedFirstConversation() // lingTai: re-seat the virtual opening in the session it belongs to
 
             // Cold-start interrupt detection: an agent loop that was killed by
             // the OS (or app force-quit) leaves agentHistory in one of four
@@ -4423,11 +4423,11 @@ class ChatViewModel(
             // while a request is genuinely in flight THERE. Without it, Case D
             // would light Resume on a turn that is merely still waiting.
             val trackerActive = SessionActivityTracker.isActive(activeSessionId)
-            // nanoMuse: a tail another device wrote (a message synced in while that device
+            // lingTai: a tail another device wrote (a message synced in while that device
             // works on it) is not this phone's turn — no Resume banner, no PAUSED badge (C9).
-            val nmRemoteTail = lastEntry != null &&
-                io.github.nanomuse.sync.RemoteRows.isRemote(context, activeSessionId, lastEntry.dbMessageId)
-            if (lastEntry != null && !_isStreaming.value && !trackerActive && !nmRemoteTail) {
+            val ltRemoteTail = lastEntry != null &&
+                io.github.lingtai.sync.RemoteRows.isRemote(context, activeSessionId, lastEntry.dbMessageId)
+            if (lastEntry != null && !_isStreaming.value && !trackerActive && !ltRemoteTail) {
                 val isInterrupted = when (lastEntry.role) {
                     LLMMessage.Role.USER -> {
                         val parts = lastEntry.contentParts
@@ -4802,7 +4802,7 @@ class ChatViewModel(
                     // [T-android-group-resolve-skip-uncredentialed] An explicit
                     // entry pin on an OAuth provider must restore too.
                     if (!providerRepository.hasAnyCredential(instance)) return false
-                    // nanoMuse: a pin on a provider that is switched off falls back to the
+                    // lingTai: a pin on a provider that is switched off falls back to the
                     // default, as a group binding does; the Cloud instance switched off in
                     // Settings › Models must not answer a chat that once pinned one of its models.
                     if (!instance.isEnabled) return false
@@ -5148,7 +5148,7 @@ class ChatViewModel(
     fun clearChat() {
         if (_isStreaming.value) cancelStream()
         val sid = activeSessionId
-        io.github.nanomuse.guard.Grants.clearSession(sid) // nanoMuse: "allow for this chat" ends with the chat
+        io.github.lingtai.guard.Grants.clearSession(sid) // lingTai: "allow for this chat" ends with the chat
         // T-streaming-side-channel: ensure no stale stream delta survives a
         // session wipe; the messages list is about to be cleared, so any
         // pending key would be orphaned.
@@ -5163,7 +5163,7 @@ class ChatViewModel(
         _cachedLatestMarker = null
         toolLoopDetector.reset()
         _canResume.value = false
-        _nmContinueAsk.value = null // nanoMuse
+        _nmContinueAsk.value = null // lingTai
         _attachments.value = emptyList()
         _promptQueue.value = emptyList()
         _hasInjectedShareContent.value = false
@@ -5343,11 +5343,11 @@ class ChatViewModel(
 
         val initialProvider = currentProvider
         if (initialProvider == null) {
-            _error.value = context.getString(R.string.nm_chat_no_model) // nanoMuse: where to fix it, in the person's language
+            _error.value = context.getString(R.string.lt_chat_no_model) // lingTai: where to fix it, in the person's language
             return false
         }
         _canResume.value = false
-        _nmContinueAsk.value = null // nanoMuse
+        _nmContinueAsk.value = null // lingTai
         _error.value = null
 
         // T149 parity: revoke memory_writes in the parts we're about to drop
@@ -5498,7 +5498,7 @@ class ChatViewModel(
     fun retryFromMessage(messageId: String) {
         if (_isStreaming.value) return
         _canResume.value = false
-        _nmContinueAsk.value = null // nanoMuse
+        _nmContinueAsk.value = null // lingTai
         val messages = _messages.value
         val index = messages.indexOfFirst { it.id == messageId }
         if (index < 0) return
@@ -5509,7 +5509,7 @@ class ChatViewModel(
 
         val initialProvider = currentProvider
         if (initialProvider == null) {
-            _error.value = context.getString(R.string.nm_chat_no_model) // nanoMuse: where to fix it, in the person's language
+            _error.value = context.getString(R.string.lt_chat_no_model) // lingTai: where to fix it, in the person's language
             return
         }
         val provider: LLMProvider = initialProvider
@@ -5647,7 +5647,7 @@ class ChatViewModel(
     fun deleteFromMessage(messageId: String) {
         if (_isStreaming.value) return
         _canResume.value = false
-        _nmContinueAsk.value = null // nanoMuse
+        _nmContinueAsk.value = null // lingTai
         val messages = _messages.value
         val index = messages.indexOfFirst { it.id == messageId }
         if (index < 0) return
@@ -5804,7 +5804,7 @@ class ChatViewModel(
 
         val baseSystemPrompt = buildSystemPrompt()
         val systemPrompt = if ((provider as? com.openminis.app.provider.anthropic.AnthropicProvider)?.isOAuth == true) {
-            val prefix = io.github.nanomuse.cloud.ClaudeSignIn.identifier // nanoMuse: empty on a build without it, never throws; the provider refuses the send (#373)
+            val prefix = io.github.lingtai.cloud.ClaudeSignIn.identifier // lingTai: empty on a build without it, never throws; the provider refuses the send (#373)
             if (baseSystemPrompt?.startsWith(prefix) == true) baseSystemPrompt
             else "$prefix\n\n${baseSystemPrompt ?: ""}"
         } else baseSystemPrompt
@@ -6263,7 +6263,7 @@ class ChatViewModel(
             bodyPartsJson = queuedPaste?.partsJson,
         )
         val userEntity = chatRepository.appendMessage(sid, "user", userPartsJson)
-        io.github.nanomuse.sync.ConversationSync.sent(sid) // nanoMuse: pushed at send (C8), then "working" (C9)
+        io.github.lingtai.sync.ConversationSync.sent(sid) // lingTai: pushed at send (C8), then "working" (C9)
         agentHistory.add(
             LLMMessage(
                 role = LLMMessage.Role.USER,
@@ -6410,7 +6410,7 @@ class ChatViewModel(
                 bodyPartsJson = drainPaste?.partsJson,
             )
             chatRepository.appendMessage(sid, "user", userPartsJson)
-            io.github.nanomuse.sync.ConversationSync.sent(sid) // nanoMuse: pushed at send (C8), then "working" (C9)
+            io.github.lingtai.sync.ConversationSync.sent(sid) // lingTai: pushed at send (C8), then "working" (C9)
 
             agentHistory.add(LLMMessage(
                 role = LLMMessage.Role.USER,
@@ -6429,7 +6429,7 @@ class ChatViewModel(
                     fallbackProviders = fallbackProviders,
                     fallbackStrategy = fallbackStrategy,
                 )
-                nmAfterTurn() // nanoMuse: queued prompts complete turns too
+                ltAfterTurn() // lingTai: queued prompts complete turns too
             } catch (e: CancellationException) {
                 Log.d(TAG, "Agent loop (queued-drain) cancelled")
                 // Cancel mid-drain: cancelStream() will check _promptQueue
@@ -6444,75 +6444,75 @@ class ChatViewModel(
         }
     }
 
-    // nanoMuse: StarPrompt counts a task only for a turn the person started (composer, idea or
+    // lingTai: StarPrompt counts a task only for a turn the person started (composer, idea or
     // goal card) after the first conversation was over. The screens mark that just before
     // sendMessage; routines, the feed and goal checks (HeadlessChatRunner) never do, and the
     // screen takes the flag back when the stream ends.
-    @Volatile private var nmCountableTurn = false
+    @Volatile private var ltCountableTurn = false
 
-    fun nmMarkPersonTurn() {
-        val fc = nmFirstConversation
+    fun ltMarkPersonTurn() {
+        val fc = ltFirstConversation
         val sid = realSessionId.ifEmpty { sessionId }
-        nmCountableTurn = io.github.nanomuse.community.StarPrompt.Gate.countsAsTask(
+        ltCountableTurn = io.github.lingtai.community.StarPrompt.Gate.countsAsTask(
             personStarted = true,
-            firstConversationOver = !fc.isBoundTo(sid) || fc.phase == io.github.nanomuse.onboarding.Phase.DONE,
+            firstConversationOver = !fc.isBoundTo(sid) || fc.phase == io.github.lingtai.onboarding.Phase.DONE,
         )
     }
 
     /** Whether the turn that just ended was one of the person's; reading it clears it. */
-    fun nmTakeCountableTurn(): Boolean = nmCountableTurn.also { nmCountableTurn = false }
+    fun ltTakeCountableTurn(): Boolean = ltCountableTurn.also { ltCountableTurn = false }
 
     fun sendMessage(text: String) {
-        // nanoMuse: "change your avatar to …" (and a pick while the options are
+        // lingTai: "change your avatar to …" (and a pick while the options are
         // up) is handled in the app, not by the model.
-        if (nmInterceptAvatar(text)) { nmCountableTurn = false; return }
-        // nanoMuse: "@Mac …" opens a turn for that device — the mention comes out of the text,
-        // a one-turn note sends the work there through nanomuse-pc (contract C7, rule 8).
-        val nmText = io.github.nanomuse.sync.DeviceMention.apply(context, realSessionId.ifEmpty { sessionId }, text)
-        // nanoMuse: during the first conversation the text goes to the model as
-        // it is; the model says what it meant in a `nanomuse-naming` block and
-        // nmAfterTurn moves the phase (see FirstConversation).
-        sendMessage(nmText, skipContextCheck = false)
+        if (ltInterceptAvatar(text)) { ltCountableTurn = false; return }
+        // lingTai: "@Mac …" opens a turn for that device — the mention comes out of the text,
+        // a one-turn note sends the work there through lingtai-pc (contract C7, rule 8).
+        val ltText = io.github.lingtai.sync.DeviceMention.apply(context, realSessionId.ifEmpty { sessionId }, text)
+        // lingTai: during the first conversation the text goes to the model as
+        // it is; the model says what it meant in a `lingtai-naming` block and
+        // ltAfterTurn moves the phase (see FirstConversation).
+        sendMessage(ltText, skipContextCheck = false)
     }
 
-    // ─── nanoMuse: changing the face from the chat ─────────────────────────
-    // See io.github.nanomuse.avatar.AvatarFlow. The request and the pick are
+    // ─── lingTai: changing the face from the chat ─────────────────────────
+    // See io.github.lingtai.avatar.AvatarFlow. The request and the pick are
     // persisted as ordinary user/assistant messages (so the history stays
     // consistent and the model later sees what happened); the options card is
-    // virtual while the choice is open and is persisted as a `nanomuse-avatar`
+    // virtual while the choice is open and is persisted as a `lingtai-avatar`
     // fence once made. The share card is virtual only — the profile page has
     // the same share button.
 
-    private val nmAvatarCardId = "nm_avatar_options_card"
-    private val nmAvatarShareId = "nm_avatar_share_card"
-    private val nmAvatarConfirmId = "nm_avatar_confirm_card"
+    private val ltAvatarCardId = "lt_avatar_options_card"
+    private val ltAvatarShareId = "lt_avatar_share_card"
+    private val ltAvatarConfirmId = "lt_avatar_confirm_card"
 
     /** A face request waiting for a yes on the cost card (pictures paid from the Cloud allowance). */
-    private class NmPendingFace(val sid: String, val desc: String, val reference: android.graphics.Bitmap?, val blocked: Boolean)
-    private var nmPendingFace: NmPendingFace? = null
+    private class LtPendingFace(val sid: String, val desc: String, val reference: android.graphics.Bitmap?, val blocked: Boolean)
+    private var ltPendingFace: LtPendingFace? = null
 
-    private fun nmInterceptAvatar(text: String): Boolean {
-        val flow = io.github.nanomuse.avatar.AvatarFlow
+    private fun ltInterceptAvatar(text: String): Boolean {
+        val flow = io.github.lingtai.avatar.AvatarFlow
         val sid = realSessionId.ifEmpty { sessionId }
         // A pick or "again" while the options are up in this chat.
-        if (realSessionId.isNotEmpty() && flow.stage.value is io.github.nanomuse.avatar.AvatarFlow.Stage.Choosing && flow.isActiveIn(sid)) {
+        if (realSessionId.isNotEmpty() && flow.stage.value is io.github.lingtai.avatar.AvatarFlow.Stage.Choosing && flow.isActiveIn(sid)) {
             when (val c = flow.parseChoice(text)) {
-                is io.github.nanomuse.avatar.AvatarFlow.Choice.Index -> {
-                    if (io.github.nanomuse.avatar.AvatarStudio.slots.value.getOrNull(c.index) is io.github.nanomuse.avatar.AvatarStudio.Slot.Ready) {
+                is io.github.lingtai.avatar.AvatarFlow.Choice.Index -> {
+                    if (io.github.lingtai.avatar.AvatarStudio.slots.value.getOrNull(c.index) is io.github.lingtai.avatar.AvatarStudio.Slot.Ready) {
                         viewModelScope.launch {
-                            nmAppendUserLine(sid, text)
-                            nmChooseAvatarInternal(sid, c.index)
+                            ltAppendUserLine(sid, text)
+                            ltChooseAvatarInternal(sid, c.index)
                         }
                         return true
                     }
                 }
-                io.github.nanomuse.avatar.AvatarFlow.Choice.Regenerate -> {
-                    val desc = (flow.stage.value as? io.github.nanomuse.avatar.AvatarFlow.Stage.Choosing)?.description.orEmpty()
+                io.github.lingtai.avatar.AvatarFlow.Choice.Regenerate -> {
+                    val desc = (flow.stage.value as? io.github.lingtai.avatar.AvatarFlow.Stage.Choosing)?.description.orEmpty()
                     viewModelScope.launch {
-                        nmAppendUserLine(sid, text)
+                        ltAppendUserLine(sid, text)
                         if (flow.regenerate(context)) {
-                            nmAppendAssistantLine(sid, context.getString(R.string.nm_avatar_drawing_again))
-                            nmAnnounceWhenDrawn(sid, desc)
+                            ltAppendAssistantLine(sid, context.getString(R.string.lt_avatar_drawing_again))
+                            ltAnnounceWhenDrawn(sid, desc)
                         }
                     }
                     return true
@@ -6523,93 +6523,93 @@ class ChatViewModel(
         val desc = flow.parseRequest(text) ?: return false
         // Without an image model the request goes to the chat model as usual, with a one-turn
         // note so the agent itself explains what is missing and links the setting.
-        if (io.github.nanomuse.media.MediaModels.imageEndpoint(context) == null) {
-            io.github.nanomuse.chat.SessionAddenda.add(sid, "nm-media-missing", io.github.nanomuse.media.MediaModels.missingImageAddendum(), turns = 1)
+        if (io.github.lingtai.media.MediaModels.imageEndpoint(context) == null) {
+            io.github.lingtai.chat.SessionAddenda.add(sid, "lt-media-missing", io.github.lingtai.media.MediaModels.missingImageAddendum(), turns = 1)
             return false
         }
         val referenceUri = _attachments.value.firstOrNull { it.isImage }?.uri
         _attachments.value = emptyList()
         // The first conversation's "what should I call you?" is not answered by this.
-        nmFirstConversation.takeIf { it.isBoundTo(sid) }?.let { fc ->
-            if (fc.phase == io.github.nanomuse.onboarding.Phase.ASK_AGENT_NAME) {
+        ltFirstConversation.takeIf { it.isBoundTo(sid) }?.let { fc ->
+            if (fc.phase == io.github.lingtai.onboarding.Phase.ASK_AGENT_NAME) {
                 fc.dismissChooser()
-                _messages.value = _messages.value.filterNot { it.id == nmNamingCardId }
+                _messages.value = _messages.value.filterNot { it.id == ltNamingCardId }
             }
         }
         viewModelScope.launch {
             // A draft main chat gets its session row first, so the request and the
             // reply persist like any other turn.
             val realSid = ensureSession()
-            nmAppendUserLine(realSid, text)
+            ltAppendUserLine(realSid, text)
             val reference = withContext(Dispatchers.IO) { flow.loadReference(context, referenceUri) }
             // Pictures paid from the Cloud allowance are priced first: the card says what
             // this face costs and what is left today, and nothing is drawn until the yes.
-            if (io.github.nanomuse.cloud.FaceCost.onCloud(context)) {
-                val job = io.github.nanomuse.cloud.FaceCost.newFace(context)
-                val est = io.github.nanomuse.cloud.FaceCost.estimate(context, job)
-                nmPendingFace = NmPendingFace(realSid, desc, reference, io.github.nanomuse.cloud.FaceCost.blocked(est))
-                nmShowAvatarConfirmCard(io.github.nanomuse.cloud.FaceCost.describe(context, job, est))
+            if (io.github.lingtai.cloud.FaceCost.onCloud(context)) {
+                val job = io.github.lingtai.cloud.FaceCost.newFace(context)
+                val est = io.github.lingtai.cloud.FaceCost.estimate(context, job)
+                ltPendingFace = LtPendingFace(realSid, desc, reference, io.github.lingtai.cloud.FaceCost.blocked(est))
+                ltShowAvatarConfirmCard(io.github.lingtai.cloud.FaceCost.describe(context, job, est))
             } else {
-                nmStartFace(realSid, desc, reference)
+                ltStartFace(realSid, desc, reference)
             }
         }
         return true
     }
 
-    private suspend fun nmStartFace(realSid: String, desc: String, reference: android.graphics.Bitmap?) {
-        val flow = io.github.nanomuse.avatar.AvatarFlow
+    private suspend fun ltStartFace(realSid: String, desc: String, reference: android.graphics.Bitmap?) {
+        val flow = io.github.lingtai.avatar.AvatarFlow
         if (flow.start(context, realSid, desc, reference)) {
             // Honest about the wait: pictures take a while, so the reply says "drawing
             // now" at once (persisted, so the transcript never ends on an unanswered
             // user turn) and "here they are" only when the tiles have actually landed.
-            nmAppendAssistantLine(realSid, context.getString(R.string.nm_avatar_drawing_now, desc))
-            nmShowAvatarCard()
-            nmAnnounceWhenDrawn(realSid, desc)
+            ltAppendAssistantLine(realSid, context.getString(R.string.lt_avatar_drawing_now, desc))
+            ltShowAvatarCard()
+            ltAnnounceWhenDrawn(realSid, desc)
         } else {
             // No image model: say so as the agent, and point at the setting.
-            val why = io.github.nanomuse.avatar.AvatarStudio.error.value
-                ?: context.getString(R.string.nm_avatar_no_provider)
-            nmAppendAssistantLine(realSid, context.getString(R.string.nm_avatar_cannot_start, why))
+            val why = io.github.lingtai.avatar.AvatarStudio.error.value
+                ?: context.getString(R.string.lt_avatar_no_provider)
+            ltAppendAssistantLine(realSid, context.getString(R.string.lt_avatar_cannot_start, why))
         }
     }
 
-    private fun nmShowAvatarConfirmCard(text: String) {
-        _messages.value = _messages.value.filterNot { it.id == nmAvatarConfirmId } + ChatMessage(
-            id = nmAvatarConfirmId,
+    private fun ltShowAvatarConfirmCard(text: String) {
+        _messages.value = _messages.value.filterNot { it.id == ltAvatarConfirmId } + ChatMessage(
+            id = ltAvatarConfirmId,
             role = "system",
             content = "",
-            toolBlocks = listOf(AssistantBlock(id = "${nmAvatarConfirmId}_block", kind = "nm_avatar_confirm", content = text)),
+            toolBlocks = listOf(AssistantBlock(id = "${ltAvatarConfirmId}_block", kind = "lt_avatar_confirm", content = text)),
         )
     }
 
     /** Whether the pending face's estimate said the allowance does not cover it (the card's button reads "anyway"). */
-    fun nmAvatarConfirmBlocked(): Boolean = nmPendingFace?.blocked == true
+    fun ltAvatarConfirmBlocked(): Boolean = ltPendingFace?.blocked == true
 
     /** "Draw it" on the cost card. */
-    fun nmConfirmAvatar() {
-        val pending = nmPendingFace ?: return
-        nmPendingFace = null
-        _messages.value = _messages.value.filterNot { it.id == nmAvatarConfirmId }
-        viewModelScope.launch { nmStartFace(pending.sid, pending.desc, pending.reference) }
+    fun ltConfirmAvatar() {
+        val pending = ltPendingFace ?: return
+        ltPendingFace = null
+        _messages.value = _messages.value.filterNot { it.id == ltAvatarConfirmId }
+        viewModelScope.launch { ltStartFace(pending.sid, pending.desc, pending.reference) }
     }
 
     /** "Not now" on the cost card: the request is dropped, nothing was drawn or charged. */
-    fun nmDeclineAvatar() {
-        val pending = nmPendingFace ?: return
-        nmPendingFace = null
-        _messages.value = _messages.value.filterNot { it.id == nmAvatarConfirmId }
-        viewModelScope.launch { nmAppendAssistantLine(pending.sid, context.getString(R.string.nm_face_cost_declined)) }
+    fun ltDeclineAvatar() {
+        val pending = ltPendingFace ?: return
+        ltPendingFace = null
+        _messages.value = _messages.value.filterNot { it.id == ltAvatarConfirmId }
+        viewModelScope.launch { ltAppendAssistantLine(pending.sid, context.getString(R.string.lt_face_cost_declined)) }
     }
 
-    // ─── nanoMuse: the free allowance is spent ──────────────────────────────
+    // ─── lingTai: the free allowance is spent ──────────────────────────────
     // The relay's 429 arrives through the model client as "rate limited"; the
     // structured body was kept aside by AllowanceSignal. When the error is about
     // to be shown, the card with the two ways on (own key, invite)
     // is added under it — virtual, never persisted.
 
-    private val nmAllowanceCardId = "nm_allowance_card"
-    private val _nmAllowance = kotlinx.coroutines.flow.MutableStateFlow<io.github.nanomuse.cloud.AllowanceSignal.Exhausted?>(null)
-    val nmAllowance: kotlinx.coroutines.flow.StateFlow<io.github.nanomuse.cloud.AllowanceSignal.Exhausted?> = _nmAllowance
+    private val ltAllowanceCardId = "lt_allowance_card"
+    private val _nmAllowance = kotlinx.coroutines.flow.MutableStateFlow<io.github.lingtai.cloud.AllowanceSignal.Exhausted?>(null)
+    val ltAllowance: kotlinx.coroutines.flow.StateFlow<io.github.lingtai.cloud.AllowanceSignal.Exhausted?> = _nmAllowance
 
     /**
      * The error text to show for a failed turn — the allowance sentence when the relay said so
@@ -6618,59 +6618,59 @@ class ChatViewModel(
      * busy → *Try again* …), the reach card's canonical line when a provider's 401/403/429 was
      * kept aside by `ReachSignal`, [fallback] otherwise.
      */
-    private fun nmAllowanceErrorText(fallback: String): String {
-        val info = io.github.nanomuse.cloud.AllowanceSignal.takeFresh()
+    private fun ltAllowanceErrorText(fallback: String): String {
+        val info = io.github.lingtai.cloud.AllowanceSignal.takeFresh()
         if (info == null) {
-            io.github.nanomuse.cloud.AllowanceSignal.takeFreshRefusal()?.let { refusal ->
+            io.github.lingtai.cloud.AllowanceSignal.takeFreshRefusal()?.let { refusal ->
                 // a key the relay no longer takes: the account's state follows (contract C12)
-                if (refusal.kind == io.github.nanomuse.cloud.RelayRefusal.Kind.SIGNED_OUT) {
-                    viewModelScope.launch { runCatching { io.github.nanomuse.cloud.NanoMuseCloud.refresh(context) } }
+                if (refusal.kind == io.github.lingtai.cloud.RelayRefusal.Kind.SIGNED_OUT) {
+                    viewModelScope.launch { runCatching { io.github.lingtai.cloud.LingTaiCloud.refresh(context) } }
                 }
-                return io.github.nanomuse.cloud.RelayRefusal.canonical(refusal)
+                return io.github.lingtai.cloud.RelayRefusal.canonical(refusal)
             }
-            val reach = io.github.nanomuse.net.ReachSignal.takeFresh() ?: return fallback
-            return io.github.nanomuse.net.ProviderReach.canonical(reach)
+            val reach = io.github.lingtai.net.ReachSignal.takeFresh() ?: return fallback
+            return io.github.lingtai.net.ProviderReach.canonical(reach)
         }
         _nmAllowance.value = info
-        _messages.value = _messages.value.filterNot { it.id == nmAllowanceCardId } + ChatMessage(
-            id = nmAllowanceCardId,
+        _messages.value = _messages.value.filterNot { it.id == ltAllowanceCardId } + ChatMessage(
+            id = ltAllowanceCardId,
             role = "system",
             content = "",
-            toolBlocks = listOf(AssistantBlock(id = "${nmAllowanceCardId}_block", kind = "nm_allowance", content = "")),
+            toolBlocks = listOf(AssistantBlock(id = "${ltAllowanceCardId}_block", kind = "lt_allowance", content = "")),
         )
         // the cached account shows the pool as spent until the next /v1/me
-        viewModelScope.launch { runCatching { io.github.nanomuse.cloud.NanoMuseCloud.refresh(context) } }
-        if (info.dailyCap) return context.getString(R.string.nm_ways_title_day)
-        if (info.paused) return context.getString(R.string.nm_cloud_err_allowance_paused)
-        return io.github.nanomuse.cloud.NanoMuseCloud.allowanceSentence(context)
+        viewModelScope.launch { runCatching { io.github.lingtai.cloud.LingTaiCloud.refresh(context) } }
+        if (info.dailyCap) return context.getString(R.string.lt_ways_title_day)
+        if (info.paused) return context.getString(R.string.lt_cloud_err_allowance_paused)
+        return io.github.lingtai.cloud.LingTaiCloud.allowanceSentence(context)
     }
 
-    private var nmAllowanceCheckedAt = 0L
+    private var ltAllowanceCheckedAt = 0L
 
     /**
      * The 80 % heads-up, once per pool size: after a turn on the account's model, re-read the
      * account (at most once a minute) and, when the relay says `warn` and nothing has been
      * said for this pool yet, one line in the chat — never a dialog. The spent pool has its
-     * own card ([nmAllowanceErrorText]).
+     * own card ([ltAllowanceErrorText]).
      */
-    private fun nmAllowanceHeadsUp() {
-        val cloudId = io.github.nanomuse.cloud.NanoMuseCloud.instance(context)?.id ?: return
+    private fun ltAllowanceHeadsUp() {
+        val cloudId = io.github.lingtai.cloud.LingTaiCloud.instance(context)?.id ?: return
         val entryId = _activeEntryId.value ?: return
         val entry = providerRepository.config.value.modelEntries.find { it.id == entryId } ?: return
         if (entry.providerInstanceId != cloudId) return
         val now = System.currentTimeMillis()
-        if (now - nmAllowanceCheckedAt < 60_000) return
-        nmAllowanceCheckedAt = now
+        if (now - ltAllowanceCheckedAt < 60_000) return
+        ltAllowanceCheckedAt = now
         viewModelScope.launch {
-            val a = runCatching { io.github.nanomuse.cloud.NanoMuseCloud.refresh(context) }.getOrNull() ?: return@launch
+            val a = runCatching { io.github.lingtai.cloud.LingTaiCloud.refresh(context) }.getOrNull() ?: return@launch
             if (!a.limited || a.exhausted || !(a.warn || a.spendFraction >= 0.8f)) return@launch
-            if (!io.github.nanomuse.cloud.NanoMuseCloud.markWarned(context, a.grantCny)) return@launch
+            if (!io.github.lingtai.cloud.LingTaiCloud.markWarned(context, a.grantCny)) return@launch
             appendSystemInfo(
                 context.getString(
-                    R.string.nm_cloud_warn_line,
-                    io.github.nanomuse.ui.cloud.money(a.leftCny.coerceAtLeast(0.0)),
-                    io.github.nanomuse.ui.cloud.money(a.grantCny),
-                    io.github.nanomuse.cloud.NanoMuseCloud.inviteBonusText(context),
+                    R.string.lt_cloud_warn_line,
+                    io.github.lingtai.ui.cloud.money(a.leftCny.coerceAtLeast(0.0)),
+                    io.github.lingtai.ui.cloud.money(a.grantCny),
+                    io.github.lingtai.cloud.LingTaiCloud.inviteBonusText(context),
                 ),
                 "info",
             )
@@ -6682,96 +6682,96 @@ class ChatViewModel(
      * the chat — "pick one" when at least one picture came, what went wrong when none did.
      * Nothing is said if the person already chose or cancelled in the meantime.
      */
-    private fun nmAnnounceWhenDrawn(sid: String, desc: String) {
+    private fun ltAnnounceWhenDrawn(sid: String, desc: String) {
         viewModelScope.launch {
-            val slots = io.github.nanomuse.avatar.AvatarStudio.slots.first { list ->
-                list.none { it is io.github.nanomuse.avatar.AvatarStudio.Slot.Loading }
+            val slots = io.github.lingtai.avatar.AvatarStudio.slots.first { list ->
+                list.none { it is io.github.lingtai.avatar.AvatarStudio.Slot.Loading }
             }
-            val flow = io.github.nanomuse.avatar.AvatarFlow
-            if (!flow.isActiveIn(sid) || flow.stage.value !is io.github.nanomuse.avatar.AvatarFlow.Stage.Choosing) return@launch
-            if (slots.any { it is io.github.nanomuse.avatar.AvatarStudio.Slot.Ready }) {
-                nmAppendAssistantLine(sid, flow.optionsReadyText(context, desc))
+            val flow = io.github.lingtai.avatar.AvatarFlow
+            if (!flow.isActiveIn(sid) || flow.stage.value !is io.github.lingtai.avatar.AvatarFlow.Stage.Choosing) return@launch
+            if (slots.any { it is io.github.lingtai.avatar.AvatarStudio.Slot.Ready }) {
+                ltAppendAssistantLine(sid, flow.optionsReadyText(context, desc))
             } else {
-                val why = (slots.firstOrNull { it is io.github.nanomuse.avatar.AvatarStudio.Slot.Failed } as? io.github.nanomuse.avatar.AvatarStudio.Slot.Failed)?.message
-                    ?: context.getString(R.string.nm_avatar_no_provider)
-                nmAppendAssistantLine(sid, context.getString(R.string.nm_avatar_cannot_start, why))
+                val why = (slots.firstOrNull { it is io.github.lingtai.avatar.AvatarStudio.Slot.Failed } as? io.github.lingtai.avatar.AvatarStudio.Slot.Failed)?.message
+                    ?: context.getString(R.string.lt_avatar_no_provider)
+                ltAppendAssistantLine(sid, context.getString(R.string.lt_avatar_cannot_start, why))
             }
         }
     }
 
-    private fun nmShowAvatarCard() {
-        if (_messages.value.any { it.id == nmAvatarCardId }) return
-        _messages.value = _messages.value.filterNot { it.id == nmAvatarShareId } + ChatMessage(
-            id = nmAvatarCardId,
+    private fun ltShowAvatarCard() {
+        if (_messages.value.any { it.id == ltAvatarCardId }) return
+        _messages.value = _messages.value.filterNot { it.id == ltAvatarShareId } + ChatMessage(
+            id = ltAvatarCardId,
             role = "system",
             content = "",
-            toolBlocks = listOf(AssistantBlock(id = "${nmAvatarCardId}_block", kind = "nm_avatar_options")),
+            toolBlocks = listOf(AssistantBlock(id = "${ltAvatarCardId}_block", kind = "lt_avatar_options")),
         )
     }
 
     /** A tile on the options card was tapped. */
-    fun nmChooseAvatar(index: Int) {
+    fun ltChooseAvatar(index: Int) {
         val sid = realSessionId.ifEmpty { sessionId }
-        val flow = io.github.nanomuse.avatar.AvatarFlow
+        val flow = io.github.lingtai.avatar.AvatarFlow
         if (!flow.isActiveIn(sid)) return
         viewModelScope.launch {
-            nmAppendUserLine(sid, context.getString(R.string.nm_avatar_pick_line, index + 1))
-            nmChooseAvatarInternal(sid, index)
+            ltAppendUserLine(sid, context.getString(R.string.lt_avatar_pick_line, index + 1))
+            ltChooseAvatarInternal(sid, index)
         }
     }
 
     /** "Again" on the options card. */
-    fun nmRegenerateAvatar() {
-        val flow = io.github.nanomuse.avatar.AvatarFlow
+    fun ltRegenerateAvatar() {
+        val flow = io.github.lingtai.avatar.AvatarFlow
         val sid = realSessionId.ifEmpty { sessionId }
-        val desc = (flow.stage.value as? io.github.nanomuse.avatar.AvatarFlow.Stage.Choosing)?.description.orEmpty()
+        val desc = (flow.stage.value as? io.github.lingtai.avatar.AvatarFlow.Stage.Choosing)?.description.orEmpty()
         if (flow.regenerate(context) && realSessionId.isNotEmpty()) {
             viewModelScope.launch {
-                nmAppendAssistantLine(sid, context.getString(R.string.nm_avatar_drawing_again))
-                nmAnnounceWhenDrawn(sid, desc)
+                ltAppendAssistantLine(sid, context.getString(R.string.lt_avatar_drawing_again))
+                ltAnnounceWhenDrawn(sid, desc)
             }
         }
     }
 
     /** The options card was dismissed without a pick. */
-    fun nmCancelAvatar() {
-        io.github.nanomuse.avatar.AvatarFlow.cancel()
-        _messages.value = _messages.value.filterNot { it.id == nmAvatarCardId }
+    fun ltCancelAvatar() {
+        io.github.lingtai.avatar.AvatarFlow.cancel()
+        _messages.value = _messages.value.filterNot { it.id == ltAvatarCardId }
     }
 
-    fun nmDismissAvatarShare() {
-        _messages.value = _messages.value.filterNot { it.id == nmAvatarShareId }
+    fun ltDismissAvatarShare() {
+        _messages.value = _messages.value.filterNot { it.id == ltAvatarShareId }
     }
 
-    private suspend fun nmChooseAvatarInternal(sid: String, index: Int) {
-        val flow = io.github.nanomuse.avatar.AvatarFlow
-        val desc = (flow.stage.value as? io.github.nanomuse.avatar.AvatarFlow.Stage.Choosing)?.description ?: return
+    private suspend fun ltChooseAvatarInternal(sid: String, index: Int) {
+        val flow = io.github.lingtai.avatar.AvatarFlow
+        val desc = (flow.stage.value as? io.github.lingtai.avatar.AvatarFlow.Stage.Choosing)?.description ?: return
         val files = flow.choose(context, index) ?: return
-        _messages.value = _messages.value.filterNot { it.id == nmAvatarCardId }
+        _messages.value = _messages.value.filterNot { it.id == ltAvatarCardId }
         // Muse announces the new face at once; the poses land in the header as they finish.
-        val clipsNote = if (io.github.nanomuse.avatar.AvatarMotion.enabled(context)) " " + context.getString(R.string.nm_avatar_clips_coming) else ""
-        nmAppendAssistantLine(sid, flow.adoptedText(context, desc) + clipsNote + "\n\n" + flow.optionsFence(desc, index, files))
+        val clipsNote = if (io.github.lingtai.avatar.AvatarMotion.enabled(context)) " " + context.getString(R.string.lt_avatar_clips_coming) else ""
+        ltAppendAssistantLine(sid, flow.adoptedText(context, desc) + clipsNote + "\n\n" + flow.optionsFence(desc, index, files))
         viewModelScope.launch {
             val done = flow.done.first { it.sessionId == sid }
-            if (_messages.value.none { it.id == nmAvatarShareId }) {
+            if (_messages.value.none { it.id == ltAvatarShareId }) {
                 _messages.value = _messages.value + ChatMessage(
-                    id = nmAvatarShareId,
+                    id = ltAvatarShareId,
                     role = "system",
                     content = "", // the description travels in the block; text here would render as a bubble
-                    toolBlocks = listOf(AssistantBlock(id = "${nmAvatarShareId}_block", kind = "nm_avatar_share", content = done.description)),
+                    toolBlocks = listOf(AssistantBlock(id = "${ltAvatarShareId}_block", kind = "lt_avatar_share", content = done.description)),
                 )
             }
         }
     }
 
-    private suspend fun nmAppendUserLine(sid: String, text: String) {
+    private suspend fun ltAppendUserLine(sid: String, text: String) {
         val partsJson = """[{"type":"text","value":${escapeJson(text)}}]"""
         val entity = chatRepository.appendMessage(sid, "user", partsJson)
         agentHistory.add(LLMMessage(role = LLMMessage.Role.USER, content = text))
         _messages.value = _messages.value + ChatMessage(id = entity.id, role = "user", content = text)
     }
 
-    private suspend fun nmAppendAssistantLine(sid: String, text: String) {
+    private suspend fun ltAppendAssistantLine(sid: String, text: String) {
         val parts = listOf<AgentContentPart>(AgentContentPart.Text(text))
         val entity = chatRepository.appendMessage(sid, "assistant", buildAssistantPartsJson(parts))
         agentHistory.add(LLMMessage(role = LLMMessage.Role.ASSISTANT, content = text, contentParts = parts))
@@ -6786,75 +6786,75 @@ class ChatViewModel(
     }
     // ───────────────────────────────────────────────────────────────────────
 
-    // ─── nanoMuse: first conversation ──────────────────────────────────────
-    // See io.github.nanomuse.onboarding.FirstConversation for the flow. The
+    // ─── lingTai: first conversation ──────────────────────────────────────
+    // See io.github.lingtai.onboarding.FirstConversation for the flow. The
     // opening and the chooser are virtual messages: in _messages only, never
     // in the DB or agentHistory. The model hears about the phase through
     // buildSystemPrompt().
 
-    private val nmNamingCardId = "nm_naming_card"
+    private val ltNamingCardId = "lt_naming_card"
 
-    private suspend fun nmSeedFirstConversation() {
-        val fc = nmFirstConversation
+    private suspend fun ltSeedFirstConversation() {
+        val fc = ltFirstConversation
         val hasSessions = runCatching { chatRepository.observeSessions().first().isNotEmpty() }.getOrDefault(true)
         if (!fc.shouldShowIntro(sessionId, hasOtherSessions = hasSessions)) return
         fc.start(sessionId)
         val intro = fc.intro().mapIndexed { i, text ->
             ChatMessage(
-                id = "nm_intro_$i",
+                id = "lt_intro_$i",
                 role = "assistant",
                 content = text,
-                toolBlocks = listOf(AssistantBlock(id = "nm_intro_${i}_text", kind = "text", content = text)),
+                toolBlocks = listOf(AssistantBlock(id = "lt_intro_${i}_text", kind = "text", content = text)),
             )
         }
-        _messages.value = intro + _messages.value.filterNot { it.id.startsWith("nm_intro_") }
-        if (fc.phase == io.github.nanomuse.onboarding.Phase.ASK_AGENT_NAME) nmShowNamingCard()
+        _messages.value = intro + _messages.value.filterNot { it.id.startsWith("lt_intro_") }
+        if (fc.phase == io.github.lingtai.onboarding.Phase.ASK_AGENT_NAME) ltShowNamingCard()
     }
 
-    private fun nmShowNamingCard() {
-        if (_messages.value.any { it.id == nmNamingCardId }) return
+    private fun ltShowNamingCard() {
+        if (_messages.value.any { it.id == ltNamingCardId }) return
         _messages.value = _messages.value + ChatMessage(
-            id = nmNamingCardId,
+            id = ltNamingCardId,
             role = "system",
             content = "",
-            toolBlocks = listOf(AssistantBlock(id = "${nmNamingCardId}_block", kind = "nm_naming")),
+            toolBlocks = listOf(AssistantBlock(id = "${ltNamingCardId}_block", kind = "lt_naming")),
         )
     }
 
-    // nanoMuse: what the user typed during the first conversation goes to the model as it is —
+    // lingTai: what the user typed during the first conversation goes to the model as it is —
     // the model reads it (a name, a "no thanks", or something else entirely) and reports back in
-    // a `nanomuse-naming` block; see FirstConversation.afterTurn.
+    // a `lingtai-naming` block; see FirstConversation.afterTurn.
 
     /** A suggestion chip was tapped: name the agent and send the name as the user's message. */
-    fun nmPickName(name: String) {
-        nmFirstConversation.pick(name)
+    fun ltPickName(name: String) {
+        ltFirstConversation.pick(name)
         sendMessage(name, skipContextCheck = false)
     }
 
-    private fun nmAfterTurn() {
+    private fun ltAfterTurn() {
         val sid = realSessionId.ifEmpty { sessionId }
         // Goal blocks in the reply just finished, and the turn budget of any
         // prompt addendum, are settled first — they apply to every session.
-        io.github.nanomuse.chat.SessionAddenda.onTurnFinished(sid)
-        nmAllowanceHeadsUp()
+        io.github.lingtai.chat.SessionAddenda.onTurnFinished(sid)
+        ltAllowanceHeadsUp()
         _messages.value.lastOrNull { it.role == "assistant" }?.content?.let { text ->
-            io.github.nanomuse.goals.GoalFlow.afterTurn(context, sid, text)
-            io.github.nanomuse.feed.FeedFlow.afterTurn(context, sid, text)
+            io.github.lingtai.goals.GoalFlow.afterTurn(context, sid, text)
+            io.github.lingtai.feed.FeedFlow.afterTurn(context, sid, text)
         }
-        val fc = nmFirstConversation
+        val fc = ltFirstConversation
         if (!fc.isBoundTo(sid)) return
         val reply = _messages.value.lastOrNull { it.role == "assistant" }?.content
         val phaseBefore = fc.phase
         if (fc.afterTurn(reply)) {
             // The chooser sits under the latest question, so it moves down when the model
             // steered back after a detour.
-            _messages.value = _messages.value.filterNot { it.id == nmNamingCardId }
-            nmShowNamingCard()
+            _messages.value = _messages.value.filterNot { it.id == ltNamingCardId }
+            ltShowNamingCard()
         }
         // The agent has its name and a model just answered: the first feed day is written
         // in the background, once per install (FeedFlow).
-        if (phaseBefore != io.github.nanomuse.onboarding.Phase.DONE && fc.phase == io.github.nanomuse.onboarding.Phase.DONE) {
-            io.github.nanomuse.feed.FeedFlow.writeFirstDay(context)
+        if (phaseBefore != io.github.lingtai.onboarding.Phase.DONE && fc.phase == io.github.lingtai.onboarding.Phase.DONE) {
+            io.github.lingtai.feed.FeedFlow.writeFirstDay(context)
         }
     }
     // ───────────────────────────────────────────────────────────────────────
@@ -6926,7 +6926,7 @@ class ChatViewModel(
         // A fresh send supersedes any pending resume — mirror iOS which clears
         // canResume at the top of send().
         _canResume.value = false
-        _nmContinueAsk.value = null // nanoMuse
+        _nmContinueAsk.value = null // lingTai
         // T185: clear the share-injected flag the moment the user actually
         // sends. Without this, the "Move to…" capsule (gated on
         // hasInjectedShareContent) keeps floating over the user-message row
@@ -6939,7 +6939,7 @@ class ChatViewModel(
 
         val initialProvider = currentProvider
         if (initialProvider == null) {
-            _error.value = context.getString(R.string.nm_chat_no_model) // nanoMuse: where to fix it, in the person's language
+            _error.value = context.getString(R.string.lt_chat_no_model) // lingTai: where to fix it, in the person's language
             return
         }
         var provider: LLMProvider = initialProvider
@@ -6978,9 +6978,9 @@ class ChatViewModel(
         if (editingId != null) _editingMessageId.value = null
 
         viewModelScope.launch {
-            streamJob = coroutineContext[Job] // nanoMuse: Stop during the setup (session, attachments, the user row) cancels it too, not only the agent loop launched below (#340)
+            streamJob = coroutineContext[Job] // lingTai: Stop during the setup (session, attachments, the user row) cancels it too, not only the agent loop launched below (#340)
             var streamLaunched = false
-            var userRowShown = false // nanoMuse: set once the person's line is on screen; a Stop before that gives the composer its text back (#340)
+            var userRowShown = false // lingTai: set once the person's line is on screen; a Stop before that gives the composer its text back (#340)
             try {
             // Ensure session exists in DB (creates on first message for draft sessions)
             val activeSessionId = ensureSession()
@@ -7011,8 +7011,8 @@ class ChatViewModel(
                 bodyPartsJson = pasted?.partsJson,
             )
             val persistedUser = chatRepository.appendMessage(activeSessionId, "user", userPartsJson)
-            io.github.nanomuse.sync.ConversationSync.sent(activeSessionId) // nanoMuse: the person's line reaches the other devices at send (C8), then "working" (C9)
-            io.github.nanomuse.chat.RoutineWakes.claim(activeSessionId, persistedUser.id) // nanoMuse: a routine's prompt is marked as such on its row
+            io.github.lingtai.sync.ConversationSync.sent(activeSessionId) // lingTai: the person's line reaches the other devices at send (C8), then "working" (C9)
+            io.github.lingtai.chat.RoutineWakes.claim(activeSessionId, persistedUser.id) // lingTai: a routine's prompt is marked as such on its row
 
             val userMsg = ChatMessage(
                 id = persistedUser.id,
@@ -7037,7 +7037,7 @@ class ChatViewModel(
                 attachmentUris = prepared.nonImageUris + (pasted?.uiUris ?: emptyList()),
             )
             _messages.value = _messages.value + userMsg
-            userRowShown = true // nanoMuse: (#340)
+            userRowShown = true // lingTai: (#340)
             val imageParts = prepared.imageParts
 
             // T132: build the user contentParts in iOS order — caption first
@@ -7106,7 +7106,7 @@ class ChatViewModel(
             // Anthropic OAuth requires the Claude Code prefix in the system prompt
             val baseSystemPrompt = buildSystemPrompt()
             val systemPrompt = if ((provider as? com.openminis.app.provider.anthropic.AnthropicProvider)?.isOAuth == true) {
-                val prefix = io.github.nanomuse.cloud.ClaudeSignIn.identifier // nanoMuse: empty on a build without it, never throws; the provider refuses the send (#373)
+                val prefix = io.github.lingtai.cloud.ClaudeSignIn.identifier // lingTai: empty on a build without it, never throws; the provider refuses the send (#373)
                 if (baseSystemPrompt?.startsWith(prefix) == true) baseSystemPrompt
                 else "$prefix\n\n${baseSystemPrompt ?: ""}"
             } else baseSystemPrompt
@@ -7149,7 +7149,7 @@ class ChatViewModel(
                             fallbackStrategy = activeFallbackStrategy,
                         )
                         AppLogger.info(TAG_STREAM, "send runAgentLoop RETURN normal")
-                        nmAfterTurn() // nanoMuse: the first conversation steps forward when a turn completes
+                        ltAfterTurn() // lingTai: the first conversation steps forward when a turn completes
                         // Drain any prompts the user queued while this loop was running.
                         // Skipped on cancel: cancelled job won't reach here.
                         drainQueuedPrompts(provider, systemPrompt, fallbackProviders, activeFallbackStrategy)
@@ -7192,7 +7192,7 @@ class ChatViewModel(
                 AppLogger.info(TAG_STREAM, "send streamJob EXIT")
             }
             } catch (e: CancellationException) {
-                // nanoMuse: Stop before the user row is on screen means the message was not sent; the
+                // lingTai: Stop before the user row is on screen means the message was not sent; the
                 // composer gets its text and attachments back instead of losing them (#340)
                 if (!streamLaunched && !userRowShown) {
                     if (_inputText.value.isEmpty()) _inputText.value = text
@@ -7212,7 +7212,7 @@ class ChatViewModel(
      *
      *  Also clears [ChatMessage.isAwaitingModelResponse] — without this, an
      *  exception thrown after a tool turn (which sets isAwaitingModelResponse=
-     *  true at runAgentLoop ~4015) leaves the "nanoMuse is thinking" indicator
+     *  true at runAgentLoop ~4015) leaves the "lingTai is thinking" indicator
      *  on screen even though streaming is over. The flag is per-message and
      *  is not implicitly cleared by isStreaming=false. */
     private fun setInlineError(errorText: String) {
@@ -7222,10 +7222,10 @@ class ChatViewModel(
         // would stick across reloads. An exception with a blank `message`
         // (`e.message ?: "Unknown error"` only guards null, not "") is the
         // realistic source. Coalesce to a generic non-empty message.
-        // nanoMuse: a turn refused for a spent allowance gets the plain sentence and the ways-on card;
+        // lingTai: a turn refused for a spent allowance gets the plain sentence and the ways-on card;
         // a Claude sign-in on a build without its identifier gets its sentence in the person's language (#373).
-        val safeError = nmAllowanceErrorText(
-            io.github.nanomuse.cloud.ClaudeSignIn.userText(context, errorText).ifBlank { context.getString(R.string.error_empty_response_generic) },
+        val safeError = ltAllowanceErrorText(
+            io.github.lingtai.cloud.ClaudeSignIn.userText(context, errorText).ifBlank { context.getString(R.string.error_empty_response_generic) },
         )
         // T-streaming-side-channel: before mutating the canonical message,
         // drain any in-flight streaming delta so the error frame carries
@@ -7343,13 +7343,13 @@ class ChatViewModel(
      *   - Sync the DB: if we popped a trailing assistant, drop just its
      *     persisted row so a re-load doesn't resurrect the failed turn.
      */
-    // nanoMuse: "Use nanoMuse Cloud this time" — a turn on a model of the person's own that
+    // lingTai: "Use lingTai Cloud this time" — a turn on a model of the person's own that
     // failed is retried once on the relay's chat model; the chat's binding and every slot of
-    // Settings → Models stay as they are (io.github.nanomuse.chat.CloudRetry).
-    private var nmOneTurnProvider: LLMProvider? = null
-    fun nmOffersCloudRetry(): Boolean = io.github.nanomuse.chat.CloudRetry.offered(context, _activeEntryId.value)
-    fun nmRetryLastOnCloud() {
-        nmOneTurnProvider = io.github.nanomuse.chat.CloudRetry.provider(context) ?: return
+    // Settings → Models stay as they are (io.github.lingtai.chat.CloudRetry).
+    private var ltOneTurnProvider: LLMProvider? = null
+    fun ltOffersCloudRetry(): Boolean = io.github.lingtai.chat.CloudRetry.offered(context, _activeEntryId.value)
+    fun ltRetryLastOnCloud() {
+        ltOneTurnProvider = io.github.lingtai.chat.CloudRetry.provider(context) ?: return
         retryLast()
     }
 
@@ -7416,8 +7416,8 @@ class ChatViewModel(
             }
         }
 
-        // nanoMuse: one turn on the relay when the card asked for it; currentProvider is untouched
-        val initialProvider = nmOneTurnProvider?.also { nmOneTurnProvider = null } ?: currentProvider ?: return
+        // lingTai: one turn on the relay when the card asked for it; currentProvider is untouched
+        val initialProvider = ltOneTurnProvider?.also { ltOneTurnProvider = null } ?: currentProvider ?: return
         var provider: LLMProvider = initialProvider
         _error.value = null
 
@@ -7481,7 +7481,7 @@ class ChatViewModel(
 
             val baseSystemPrompt = buildSystemPrompt()
             val systemPrompt = if ((provider as? com.openminis.app.provider.anthropic.AnthropicProvider)?.isOAuth == true) {
-                val prefix = io.github.nanomuse.cloud.ClaudeSignIn.identifier // nanoMuse: empty on a build without it, never throws; the provider refuses the send (#373)
+                val prefix = io.github.lingtai.cloud.ClaudeSignIn.identifier // lingTai: empty on a build without it, never throws; the provider refuses the send (#373)
                 if (baseSystemPrompt?.startsWith(prefix) == true) baseSystemPrompt
                 else "$prefix\n\n${baseSystemPrompt ?: ""}"
             } else baseSystemPrompt
@@ -7509,7 +7509,7 @@ class ChatViewModel(
                             fallbackStrategy = activeFallbackStrategy,
                         )
                         AppLogger.info(TAG_STREAM, "retryLast runAgentLoop RETURN normal")
-                        nmAfterTurn() // nanoMuse
+                        ltAfterTurn() // lingTai
                         drainQueuedPrompts(provider, systemPrompt, fallbackProviders, activeFallbackStrategy)
                         AppLogger.info(TAG_STREAM, "retryLast drainQueuedPrompts RETURN")
                     } catch (e: CancellationException) {
@@ -8094,7 +8094,7 @@ class ChatViewModel(
         val allToolInputs = mutableMapOf<String, String>()
 
         // Add placeholder assistant message (once). Mark as awaiting so the
-        // "nanoMuse is thinking" indicator shows during the initial request gap
+        // "lingTai is thinking" indicator shows during the initial request gap
         // before the first stream chunk arrives. Mirrors iOS isAwaitingModelResponse.
         // T300: snapshot the user's current thinking level at message
         // creation so the renderer can hide Deep Thinking blocks for
@@ -8282,7 +8282,7 @@ class ChatViewModel(
                     // placeholder, while `loopExitedNormally = true` below
                     // deliberately skips finalizeAtTurnLimit at the loop tail.
                     //
-                    // Without this the bubble stays on "nanoMuse is thinking"
+                    // Without this the bubble stays on "lingTai is thinking"
                     // forever — the streamJob's finally only clears the GLOBAL
                     // _isStreaming, not the per-message flags. Reachable with no
                     // failure at all: ContextPolicy gives every model with a
@@ -8730,7 +8730,7 @@ class ChatViewModel(
                                 toolTitle = liveTitle,
                                 content = "",
                             )
-                            // nanoMuse: the words under the face follow the pill — as soon as the
+                            // lingTai: the words under the face follow the pill — as soon as the
                             // model's tool_title is in, the status line says it (not only at dispatch).
                             if (!partialTitle.isNullOrEmpty() && partialTitle != SessionActivityTracker.currentToolTitle.value) {
                                 SessionActivityTracker.updateToolStatus(
@@ -9569,7 +9569,7 @@ class ChatViewModel(
             }
 
             // Update UI with tool statuses. Mark as awaiting the next model
-            // response so "nanoMuse is thinking" shows during the network gap
+            // response so "lingTai is thinking" shows during the network gap
             // between tool results being sent and the next turn's first chunk.
             // Mirrors iOS isAwaitingModelResponse.
             withContext(Dispatchers.Main) {
@@ -9721,7 +9721,7 @@ class ChatViewModel(
         if (_streamingById.value.containsKey(assistantId)) {
             _streamingById.value = _streamingById.value - assistantId
         }
-        // nanoMuse: instead of an error, the chat asks "continue?" (the Resume state stays set
+        // lingTai: instead of an error, the chat asks "continue?" (the Resume state stays set
         // underneath, so the upstream banner still works if the card is dismissed).
         _nmContinueAsk.value = MAX_AGENT_TURNS
         // [T-android-group-pause-badge-restamp] A LIVE interruption just
@@ -9857,7 +9857,7 @@ class ChatViewModel(
             // [T-vision-group-attribution / GH#182] iOS rewrites the tool block's
             // live content here so the card names the model as it works. Android
             // has no equivalent channel — no tool streams partial output to its
-            // card, and the progress label ("nanoMuse is reading Image",
+            // card, and the progress label ("lingTai is reading Image",
             // ChatToolFormatting.kt:102) is a static per-tool string. Building
             // that plumbing is a separate change, so for now the per-attempt
             // signal goes to the log, where a fallback is still traceable. The
@@ -9950,17 +9950,17 @@ class ChatViewModel(
                 return ToolExecutionResult("Error: 'command' is required", false, toolTitle = toolTitle)
             }
 
-            // nanoMuse: delete / send / pay stop for the user's yes; installs run with a notice.
-            var nmNotice: String? = null
+            // lingTai: delete / send / pay stop for the user's yes; installs run with a notice.
+            var ltNotice: String? = null
             run {
                 val idx = toolBlocks.indexOfFirst { it.id == toolId }
-                val gate = io.github.nanomuse.guard.RiskGate.checkShell(activeSessionId, command)
+                val gate = io.github.lingtai.guard.RiskGate.checkShell(activeSessionId, command)
                 when (gate) {
-                    is io.github.nanomuse.guard.GateOutcome.Denied -> {
+                    is io.github.lingtai.guard.GateOutcome.Denied -> {
                         if (idx >= 0) toolBlocks[idx] = toolBlocks[idx].copy(content = "")
                         return ToolExecutionResult(gate.message, false, toolTitle = toolTitle)
                     }
-                    is io.github.nanomuse.guard.GateOutcome.Allowed -> nmNotice = gate.notice
+                    is io.github.lingtai.guard.GateOutcome.Allowed -> ltNotice = gate.notice
                 }
             }
 
@@ -10119,7 +10119,7 @@ class ChatViewModel(
             } ?: redactedOut
 
             ToolExecutionResult(
-                output = nmNotice?.let { "$withReminder\n\n$it" } ?: withReminder, // nanoMuse: install notice
+                output = ltNotice?.let { "$withReminder\n\n$it" } ?: withReminder, // lingTai: install notice
                 success = result.exitCode == 0,
                 toolTitle = toolTitle,
                 timedOut = timedOut,
@@ -10132,9 +10132,9 @@ class ChatViewModel(
     private suspend fun executeBrowserUseTool(argsJson: String): ToolExecutionResult {
         val input = BrowserActionInput.parse(argsJson)
             ?: return ToolExecutionResult("Error: Invalid browser_use input", false)
-        // nanoMuse: hand_over — the page needs the person; the browser goes to them and the call waits for Done.
+        // lingTai: hand_over — the page needs the person; the browser goes to them and the call waits for Done.
         if (input.action == com.openminis.app.browser.BrowserAction.HAND_OVER) {
-            return nmBrowserHandOver(input, argsJson)
+            return ltBrowserHandOver(input, argsJson)
         }
 
         return try {
@@ -10142,8 +10142,8 @@ class ChatViewModel(
             val toolTitle = try {
                 JSONObject(argsJson).optString("tool_title", "browser_use")
             } catch (_: Exception) { "browser_use" }
-            // nanoMuse: a refused password / code field hands the browser to the user.
-            if (result.text.contains(io.github.nanomuse.guard.BrowserGuard.HANDOFF_PREFIX)) {
+            // lingTai: a refused password / code field hands the browser to the user.
+            if (result.text.contains(io.github.lingtai.guard.BrowserGuard.HANDOFF_PREFIX)) {
                 withContext(Dispatchers.Main) { openBrowserSheetForUrl(result.pageURL ?: "") }
             }
 
@@ -10833,10 +10833,10 @@ CLI tools at /usr/local/bin with the `android-` prefix give you access to Androi
 - android-weather <latitude> <longitude> — Open-Meteo forecast (current + hourly + daily). No API key needed.
 - android-shizuku-cli — invoke privileged Android system APIs (package management, settings, system commands) via Shizuku when granted. Curated subcommands return structured JSON; for anything not covered, fall back to `android-shizuku-cli exec <any shell command>` which runs the command via `sh -c` with Shizuku privilege (same surface as `adb shell`). Run with no args (or --help) for the subcommand list.
 - android-a11y-cli — drive system UI (read screen, tap, type, swipe, scroll) via the Android AccessibilityService when enabled. Run with no args (or --help) for the subcommand list.
-- minis-open <url-or-path>: Opens a resource inside nanoMuse without leaving the chat. Accepts http/https URLs (→ built-in WebKit preview) and chat-resource file paths under /var/minis/** (→ built-in file preview, routed by extension: images to the image viewer, .md to markdown preview, .html to HTML preview, .pdf/office docs to QuickLook, audio/video to the media player, else share sheet). Examples: minis-open https://example.com, minis-open /var/minis/workspace/report.md, minis-open /var/minis/attachments/chart.png. Prefer this over android-open for anything that can be previewed in-app so the user doesn't lose conversation context. Use android-open for non-web schemes (tel:, mailto:, geo:, intent:, etc.) or when the user explicitly wants the system handler.
+- minis-open <url-or-path>: Opens a resource inside lingTai without leaving the chat. Accepts http/https URLs (→ built-in WebKit preview) and chat-resource file paths under /var/minis/** (→ built-in file preview, routed by extension: images to the image viewer, .md to markdown preview, .html to HTML preview, .pdf/office docs to QuickLook, audio/video to the media player, else share sheet). Examples: minis-open https://example.com, minis-open /var/minis/workspace/report.md, minis-open /var/minis/attachments/chart.png. Prefer this over android-open for anything that can be previewed in-app so the user doesn't lose conversation context. Use android-open for non-web schemes (tel:, mailto:, geo:, intent:, etc.) or when the user explicitly wants the system handler.
 - minis-sessions-cli: Manage chat sessions. `list` recent or by date range, `search --keywords` cross-session, `messages --id` to read, `send` to create/continue a session, `retry` to re-run, `status` to check, `open` to navigate the app UI. Run --help for full options.
 - minis-model-use: Invoke other LLM models pre-configured by the user. Use `minis-model-use list` to see them (includes each model's modality capabilities like image_output, audio_output, etc.), `minis-model-use search <query>` to filter by name/provider. `minis-model-use run --model <id_or_name>` sends an OpenAI-compatible messages request; pass input via --input <json_file> or stdin, output goes to stdout or --output <path>. The OpenAI shape is the PRIMARY input for every model and modality; standard params are auto-converted to the underlying provider, so do not hand-write provider-native bodies as the primary input. For provider-specific extras the standard schema doesn't model (web-search plugins, image-to-image fields, TTS/video or other custom endpoints), escape hatches exist for OpenAI-compatible providers (they error or are ignored on Anthropic/Gemini models): `extra_body` (object merged verbatim into the request body), a custom `endpoint` path, and a top-level `passthrough` envelope for fully verbatim requests with RAW (unparsed) responses. Results may carry `warnings` (fields that were ignored/downgraded and why) and `applied_extras` (which extras actually took effect) — read them to self-correct. Run --help for the full contract before using these. Models may support multimodal output (image generation, TTS/audio, video) — check the modalities field in list output. For image_output models, pass generation params in the input JSON: top-level `n`/`size`/`quality`/`prompt` (OpenAI /images/generations style) or `generation_config.{aspect_ratio,image_size,number_of_images,person_generation}` (Gemini). Run with --help for full usage.
-- minis-config: Read or change nanoMuse settings programmatically. Run `minis-config --help` for subcommands and `minis-config topic-help <topic>` for details on a specific area. For array-valued fields (e.g. `models`, `groups`, `envvars`, `defaults.agentLoopEntries`) the `get` subcommand accepts `--filter <keywords>` (whitespace-AND, case-insensitive substring match against each element's JSON) and `--page <N> --page-size <N>` (default 20, max 100) — use these instead of dumping the full list when you only need a subset, and check the response's `pagination` / `agent_hint` fields for the next-page command. Every write triggers an in-app confirmation sheet and is logged to a revertable audit (1000-entry rolling log). After a successful change the response includes a `user_message` field — relay it (or paraphrase) so the user knows how to review or revert via Settings → Logs → Config Changes. If the call returns `permission_denied`, the user has disabled minis-config in [Settings → Permissions](minis://settings/permissions); relay that message and don't retry. You CAN add new providers and write their `apiKey` (literal string OR a `${'$'}${'$'}ENV_VAR` reference to copy from an env var at write time), but `get` never echoes API keys / OAuth tokens / env var values back — those reads return `permission_denied` by design. OAuth tokens and env var values are not settable via this tool; for an env var, point the user at [Set ENV_NAME](minis://settings/environments?create_key=ENV_NAME&create_value=) so they enter the value themselves.
+- minis-config: Read or change lingTai settings programmatically. Run `minis-config --help` for subcommands and `minis-config topic-help <topic>` for details on a specific area. For array-valued fields (e.g. `models`, `groups`, `envvars`, `defaults.agentLoopEntries`) the `get` subcommand accepts `--filter <keywords>` (whitespace-AND, case-insensitive substring match against each element's JSON) and `--page <N> --page-size <N>` (default 20, max 100) — use these instead of dumping the full list when you only need a subset, and check the response's `pagination` / `agent_hint` fields for the next-page command. Every write triggers an in-app confirmation sheet and is logged to a revertable audit (1000-entry rolling log). After a successful change the response includes a `user_message` field — relay it (or paraphrase) so the user knows how to review or revert via Settings → Logs → Config Changes. If the call returns `permission_denied`, the user has disabled minis-config in [Settings → Permissions](minis://settings/permissions); relay that message and don't retry. You CAN add new providers and write their `apiKey` (literal string OR a `${'$'}${'$'}ENV_VAR` reference to copy from an env var at write time), but `get` never echoes API keys / OAuth tokens / env var values back — those reads return `permission_denied` by design. OAuth tokens and env var values are not settable via this tool; for an env var, point the user at [Set ENV_NAME](minis://settings/environments?create_key=ENV_NAME&create_value=) so they enter the value themselves.
 - minis-scheduled: Create and manage scheduled tasks — prompts that run automatically at a chosen time. `minis-scheduled create --time HH:MM --prompt "..." [--label L] [--repeat once|daily|weekdays|custom --days mon,tue,...] [--target new|follow-up|rerun --session <id> --message <id>] [--model <modelId>] [--start YYYY-MM-DD] [--end YYYY-MM-DD]` schedules it; `list` shows existing tasks (with nextTriggerMs and run history), `delete --id <taskId>`, `enable`/`disable --id <taskId>`, and `run --id <taskId>` fires one immediately. Target modes: `new` runs the prompt in a fresh chat; `follow-up` appends the prompt to an existing chat (--session); `rerun` re-runs an existing chat (--session) from a chosen user message (--message). Use this when the user asks to "remind me / do X every morning / run this later / schedule a task". Run --help for full usage.
 Interactive terminal: minis://open_terminal opens a terminal for tasks that require interactive stdin (passwords, ssh, TUI apps like htop/vi). Write it as a Markdown link in your response — the app opens it when tapped. The optional init_command parameter pre-fills (NOT executes) a command; it MUST be fully percent-encoded (spaces → %20, & → %26, | → %7C, etc.). Only use this for genuinely interactive sessions — for everything else, use shell_execute. Examples: [Open Terminal](minis://open_terminal), [Login to SSH](minis://open_terminal?init_command=ssh%20user%40host).
 
@@ -10904,8 +10904,8 @@ Scheduled tasks: crontab / at / nohup loops will stop when the app is suspended,
                 append("\n\n")
                 append(dailyMemoryFragment)
             }
-            // nanoMuse: USER.md — what the agent knows about the person, kept as a file they can edit.
-            io.github.nanomuse.sysfiles.UserFile.promptFragment(context)?.let { append("\n\n").append(it) }
+            // lingTai: USER.md — what the agent knows about the person, kept as a file they can edit.
+            io.github.lingtai.sysfiles.UserFile.promptFragment(context)?.let { append("\n\n").append(it) }
             // Runtime context goes last so the prefix above stays byte-stable
             // across requests within the same day. Keep ordering deterministic
             // (date → tz → lang → model count) — any reorder defeats the cache.
@@ -10913,27 +10913,27 @@ Scheduled tasks: crontab / at / nohup loops will stop when the app is suspended,
             append("- Current date: ").append(dateStr).append(" (").append(tzId).append(")\n")
             append("- Device language: ").append(lang).append("\n")
             append("- minis-model-use models available: ").append(modelUseCount)
-            // nanoMuse: the first-conversation addendum — a few lines for two
+            // lingTai: the first-conversation addendum — a few lines for two
             // turns, then null. Last so the cacheable prefix stays untouched.
-            if (nmFirstConversation.isBoundTo(realSessionId.ifEmpty { sessionId })) {
-                nmFirstConversation.promptAddendum()?.let { append("\n\n").append(it) }
+            if (ltFirstConversation.isBoundTo(realSessionId.ifEmpty { sessionId })) {
+                ltFirstConversation.promptAddendum()?.let { append("\n\n").append(it) }
             }
-            // nanoMuse: how approvals work here.
-            append("\n\n").append(io.github.nanomuse.guard.RiskPolicy.promptParagraph())
-            // nanoMuse: the three models (chat / image / video) and what is not set.
-            append("\n\n").append(io.github.nanomuse.media.MediaModels.promptParagraph(context))
-            // nanoMuse: the ladder for apps without an API, and the screen as the last rung.
-            append("\n\n").append(io.github.nanomuse.hands.Hands.promptParagraph(context))
-            // nanoMuse: the paired computers and nanomuse-pc.
-            append("\n\n").append(io.github.nanomuse.reach.Computers.promptParagraph(context))
-            // nanoMuse: turn-limited addenda for this session (goal creation).
-            io.github.nanomuse.chat.SessionAddenda.forPrompt(realSessionId.ifEmpty { sessionId })
+            // lingTai: how approvals work here.
+            append("\n\n").append(io.github.lingtai.guard.RiskPolicy.promptParagraph())
+            // lingTai: the three models (chat / image / video) and what is not set.
+            append("\n\n").append(io.github.lingtai.media.MediaModels.promptParagraph(context))
+            // lingTai: the ladder for apps without an API, and the screen as the last rung.
+            append("\n\n").append(io.github.lingtai.hands.Hands.promptParagraph(context))
+            // lingTai: the paired computers and lingtai-pc.
+            append("\n\n").append(io.github.lingtai.reach.Computers.promptParagraph(context))
+            // lingTai: turn-limited addenda for this session (goal creation).
+            io.github.lingtai.chat.SessionAddenda.forPrompt(realSessionId.ifEmpty { sessionId })
                 ?.let { append("\n\n").append(it) }
-            // nanoMuse: a goal's conversation carries the goal's context and reporting protocol.
-            io.github.nanomuse.goals.GoalFlow.systemAddendum(context, realSessionId.ifEmpty { sessionId })
+            // lingTai: a goal's conversation carries the goal's context and reporting protocol.
+            io.github.lingtai.goals.GoalFlow.systemAddendum(context, realSessionId.ifEmpty { sessionId })
                 ?.let { append("\n\n").append(it) }
-            // nanoMuse: the feed's conversation carries the user's feed preferences and the post protocol.
-            io.github.nanomuse.feed.FeedFlow.systemAddendum(context, realSessionId.ifEmpty { sessionId })
+            // lingTai: the feed's conversation carries the user's feed preferences and the post protocol.
+            io.github.lingtai.feed.FeedFlow.systemAddendum(context, realSessionId.ifEmpty { sessionId })
                 ?.let { append("\n\n").append(it) }
         }
     }
@@ -12076,7 +12076,7 @@ Scheduled tasks: crontab / at / nohup loops will stop when the app is suspended,
 
             val baseSystemPrompt = buildSystemPrompt()
             val systemPrompt = if ((provider as? com.openminis.app.provider.anthropic.AnthropicProvider)?.isOAuth == true) {
-                val prefix = io.github.nanomuse.cloud.ClaudeSignIn.identifier // nanoMuse: empty on a build without it, never throws; the provider refuses the send (#373)
+                val prefix = io.github.lingtai.cloud.ClaudeSignIn.identifier // lingTai: empty on a build without it, never throws; the provider refuses the send (#373)
                 if (baseSystemPrompt?.startsWith(prefix) == true) baseSystemPrompt
                 else "$prefix\n\n${baseSystemPrompt ?: ""}"
             } else baseSystemPrompt
@@ -12164,11 +12164,11 @@ Scheduled tasks: crontab / at / nohup loops will stop when the app is suspended,
      */
     private fun handleUserCancelledCleanup() {
         val msgs = _messages.value.toMutableList()
-        val lastIdx = io.github.nanomuse.chat.InterruptedReply.lastRealAssistantIndex(msgs) // nanoMuse: never the on-screen-only intro (#340)
+        val lastIdx = io.github.lingtai.chat.InterruptedReply.lastRealAssistantIndex(msgs) // lingTai: never the on-screen-only intro (#340)
         if (lastIdx < 0) return
         var last = msgs[lastIdx]
 
-        // T73: clear "nanoMuse is thinking…" the moment the user taps Stop.
+        // T73: clear "lingTai is thinking…" the moment the user taps Stop.
         // isAwaitingModelResponse is set true at runAgentLoop entry (≈ line
         // 2785) so the typing indicator shows during the initial request
         // gap before the first stream chunk. The cancel paths below didn't
@@ -12236,7 +12236,7 @@ Scheduled tasks: crontab / at / nohup loops will stop when the app is suspended,
         // Stop fired while still in the pre-first-chunk thinking gap (no
         // partial text, no tool_use emitted, no committed history for this
         // turn). The placeholder ChatMessage runAgentLoop pushed at L5248 is
-        // not in the DB and would otherwise render as an empty "nanoMuse" header
+        // not in the DB and would otherwise render as an empty "lingTai" header
         // bubble with no body. Drop it so the UI snaps back to idle the
         // instant the user taps Stop. Mirrors the iOS #566/#569 boundary:
         // a candidate WITH real text or any emitted tool_use is kept (handled
@@ -12264,7 +12264,7 @@ Scheduled tasks: crontab / at / nohup loops will stop when the app is suspended,
             )
             viewModelScope.launch(Dispatchers.IO) {
                 val partsJson = buildAssistantPartsJson(parts)
-                // nanoMuse: a session id the database does not know yet (Stop inside the session insert) must not take the process down (#340)
+                // lingTai: a session id the database does not know yet (Stop inside the session insert) must not take the process down (#340)
                 runCatching { chatRepository.appendMessage(activeSessionId, "assistant", partsJson) }
                     .onFailure { AppLogger.warning(TAG_STREAM, "cancel: interrupted reply not persisted: ${it.message}") }
             }
@@ -12320,11 +12320,11 @@ Scheduled tasks: crontab / at / nohup loops will stop when the app is suspended,
     fun resume() {
         if (_isStreaming.value || !_canResume.value) return
         val provider = currentProvider ?: run {
-            _error.value = context.getString(R.string.nm_chat_no_model) // nanoMuse: where to fix it, in the person's language
+            _error.value = context.getString(R.string.lt_chat_no_model) // lingTai: where to fix it, in the person's language
             return
         }
         _canResume.value = false
-        _nmContinueAsk.value = null // nanoMuse
+        _nmContinueAsk.value = null // lingTai
         _error.value = null
         // [T-error-persist-android] resume() follows finalizeAtTurnLimit's
         // setInlineError (which persisted an error sticker on the last assistant
@@ -12366,7 +12366,7 @@ Scheduled tasks: crontab / at / nohup loops will stop when the app is suspended,
             val baseSystemPrompt = buildSystemPrompt()
             val systemPrompt =
                 if ((provider as? com.openminis.app.provider.anthropic.AnthropicProvider)?.isOAuth == true) {
-                    val prefix = io.github.nanomuse.cloud.ClaudeSignIn.identifier // nanoMuse: empty on a build without it, never throws; the provider refuses the send (#373)
+                    val prefix = io.github.lingtai.cloud.ClaudeSignIn.identifier // lingTai: empty on a build without it, never throws; the provider refuses the send (#373)
                     if (baseSystemPrompt?.startsWith(prefix) == true) baseSystemPrompt
                     else "$prefix\n\n${baseSystemPrompt ?: ""}"
                 } else baseSystemPrompt
@@ -12395,7 +12395,7 @@ Scheduled tasks: crontab / at / nohup loops will stop when the app is suspended,
                             fallbackStrategy = activeFallbackStrategy,
                         )
                         AppLogger.info(TAG_STREAM, "resume runAgentLoop RETURN normal")
-                        nmAfterTurn() // nanoMuse
+                        ltAfterTurn() // lingTai
                         drainQueuedPrompts(provider, systemPrompt, fallbackProviders, activeFallbackStrategy)
                         AppLogger.info(TAG_STREAM, "resume drainQueuedPrompts RETURN")
                     } catch (e: CancellationException) {

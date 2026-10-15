@@ -19,16 +19,16 @@ import { HostWork } from "./host-work";
 import { ProtectedExit, type ExitDialog, type ExitIntent, type WorkItem, type WorkSource } from "./protected-exit";
 
 /**
- * nanoMuse Desktop — the nanoMuse desktop, built on DeepSeek Harness.
+ * lingTai Desktop — the lingTai desktop, built on DeepSeek Harness.
  *
  * The window shows the harness's own web app, served by a dsh Host this shell starts as a
  * child process: the Electron binary in Node mode (`ELECTRON_RUN_AS_NODE`, as the harness's
- * own desktop does), running the `dsh` that ships under `resources/dsh` with the nanoMuse
- * bundle (`harness/dsh-nanomuse`) installed next to it. The profile the Host boots lives
- * under `~/.nanomuse/desktop` and names the bundle; nothing is installed at first run and
+ * own desktop does), running the `dsh` that ships under `resources/dsh` with the lingTai
+ * bundle (`harness/dsh-lingtai`) installed next to it. The profile the Host boots lives
+ * under `~/.lingtai/desktop` and names the bundle; nothing is installed at first run and
  * no Node or pnpm is needed on the machine. When the runtime for the hands is bundled
  * (`resources/runtime`, the PyInstaller build the other desktop app carries too), the
- * preset's `nanomuse mcp` points at it, so the hands work out of the box.
+ * preset's `lingtai mcp` points at it, so the hands work out of the box.
  *
  * What the shell adds is small on purpose: a loading page with the face, the Host's URL
  * loaded once it is ready, external links in the browser, a menu with About and the
@@ -37,22 +37,22 @@ import { ProtectedExit, type ExitDialog, type ExitIntent, type WorkItem, type Wo
  * (docs/desktop.md, docs/harness.md).
  */
 
-const PROFILE = "nanomuse";
+const PROFILE = "lingtai";
 // The composition: the harness's base and Web app, its Schedule (the goals' automations and
 // the agent's reminders — an optional bundle of the harness, on by default here), then ours.
-const BUNDLES = ["@deepseek-ai/dsh-base", "@deepseek-ai/dsh-web-app", "@deepseek-ai/dsh-experimental-schedule-bundle", "dsh-nanomuse"];
-const BUNDLE = "dsh-nanomuse";
-const RELEASES_PAGE = "https://github.com/nano-muse/nanoMuse/releases/latest";
-const ISSUES_PAGE = "https://github.com/nano-muse/nanoMuse/issues";
-const DOCS_PAGE = "https://nanomuse.cn/docs/desktop";
+const BUNDLES = ["@deepseek-ai/dsh-base", "@deepseek-ai/dsh-web-app", "@deepseek-ai/dsh-experimental-schedule-bundle", "dsh-lingtai"];
+const BUNDLE = "dsh-lingtai";
+const RELEASES_PAGE = "https://github.com/econswarm/lingtai/releases/latest";
+const ISSUES_PAGE = "https://github.com/econswarm/lingtai/issues";
+const DOCS_PAGE = "https://lingtai.cn/docs/desktop";
 const HARNESS_PAGE = "https://github.com/deepseek-ai/deepseek-harness";
 
 const zh = (app.getLocale() || "").toLowerCase().startsWith("zh");
 const T = {
   starting: zh ? "正在启动…" : "Starting…",
-  notReady: zh ? "nanoMuse 没能启动" : "nanoMuse could not start",
-  stopped: zh ? "nanoMuse 的后台停止了" : "nanoMuse's host stopped",
-  stillStarting: zh ? "nanoMuse 还在启动" : "nanoMuse is still starting",
+  notReady: zh ? "灵台没能启动" : "灵台 could not start",
+  stopped: zh ? "灵台的后台停止了" : "灵台's host stopped",
+  stillStarting: zh ? "灵台还在启动" : "灵台 is still starting",
   stillStartingDetail: (waited: string) =>
     zh
       ? `后台已经启动了 ${waited}，进程还在运行。装好之后的第一次启动可能要好几分钟：系统会把应用的每个文件检查一遍（Windows 上是实时防护在扫描），磁盘慢的话更久；之后再启动就快了。可以继续等，也可以退出（退出会停掉还在启动的后台）。`
@@ -64,8 +64,8 @@ const T = {
   copied: zh ? "已复制。到 GitHub 发一个 issue 时贴上即可。" : "Copied. Paste it into a GitHub issue.",
   openLogFolder: zh ? "打开日志文件夹" : "Open the log folder",
   reportHint: zh ? "「复制详情」会把这段话和日志末尾复制下来，发 issue 时贴上：" : "Copy details puts this and the end of the log on the clipboard for an issue at",
-  about: zh ? "关于 nanoMuse" : "About nanoMuse",
-  website: zh ? "nanoMuse 官网" : "nanoMuse website",
+  about: zh ? "关于灵台" : "About 灵台",
+  website: zh ? "灵台官网" : "灵台 website",
   docs: zh ? "这个桌面版的说明" : "About this desktop",
   issue: zh ? "报告问题" : "Report an issue",
   builtOn: zh ? "基于 DeepSeek Harness（MIT）" : "Built on DeepSeek Harness (MIT)",
@@ -76,10 +76,10 @@ const T = {
   window: zh ? "窗口" : "Window",
   help: zh ? "帮助" : "Help",
   edit: zh ? "编辑" : "Edit",
-  open: zh ? "打开 nanoMuse" : "Open nanoMuse",
+  open: zh ? "打开灵台" : "Open 灵台",
   newChat: zh ? "新聊天" : "New chat",
   quickChat: zh ? "快速唤起" : "Quick chat",
-  quitApp: zh ? "退出 nanoMuse" : "Quit nanoMuse",
+  quitApp: zh ? "退出灵台" : "Quit 灵台",
   // the protected exit: what a real quit (later, a restart-update) would end
   exitBusyTitle: zh ? "有工作还在进行" : "Work is still in progress",
   exitBusyLead: zh ? "现在退出会结束这些工作：" : "Quitting now would end this work:",
@@ -121,18 +121,18 @@ let restarts = 0;
 let hostProxy = "";
 
 /**
- * `~/.nanomuse/desktop`, the harness home of this app alone — the CLI's `~/.dsh` is left alone.
- * `NANOMUSE_DESKTOP_HOME` moves it (`NANOMUSE_HARNESS_HOME`, the 0.1.28–0.1.29 name, still
- * counts). A home the app kept as nanoMuse Harness under `~/.nanomuse/harness` is taken over
+ * `~/.lingtai/desktop`, the harness home of this app alone — the CLI's `~/.dsh` is left alone.
+ * `LINGTAI_DESKTOP_HOME` moves it (`LINGTAI_HARNESS_HOME`, the 0.1.28–0.1.29 name, still
+ * counts). A home the app kept as lingTai Harness under `~/.lingtai/harness` is taken over
  * once, so the account and the chats of those two versions carry on.
  */
 let resolvedHome: string | undefined;
 function harnessHome(): string {
   if (resolvedHome) return resolvedHome;
-  const fromEnv = process.env.NANOMUSE_DESKTOP_HOME || process.env.NANOMUSE_HARNESS_HOME;
+  const fromEnv = process.env.LINGTAI_DESKTOP_HOME || process.env.LINGTAI_HARNESS_HOME;
   if (fromEnv) return (resolvedHome = fromEnv);
-  const home = join(homedir(), ".nanomuse", "desktop");
-  const previous = join(homedir(), ".nanomuse", "harness");
+  const home = join(homedir(), ".lingtai", "desktop");
+  const previous = join(homedir(), ".lingtai", "harness");
   if (!existsSync(home) && existsSync(join(previous, "profiles"))) {
     try {
       renameSync(previous, home);
@@ -157,7 +157,7 @@ function log(line: string): void {
   const stamped = `${new Date().toISOString().slice(11, 19)} ${line}`;
   logs.push(stamped);
   if (logs.length > 200) logs.shift();
-  console.log(`[nanomuse-desktop] ${line}`);
+  console.log(`[lingtai-desktop] ${line}`);
   try {
     mkdirSync(harnessHome(), { recursive: true });
     appendFileSync(join(harnessHome(), "desktop.log"), `${stamped}\n`);
@@ -177,16 +177,16 @@ function shipped(): Shipped {
   }
 }
 
-/** The bundled runtime's executable (`nanomuse mcp` serves the hands), when it was built in. */
+/** The bundled runtime's executable (`lingtai mcp` serves the hands), when it was built in. */
 function bundledRuntime(): string | undefined {
-  const exe = join(resourcesDir(), "runtime", process.platform === "win32" ? "nanomuse.exe" : "nanomuse");
+  const exe = join(resourcesDir(), "runtime", process.platform === "win32" ? "lingtai.exe" : "lingtai");
   return existsSync(exe) ? exe : undefined;
 }
 
 /**
- * The profile the Host boots: `~/.nanomuse/desktop/profiles/nanomuse`. Three small files the
+ * The profile the Host boots: `~/.lingtai/desktop/profiles/lingtai`. Three small files the
  * harness reads (the manifest with the bundle list, the empty root, the person's own patch
- * layer, which dsh writes settings into) and one link: `node_modules/dsh-nanomuse` → the copy
+ * layer, which dsh writes settings into) and one link: `node_modules/dsh-lingtai` → the copy
  * under resources, which is how the Loader finds a bundle that is not among the harness's own
  * packages. The link is refreshed every start, so moving the app or updating it is enough.
  */
@@ -225,7 +225,7 @@ function ensureProfile(dshDir: string): string {
   if (!existsSync(join(dir, "cordis.patch.yml"))) {
     writeFileSync(
       join(dir, "cordis.patch.yml"),
-      "# Your patch layer for this dsh profile, applied after every bundle layer:\n# a top-level YAML array of loader patch entries. nanoMuse Desktop and dsh\n# write settings here; you may edit it too.\n[]\n",
+      "# Your patch layer for this dsh profile, applied after every bundle layer:\n# a top-level YAML array of loader patch entries. lingTai Desktop and dsh\n# write settings here; you may edit it too.\n[]\n",
     );
   }
   const link = join(dir, "node_modules", BUNDLE);
@@ -284,7 +284,7 @@ async function hostPort(home: string): Promise<number> {
 
 /**
  * A GUI launch on macOS and Linux inherits the session's environment, not the shell's, so
- * the agent's bash and `nanomuse` on PATH would miss Homebrew and the like. Ask the login
+ * the agent's bash and `lingtai` on PATH would miss Homebrew and the like. Ask the login
  * shell once for its PATH, as the harness's own desktop does; anything else is left as is.
  */
 function loginShellPath(): string | undefined {
@@ -321,17 +321,17 @@ function startHost(): Promise<string> {
           ...process.env,
           ELECTRON_RUN_AS_NODE: "1",
           DSH_HOME: home,
-          // One secret per launch, shared by the bundle and the runtime's `nanomuse mcp`
+          // One secret per launch, shared by the bundle and the runtime's `lingtai mcp`
           // server: a hands step the person must agree to is confirmed with a ticket only
           // the bundle can make (after the permission card), never by the model's own word.
-          NANOMUSE_MCP_CONFIRM: randomBytes(24).toString("hex"),
+          LINGTAI_MCP_CONFIRM: randomBytes(24).toString("hex"),
         };
         if (operatorServer) {
-          // The hands themselves: the runtime's `nanomuse mcp` (a child of the host, which
+          // The hands themselves: the runtime's `lingtai mcp` (a child of the host, which
           // inherits this environment) finds the operator here and moves the mouse, types
           // and takes the screenshot through this process (src/operator.ts).
-          env.NANOMUSE_OPERATOR_URL = operatorServer.url;
-          env.NANOMUSE_OPERATOR_TOKEN = operatorServer.token;
+          env.LINGTAI_OPERATOR_URL = operatorServer.url;
+          env.LINGTAI_OPERATOR_TOKEN = operatorServer.token;
         }
         const shellPath = loginShellPath();
         if (shellPath) env.PATH = shellPath;
@@ -343,17 +343,17 @@ function startHost(): Promise<string> {
         hostProxy = proxied.HTTPS_PROXY ?? "";
         if (hostProxy) log(`proxy: providers through ${maskProxyUrl(hostProxy)}; never for ${proxied.NO_PROXY}`);
         const runtime = bundledRuntime();
-        if (!env.NANOMUSE_PY && runtime) env.NANOMUSE_PY = runtime;
+        if (!env.LINGTAI_PY && runtime) env.LINGTAI_PY = runtime;
         // Loud when the hands have nothing to run: a packaged build without its runtime, or
-        // NANOMUSE_PY (from the login shell) pointing at a file that is not there. The
+        // LINGTAI_PY (from the login shell) pointing at a file that is not there. The
         // Computer-use page shows the same with the fix; this is for the log people send in.
-        if (env.NANOMUSE_PY && !existsSync(env.NANOMUSE_PY)) {
-          log(`runtime: NANOMUSE_PY=${env.NANOMUSE_PY} does not exist — the hands are off until it is fixed or unset`);
-        } else if (!env.NANOMUSE_PY && app.isPackaged) {
-          log(`runtime: no bundled runtime at ${join(resourcesDir(), "runtime")} and NANOMUSE_PY is not set — the hands are off (rebuild with the runtime, or install nanomuse and set NANOMUSE_PY)`);
+        if (env.LINGTAI_PY && !existsSync(env.LINGTAI_PY)) {
+          log(`runtime: LINGTAI_PY=${env.LINGTAI_PY} does not exist — the hands are off until it is fixed or unset`);
+        } else if (!env.LINGTAI_PY && app.isPackaged) {
+          log(`runtime: no bundled runtime at ${join(resourcesDir(), "runtime")} and LINGTAI_PY is not set — the hands are off (rebuild with the runtime, or install lingtai and set LINGTAI_PY)`);
         }
         const args = ["--expose-internals", bin, PROFILE, "--no-open", "--port", String(port)];
-        log(`host: ${process.execPath} ${args.join(" ")} (DSH_HOME=${home}${env.NANOMUSE_PY ? `, NANOMUSE_PY=${env.NANOMUSE_PY}` : ""})`);
+        log(`host: ${process.execPath} ${args.join(" ")} (DSH_HOME=${home}${env.LINGTAI_PY ? `, LINGTAI_PY=${env.LINGTAI_PY}` : ""})`);
         const proc = spawn(process.execPath, args, { cwd: homedir(), env, stdio: ["ignore", "pipe", "pipe"], windowsHide: true });
         child = proc;
         hostStderr = "";
@@ -440,7 +440,7 @@ async function askKeepWaiting(watch: HostStartWatch, state: WaitState): Promise<
     if (quitting || startWatch !== watch) return;
     if (response === 1) {
       clipboard.writeText(details(`${T.stillStarting} (${waited})`));
-      await dialog.showMessageBox({ type: "info", title: "nanoMuse", message: T.copied, buttons: ["OK"] });
+      await dialog.showMessageBox({ type: "info", title: "lingTai", message: T.copied, buttons: ["OK"] });
       continue;
     }
     if (response === 2) {
@@ -592,7 +592,7 @@ function details(message: string): string {
   return [
     message,
     "",
-    `nanoMuse Desktop ${app.getVersion()} · dsh ${s.dsh ?? "?"} · ${BUNDLE} ${s.bundle ?? "?"}`,
+    `lingTai Desktop ${app.getVersion()} · dsh ${s.dsh ?? "?"} · ${BUNDLE} ${s.bundle ?? "?"}`,
     `Electron ${process.versions.electron} · ${process.platform} ${process.arch}`,
     `home: ${harnessHome()}`,
     "",
@@ -619,7 +619,7 @@ async function reportStartupFailure(exc: unknown): Promise<void> {
     });
     if (response === 0) {
       clipboard.writeText(details(message));
-      await dialog.showMessageBox({ type: "info", title: "nanoMuse", message: T.copied, buttons: ["OK"] });
+      await dialog.showMessageBox({ type: "info", title: "lingTai", message: T.copied, buttons: ["OK"] });
       continue;
     }
     if (response === 1) {
@@ -715,7 +715,7 @@ const PERMISSION_PANES: Record<PermissionKind | "files", string> = {
   files: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles",
 };
 
-// ---- macOS: "nanoMuse Computer Use", the helper that holds the hands' permissions ----------
+// ---- macOS: "lingTai Computer Use", the helper that holds the hands' permissions ----------
 //
 // The grants go to the responsible process, so a separate app bundle started through `open`
 // has its own rows in the Screen Recording and Accessibility panes and can be restarted on
@@ -747,7 +747,7 @@ async function helperReady(): Promise<boolean> {
 
 /** What the permission dialogs name as the switch to flip. */
 function permissionTarget(): string {
-  return macPermissions.helperInUse() ? HELPER_NAME : "nanoMuse Desktop";
+  return macPermissions.helperInUse() ? HELPER_NAME : "lingTai Desktop";
 }
 
 let awakeBlocker: number | null = null;
@@ -839,7 +839,7 @@ function quickChat(): void {
     return;
   }
   const win = showWindow();
-  win?.webContents.send("nanomuse:quick-chat");
+  win?.webContents.send("lingtai:quick-chat");
 }
 
 function applyQuickChat(): void {
@@ -872,11 +872,11 @@ function applyMenuBar(): void {
     log(`menu bar: ${String(exc)}`);
     return;
   }
-  tray.setToolTip("nanoMuse");
+  tray.setToolTip("lingTai");
   tray.setContextMenu(
     Menu.buildFromTemplate([
       { label: T.open, click: () => void showWindow() },
-      { label: T.newChat, accelerator: prefs.quickChat ? quickChatKey() : undefined, click: () => showWindow()?.webContents.send("nanomuse:quick-chat") },
+      { label: T.newChat, accelerator: prefs.quickChat ? quickChatKey() : undefined, click: () => showWindow()?.webContents.send("lingtai:quick-chat") },
       { type: "separator" },
       { label: T.quit, click: () => protectedQuit() },
     ]),
@@ -888,12 +888,12 @@ function applyOpenAtLogin(): void {
   if (process.platform === "linux") {
     // freedesktop autostart: a .desktop entry pointing at this executable (the AppImage or the installed binary)
     const dir = join(process.env.XDG_CONFIG_HOME || join(homedir(), ".config"), "autostart");
-    const file = join(dir, "nanomuse-desktop.desktop");
+    const file = join(dir, "lingtai-desktop.desktop");
     try {
       if (prefs.openAtLogin) {
         mkdirSync(dir, { recursive: true });
         const exe = process.env.APPIMAGE || process.execPath;
-        writeFileSync(file, `[Desktop Entry]\nType=Application\nName=nanoMuse\nExec="${exe}"\nIcon=nanomuse-desktop\nX-GNOME-Autostart-enabled=true\nTerminal=false\n`);
+        writeFileSync(file, `[Desktop Entry]\nType=Application\nName=lingTai\nExec="${exe}"\nIcon=lingtai-desktop\nX-GNOME-Autostart-enabled=true\nTerminal=false\n`);
       } else rmSync(file, { force: true });
     } catch (exc) {
       log(`open at login: ${String(exc)}`);
@@ -923,15 +923,15 @@ function prefsView(): Prefs & { quickChatKey: string; quickChatDefault: string; 
 async function reportBug(): Promise<{ screenshot: string; url: string }> {
   const s = shipped();
   const facts = [
-    `nanoMuse Desktop ${app.getVersion()} · ${process.platform} ${process.arch}`,
-    `DeepSeek Harness ${s.dsh ?? "?"} · dsh-nanomuse ${s.bundle ?? "?"} · Electron ${process.versions.electron}`,
+    `lingTai Desktop ${app.getVersion()} · ${process.platform} ${process.arch}`,
+    `DeepSeek Harness ${s.dsh ?? "?"} · dsh-lingtai ${s.bundle ?? "?"} · Electron ${process.versions.electron}`,
   ];
   let screenshot = "";
   if (mainWindow) {
     try {
       const image = await mainWindow.webContents.capturePage();
       const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
-      screenshot = join(app.getPath("downloads"), `nanoMuse-${stamp}.png`);
+      screenshot = join(app.getPath("downloads"), `lingTai-${stamp}.png`);
       writeFileSync(screenshot, image.toPNG());
     } catch (exc) {
       log(`report: no screenshot: ${String(exc)}`);
@@ -946,7 +946,7 @@ async function reportBug(): Promise<{ screenshot: string; url: string }> {
     surface: "Desktop app",
     version: app.getVersion(),
     os: facts.join(" · "),
-    what: screenshot ? `\n\n(Drag the screenshot nanoMuse saved to Downloads, ${screenshot.split(/[\\/]/).pop()}, in here.)` : "",
+    what: screenshot ? `\n\n(Drag the screenshot lingTai saved to Downloads, ${screenshot.split(/[\\/]/).pop()}, in here.)` : "",
   });
   const url = `${ISSUES_PAGE}/new?${params.toString()}`;
   void shell.openExternal(url);
@@ -956,8 +956,8 @@ async function reportBug(): Promise<{ screenshot: string; url: string }> {
 /** The requests the preload bridge forwards from the web client (see preload.ts). */
 function registerBridge(): void {
   // appImage: the Linux build runs from an AppImage (the runtime sets APPIMAGE), so About offers the AppImage of a newer version, not the .deb
-  ipcMain.handle("nanomuse:info", () => ({ version: app.getVersion(), platform: process.platform, arch: process.arch, appImage: Boolean(process.env.APPIMAGE) }));
-  ipcMain.handle("nanomuse:permissions", async () => {
+  ipcMain.handle("lingtai:info", () => ({ version: app.getVersion(), platform: process.platform, arch: process.arch, appImage: Boolean(process.env.APPIMAGE) }));
+  ipcMain.handle("lingtai:permissions", async () => {
     // the helper's grants, fresh, when it runs — started again when it went away (the
     // "Quit & Reopen" the Screen Recording switch offers ends it); `helper` tells the page
     // which rows to name
@@ -969,7 +969,7 @@ function registerBridge(): void {
       helper: macPermissions.helperInUse(),
     };
   });
-  ipcMain.handle("nanomuse:permissions:request", async (_e, kind: PermissionKind) => {
+  ipcMain.handle("lingtai:permissions:request", async (_e, kind: PermissionKind) => {
     if (process.platform !== "darwin") return "not-needed" satisfies PermissionState;
     if (!(kind in PERMISSION_PANES)) return "denied" satisfies PermissionState;
     if (kind === "accessibility") requestAccessibility();
@@ -980,26 +980,26 @@ function registerBridge(): void {
   // macOS applies Screen Recording only to freshly started processes: after granting it, the
   // process that takes the screenshots has to start again — the helper when it is in use,
   // the whole app otherwise.
-  ipcMain.handle("nanomuse:relaunch", () => {
+  ipcMain.handle("lingtai:relaunch", () => {
     relaunchNow();
   });
-  ipcMain.handle("nanomuse:permissions:settings", (_e, kind: PermissionKind | "files") => {
+  ipcMain.handle("lingtai:permissions:settings", (_e, kind: PermissionKind | "files") => {
     if (process.platform === "darwin" && typeof kind === "string" && kind in PERMISSION_PANES) void shell.openExternal(PERMISSION_PANES[kind]);
   });
-  ipcMain.handle("nanomuse:open-external", (_e, url: string) => {
+  ipcMain.handle("lingtai:open-external", (_e, url: string) => {
     if (typeof url === "string" && EXTERNAL_URL.test(url)) void shell.openExternal(url);
   });
-  ipcMain.handle("nanomuse:keep-awake", (_e, on: boolean) => {
+  ipcMain.handle("lingtai:keep-awake", (_e, on: boolean) => {
     if (on === true && awakeBlocker === null) awakeBlocker = powerSaveBlocker.start("prevent-display-sleep");
     else if (on !== true) releaseAwake();
   });
-  ipcMain.handle("nanomuse:theme", (_e, theme: string) => {
+  ipcMain.handle("lingtai:theme", (_e, theme: string) => {
     mainWindow?.setBackgroundColor(theme === "dark" ? BASE_DARK : BASE_LIGHT);
     // the Windows caption buttons follow the page's colour scheme
     if (process.platform === "win32") mainWindow?.setTitleBarOverlay?.(overlayColors(theme === "dark"));
   });
-  ipcMain.handle("nanomuse:prefs", () => prefsView());
-  ipcMain.handle("nanomuse:prefs:set", (_e, patch: Partial<Prefs>) => {
+  ipcMain.handle("lingtai:prefs", () => prefsView());
+  ipcMain.handle("lingtai:prefs:set", (_e, patch: Partial<Prefs>) => {
     if (patch && typeof patch === "object") {
       for (const key of ["openAtLogin", "menuBar", "quickChat"] as const) if (typeof patch[key] === "boolean") prefs = { ...prefs, [key]: patch[key] };
       if (typeof patch.quickChatKey === "string") {
@@ -1024,14 +1024,14 @@ function registerBridge(): void {
     return prefsView();
   });
   // the Network row's *Restart now*: the Host again with the proxy just set, the window staying
-  ipcMain.handle("nanomuse:restart-host", () => restartHost());
-  ipcMain.handle("nanomuse:report-bug", () => reportBug());
-  ipcMain.handle("nanomuse:permissions:guide", () => guidePermissions());
-  ipcMain.handle("nanomuse:content-protection", (e, on: boolean) => {
+  ipcMain.handle("lingtai:restart-host", () => restartHost());
+  ipcMain.handle("lingtai:report-bug", () => reportBug());
+  ipcMain.handle("lingtai:permissions:guide", () => guidePermissions());
+  ipcMain.handle("lingtai:content-protection", (e, on: boolean) => {
     // The main window too, while the hands work: the agent should not read its own chat off the screen.
     if (e.sender === mainWindow?.webContents) mainWindow?.setContentProtection(on === true);
   });
-  ipcMain.handle("nanomuse:reveal", (_e, path: string) => {
+  ipcMain.handle("lingtai:reveal", (_e, path: string) => {
     if (typeof path === "string" && path && existsSync(path)) shell.showItemInFolder(path);
   });
 }
@@ -1249,7 +1249,7 @@ function ensureOperator(): Promise<OperatorServer | null> {
   operator ??= new Operator({
     log,
     permissions: () => ({ accessibility: permissionState("accessibility") !== "denied", screen: permissionState("screen") === "granted" || permissionState("screen") === "not-needed" }),
-    // macOS: "nanoMuse Computer Use" takes the screenshots and moves the mouse when it is there (src/mac-helper.ts)
+    // macOS: "lingTai Computer Use" takes the screenshots and moves the mouse when it is there (src/mac-helper.ts)
     helper: helper() ?? undefined,
     onAction: async (marker) => {
       setMarker(marker);
@@ -1309,7 +1309,7 @@ function ensureOperator(): Promise<OperatorServer | null> {
         log(`operator: ${info?.available ? "available" : `not available (${info?.reason ?? "?"})`} · display ${info?.display.width}×${info?.display.height} (scale ${info?.display.scaleFactor})`);
       };
       // macOS: the line is about the helper's grants once it runs — written after it is up
-      // (or has failed), not before, when it would name nanoMuse Desktop's own rows
+      // (or has failed), not before, when it would name lingTai Desktop's own rows
       if (process.platform === "darwin" && helper()?.present()) void helperReady().then(status, status);
       else status();
       return server;
@@ -1444,7 +1444,7 @@ async function capsuleDodge(marker: Marker): Promise<void> {
 }
 
 function sendOverlay(win: BrowserWindow | null, state: unknown): void {
-  if (win && !win.isDestroyed()) win.webContents.send("nanomuse:overlay:state", state);
+  if (win && !win.isDestroyed()) win.webContents.send("lingtai:overlay:state", state);
 }
 
 /** The marker still worth showing: the operator's last action, less than MARKER_MS ago. */
@@ -1526,7 +1526,7 @@ function applyOverlay(): void {
 }
 
 function registerOverlays(): void {
-  ipcMain.on("nanomuse:overlay", (e, state: OverlayState) => {
+  ipcMain.on("lingtai:overlay", (e, state: OverlayState) => {
     if (e.sender !== mainWindow?.webContents || !state || typeof state !== "object") return;
     const hands = state.hands && typeof state.hands === "object" ? state.hands : null;
     overlayState = {
@@ -1557,20 +1557,20 @@ function registerOverlays(): void {
     };
     applyOverlay();
   });
-  ipcMain.on("nanomuse:overlay:ready", (e) => {
+  ipcMain.on("lingtai:overlay:ready", (e) => {
     if (e.sender === glowWindow?.webContents) sendOverlay(glowWindow, overlayState.hands ? { ...overlayState.hands } : { active: false });
     if (e.sender === capsuleWindow?.webContents) sendOverlay(capsuleWindow, { hands: overlayState.hands && (overlayState.hands.active || overlayState.hands.held) ? overlayState.hands : null, cards: overlayState.cards });
   });
-  ipcMain.on("nanomuse:overlay:act", (e, payload: { card?: string; action?: string }) => {
+  ipcMain.on("lingtai:overlay:act", (e, payload: { card?: string; action?: string }) => {
     if (e.sender !== capsuleWindow?.webContents || !payload) return;
-    mainWindow?.webContents.send("nanomuse:overlay:action", { card: String(payload.card ?? ""), action: String(payload.action ?? "") });
+    mainWindow?.webContents.send("lingtai:overlay:action", { card: String(payload.card ?? ""), action: String(payload.action ?? "") });
   });
-  ipcMain.on("nanomuse:overlay:leak", (e, leak: unknown) => {
+  ipcMain.on("lingtai:overlay:leak", (e, leak: unknown) => {
     // Linux: the glow's page saw the pointer — only possible when its input shape is gone
     if (process.platform !== "linux" || e.sender !== glowWindow?.webContents || !leakIsReal(leak)) return;
     repairGlowShape(leak);
   });
-  ipcMain.on("nanomuse:overlay:resize", (e, height: number) => {
+  ipcMain.on("lingtai:overlay:resize", (e, height: number) => {
     if (e.sender !== capsuleWindow?.webContents || typeof height !== "number") return;
     const h = Math.max(48, Math.min(480, Math.round(height)));
     const b = capsuleWindow.getBounds();
@@ -1595,14 +1595,14 @@ async function guidePermissions(): Promise<Record<PermissionKind, PermissionStat
   if (permissionState("accessibility") !== "granted") {
     const { response } = await dialog.showMessageBox({
       type: "info",
-      message: zh ? "nanoMuse 需要「辅助功能」权限" : "nanoMuse needs Accessibility",
+      message: zh ? "灵台需要「辅助功能」权限" : "灵台 needs Accessibility",
       detail: zh
         ? viaHelper
-          ? `动手操作电脑要靠它移动鼠标和输入。系统会弹出请求；在「系统设置 → 隐私与安全性 → 辅助功能」里打开 ${target} 即可。这是 nanoMuse 自带的一个小程序，专门负责截图和操作，权限只给它。`
-          : "动手操作电脑要靠它移动鼠标和输入。系统会弹出请求；在「系统设置 → 隐私与安全性 → 辅助功能」里打开 nanoMuse Desktop 即可。它附带的运行时作为应用的一部分运行，不会单独出现在列表里。"
+          ? `动手操作电脑要靠它移动鼠标和输入。系统会弹出请求；在「系统设置 → 隐私与安全性 → 辅助功能」里打开 ${target} 即可。这是灵台自带的一个小程序，专门负责截图和操作，权限只给它。`
+          : "动手操作电脑要靠它移动鼠标和输入。系统会弹出请求；在「系统设置 → 隐私与安全性 → 辅助功能」里打开灵台 Desktop 即可。它附带的运行时作为应用的一部分运行，不会单独出现在列表里。"
         : viaHelper
-          ? `The hands move the mouse and type through it. The system asks next; in System Settings → Privacy & Security → Accessibility, switch on ${target}, the small program nanoMuse brings along for the screenshots and the input. Only it needs the permission.`
-          : "The hands move the mouse and type through it. The system asks next; in System Settings → Privacy & Security → Accessibility, switch on nanoMuse Desktop. The runtime it bundles runs as part of the app and does not appear separately.",
+          ? `The hands move the mouse and type through it. The system asks next; in System Settings → Privacy & Security → Accessibility, switch on ${target}, the small program lingTai brings along for the screenshots and the input. Only it needs the permission.`
+          : "The hands move the mouse and type through it. The system asks next; in System Settings → Privacy & Security → Accessibility, switch on lingTai Desktop. The runtime it bundles runs as part of the app and does not appear separately.",
       buttons: [zh ? "继续" : "Continue", zh ? "以后再说" : "Later"],
       defaultId: 0,
       cancelId: 1,
@@ -1612,14 +1612,14 @@ async function guidePermissions(): Promise<Record<PermissionKind, PermissionStat
   if (permissionState("screen") !== "granted") {
     const { response } = await dialog.showMessageBox({
       type: "info",
-      message: zh ? "nanoMuse 需要「屏幕录制」权限" : "nanoMuse needs Screen Recording",
+      message: zh ? "灵台需要「屏幕录制」权限" : "灵台 needs Screen Recording",
       detail: zh
         ? viaHelper
           ? `它靠截图看到屏幕上有什么。点「继续」后系统会询问一次；在「屏幕录制」面板里打开 ${target}（只需要这一项）。打开后它会自己重新启动，应用本身不用重启。`
-          : "它靠截图看到屏幕上有什么。点「继续」后系统会询问一次；在「屏幕录制」面板里打开 nanoMuse Desktop（只需要这一项），然后重新启动应用：macOS 的这项权限只对重新启动后的应用生效。"
+          : "它靠截图看到屏幕上有什么。点「继续」后系统会询问一次；在「屏幕录制」面板里打开灵台 Desktop（只需要这一项），然后重新启动应用：macOS 的这项权限只对重新启动后的应用生效。"
         : viaHelper
           ? `It sees the screen through screenshots. After Continue the system asks once; switch on ${target} in the Screen Recording pane (that one entry is all). It restarts by itself once the switch is on; the app does not need to.`
-          : "It sees the screen through screenshots. After Continue the system asks once; switch on nanoMuse Desktop in the Screen Recording pane (that one entry is all), then relaunch the app: macOS applies this permission to freshly started apps only.",
+          : "It sees the screen through screenshots. After Continue the system asks once; switch on lingTai Desktop in the Screen Recording pane (that one entry is all), then relaunch the app: macOS applies this permission to freshly started apps only.",
       buttons: [zh ? "继续" : "Continue", zh ? "以后再说" : "Later"],
       defaultId: 0,
       cancelId: 1,
@@ -1696,7 +1696,7 @@ let relaunching = false;
  * effect. With the helper in use that is the helper alone — `/quit` and a fresh `open`, the
  * app and the conversation untouched. Otherwise the whole app: through `app.quit()`, not
  * `app.exit()`, so `before-quit` stops the host and the operator server first and the old
- * `nanomuse mcp` — started before the permission was granted, and so still without it —
+ * `lingtai mcp` — started before the permission was granted, and so still without it —
  * does not outlive the relaunch.
  */
 function relaunchNow(): void {
@@ -1750,8 +1750,8 @@ function watchScreenGrant(): void {
         type: "info",
         message: zh ? "屏幕录制已允许，重新启动后生效" : "Screen Recording is on; it takes effect after a restart",
         detail: zh
-          ? "macOS 只对重新启动后的应用应用这项权限。现在重新启动 nanoMuse，手就能看到屏幕；否则截图仍是一片黑。"
-          : "macOS applies this permission to freshly started apps only. Restart nanoMuse now and the hands see the screen; until then screenshots come back black.",
+          ? "macOS 只对重新启动后的应用应用这项权限。现在重新启动灵台，手就能看到屏幕；否则截图仍是一片黑。"
+          : "macOS applies this permission to freshly started apps only. Restart lingTai now and the hands see the screen; until then screenshots come back black.",
         buttons: [zh ? "立即重启" : "Restart now", zh ? "稍后" : "Later"],
         defaultId: 0,
         cancelId: 1,
@@ -1788,7 +1788,7 @@ function createWindow(): BrowserWindow {
     height: 840,
     minWidth: 960,
     minHeight: 620,
-    title: "nanoMuse",
+    title: "lingTai",
     icon: process.platform === "darwin" ? undefined : nativeImage.createFromPath(iconPath()),
     backgroundColor: nativeTheme.shouldUseDarkColors ? BASE_DARK : BASE_LIGHT,
     show: false,
@@ -1803,8 +1803,8 @@ function createWindow(): BrowserWindow {
     webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true, spellcheck: false, preload: join(__dirname, "preload.js") },
   });
   win.once("ready-to-show", () => win.show());
-  win.on("enter-full-screen", () => win.webContents.send("nanomuse:fullscreen", true));
-  win.on("leave-full-screen", () => win.webContents.send("nanomuse:fullscreen", false));
+  win.on("enter-full-screen", () => win.webContents.send("lingtai:fullscreen", true));
+  win.on("leave-full-screen", () => win.webContents.send("lingtai:fullscreen", false));
   // the harness names its document after itself; the window keeps ours
   win.on("page-title-updated", (e) => e.preventDefault());
   win.webContents.setWindowOpenHandler(({ url }) => {
@@ -1877,20 +1877,20 @@ function about(): void {
   const s = shipped();
   const lines = [
     // the same version line as the web client's About (About.tsx `versionLine`)
-    `nanoMuse Desktop ${app.getVersion()} · harness ${s.bundle ?? "?"}`,
+    `lingTai Desktop ${app.getVersion()} · harness ${s.bundle ?? "?"}`,
     zh ? "一个开源的个人智能体，装在你的每一台设备上。" : "An open-source personal agent for every device you own.",
     "",
     `DeepSeek Harness ${s.dsh ?? "?"} (MIT) · ${BUNDLE} ${s.bundle ?? "?"} (GPL-3.0-or-later)`,
     `Electron ${process.versions.electron} · Chromium ${process.versions.chrome}`,
     "",
     zh
-      ? "nanoMuse 是社区项目，与 Meta 无关；Muse 是 Meta 的商标。基于 DeepSeek Harness 构建，DeepSeek Harness 是 DeepSeek 的名称。"
-      : "nanoMuse is a community project with no affiliation to Meta; Muse is a trademark of Meta. Built on DeepSeek Harness, a name of DeepSeek's.",
+      ? "灵台是社区项目，与 Meta 无关；Muse 是 Meta 的商标。基于 DeepSeek Harness 构建，DeepSeek Harness 是 DeepSeek 的名称。"
+      : "lingTai is a community project with no affiliation to Meta; Muse is a trademark of Meta. Built on DeepSeek Harness, a name of DeepSeek's.",
   ];
   void dialog.showMessageBox({
     type: "info",
     title: T.about,
-    message: "nanoMuse",
+    message: "lingTai",
     detail: lines.join("\n"),
     buttons: ["OK"],
     icon: nativeImage.createFromPath(iconPath()),
@@ -1899,7 +1899,7 @@ function about(): void {
 
 function buildMenu(): void {
   const help: Electron.MenuItemConstructorOptions[] = [
-    { label: T.website, click: () => void shell.openExternal("https://nanomuse.cn/") },
+    { label: T.website, click: () => void shell.openExternal("https://lingtai.cn/") },
     { label: T.docs, click: () => void shell.openExternal(DOCS_PAGE) },
     { label: T.releases, click: () => void shell.openExternal(RELEASES_PAGE) },
     { label: T.issue, click: () => void shell.openExternal(ISSUES_PAGE) },
@@ -1917,7 +1917,7 @@ function buildMenu(): void {
     ...(process.platform === "darwin"
       ? [
           {
-            label: "nanoMuse",
+            label: "lingTai",
             submenu: [
               { label: T.about, click: about },
               { type: "separator" },
@@ -1979,10 +1979,10 @@ if (!app.requestSingleInstanceLock({ version: app.getVersion() })) {
     showWindow();
   });
   app.setAboutPanelOptions({
-    applicationName: "nanoMuse",
+    applicationName: "lingTai",
     applicationVersion: app.getVersion(),
-    copyright: "GPL-3.0-or-later · the nanoMuse community · built on DeepSeek Harness (MIT)",
-    website: "https://nanomuse.cn/",
+    copyright: "GPL-3.0-or-later · the lingTai community · built on DeepSeek Harness (MIT)",
+    website: "https://lingtai.cn/",
   });
   app.whenReady().then(async () => {
     registerBridge();
@@ -1991,7 +1991,7 @@ if (!app.requestSingleInstanceLock({ version: app.getVersion() })) {
     prefs = readPrefs();
     applyPrefs();
     exitGuard = new ProtectedExit({ work: workSource, dialog: exitDialog, finish: () => app.quit(), log });
-    log(`nanoMuse Desktop ${app.getVersion()} starting (${process.platform} ${process.arch}, packaged=${app.isPackaged})`);
+    log(`lingTai Desktop ${app.getVersion()} starting (${process.platform} ${process.arch}, packaged=${app.isPackaged})`);
     if (operatorCheckFlag) {
       await operatorCheck(operatorCheckFlag);
       return;

@@ -652,8 +652,8 @@ class BrowserUseManager(
 
     suspend fun execute(input: BrowserActionInput): BrowserActionResult {
         val prevUrl = withContext(Dispatchers.Main) { webView.url }
-        val nmGate = nmGuard(input) // nanoMuse: secret fields refused, pay/send/delete taps approved first
-        nmGate.blocked?.let { return it }
+        val ltGate = ltGuard(input) // lingTai: secret fields refused, pay/send/delete taps approved first
+        ltGate.blocked?.let { return it }
         var result: BrowserActionResult = when (input.action) {
             BrowserAction.NAVIGATE -> navigate(input.url)
             BrowserAction.SCREENSHOT -> return screenshot(fullPage = input.fullPage)
@@ -679,7 +679,7 @@ class BrowserUseManager(
             BrowserAction.WAIT_FOR_DOM_STABLE -> return waitForDomStable(input.timeoutMs)
             BrowserAction.NEW_TAB, BrowserAction.CLOSE_TAB, BrowserAction.LIST_TABS ->
                 return BrowserActionResult.error("Tab management actions must be routed through BrowserTabPool")
-            // nanoMuse: handled by the chat before the pool sees it
+            // lingTai: handled by the chat before the pool sees it
             BrowserAction.HAND_OVER ->
                 return BrowserActionResult.error("hand_over is handled by the chat, not by a tab")
         }
@@ -703,8 +703,8 @@ class BrowserUseManager(
             }
         }
 
-        // nanoMuse: a remembered approval (or a payment that ran on one) is told to the model.
-        nmGate.notice?.let { if (result.success) result = result.copy(text = result.text + "\n" + it) }
+        // lingTai: a remembered approval (or a payment that ran on one) is told to the model.
+        ltGate.notice?.let { if (result.success) result = result.copy(text = result.text + "\n" + it) }
         return result
     }
 
@@ -992,34 +992,34 @@ class BrowserUseManager(
         return file
     }
 
-    // nanoMuse: the guard's word on an action — [blocked] when it may not run, else an optional [notice] for the model.
-    private data class NmGate(val blocked: BrowserActionResult? = null, val notice: String? = null)
+    // lingTai: the guard's word on an action — [blocked] when it may not run, else an optional [notice] for the model.
+    private data class LtGate(val blocked: BrowserActionResult? = null, val notice: String? = null)
 
-    // nanoMuse: what a click or type is about to touch, judged before it happens.
-    private suspend fun nmGuard(input: BrowserActionInput): NmGate {
-        if (input.action != BrowserAction.CLICK && input.action != BrowserAction.TYPE) return NmGate()
-        val guard = io.github.nanomuse.guard.BrowserGuard
+    // lingTai: what a click or type is about to touch, judged before it happens.
+    private suspend fun ltGuard(input: BrowserActionInput): LtGate {
+        if (input.action != BrowserAction.CLICK && input.action != BrowserAction.TYPE) return LtGate()
+        val guard = io.github.lingtai.guard.BrowserGuard
         val described = runCatching {
             evaluateJavascript(guard.describeJs(input.selector, input.coordinateX, input.coordinateY))
-        }.getOrNull() ?: return NmGate()
-        val target = io.github.nanomuse.guard.BrowserGuard.Target.parse(described) ?: return NmGate()
+        }.getOrNull() ?: return LtGate()
+        val target = io.github.lingtai.guard.BrowserGuard.Target.parse(described) ?: return LtGate()
         val verdict = if (input.action == BrowserAction.TYPE) guard.judgeType(target) else guard.judgeClick(target)
         return when (verdict) {
-            is io.github.nanomuse.guard.BrowserGuard.Verdict.Proceed -> NmGate()
-            is io.github.nanomuse.guard.BrowserGuard.Verdict.Refuse ->
-                NmGate(blocked = BrowserActionResult.error(verdict.text).copy(pageURL = target.url.ifBlank { prevUrlOrNull() }))
-            is io.github.nanomuse.guard.BrowserGuard.Verdict.Ask -> {
-                val outcome = io.github.nanomuse.guard.RiskGate.check(
+            is io.github.lingtai.guard.BrowserGuard.Verdict.Proceed -> LtGate()
+            is io.github.lingtai.guard.BrowserGuard.Verdict.Refuse ->
+                LtGate(blocked = BrowserActionResult.error(verdict.text).copy(pageURL = target.url.ifBlank { prevUrlOrNull() }))
+            is io.github.lingtai.guard.BrowserGuard.Verdict.Ask -> {
+                val outcome = io.github.lingtai.guard.RiskGate.check(
                     sessionId = sessionIdProvider() ?: "",
-                    kind = io.github.nanomuse.guard.GuardKind.BROWSER,
+                    kind = io.github.lingtai.guard.GuardKind.BROWSER,
                     assessment = verdict.assessment,
                     preview = verdict.elementText,
                     pageUrl = target.url.ifBlank { null },
                     elementText = verdict.elementText,
                 )
                 when (outcome) {
-                    is io.github.nanomuse.guard.GateOutcome.Allowed -> NmGate(notice = outcome.notice)
-                    is io.github.nanomuse.guard.GateOutcome.Denied -> NmGate(blocked = BrowserActionResult.error(outcome.message))
+                    is io.github.lingtai.guard.GateOutcome.Allowed -> LtGate(notice = outcome.notice)
+                    is io.github.lingtai.guard.GateOutcome.Denied -> LtGate(blocked = BrowserActionResult.error(outcome.message))
                 }
             }
         }

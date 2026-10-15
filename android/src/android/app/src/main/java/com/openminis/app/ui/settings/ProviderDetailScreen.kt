@@ -88,7 +88,7 @@ fun ProviderDetailScreen(
     onModelEntryClick: (String) -> Unit = {},
     onAddCustomModel: () -> Unit = {},
     onVoiceServiceClick: (String) -> Unit = {},
-    onKeyAdded: (String) -> Unit = {}, // nanoMuse: a key where there was none → the "Use it for" card
+    onKeyAdded: (String) -> Unit = {}, // lingTai: a key where there was none → the "Use it for" card
 ) {
     val config by providerRepository.config.collectAsState()
     val instance = config.instances.find { it.id == instanceId }
@@ -209,7 +209,7 @@ fun ProviderDetailScreen(
                             keyVisible = false
                         },
                         onSave = {
-                            val nmFirstKey = storedKey.isBlank() && editKeyValue.isNotBlank() // nanoMuse
+                            val ltFirstKey = storedKey.isBlank() && editKeyValue.isNotBlank() // lingTai
                             providerRepository.saveApiKey(instanceId, editKeyValue)
                             // [T-android-provider-apikey-save-stale] Reflect the
                             // just-saved value in UI state immediately rather than
@@ -219,7 +219,7 @@ fun ProviderDetailScreen(
                             isEditingKey = false
                             editKeyValue = ""
                             keyVisible = false
-                            if (nmFirstKey) onKeyAdded(instanceId) // nanoMuse
+                            if (ltFirstKey) onKeyAdded(instanceId) // lingTai
                         },
                     )
                 }
@@ -244,8 +244,8 @@ fun ProviderDetailScreen(
 
         // ─── Custom Base URL ────────────────────────────────────────
         if (instance.providerType != ProviderType.openRouter) {
-            // nanoMuse: plain http:// only for addresses on the local network (io.github.nanomuse.net.LanOnly)
-            val baseUrlProblem = io.github.nanomuse.net.LanOnly.refusedHost(customBaseURL)?.let { stringResource(R.string.nm_lan_only_https, it) }
+            // lingTai: plain http:// only for addresses on the local network (io.github.lingtai.net.LanOnly)
+            val baseUrlProblem = io.github.lingtai.net.LanOnly.refusedHost(customBaseURL)?.let { stringResource(R.string.lt_lan_only_https, it) }
             SettingsSection(header = stringResource(R.string.provider_detail_custom_api_base), footer = baseUrlProblem) {
                 // URL input row — tighter vertical padding to match T226's
                 // SectionTextField height shrink (~-20%).
@@ -325,7 +325,7 @@ fun ProviderDetailScreen(
                 // Save action — TextButton presentation so it reads as a list
                 // row rather than a floating filled button inside the card.
                 MinisSmallTextButton(
-                    enabled = baseUrlProblem == null, // nanoMuse: LanOnly
+                    enabled = baseUrlProblem == null, // lingTai: LanOnly
                     onClick = {
                         providerRepository.updateInstance(
                             instance.copy(
@@ -488,31 +488,31 @@ fun ProviderDetailScreen(
 
         // ─── Status ─────────────────────────────────────────────────
         SettingsSection(header = stringResource(R.string.provider_detail_status)) {
-            // nanoMuse: the Cloud instance off is the same switch as Settings › Models (refused, with the
+            // lingTai: the Cloud instance off is the same switch as Settings › Models (refused, with the
             // sentence, while nothing else could answer); a provider of the person's own off while new
             // chats answered through it moves the chat slot to the next source (ModelSlots.chatLeaves)
-            val nmCloud = io.github.nanomuse.cloud.NanoMuseCloud.instance(exportContext)?.id == instanceId
-            var nmRefused by remember { mutableStateOf(false) }
+            val ltCloud = io.github.lingtai.cloud.LingTaiCloud.instance(exportContext)?.id == instanceId
+            var ltRefused by remember { mutableStateOf(false) }
             SettingsSwitchRow(
                 title = stringResource(R.string.provider_detail_enabled),
                 checked = isEnabled,
                 onCheckedChange = {
-                    if (nmCloud) { // nanoMuse: see above
-                        val done = io.github.nanomuse.cloud.NanoMuseCloud.setModelsOn(exportContext, it)
-                        nmRefused = !done
+                    if (ltCloud) { // lingTai: see above
+                        val done = io.github.lingtai.cloud.LingTaiCloud.setModelsOn(exportContext, it)
+                        ltRefused = !done
                         if (done) isEnabled = it
                     } else {
                         isEnabled = it
                         providerRepository.updateInstance(instance.copy(isEnabled = it))
                         AppLogger.info(TAG, "Set enabled=$it for ${instance.id}")
-                        if (!it) io.github.nanomuse.models.ModelSlots.chatLeaves(exportContext, instance.id) // nanoMuse: see above
+                        if (!it) io.github.lingtai.models.ModelSlots.chatLeaves(exportContext, instance.id) // lingTai: see above
                     }
                 },
                 showDivider = false,
             )
-            if (nmRefused) { // nanoMuse: the refusal, under the switch
+            if (ltRefused) { // lingTai: the refusal, under the switch
                 Text(
-                    text = stringResource(R.string.nm_models_cloud_off_refused),
+                    text = stringResource(R.string.lt_models_cloud_off_refused),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 12.dp),
@@ -745,12 +745,12 @@ fun ProviderDetailScreen(
             Text(stringResource(R.string.provider_detail_add_custom_model))
         }
 
-        // nanoMuse: the Cloud instance is the account itself (io.github.nanomuse.cloud.NanoMuseCloud);
+        // lingTai: the Cloud instance is the account itself (io.github.lingtai.cloud.LingTaiCloud);
         // deleting it here signed the phone out. It is switched off above instead, and signed out
-        // under Settings › nanoMuse Cloud.
-        if (io.github.nanomuse.cloud.NanoMuseCloud.instance(exportContext)?.id == instanceId) {
+        // under Settings › lingTai Cloud.
+        if (io.github.lingtai.cloud.LingTaiCloud.instance(exportContext)?.id == instanceId) {
             Text(
-                text = stringResource(R.string.nm_cloud_provider_no_delete),
+                text = stringResource(R.string.lt_cloud_provider_no_delete),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(top = 20.dp),
@@ -955,8 +955,8 @@ private fun OAuthCredentialBlock(
         ) {
             Text(stringResource(R.string.provider_detail_sign_in))
         }
-        // nanoMuse: a proxy or VPN can swallow the localhost callback; after ten seconds the person can paste the address (#441).
-        io.github.nanomuse.oauth.OAuthCallbackRescue(active = isAuthenticating, providerType = instance.providerType)
+        // lingTai: a proxy or VPN can swallow the localhost callback; after ten seconds the person can paste the address (#441).
+        io.github.lingtai.oauth.OAuthCallbackRescue(active = isAuthenticating, providerType = instance.providerType)
     }
 }
 

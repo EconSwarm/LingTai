@@ -15,15 +15,15 @@ from typing import Any
 import pytest
 from fastapi.testclient import TestClient
 
-from nanomuse.cloud import CloudClient, CloudError
-from nanomuse.config import Settings
-from nanomuse.llm import MockLLM
-from nanomuse.schema import LLMResponse
-from nanomuse.server import create_app
-from nanomuse.server.events import MAIN_THREAD
-from nanomuse.server.service import MuseService
-from nanomuse.sync import engine as engine_mod
-from nanomuse.sync.mention import parse_mention, system_note
+from lingtai.cloud import CloudClient, CloudError
+from lingtai.config import Settings
+from lingtai.llm import MockLLM
+from lingtai.schema import LLMResponse
+from lingtai.server import create_app
+from lingtai.server.events import MAIN_THREAD
+from lingtai.server.service import MuseService
+from lingtai.sync import engine as engine_mod
+from lingtai.sync.mention import parse_mention, system_note
 
 DEVICES = [
     {"id": "pc-self", "name": "Desk", "kind": "computer", "online": True},
@@ -331,7 +331,7 @@ def synced(
     monkeypatch.setattr(engine_mod, "PUSH_DELAY_S", 0.05)
     llm = MockLLM([])
     service = MuseService(settings, llm=llm)
-    service.app.vault.set("NANOMUSE_CLOUD_KEY", "test-key")
+    service.app.vault.set("LINGTAI_CLOUD_KEY", "test-key")
     relay = FakeSyncRelay()
     service.sync.client = relay  # type: ignore[assignment]
     app = create_app(settings, service)
@@ -603,7 +603,7 @@ def _signed_in(
     monkeypatch.setattr(CloudClient, "models", fake_models)
     monkeypatch.setattr(engine_mod, "PUSH_DELAY_S", 0.05)
     service = MuseService(settings, llm=MockLLM([]))
-    service.app.vault.set("NANOMUSE_CLOUD_KEY", "test-key")
+    service.app.vault.set("LINGTAI_CLOUD_KEY", "test-key")
     return service
 
 

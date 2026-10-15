@@ -1,4 +1,4 @@
-"""nanoMuse Web: sign in with a code, get a kept Muse, come back to it."""
+"""lingTai Web: sign in with a code, get a kept Muse, come back to it."""
 
 from __future__ import annotations
 
@@ -54,7 +54,7 @@ async def test_the_page_and_a_first_sign_in(web):
     async with app.router.lifespan_context(app):
         c = await client_for(app)
         r = await c.get("/web/")
-        assert r.status_code == 200 and "nanoMuse Web" in r.text and "/api/web/verify" in r.text
+        assert r.status_code == 200 and "lingTai Web" in r.text and "/api/web/verify" in r.text
         r = await c.get("/web", follow_redirects=False)
         assert r.status_code == 308 and r.headers["location"] == "/web/"
 
@@ -82,17 +82,17 @@ async def test_the_page_and_a_first_sign_in(web):
         # gateway's store holds no key at all
         kept = runner.kept[f"nmw-{me['slug']}"]
         env = kept["env"]
-        assert env["NANOMUSE_CLOUD_KEY"] == "nm_sess1"
-        assert upstream.revoked == ["nm_key1"]
+        assert env["LINGTAI_CLOUD_KEY"] == "lt_sess1"
+        assert upstream.revoked == ["lt_key1"]
         session_key_call = [x for x in upstream.calls if x.url.path == "/v1/auth/session-key"][-1]
         assert json.loads(session_key_call.content) == {"device": "Web", "ttl_s": 7 * 86400}
         assert [r[0] for r in accounts.store.db.execute("SELECT key FROM accounts")] == [""]
         assert accounts.live[me["slug"]].key == ""
-        assert env["NANOMUSE_CLOUD_BASE_URL"] == "http://relay:8787"
-        assert env["NANOMUSE_HUB_NAME"] == "Web" and env["NANOMUSE_ONBOARDED"] == "1"
-        assert env["NANOMUSE_SERVER_TOKEN"] == token
-        assert "NANOMUSE_LLM_BASE_URL" not in env  # the runtime makes the Cloud its model itself
-        assert kept["network"] == "web-net" and kept["image"] == "nanomuse:web"
+        assert env["LINGTAI_CLOUD_BASE_URL"] == "http://relay:8787"
+        assert env["LINGTAI_HUB_NAME"] == "Web" and env["LINGTAI_ONBOARDED"] == "1"
+        assert env["LINGTAI_SERVER_TOKEN"] == token
+        assert "LINGTAI_LLM_BASE_URL" not in env  # the runtime makes the Cloud its model itself
+        assert kept["network"] == "web-net" and kept["image"] == "lingtai:web"
         assert set(kept["volumes"].values()) == {"/data", "/workspace", "/home/muse"}
         # and the browser's traffic on the account host reaches it
         host = me["origin"].split("//")[1]
@@ -170,9 +170,9 @@ async def test_coming_back_wakes_the_same_muse(web):
         # container is recreated with it; slug and token stay
         again = body(await sign_in(c, "someone@example.com", ip="9.9.9.9"))
         assert again["slug"] == me["slug"] and again["url"] == me["url"]
-        assert runner.kept[name]["env"]["NANOMUSE_CLOUD_KEY"] == "nm_sess2"
+        assert runner.kept[name]["env"]["LINGTAI_CLOUD_KEY"] == "lt_sess2"
         assert runner.kept[name]["starts"] == 1  # a new container
-        assert upstream.revoked == ["nm_key1", "nm_key2"]
+        assert upstream.revoked == ["lt_key1", "lt_key2"]
 
 
 async def test_a_lapsed_key_means_signing_in_again(web):
@@ -205,7 +205,7 @@ async def test_a_lapsed_key_means_signing_in_again(web):
         # signing in again: a new container, the same slug and token
         again = body(await sign_in(c, "someone@example.com"))
         assert again["slug"] == me["slug"] and again["url"] == me["url"]
-        assert runner.kept[name]["env"]["NANOMUSE_CLOUD_KEY"] == "nm_sess2"
+        assert runner.kept[name]["env"]["LINGTAI_CLOUD_KEY"] == "lt_sess2"
 
 
 def test_the_socket_s_first_frame_wakes_a_slept_muse(web, monkeypatch):

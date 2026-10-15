@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build, sign, name and (optionally) publish a nanoMuse release APK.
+# Build, sign, name and (optionally) publish a lingTai release APK.
 #
 #   scripts/release-apk.sh <version> [--publish] [--publish-only] [--target COMMIT]
 #                          [--notes FILE] [--allow-debug-key] [--prerelease]
@@ -9,7 +9,7 @@
 # 2. makes sure the native artifacts and rclone.aar exist (scripts/android/build-natives.sh),
 # 3. ./gradlew :app:assembleRelease — signed with android/keystore.properties when present,
 # 4. verifies the signature and refuses the debug key unless --allow-debug-key,
-# 5. writes dist/nanoMuse-<version>-arm64.apk and .sha256,
+# 5. writes dist/lingTai-<version>-arm64.apk and .sha256,
 # 6. with --publish: tags v<version> (annotated, at --target or HEAD, unless the tag already
 #    exists), pushes the tag, then gh release create v<version> --latest with the APK, the
 #    checksum and the notes (default docs/releases/v<version>.md, with What's Changed / New
@@ -52,7 +52,7 @@ done
 build_tools="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)"
 # macOS has no sha256sum; shasum writes and checks the same lines
 command -v sha256sum >/dev/null 2>&1 || sha256sum() { shasum -a 256 "$@"; }
-out="$NM_ROOT/dist/nanoMuse-$version-arm64.apk"
+out="$LT_ROOT/dist/lingTai-$version-arm64.apk"
 
 # Every part of the release carries the same version: the runtime, the desktop app, the web
 # app, the iPhone app's MARKETING_VERSION (the APK is checked by badging below). Packages are
@@ -60,13 +60,13 @@ out="$NM_ROOT/dist/nanoMuse-$version-arm64.apk"
 echo "== versions"
 versions_ok=1
 check_version() { # file, what grep should find in it
-  if grep -qE "$2" "$NM_ROOT/$1"; then echo "$1: $version"; else echo "$1: not $version" >&2; versions_ok=0; fi
+  if grep -qE "$2" "$LT_ROOT/$1"; then echo "$1: $version"; else echo "$1: not $version" >&2; versions_ok=0; fi
 }
-check_version nanomuse/__init__.py "^__version__ = \"$version\""
+check_version lingtai/__init__.py "^__version__ = \"$version\""
 check_version pyproject.toml "^version = \"$version\""
 check_version web/package.json "\"version\": \"$version\""
 check_version CITATION.cff "^version: $version$"
-check_version harness/dsh-nanomuse/package.json "\"version\": \"$version\""
+check_version harness/dsh-lingtai/package.json "\"version\": \"$version\""
 check_version harness/desktop/package.json "\"version\": \"$version\""
 check_version android/src/ios/Minis.xcodeproj/project.pbxproj "MARKETING_VERSION = $version;"
 [ $versions_ok = 1 ] || { echo "the versions above disagree — bump them first" >&2; exit 1; }
@@ -86,28 +86,28 @@ inspect_apk() {
 }
 
 if [ $publish_only = 0 ]; then
-  gradle_file="$NM_GRADLE_DIR/app/build.gradle.kts"
+  gradle_file="$LT_GRADLE_DIR/app/build.gradle.kts"
   grep -q "versionName = \"$version\"" "$gradle_file" || {
     echo "build.gradle.kts does not carry versionName \"$version\" — set VERSION_NAME in scripts/rebrand.py and run it" >&2
     exit 1
   }
 
-  bash "$NM_ROOT/scripts/android/build-natives.sh"
+  bash "$LT_ROOT/scripts/android/build-natives.sh"
 
   echo "== assembleRelease"
-  ( cd "$NM_GRADLE_DIR" && ./gradlew :app:assembleRelease --console=plain -q )
-  apk="$NM_GRADLE_DIR/app/build/outputs/apk/release/app-release.apk"
+  ( cd "$LT_GRADLE_DIR" && ./gradlew :app:assembleRelease --console=plain -q )
+  apk="$LT_GRADLE_DIR/app/build/outputs/apk/release/app-release.apk"
   [ -f "$apk" ] || { echo "no APK at $apk" >&2; exit 1; }
   inspect_apk "$apk"
 
-  mkdir -p "$NM_ROOT/dist"
+  mkdir -p "$LT_ROOT/dist"
   cp "$apk" "$out"
-  ( cd "$NM_ROOT/dist" && sha256sum "$(basename "$out")" > "$(basename "$out").sha256" && cat "$(basename "$out").sha256" )
+  ( cd "$LT_ROOT/dist" && sha256sum "$(basename "$out")" > "$(basename "$out").sha256" && cat "$(basename "$out").sha256" )
   ls -la "$out"
 else
   [ -f "$out" ] && [ -f "$out.sha256" ] || { echo "publish-only needs $out and its .sha256 — build first" >&2; exit 1; }
   echo "== dist/$(basename "$out")"
-  ( cd "$NM_ROOT/dist" && sha256sum -c "$(basename "$out").sha256" )
+  ( cd "$LT_ROOT/dist" && sha256sum -c "$(basename "$out").sha256" )
   badging="$("$build_tools/aapt" dump badging "$out")"   # a variable, not a pipe: grep -q + pipefail would SIGPIPE aapt
   echo "$badging" | grep -q "versionName='$version'" || {
     echo "$out is not versionName $version:" >&2
@@ -119,12 +119,12 @@ else
 fi
 
 if [ $publish = 1 ]; then
-  notes="${notes:-$NM_ROOT/docs/releases/v$version.md}"
+  notes="${notes:-$LT_ROOT/docs/releases/v$version.md}"
   [ -f "$notes" ] || { echo "release notes not found: $notes (see docs/release-notes-template.md)" >&2; exit 1; }
   title="$(head -1 "$notes" | sed 's/^# *//')"
   tag="v$version"
 
-  cd "$NM_ROOT"
+  cd "$LT_ROOT"
   # Nothing half done goes out: the tree is committed, and the commit the tag lands on is
   # on origin/main (a release is cut from main once its pull request merged).
   if [ -n "$(git status --porcelain --untracked-files=no --ignore-submodules=untracked)" ]; then
@@ -147,7 +147,7 @@ if [ $publish = 1 ]; then
   }
   if ! git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
     echo "== tag $tag -> $(git rev-parse --short "$commit")"
-    git tag -a "$tag" "$commit" -m "nanoMuse $version"
+    git tag -a "$tag" "$commit" -m "lingTai $version"
   fi
   git push origin "refs/tags/$tag"
 
@@ -160,7 +160,7 @@ if [ $publish = 1 ]; then
   # requests merged since the previous tag (scripts/release_notes.py); the hand-written notes
   # are published as they are when that fails, so a release is never blocked on it.
   body="$(mktemp)"
-  if ! python3 "$NM_ROOT/scripts/release_notes.py" "$version" --notes "$notes" --target "$tag" -o "$body"; then
+  if ! python3 "$LT_ROOT/scripts/release_notes.py" "$version" --notes "$notes" --target "$tag" -o "$body"; then
     echo "release_notes.py failed — publishing $notes as written" >&2
     cp "$notes" "$body"
   fi

@@ -87,16 +87,16 @@ jobs:
             -derivedDataPath build/DerivedData \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= DEVELOPMENT_TEAM= \
             -skipPackagePluginValidation -skipMacroValidation \
-            2>&1 | tee build/xcodebuild.log | grep -E "error:|/NanoMuse/.*warning:|BUILD|Compiling|Linking" || true
+            2>&1 | tee build/xcodebuild.log | grep -E "error:|/LingTai/.*warning:|BUILD|Compiling|Linking" || true
           grep -q "\*\* BUILD SUCCEEDED \*\*" build/xcodebuild.log
 
-      # docs/ios.md: the device build must finish with zero warnings in NanoMuse/. Upstream's
+      # docs/ios.md: the device build must finish with zero warnings in LingTai/. Upstream's
       # files are theirs; ours are held to the bar here, so a warning cannot sit on main unnoticed.
-      - name: Zero warnings in NanoMuse/
+      - name: Zero warnings in LingTai/
         working-directory: android/src/ios
         run: |
-          if grep -E "/NanoMuse/[^:]+:[0-9]+:[0-9]+: warning:" build/xcodebuild.log | sort -u | tee build/nanomuse-warnings.txt | grep -q .; then
-            echo "::error::warnings in NanoMuse/ (see above)"
+          if grep -E "/LingTai/[^:]+:[0-9]+:[0-9]+: warning:" build/xcodebuild.log | sort -u | tee build/lingtai-warnings.txt | grep -q .; then
+            echo "::error::warnings in LingTai/ (see above)"
             exit 1
           fi
 

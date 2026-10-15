@@ -12,7 +12,7 @@ import time
 from test_accounts import auth, make
 from test_cloud import sign_up
 
-from nanomuse_cloud.db import BUSY_TIMEOUT_S, Database
+from lingtai_cloud.db import BUSY_TIMEOUT_S, Database
 
 ADMIN = {"X-Admin-Token": "admin", "X-Admin-Actor": "ops@console"}
 

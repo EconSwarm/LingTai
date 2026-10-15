@@ -1,4 +1,4 @@
-"""The guarded socketpair: a timeout, the other loopback, an explanation (nanomuse/loopback.py)."""
+"""The guarded socketpair: a timeout, the other loopback, an explanation (lingtai/loopback.py)."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import socket
 
 import pytest
 
-from nanomuse import loopback
+from lingtai import loopback
 
 
 @pytest.fixture(autouse=True)

@@ -329,12 +329,12 @@ internal fun ModelPickerSheet(
     val allInstanceIds = remember(config) {
         config.instances.filter { it.isEnabled }.map { it.id }.toSet()
     }
-    // nanoMuse: the Cloud provider opens expanded — for most people it is the only provider,
+    // lingTai: the Cloud provider opens expanded — for most people it is the only provider,
     // and a collapsed card hid the fact that there is anything to switch to.
-    val nmContext = LocalContext.current
-    val nmCloudId = remember(config) { io.github.nanomuse.cloud.NanoMuseCloud.instance(nmContext)?.id }
+    val ltContext = LocalContext.current
+    val ltCloudId = remember(config) { io.github.lingtai.cloud.LingTaiCloud.instance(ltContext)?.id }
     var collapsedInstanceIds by remember(allInstanceIds) {
-        mutableStateOf(if (nmCloudId != null) allInstanceIds - nmCloudId else allInstanceIds)
+        mutableStateOf(if (ltCloudId != null) allInstanceIds - ltCloudId else allInstanceIds)
     }
 
     /**
@@ -370,13 +370,13 @@ internal fun ModelPickerSheet(
                 var entries = config.modelEntries.filter {
                     it.providerInstanceId == instance.id && !it.isHidden
                 }
-                // nanoMuse: the Cloud's menu first, in the menu's order; the catalog beyond
+                // lingTai: the Cloud's menu first, in the menu's order; the catalog beyond
                 // it (models a member may name) after, so the recommended ones are on top.
-                if (instance.id == nmCloudId) {
-                    val menu = io.github.nanomuse.cloud.NanoMuseCloud.menuModelIds(nmContext)
+                if (instance.id == ltCloudId) {
+                    val menu = io.github.lingtai.cloud.LingTaiCloud.menuModelIds(ltContext)
                     val rank = menu.withIndex().associate { (i, id) -> id to i }
                     entries = entries.sortedWith(
-                        compareBy<ModelEntry> { if (io.github.nanomuse.cloud.NanoMuseCloud.isCatalogModel(nmContext, it.model.id)) 1 else 0 }
+                        compareBy<ModelEntry> { if (io.github.lingtai.cloud.LingTaiCloud.isCatalogModel(ltContext, it.model.id)) 1 else 0 }
                             .thenBy { rank[it.model.id] ?: Int.MAX_VALUE },
                     )
                 }
@@ -1122,14 +1122,14 @@ internal fun ModelPickerSheet(
                                         }
                                     }
                                 } else {
-                                    // nanoMuse: where the Cloud's menu ends and its catalog begins
-                                    val nmFirstCatalog = if (instance.id == nmCloudId) {
-                                        entries.indexOfFirst { io.github.nanomuse.cloud.NanoMuseCloud.isCatalogModel(nmContext, it.model.id) }
+                                    // lingTai: where the Cloud's menu ends and its catalog begins
+                                    val ltFirstCatalog = if (instance.id == ltCloudId) {
+                                        entries.indexOfFirst { io.github.lingtai.cloud.LingTaiCloud.isCatalogModel(ltContext, it.model.id) }
                                     } else {
                                         -1
                                     }
                                     entries.forEachIndexed { index, entry ->
-                                        if (index == nmFirstCatalog && index > 0) {
+                                        if (index == ltFirstCatalog && index > 0) {
                                             HorizontalDivider(
                                                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                                                 thickness = 0.5.dp,
@@ -1137,13 +1137,13 @@ internal fun ModelPickerSheet(
                                             )
                                             Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 4.dp)) {
                                                 Text(
-                                                    stringResource(R.string.nm_picker_more_models),
+                                                    stringResource(R.string.lt_picker_more_models),
                                                     style = MaterialTheme.typography.labelMedium,
                                                     fontWeight = FontWeight.SemiBold,
                                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                                 )
                                                 Text(
-                                                    stringResource(R.string.nm_picker_more_models_note),
+                                                    stringResource(R.string.lt_picker_more_models_note),
                                                     style = MaterialTheme.typography.bodySmall,
                                                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                                                 )

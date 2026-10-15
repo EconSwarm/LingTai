@@ -14,12 +14,12 @@ import httpx
 import pytest
 from fastapi.testclient import TestClient
 
-from nanomuse import nudges
-from nanomuse.config import Settings
-from nanomuse.llm import MockLLM
-from nanomuse.schema import LLMResponse
-from nanomuse.server import create_app, update
-from nanomuse.server.service import MuseService
+from lingtai import nudges
+from lingtai.config import Settings
+from lingtai.llm import MockLLM
+from lingtai.schema import LLMResponse
+from lingtai.server import create_app, update
+from lingtai.server.service import MuseService
 
 
 # ----------------------------------------------------------------------------- nudges: the policy
@@ -182,7 +182,7 @@ def test_api_nudges_serves_the_policy_and_the_sign_in_copy(server, monkeypatch):
 def test_release_check_asks_the_mirror_first_and_github_second(monkeypatch):
     asked: list[str] = []
     index = {
-        "repo": "nano-muse/nanoMuse",
+        "repo": "ling-tai/lingTai",
         "releases": [
             {"tag": "v0.1.40", "name": "0.1.40", "published_at": "2026-10-01", "assets": []},
             {"tag": "v0.1.39", "name": "0.1.39", "published_at": "2026-09-20", "assets": []},
@@ -210,19 +210,19 @@ def test_release_check_asks_the_mirror_first_and_github_second(monkeypatch):
                 200,
                 json={
                     "tag_name": "v0.1.41",
-                    "html_url": "https://github.com/nano-muse/nanoMuse/releases/tag/v0.1.41",
+                    "html_url": "https://github.com/econswarm/lingtai/releases/tag/v0.1.41",
                 },
                 request=httpx.Request("GET", url),
             )
 
     monkeypatch.setattr(update.httpx, "AsyncClient", Client)
-    monkeypatch.delenv("NANOMUSE_CLOUD_KEY", raising=False)
-    monkeypatch.delenv("NANOMUSE_NO_UPDATE_CHECK", raising=False)
+    monkeypatch.delenv("LINGTAI_CLOUD_KEY", raising=False)
+    monkeypatch.delenv("LINGTAI_NO_UPDATE_CHECK", raising=False)
 
     check = update.UpdateCheck(True, current="0.1.35")
     view = asyncio.run(check.view())
     assert asked == [update.INDEX_URL]  # the mirror answered: GitHub is not asked
-    assert view["latest"] == "0.1.40" and view["newer"] is True and view["source"] == "nanomuse.cn"
+    assert view["latest"] == "0.1.40" and view["newer"] is True and view["source"] == "lingtai.cn"
     assert view["url"].endswith("/releases/tag/v0.1.40")
     assert view["download_url"] == update.DOWNLOAD_PAGE
     assert view["checked_at"] and datetime.fromisoformat(view["checked_at"]).tzinfo is not None
@@ -241,8 +241,8 @@ def test_release_check_asks_the_mirror_first_and_github_second(monkeypatch):
 
 def test_api_update_check_now(server, monkeypatch):
     client, _, _ = server
-    monkeypatch.delenv("NANOMUSE_CLOUD_KEY", raising=False)
-    monkeypatch.delenv("NANOMUSE_NO_UPDATE_CHECK", raising=False)
+    monkeypatch.delenv("LINGTAI_CLOUD_KEY", raising=False)
+    monkeypatch.delenv("LINGTAI_NO_UPDATE_CHECK", raising=False)
     forced: list[bool] = []
 
     async def fake_view(self: update.UpdateCheck, force: bool = False) -> dict:

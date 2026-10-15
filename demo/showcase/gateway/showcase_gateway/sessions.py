@@ -1,4 +1,4 @@
-"""Sessions: one private nanoMuse per visitor, for a while, within a budget."""
+"""Sessions: one private lingTai per visitor, for a while, within a budget."""
 
 from __future__ import annotations
 
@@ -73,7 +73,7 @@ class Provider:
 @dataclass
 class Session:
     id: str
-    token: str  # the nanoMuse access token, what the phone pastes
+    token: str  # the lingTai access token, what the phone pastes
     llm_key: str  # what the container presents to the model proxy
     ip: str
     created_at: float
@@ -290,20 +290,20 @@ class SessionManager:
         else:
             main, gui = s.main, s.gui
         env = {
-            "NANOMUSE_SERVER_TOKEN": sess.token,
-            "NANOMUSE_LLM_PROVIDER": main.provider,
-            "NANOMUSE_LLM_MODEL": main.model,
-            "NANOMUSE_LLM_BASE_URL": f"{base}/main",
-            "NANOMUSE_LLM_API_KEY": sess.llm_key,
-            "NANOMUSE_GUI_ENABLED": "1",
-            "NANOMUSE_GUI_PROVIDER": gui.provider,
-            "NANOMUSE_GUI_MODEL": gui.model,
-            "NANOMUSE_GUI_BASE_URL": f"{base}/gui",
-            "NANOMUSE_GUI_API_KEY": sess.llm_key,
-            "NANOMUSE_LOG_LEVEL": "warning",
+            "LINGTAI_SERVER_TOKEN": sess.token,
+            "LINGTAI_LLM_PROVIDER": main.provider,
+            "LINGTAI_LLM_MODEL": main.model,
+            "LINGTAI_LLM_BASE_URL": f"{base}/main",
+            "LINGTAI_LLM_API_KEY": sess.llm_key,
+            "LINGTAI_GUI_ENABLED": "1",
+            "LINGTAI_GUI_PROVIDER": gui.provider,
+            "LINGTAI_GUI_MODEL": gui.model,
+            "LINGTAI_GUI_BASE_URL": f"{base}/gui",
+            "LINGTAI_GUI_API_KEY": sess.llm_key,
+            "LINGTAI_LOG_LEVEL": "warning",
             # a demo Muse has its model from us and no account to sign in to; without this the
             # web app opens on the Cloud sign-in (cloud.required is the runtime's default)
-            "NANOMUSE_CLOUD_REQUIRED": "0",
+            "LINGTAI_CLOUD_REQUIRED": "0",
         }
         if text_only(main.model):
             # The chat model takes no images (DeepSeek before v4.1), and on Model Studio's
@@ -312,16 +312,16 @@ class SessionManager:
             # and the Muse falls silent. So the pictures stay out of its context; the operator
             # lane is the one that looks. A sighted main (deepseek-v4.1-flash, qwen) is left
             # to the runtime's own detection.
-            env["NANOMUSE_LLM_VISION"] = "off"
+            env["LINGTAI_LLM_VISION"] = "off"
         # a new look for the Muse: pictures drawn through the gateway (images.py) — on the
         # showcase's key only; a visitor's own provider is not asked to draw
         if s.image_model and s.image_api_key and not sess.byok:
-            env["NANOMUSE_LLM_IMAGE_MODEL"] = s.image_model
+            env["LINGTAI_LLM_IMAGE_MODEL"] = s.image_model
             # …and the chosen face animated (clips.py): the studio finds the video API at the
             # session's own model address, where the gateway stands in for the provider
             if s.video_model and s.video_api_key and s.video_base_url:
-                env["NANOMUSE_LLM_VIDEO_MODEL"] = s.video_model
-                env["NANOMUSE_LLM_VIDEO_BASE_URL"] = f"{base}/main"
+                env["LINGTAI_LLM_VIDEO_MODEL"] = s.video_model
+                env["LINGTAI_LLM_VIDEO_BASE_URL"] = f"{base}/main"
         # the visitor's clock: Python's local time in the container follows TZ (the image
         # has the zone files); a name it does not know leaves the container on UTC
         if sess.time_zone:
@@ -355,7 +355,7 @@ class SessionManager:
                 ip=ip,
                 created_at=now,
                 expires_at=now + self.s.session_ttl_s,
-                container=f"nm-{sid}",
+                container=f"lt-{sid}",
                 port=self.s.container_port,
                 byok=byok,
                 account=account,

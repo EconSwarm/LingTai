@@ -5,11 +5,11 @@
  *
  * The facts come from the runtime (`GET /api/providers`, which also says which slots are
  * configured today and which capabilities that gives) and, when the runtime is older or
- * unreachable, from the bundled copy of `nanomuse/llm/providers.json` — the same file the
+ * unreachable, from the bundled copy of `lingtai/llm/providers.json` — the same file the
  * relay, the desktop and the phones read.
  */
 import { useEffect, useState } from "react";
-import catalogue from "../../nanomuse/llm/providers.json";
+import catalogue from "../../lingtai/llm/providers.json";
 import { api } from "./api";
 import { isMainland } from "./region";
 import type { Capability, CatalogueProvider, CloudAccount, ProvidersView } from "./types";
@@ -147,7 +147,7 @@ export function unavailableLine(t: (s: string, v?: Record<string, string | numbe
 }
 
 /** The guide every unavailable line links to. */
-export const OWN_KEY_DOCS_URL = "https://nanomuse.cn/own-key";
+export const OWN_KEY_DOCS_URL = "https://lingtai.cn/own-key";
 
 /**
  * The runtime's view when it has one; else the bundled catalogue with nothing known about

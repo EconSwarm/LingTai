@@ -30,7 +30,7 @@ export interface AllowanceInfo {
 
 export const OWN_KEY_DOCS = OWN_KEY_DOCS_URL;
 /** The preset the Connections page opens with when someone comes here for their own key. */
-const PRESET_HINT = "nm.connections.preset";
+const PRESET_HINT = "lt.connections.preset";
 
 /**
  * Send the person to Connections with the region's own-key provider preselected (contract
@@ -108,7 +108,7 @@ export function AllowanceWays({
     }
   };
   const share = async () => {
-    const text = t("Try nanoMuse with me, a fully open-source personal agent, free to use. Sign up with my link: {link}", { link });
+    const text = t("Try lingTai with me, a fully open-source personal agent, free to use. Sign up with my link: {link}", { link });
     const nav = navigator as Navigator & { share?: (data: { text: string }) => Promise<void> };
     if (nav.share) {
       try {
@@ -240,7 +240,7 @@ function Way({ icon, tone, title, children }: { icon: ReactNode; tone: string; t
 }
 
 /** The pool size the heads-up was last shown for: the strip comes back only once the pool has grown. */
-const WARNED_KEY = "nm.cloud.warned_grant";
+const WARNED_KEY = "lt.cloud.warned_grant";
 
 /**
  * The 80 % heads-up, once: after a turn finishes on the account's model, ask the runtime for

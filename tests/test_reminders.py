@@ -6,9 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from nanomuse.reminders import ReminderStore, parse_when
-from nanomuse.schema import RiskLevel
-from nanomuse.tools import Reminders
+from lingtai.reminders import ReminderStore, parse_when
+from lingtai.schema import RiskLevel
+from lingtai.tools import Reminders
 
 
 def test_parse_when_reads_what_the_model_writes():

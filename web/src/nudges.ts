@@ -4,7 +4,7 @@
  * The *policy* comes from the relay through the runtime (`GET /api/nudges`, read once a day;
  * the built-in defaults below are the relay's own). The *ledger* is this browser's: how many
  * tasks it saw through, how many days it was opened, which asks it showed and when, whether
- * the person went to GitHub. It lives in localStorage under `nm.star.*`. Nothing here draws
+ * the person went to GitHub. It lives in localStorage under `lt.star.*`. Nothing here draws
  * anything; `components/StarNudge.tsx` is the card. This file has no DOM in it so the gate
  * can be tested in plain node.
  */
@@ -38,7 +38,7 @@ export const DEFAULT_POLICY: NudgesPolicy = {
   version: 1,
   star: {
     enabled: true,
-    url: "https://github.com/nano-muse/nanoMuse",
+    url: "https://github.com/econswarm/lingtai",
     moments: { signed_in: true, tasks: [3, 10, 30], new_look: true, exhausted: true, days_used: [7, 30], goal_done: true },
     cooldown_days: 7,
     max_asks: 4,
@@ -124,14 +124,14 @@ export interface KV {
 }
 
 export const KEYS = {
-  starred: "nm.star.starred",
-  tasks: "nm.star.tasks",
-  asks: "nm.star.asks",
-  lastAsk: "nm.star.last_ask",
-  shown: "nm.star.shown",
-  days: "nm.star.days",
-  lastDay: "nm.star.last_day",
-  migrated: "nm.star.v2",
+  starred: "lt.star.starred",
+  tasks: "lt.star.tasks",
+  asks: "lt.star.asks",
+  lastAsk: "lt.star.last_ask",
+  shown: "lt.star.shown",
+  days: "lt.star.days",
+  lastDay: "lt.star.last_day",
+  migrated: "lt.star.v2",
 } as const;
 
 /** The keys of the first version: one flag per moment. */
@@ -199,7 +199,7 @@ export function migrateLedger(kv: KV): Ledger {
   const l = readLedger(kv);
   if (kv.getItem(KEYS.migrated) === "1") return l;
   for (const m of LEGACY_MOMENTS) {
-    const key = `nm.star.${m}`;
+    const key = `lt.star.${m}`;
     if (kv.getItem(key) === "1" && !l.shown.includes(m)) {
       l.shown.push(m);
       l.asks += 1;

@@ -110,10 +110,10 @@ private fun BlockContent(
     when (block) {
         is MarkdownParser.Block.Heading -> HeadingBlock(block, color)
         is MarkdownParser.Block.Paragraph -> ParagraphBlock(block.content, color, baseStyle, mathSpans)
-        // nanoMuse: `nanomuse-*` fences are app protocol (goal created / goal
+        // lingTai: `lingtai-*` fences are app protocol (goal created / goal
         // update) and render as cards, never as code.
         is MarkdownParser.Block.CodeBlock ->
-            if (block.language.startsWith("nanomuse-")) io.github.nanomuse.ui.chat.NanoMuseBlock(block.language, block.code)
+            if (block.language.startsWith("lingtai-")) io.github.lingtai.ui.chat.LingTaiBlock(block.language, block.code)
             else CodeBlockView(block)
         is MarkdownParser.Block.Blockquote -> BlockquoteView(block, color, baseStyle, mathSpans)
         is MarkdownParser.Block.BulletList -> BulletListView(block, color, baseStyle)

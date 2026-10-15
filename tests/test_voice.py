@@ -1,5 +1,5 @@
 """The runtime's words follow the voice rule in AGENTS.md: a sentence a person or the model
-reads carries no em dash. This looks at every string literal under ``nanomuse/`` (docstrings
+reads carries no em dash. This looks at every string literal under ``lingtai/`` (docstrings
 and comments are for contributors and are not checked), the built-in skills, the provider
 catalogue and the example configuration, so a dash does not come back unnoticed."""
 
@@ -11,13 +11,13 @@ import tokenize
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGE = ROOT / "nanomuse"
+PACKAGE = ROOT / "lingtai"
 DASH = "—"  # the Chinese "——" is two of them
 
 # character sets that strip or match a dash the model may have written: not sentences
 ALLOWED = {
-    ("nanomuse/computer/screen.py", r'r"\s+[-—–]\s+([^-—–]+)$"'),
-    ("nanomuse/prompts.py", '" :,-—\\n"'),
+    ("lingtai/computer/screen.py", r'r"\s+[-—–]\s+([^-—–]+)$"'),
+    ("lingtai/prompts.py", '" :,-—\\n"'),
 }
 
 
