@@ -186,9 +186,9 @@ def schemes() -> None:
 
 # (pattern, replacement); applied to Theme.kt only.
 THEME_MAP = [
-    ("0xFF528AD2", "0xFF0C7D41"),  # primary (light, readable on white)
-    ("0xFFB2DFDB", "0xFFEFFAF4"),  # primaryContainer
-    ("0xFF00332F", "0xFF0E8B48"),  # onPrimaryContainer
+    ("0xFF528AD2", "0xFF4F46E5"),  # primary (light, readable on white)
+    ("0xFFB2DFDB", "0xFFEEF2FF"),  # primaryContainer
+    ("0xFF00332F", "0xFF4338CA"),  # onPrimaryContainer
     ("0xFF4A6360", "0xFF4F5B6E"),  # secondary
     ("0xFFCCE8E4", "0xFFDCE6F5"),  # secondaryContainer
     ("0xFF05201D", "0xFF101C2E"),  # onSecondaryContainer
@@ -197,9 +197,9 @@ THEME_MAP = [
     ("0xFFDAE5E2", "0xFFE5E5EA"),  # surfaceVariant
     ("0xFF3F4947", "0xFF3C3C43"),  # onSurfaceVariant (light) / surfaceVariant (dark)
     ("0xFF6F7977", "0xFF6E6E73"),  # outline
-    ("0xFF6A94CE", "0xFF32F08C"),  # dark primary
-    ("0xFF003737", "0xFF053D1F"),  # dark onPrimary
-    ("0xFF1A6B6B", "0xFF074A27"),  # dark primaryContainer
+    ("0xFF6A94CE", "0xFF6366F1"),  # dark primary
+    ("0xFF003737", "0xFFEEF2FF"),  # dark onPrimary
+    ("0xFF1A6B6B", "0xFF1E1B4B"),  # dark primaryContainer
     ("0xFFB1CCC8", "0xFFB8C6DA"),  # dark secondary
     ("0xFF1C3532", "0xFF22304A"),  # dark onSecondary
     ("0xFF334B48", "0xFF334159"),  # dark secondaryContainer
@@ -215,22 +215,22 @@ THEME_MAP = [
 CHAT_MAP = [
     ("userBubble = Color(0x1E787880)", "userBubble = Color(0xFF000000)"),
     ("codeBlockText = Color(0xFF34C759)", "codeBlockText = Color(0xFFE5E5EA)"),
-    ("inlineCodeText = Color(0xFFFF9500)", "inlineCodeText = Color(0xFF0C7D41)"),
-    ("blockquoteBar = Color(0x80FF9500)", "blockquoteBar = Color(0x800C7D41)"),
-    ("fabAccent = Color(0xFFB7AF96)", "fabAccent = Color(0xFF0C7D41)"),
+    ("inlineCodeText = Color(0xFFFF9500)", "inlineCodeText = Color(0xFF4F46E5)"),
+    ("blockquoteBar = Color(0x80FF9500)", "blockquoteBar = Color(0x804F46E5)"),
+    ("fabAccent = Color(0xFFB7AF96)", "fabAccent = Color(0xFF4F46E5)"),
     ("userBubble = Color(0xFF2F3A5C)", "userBubble = Color(0xFFFFFFFF)"),
     ("codeBlockText = Color(0xFF8CF38C)", "codeBlockText = Color(0xFFE5E5EA)"),
-    ("inlineCodeText = Color(0xFFFF9F0A)", "inlineCodeText = Color(0xFF32F08C)"),
-    ("blockquoteBar = Color(0x80FF9F0A)", "blockquoteBar = Color(0x8032F08C)"),
-    ("fabAccent = Color(0xFF504C42)", "fabAccent = Color(0xFF32F08C)"),
+    ("inlineCodeText = Color(0xFFFF9F0A)", "inlineCodeText = Color(0xFF6366F1)"),
+    ("blockquoteBar = Color(0x80FF9F0A)", "blockquoteBar = Color(0x806366F1)"),
+    ("fabAccent = Color(0xFF504C42)", "fabAccent = Color(0xFF6366F1)"),
 ]
 
 # The iOS system blues, wherever they are hard-coded (any alpha).
 GLOBAL_MAP = [
-    (r"0x([0-9A-Fa-f]{2})007AFF", r"0x\g<1>0C7D41"),
-    (r"0x([0-9A-Fa-f]{2})0A84FF", r"0x\g<1>32F08C"),
-    (r"#007AFF\b", "#0C7D41"),
-    (r"#0A84FF\b", "#32F08C"),
+    (r"0x([0-9A-Fa-f]{2})007AFF", r"0x\g<1>4F46E5"),
+    (r"0x([0-9A-Fa-f]{2})0A84FF", r"0x\g<1>6366F1"),
+    (r"#007AFF\b", "#4F46E5"),
+    (r"#0A84FF\b", "#6366F1"),
 ]
 
 
@@ -239,7 +239,7 @@ def colours() -> None:
     edit(JAVA / "ui" / "theme" / "ChatColors.kt", [(re.escape(a), b) for a, b in CHAT_MAP], count=1)
     for path in sorted(JAVA.rglob("*.kt")) + sorted(RES.rglob("*.xml")):
         edit(path, GLOBAL_MAP)
-    edit(RES / "values" / "colors.xml", [(r'(<color name="seed">)#[0-9A-Fa-f]+', r"\g<1>#32F08C")])
+    edit(RES / "values" / "colors.xml", [(r'(<color name="seed">)#[0-9A-Fa-f]+', r"\g<1>#6366F1")])
 
 
 def notification_icons() -> None:
@@ -506,8 +506,8 @@ def ios_colours() -> None:
     raw = path.read_text(encoding="utf-8")
     data = json.loads(raw)
     want = {
-        None: ("0.047", "0.490", "0.255"),  # #0C7D41
-        "dark": ("0.196", "0.941", "0.549"),  # #32F08C
+        None: ("0.310", "0.275", "0.898"),  # #4F46E5
+        "dark": ("0.388", "0.400", "0.945"),  # #6366F1
     }
     touched = False
     for entry in data.get("colors", []):

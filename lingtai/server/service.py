@@ -205,7 +205,7 @@ class Profile:
     # red panda and the dolls of 0.1.22 are gone — a profile naming one wears the dragon
     avatar: str = "dragon"
     emoji: str = "✨"
-    color: str = "#0C7D41"
+    color: str = "#4F46E5"
     # one line under the name, the way Muse shows it ("Your day, sorted.")
     tagline: str = ""
     # how it talks: a tone (formal · casual · playful · concise), a length or shape of reply
@@ -286,7 +286,7 @@ class Profile:
             p.avatar = ""
         p.avatar = re.sub(r"[^a-z0-9-]", "", str(p.avatar).lower())[:32]
         p.emoji = str(p.emoji)[:8] or "✨"
-        p.color = str(p.color)[:16] or "#0C7D41"
+        p.color = str(p.color)[:16] or "#4F46E5"
         p.tagline = " ".join(str(p.tagline).split())[:TAGLINE_MAX]
         p.tone = str(p.tone).strip().lower()
         if p.tone not in TONES:

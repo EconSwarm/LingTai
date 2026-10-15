@@ -4,12 +4,12 @@
 
 <p align="center">
   <a href="https://github.com/econswarm/lingtai/blob/main/README.md">English</a> |
-  <a href="https://github.com/econswarm/灵台/blob/main/docs/readme/README_zh.md">简体中文</a> |
-  <a href="https://github.com/econswarm/灵台/blob/main/docs/readme/README_zh-TW.md">繁體中文</a> |
+  <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_zh.md">简体中文</a> |
+  <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_zh-TW.md">繁體中文</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_es.md">Español</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_fr.md">Français</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_id.md">Bahasa Indonesia</a> |
-  <a href="https://github.com/econswarm/灵台/blob/main/docs/readme/README_ja.md">日本語</a> |
+  <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_ja.md">日本語</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_ko.md">한국어</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_ru.md">Русский</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_vi.md">Tiếng Việt</a>
@@ -20,13 +20,13 @@
 <p align="center">
   <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/lingTai?style=flat&label=stars" alt="Bintang GitHub"></a>
   <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/lingTai/total?label=downloads" alt="Unduhan"></a>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0c7d41&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
   <a href="https://github.com/econswarm/lingtai/actions/workflows/ci.yml"><img src="https://github.com/econswarm/lingtai/actions/workflows/ci.yml/badge.svg?branch=main" alt="Test Suite"></a>
   <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/lingTai?label=license" alt="GPL-3.0-or-later"></a>
   <a href="https://arxiv.org/abs/2610.08699"><img src="https://img.shields.io/badge/arXiv-2610.08699-b31b1b" alt="Makalah di arXiv"></a>
   <br>
-  <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/Coba-demo.lingtai.dev-0c7d41" alt="Coba di browser"></a>
-  <a href="https://lingtai.cn/"><img src="https://img.shields.io/badge/Situs_web-lingtai.cn-0c7d41" alt="Situs web"></a>
+  <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/Coba-demo.lingtai.dev-4f46e5" alt="Coba di browser"></a>
+  <a href="https://lingtai.cn/"><img src="https://img.shields.io/badge/Situs_web-lingtai.cn-4f46e5" alt="Situs web"></a>
   <a href="https://discord.gg/bkTySmm28X"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
@@ -124,7 +124,7 @@ Pakai untuk tugas nyata, laporkan apa yang rusak, lalu pilih sesuatu yang terfok
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/lgy0404"><img src="https://avatars.githubusercontent.com/u/63797388?v=4&s=80" width="80" height="80" alt="Guangyi Liu"><br><strong>Guangyi Liu</strong></a><br><a href="mailto:guangyiliu@zju.edu.cn"><img src="https://img.shields.io/badge/e--mail-guangyiliu%40zju.edu.cn-0c7d41" alt="guangyiliu@zju.edu.cn"></a></td>
+    <td align="center"><a href="https://github.com/lgy0404"><img src="https://avatars.githubusercontent.com/u/63797388?v=4&s=80" width="80" height="80" alt="Guangyi Liu"><br><strong>Guangyi Liu</strong></a><br><a href="mailto:guangyiliu@zju.edu.cn"><img src="https://img.shields.io/badge/e--mail-guangyiliu%40zju.edu.cn-4f46e5" alt="guangyiliu@zju.edu.cn"></a></td>
   </tr>
 </table>
 
@@ -181,5 +181,5 @@ lingTai adalah proyek komunitas independen, tidak berafiliasi dengan atau diduku
 
 <p align="center">
   <em>Terima kasih sudah berkunjung ✨ lingTai.</em><br><br>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0c7d41&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
 </p>

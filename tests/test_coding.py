@@ -7,6 +7,7 @@ import asyncio
 import json
 import os
 import stat
+import subprocess
 import sys
 import time
 from collections.abc import Iterator
@@ -365,6 +366,15 @@ def test_detect_reports_installs_without_running_anything(
         and found["cursor"].sessions_root.endswith("projects")
     )
     assert found["claude"].installed
+
+
+def test_process_list_survives_undecodable_output(monkeypatch: pytest.MonkeyPatch) -> None:
+    """`ps` prints every process's argv, and one of them can hold bytes that are not UTF-8;
+    the coding-agents panel reads that table on every status poll and must not crash."""
+    done = subprocess.CompletedProcess([], 0, stdout=b"/usr/bin/codex \xff\xfe\n", stderr=b"")
+    monkeypatch.setattr(agents.sys, "platform", "darwin")
+    monkeypatch.setattr(agents.subprocess, "run", lambda *a, **k: done)
+    assert agents._processes() == [("/usr/bin/codex", "\ufffd\ufffd")]
 
 
 # ----------------------------------------------------------------------------- the stream
@@ -760,7 +770,9 @@ def test_process_table_is_read_the_platforms_way(monkeypatch: pytest.MonkeyPatch
     monkeypatch.setattr(
         agents.subprocess,
         "run",
-        lambda *a, **k: type("R", (), {"stdout": ps_out, "stderr": ""})(),
+        # macOS reads `ps` back as bytes, since another process's argv can hold bytes that
+        # are not UTF-8
+        lambda *a, **k: type("R", (), {"stdout": ps_out.encode(), "stderr": b""})(),
     )
     assert agents.running_processes("cursor") == 1
     assert agents.running_processes("codex") == 1 and agents.running_processes("claude") == 1

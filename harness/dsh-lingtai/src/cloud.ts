@@ -2222,7 +2222,7 @@ export default class LingTaiCloud extends Service {
         name,
         avatar,
         emoji: avatar === 'emoji' ? (patch.emoji ?? current.emoji ?? '').slice(0, 16) || '✨' : '',
-        color: avatar === 'emoji' ? (patch.color ?? current.color) || '#0C7D41' : '',
+        color: avatar === 'emoji' ? (patch.color ?? current.color) || '#4F46E5' : '',
         style: current.style,
         description: current.description,
       }

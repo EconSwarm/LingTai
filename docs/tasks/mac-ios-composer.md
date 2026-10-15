@@ -1,6 +1,6 @@
 # Mac 侧协作任务 — iOS：聊天输入框显示不出来（0.1.39 → 0.1.40）
 
-> **状态（2026-10-06 下午）**：Mac 坏了，这一轮由 L 在 Linux 上做完——[PR #102](https://github.com/econswarm/灵台/pull/102)
+> **状态（2026-10-06 下午）**：Mac 坏了，这一轮由 L 在 Linux 上做完——[PR #102](https://github.com/econswarm/lingtai/pull/102)
 > 把输入栏改成消息列表下面的一行（不再是 overlay，也没有第二个宿主），并加了「设置 → 外观 → 输入框检查」，
 > 让设备自己给出第 4.2 节要的视图层级（红框 + 可复制的报告）。TestFlight build 11 从该分支构建，在
 > iPad 上验收。下面的内容留作 Mac 恢复后的参考；第 7.1 节（Mac dmg 的权限助手）仍只能在 Mac 上做。
@@ -68,7 +68,7 @@ iPadOS 26.7.1**，上面装着 TestFlight build 10。是否有 iPhone，问维�
 # 1) 找到或建立 clone（上一个会话大概率已经 clone 过；路径不详）
 mdfind "kMDItemFSName == 'lingTai'" -onlyin ~ 2>/dev/null | head; ls -d ~/lingTai ~/code/lingTai ~/src/lingTai 2>/dev/null
 # 有：cd <clone> && git fetch origin && git checkout main && git pull --ff-only && git submodule update --init
-# 没有：git clone --recurse-submodules https://github.com/econswarm/灵台.git && cd 灵台
+# 没有：git clone --recurse-submodules https://github.com/econswarm/lingtai.git && cd 灵台
 git log --oneline -1          # 应是 9740986d 或更新
 
 # 2) 腾磁盘：原生依赖 + 一次 Debug 构建要十几 GB
@@ -250,5 +250,5 @@ L 这边同时在做：拿到你的 PR 后合并、发 0.1.40、TestFlight build
 | 调试服务（DEBUG） | `Debug/DebugServer.swift`，端口 8321，`iproxy 8321 8321` |
 | 上游改动标记 | `// 灵台:`；品牌替换 `python scripts/rebrand.py`（必须输出 `clean`） |
 | Mac 桌面端 | `harness/desktop/mac/computer-use/`、`harness/desktop/src/{mac-helper,mac-permissions}.ts`；数据目录 `~/.lingtai/desktop`（`desktop.log`） |
-| 已发布的安装包 | `https://github.com/econswarm/灵台/releases/tag/v0.1.39`；TestFlight build 10 = 0.1.39 |
+| 已发布的安装包 | `https://github.com/econswarm/lingtai/releases/tag/v0.1.39`；TestFlight build 10 = 0.1.39 |
 | 上一轮的任务单（背景） | [mac-work-0.1.39.md](mac-work-0.1.39.md)、[mac-check-0.1.37.md](mac-check-0.1.37.md) |

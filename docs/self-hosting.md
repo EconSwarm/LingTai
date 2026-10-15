@@ -30,6 +30,23 @@ git clone https://github.com/econswarm/lingtai.git && cd lingTai
 bash scripts/self-host.sh
 ```
 
+Without Docker, on any machine with Python 3.11 or newer: create a virtualenv in
+`cloud/`, install the package, fill `cloud/.env` from `.env.example` (a random
+`CLOUD_SECRET` and `CLOUD_ADMIN_TOKEN`; `CODE_SENDER=log` prints the codes to the
+relay's log), then run it from `cloud/`. `.env` is not auto-read, and `source` it
+or `set -a` trips on the JSON defaults lines (`CHAT_DEFAULTS={...}`), so load it
+with python-dotenv instead:
+
+```bash
+cd cloud && python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
+cp .env.example .env   # fill in CLOUD_SECRET, CLOUD_ADMIN_TOKEN, UPSTREAM_KEY, ...
+.venv/bin/python -c "from dotenv import load_dotenv; load_dotenv('.env'); from lingtai_cloud.__main__ import main; main(['serve','--host','127.0.0.1','--port','8787'])"
+curl http://127.0.0.1:8787/healthz
+```
+
+The console is then at `http://127.0.0.1:8787/app` on that machine. Stop it with
+Ctrl-C; add `--host 0.0.0.0` to reach it from the phones on the same network.
+
 The script asks five things: the domain (or `local`), an e-mail for Let's Encrypt, how sign-in codes go out, the provider's URL and key, the admin password. It writes `cloud/.env` with a fresh random `CLOUD_SECRET`, starts `docker compose`, waits for `/healthz` and prints the console and admin URLs. Running it again keeps the secrets and the accounts and only re-asks, with the current values as defaults. For this machine only, no domain and no TLS:
 
 ```bash

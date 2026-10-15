@@ -28,7 +28,7 @@ struct LingTaiEmojiLook: Codable, Equatable {
     var color: String
 
     static let defaultEmoji = "✨"
-    static let defaultColor = "#0C7D41"
+    static let defaultColor = "#4F46E5"
 
     /// What is drawn: the emoji, or the sparkle when the profile carries none.
     var shownEmoji: String {
@@ -39,13 +39,13 @@ struct LingTaiEmojiLook: Codable, Equatable {
     /// The disc's colour, parsed from the profile's `#rrggbb`.
     var uiColor: UIColor { Self.color(hex: color) }
 
-    /// `#rrggbb` (the `#` optional, either case) as a colour; anything else is the default green.
+    /// `#rrggbb` (the `#` optional, either case) as a colour; anything else is the default purple.
     static func color(hex: String) -> UIColor {
         var digits = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         if digits.hasPrefix("#") { digits.removeFirst() }
         guard digits.count == 6, let value = UInt32(digits, radix: 16) else {
-            // #0C7D41, the action green
-            return UIColor(red: 12.0 / 255.0, green: 125.0 / 255.0, blue: 65.0 / 255.0, alpha: 1)
+            // #4F46E5, the action purple
+            return UIColor(red: 79.0 / 255.0, green: 70.0 / 255.0, blue: 229.0 / 255.0, alpha: 1)
         }
         return UIColor(
             red: CGFloat((value >> 16) & 0xff) / 255,
@@ -627,7 +627,7 @@ enum LingTaiTones {
     static let disc = Color(uiColor: UIColor { $0.userInterfaceStyle == .dark ? UIColor(red: 0.165, green: 0.165, blue: 0.18, alpha: 1) : UIColor(red: 0.945, green: 0.937, blue: 0.922, alpha: 1) })
     static let hairline = Color(uiColor: UIColor { $0.userInterfaceStyle == .dark ? UIColor(red: 0.227, green: 0.227, blue: 0.235, alpha: 1) : UIColor(red: 0.898, green: 0.898, blue: 0.918, alpha: 1) })
     static let canvas = Color(uiColor: UIColor { $0.userInterfaceStyle == .dark ? .black : UIColor(red: 0.953, green: 0.953, blue: 0.961, alpha: 1) })
-    static let action = Color(red: 0.039, green: 0.4, blue: 0.894)
+    static let action = Color(red: 0.310, green: 0.275, blue: 0.898)
     /// The chat's ink (Android's `ChatColors.userBubble` and `sendButton` since #331): your
     /// message pill, the send disc and the scroll-to-latest disc. Black on the white canvas in
     /// light, white on the black canvas in dark; `onInk` is what sits on it, the canvas colour.

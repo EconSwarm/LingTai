@@ -43,7 +43,7 @@ object MuseTones {
         @Composable @ReadOnlyComposable get() = if (dark) Color(0xFF000000) else Color(0xFFF3F3F5)
 
     /** Muse's action green (the "Let's go" button). */
-    val action: Color = Color(0xFF0C7D41)
+    val action: Color = Color(0xFF4F46E5)
 
     private fun Color.luminance(): Float = 0.2126f * red + 0.7152f * green + 0.0722f * blue
 }

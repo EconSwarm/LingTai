@@ -270,7 +270,7 @@ private fun EntryRow(
         ) {
             Box(
                 Modifier.size(30.dp).background(
-                    if (entry.isDirectory) Color(0xFF8E8E93) else Color(0xFF0C7D41),
+                    if (entry.isDirectory) Color(0xFF8E8E93) else Color(0xFF4F46E5),
                     CircleShape,
                 ),
                 contentAlignment = Alignment.Center,

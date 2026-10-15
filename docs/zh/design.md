@@ -4,7 +4,7 @@
 
 | | 灵台的做法 | 在哪里 |
 |---|---|---|
-| 底色和颜色 | 浅色模式接近纯白，深色模式接近纯黑；没有渐变，基本没有卡片阴影；层次来自一级灰色（`surface-2`），用在小标签和标签栏上。一种强调色，饱和的绿，用得很省：`bg`、`surface-2`、`fg`、`muted`，强调色 `#0C7D41`；深色模式跟 `prefers-color-scheme`。手机和网页版的对话都更进一步：聊天浅色下是纯白（手机上胶囊栏、菜单和抽屉也是），深色下手机是纯黑、网页版接近纯黑，绿色只留给链接和状态行 | `web/src/index.css`、`android/…/values/colors.xml`、`android/…/ui/theme/ChatColors.kt` |
+| 底色和颜色 | 浅色模式接近纯白，深色模式接近纯黑；没有渐变，基本没有卡片阴影；层次来自一级灰色（`surface-2`），用在小标签和标签栏上。一种强调色，饱和的紫，用得很省：`bg`、`surface-2`、`fg`、`muted`，强调色 `#4F46E5`；深色模式跟 `prefers-color-scheme`。手机和网页版的对话都更进一步：聊天浅色下是纯白（手机上胶囊栏、菜单和抽屉也是），深色下手机是纯黑、网页版接近纯黑，紫色只留给链接和状态行 | `web/src/index.css`、`android/…/values/colors.xml`、`android/…/ui/theme/ChatColors.kt` |
 | 字体 | [Figtree](https://github.com/erikdkennedy/figtree)（OFL），已内置：一个字族、三四个字号，字号大、亲切，标题字距紧，气泡里行高宽松 | `web/public/fonts/` |
 | 聊天 | 手机和网页版都是单色胶囊：你的消息是深色底上的白色胶囊、黑色文字（浅色下白底黑胶囊），智能体的胶囊比底色略浅或略深一级，发送按钮和回到最新的按钮用同一种墨色，顶栏是一层渐隐，对话从它下面滚过去、融进底色。工具的使用不藏着：每个动作一个小标签（「正在查价格」），点开是工具调用；审批请求是对话里的卡片，上面是哨兵（Sentinel）写的摘要、一字不差写出来的动作和范围按钮（一次、本次对话、总是；手机上是一次、本聊天、总是）；智能体做出来的文件显示成带预览的方块 | `web/src/screens/ChatScreen.tsx`、`web/src/components/`、`android/…/ui/chat/ChatScreen.kt` |
 | 形象 | 内置的**小龙**，每种状态（空闲、工作中、等待、开心、出错）一张静态图，除出错以外每种状态还有一段短循环短片，所以脸会跟着智能体正在做的事变，而不是一动不动；在形象工作室里画的一张脸，或色块上的一个 emoji 作为备选（早期版本的小熊猫见下文的历史） | `web/src/components/Avatar.tsx`、`web/public/avatars/` |
@@ -49,7 +49,7 @@
 | `border` | `#e7e7ea` | `#333337` |
 | `fg` | `#111112` | `#ffffff` |
 | `muted` | `#6b6b71` | `#9d9da4` |
-| `accent` | `#0c7d41` | `#32f08c` |
+| `accent` | `#4f46e5` | `#6366f1` |
 | `ink`（发送按钮、*最新*按钮；`ink-fg` 是上面的图形） | `#000000`，图形 `#ffffff` | `#ffffff`，图形 `#000000` |
 | `bubble-user` 和它的文字（`bubble-user-fg`） | `#000000`，文字 `#ffffff` | `#ffffff`，文字 `#000000` |
 | `bubble-agent` | `#f2f2f7` | `#2a2a2d` |
@@ -66,7 +66,7 @@ Android App 的聊天调色板在 `ChatColors.kt`，由 `scripts/rebrand.py` 写
 | 你的胶囊（`userBubble`）和文字 | `#000000`，文字 `#FFFFFF` | `#FFFFFF`，文字 `#000000` |
 | 智能体的胶囊（`assistantBubble`） | `#F2F2F7` | `#1C1C1E` |
 | 发送与停止按钮（`sendButton`），图形用底色 | `#000000` | `#FFFFFF` |
-| 链接、状态行（`link`、`thinking`） | `#0C7D41` | `#32F08C` |
+| 链接、状态行（`link`、`thinking`） | `#4F46E5` | `#6366F1` |
 
 iOS App 的聊天用同样的值：你的胶囊、发送圆盘和「回到最新」圆盘用 `LingTaiTones.ink` 和 `onInk`，
 智能体的胶囊用 `agentPill`，都在 `LingTaiFaces.swift` 里；底色是系统背景色，白和黑。胶囊栏的指示器圆盘也是同一种墨色，上面的符号用 `onInk`（`tabIndicator`、`tabIndicatorGlyph`），见 [ios.md](ios.md)。

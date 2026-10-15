@@ -4,12 +4,12 @@
 
 <p align="center">
   <a href="https://github.com/econswarm/lingtai/blob/main/README.md">English</a> |
-  <a href="https://github.com/econswarm/灵台/blob/main/docs/readme/README_zh.md">简体中文</a> |
-  <a href="https://github.com/econswarm/灵台/blob/main/docs/readme/README_zh-TW.md">繁體中文</a> |
+  <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_zh.md">简体中文</a> |
+  <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_zh-TW.md">繁體中文</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_es.md">Español</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_fr.md">Français</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_id.md">Bahasa Indonesia</a> |
-  <a href="https://github.com/econswarm/灵台/blob/main/docs/readme/README_ja.md">日本語</a> |
+  <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_ja.md">日本語</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_ko.md">한국어</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_ru.md">Русский</a> |
   <a href="https://github.com/econswarm/lingtai/blob/main/docs/readme/README_vi.md">Tiếng Việt</a>
@@ -19,25 +19,25 @@
 </p>
 <p align="center">
   <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/lingTai?style=flat&label=stars" alt="GitHub スター"></a>
-  <a href="https://github.com/econswarm/灵台/releases"><img src="https://img.shields.io/github/downloads/ling-tai/灵台/total?label=downloads" alt="ダウンロード数"></a>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0c7d41&extraCount=16719" alt="Visitors">
+  <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/灵台/total?label=downloads" alt="ダウンロード数"></a>
+  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
   <a href="https://github.com/econswarm/lingtai/actions/workflows/ci.yml"><img src="https://github.com/econswarm/lingtai/actions/workflows/ci.yml/badge.svg?branch=main" alt="Test Suite"></a>
   <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/lingTai?label=license" alt="GPL-3.0-or-later"></a>
   <a href="https://arxiv.org/abs/2610.08699"><img src="https://img.shields.io/badge/arXiv-2610.08699-b31b1b" alt="arXiv の論文"></a>
   <br>
-  <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B-demo.lingtai.dev-0c7d41" alt="ブラウザで試す"></a>
-  <a href="https://lingtai.cn/"><img src="https://img.shields.io/badge/%E5%85%AC%E5%BC%8F%E3%82%B5%E3%82%A4%E3%83%88-lingtai.cn-0c7d41" alt="公式サイト"></a>
+  <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B-demo.lingtai.dev-4f46e5" alt="ブラウザで試す"></a>
+  <a href="https://lingtai.cn/"><img src="https://img.shields.io/badge/%E5%85%AC%E5%BC%8F%E3%82%B5%E3%82%A4%E3%83%88-lingtai.cn-4f46e5" alt="公式サイト"></a>
   <a href="https://discord.gg/bkTySmm28X"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
 **灵台 は、あなたのすべてのデバイスのためのオープンソースのパーソナルエージェントです。** 名前と姿を持つひとりのエージェント。Meta の [Muse](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/) と同じ種類のもので、質問に答えるのではなく実際に手を動かし、アプリを閉じても働き続け、あなたのことを覚えていて、取り消せない操作の前には立ち止まって尋ねます。
 
-*nano* は、自分で動かして自分でデプロイできるほど小さな、ひとそろいのセットという意味です。スマホアプリ、デスクトップアプリ、ウェブコンソール、そしてそれらをつなぐリレーが、すべてこのリポジトリに GPL-3.0-or-later で入っています。**[無料、オープンソース、非営利。いっしょに作っていきましょう。](../../CONTRIBUTING.md)** サインインするとコミュニティのリレーでモデルを使える無料枠がもらえます。費用は開発者が負担しています。使い切ったら[自分のキーに切り替えて](../own-key.md)ください。同じリレーは自分のサーバーでも動くので、データを外に出さないこともできます。最新版は **1.0.5 Lookout**、[リリースノート](https://github.com/econswarm/灵台/releases/tag/v1.0.5) · [ブラウザで試す](https://demo.lingtai.dev/)。
+*nano* は、自分で動かして自分でデプロイできるほど小さな、ひとそろいのセットという意味です。スマホアプリ、デスクトップアプリ、ウェブコンソール、そしてそれらをつなぐリレーが、すべてこのリポジトリに GPL-3.0-or-later で入っています。**[無料、オープンソース、非営利。いっしょに作っていきましょう。](../../CONTRIBUTING.md)** サインインするとコミュニティのリレーでモデルを使える無料枠がもらえます。費用は開発者が負担しています。使い切ったら[自分のキーに切り替えて](../own-key.md)ください。同じリレーは自分のサーバーでも動くので、データを外に出さないこともできます。最新版は **1.0.5 Lookout**、[リリースノート](https://github.com/econswarm/lingtai/releases/tag/v1.0.5) · [ブラウザで試す](https://demo.lingtai.dev/)。
 
 > [!NOTE]
 > **灵台 は進化しつづけます**
 >
-> パーソナルエージェントは、誰かのクラウドの中だけで育つべきものではありません。だから 灵台 は、オープンソースで低コストの代わりになるものを目指します。自分のデバイスに入れ、モデルは自分で選び、リレーも自分で立てられます。世界中の開発者や利用者といっしょに作り、一人ひとりが本当に自分のパーソナルエージェントを持てるようにしたいと考えています。[issue](https://github.com/econswarm/灵台/issues/new/choose) を立てるのも、[プルリクエスト](../../CONTRIBUTING.md) を送るのも、どちらも 灵台 をよくすることにつながります。
+> パーソナルエージェントは、誰かのクラウドの中だけで育つべきものではありません。だから 灵台 は、オープンソースで低コストの代わりになるものを目指します。自分のデバイスに入れ、モデルは自分で選び、リレーも自分で立てられます。世界中の開発者や利用者といっしょに作り、一人ひとりが本当に自分のパーソナルエージェントを持てるようにしたいと考えています。[issue](https://github.com/econswarm/lingtai/issues/new/choose) を立てるのも、[プルリクエスト](../../CONTRIBUTING.md) を送るのも、どちらも 灵台 をよくすることにつながります。
 
 https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 
@@ -46,7 +46,7 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 ## 🗞️ ニュース
 
 - `2026-10-13` ⭐ GitHub のスターが 1000 に達しました。最初の公開から 18 日、その間に GitHub Trending の Swift リストに 4 日間入りました（[Trendshift](https://trendshift.io/repositories/286894) の記録：10 月 7 日に 7 位、10 月 10 日に 4 位）。試してくださった方、問題を報告してくださった方、pull request を送ってくださった方、ありがとうございます。これからも続けます：数日ごとに新しいバージョンを出し、次に何をするかは[ロードマップ](../roadmap.md)に書いています。
-- `2026-10-09` 🚀 バージョン [1.0.0 Keel](https://github.com/econswarm/灵台/releases/tag/v1.0.0) を公開しました。スマートフォン、デスクトップ、ブラウザのすべてに対応し、前の版の上にそのままインストールしてデータを引き継ぎます。変更点はリリースノートにすべて記載しています。
+- `2026-10-09` 🚀 バージョン [1.0.0 Keel](https://github.com/econswarm/lingtai/releases/tag/v1.0.0) を公開しました。スマートフォン、デスクトップ、ブラウザのすべてに対応し、前の版の上にそのままインストールしてデータを引き継ぎます。変更点はリリースノートにすべて記載しています。
 - `2026-10-08` 🤗 私たちの論文が [Hugging Face Daily Papers](https://huggingface.co/papers/2610.08699) に掲載され、10 月 8 日のリストで 3 位になりました。質問やコメントは論文ページへどうぞ。
 - `2026-10-07` 📄 私たちの論文が [arXiv](https://arxiv.org/abs/2610.08699) に公開されました：『灵台: An Open-Source Personal Agent for Every Device You Own』、著者は Guangyi Liu、Yong Liu、Jiangning Zhang（浙江大学）。引用情報はこのページの末尾にあります。
 - `2026-09-25` 🎉 灵台 を GPL-3.0-or-later のもと GitHub で公開しました：OpenMinis 1.13 をもとにした Android アプリです。リレー、デスクトップアプリ、iPhone アプリはその後の数日で順に加わりました。
@@ -58,14 +58,14 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 | | |
 |---|---|
 | **ブラウザ** | [demo.lingtai.dev](https://demo.lingtai.dev/)：サインインすると、シミュレートしたスマホの上で 灵台 が動きます。これはデモで、本物は下のアプリです |
-| **Android** 8.0 以上、arm64 | [灵台-1.0.5-arm64.apk](https://github.com/econswarm/灵台/releases/download/v1.0.5/灵台-1.0.5-arm64.apk)：すべてのバージョンが同じ鍵で署名され、上書きインストールできます |
+| **Android** 8.0 以上、arm64 | [灵台-1.0.5-arm64.apk](https://github.com/econswarm/lingtai/releases/download/v1.0.5/灵台-1.0.5-arm64.apk)：すべてのバージョンが同じ鍵で署名され、上書きインストールできます |
 | **iPhone / iPad** | [TestFlight](https://testflight.apple.com/join/ZHexbDqc)：Apple のベータ審査を通過したベータ版。このリンクからインストールできます · [iOS](../ios.md) |
-| **macOS** 12 以上 | [Apple シリコン](https://github.com/econswarm/灵台/releases/download/v1.0.5/灵台-Desktop-1.0.5-mac-arm64.dmg) · [Intel](https://github.com/econswarm/灵台/releases/download/v1.0.5/灵台-Desktop-1.0.5-mac-x64.dmg)：公証なし。初回は右クリック → 「開く」 |
-| **Windows** 10 以上 | [灵台-Desktop-1.0.5-win-x64.exe](https://github.com/econswarm/灵台/releases/download/v1.0.5/灵台-Desktop-1.0.5-win-x64.exe)：一度だけ「実行」を押してください |
+| **macOS** 12 以上 | [Apple シリコン](https://github.com/econswarm/lingtai/releases/download/v1.0.5/灵台-Desktop-1.0.5-mac-arm64.dmg) · [Intel](https://github.com/econswarm/lingtai/releases/download/v1.0.5/灵台-Desktop-1.0.5-mac-x64.dmg)：公証なし。初回は右クリック → 「開く」 |
+| **Windows** 10 以上 | [灵台-Desktop-1.0.5-win-x64.exe](https://github.com/econswarm/lingtai/releases/download/v1.0.5/灵台-Desktop-1.0.5-win-x64.exe)：一度だけ「実行」を押してください |
 | **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.tar.gz) |
 | **Docker** | `bash scripts/self-host.sh --local` で自分のリレーを、`docker compose up -d app` で自分のサーバーにウェブアプリを。[セルフホスティング](../self-hosting.md) |
 
-ダウンロードはすべて [GitHub の最新リリース](https://github.com/econswarm/灵台/releases/latest)から。GitHub が遅い地域では同じファイルが [lingtai.cn/dl](https://lingtai.cn/dl/) にあります。アプリを開き、メールアドレスか中国本土の携帯番号でサインインすれば、エージェントが使うモデルが用意されます。スマホ、デスクトップ、ウェブはひとつのアカウントを共有し、同じ会話が見えます。
+ダウンロードはすべて [GitHub の最新リリース](https://github.com/econswarm/lingtai/releases/latest)から。GitHub が遅い地域では同じファイルが [lingtai.cn/dl](https://lingtai.cn/dl/) にあります。アプリを開き、メールアドレスか中国本土の携帯番号でサインインすれば、エージェントが使うモデルが用意されます。スマホ、デスクトップ、ウェブはひとつのアカウントを共有し、同じ会話が見えます。
 
 ## できること
 
@@ -118,13 +118,13 @@ VPS 1 台、1 時間：[docs/self-hosting.md](../self-hosting.md)。三つの道
 
 ## 貢献する
 
-実際の用事に使い、壊れたところを報告し、それから小さく具体的なことをひとつ選んでください。[CONTRIBUTING.md](../../CONTRIBUTING.md) にセットアップと規約、[AGENTS.md](../../AGENTS.md) にこのツリーでコーディングエージェントが守るルール、[ロードマップ](../roadmap.md)にどこから始めるか。[Issues](https://github.com/econswarm/灵台/issues) · [Discussions](https://github.com/econswarm/灵台/discussions) · [Discord](https://discord.gg/bkTySmm28X)。
+実際の用事に使い、壊れたところを報告し、それから小さく具体的なことをひとつ選んでください。[CONTRIBUTING.md](../../CONTRIBUTING.md) にセットアップと規約、[AGENTS.md](../../AGENTS.md) にこのツリーでコーディングエージェントが守るルール、[ロードマップ](../roadmap.md)にどこから始めるか。[Issues](https://github.com/econswarm/lingtai/issues) · [Discussions](https://github.com/econswarm/lingtai/discussions) · [Discord](https://discord.gg/bkTySmm28X)。
 
 ## メンテナー
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/lgy0404"><img src="https://avatars.githubusercontent.com/u/63797388?v=4&s=80" width="80" height="80" alt="Guangyi Liu"><br><strong>Guangyi Liu</strong></a><br><a href="mailto:guangyiliu@zju.edu.cn"><img src="https://img.shields.io/badge/e--mail-guangyiliu%40zju.edu.cn-0c7d41" alt="guangyiliu@zju.edu.cn"></a></td>
+    <td align="center"><a href="https://github.com/lgy0404"><img src="https://avatars.githubusercontent.com/u/63797388?v=4&s=80" width="80" height="80" alt="Guangyi Liu"><br><strong>Guangyi Liu</strong></a><br><a href="mailto:guangyiliu@zju.edu.cn"><img src="https://img.shields.io/badge/e--mail-guangyiliu%40zju.edu.cn-4f46e5" alt="guangyiliu@zju.edu.cn"></a></td>
   </tr>
 </table>
 
@@ -175,5 +175,5 @@ VPS 1 台、1 時間：[docs/self-hosting.md](../self-hosting.md)。三つの道
 
 <p align="center">
   <em>ご覧いただきありがとうございます ✨ 灵台。</em><br><br>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0c7d41&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
 </p>

@@ -10,11 +10,11 @@ diagonal, a tight valley, and an upward exit: an N with one arch, drawn without 
 pen. The mark is abstract on purpose: it is a gesture first and a letter second.
 
 - Source of truth: `assets/brand/lingtai-icon-source-1024.png` (final render, white squircle on
-  brand green). Everything else is derived from it.
+  brand purple). Everything else is derived from it.
 - `assets/brand/lingtai-mark.svg`: the stroke alone, traced as a single filled path, viewBox
   `0 0 100 100` in tile coordinates, gradient fill.
 - `assets/brand/lingtai-icon.svg`: white squircle tile (`rx=27`) + mark. This is the app icon.
-- `assets/brand/lingtai-icon-on-blue.svg`: the icon on the brand-green backdrop, for
+- `assets/brand/lingtai-icon-on-blue.svg`: the icon on the brand-purple backdrop, for
   store listings and the splash only. Wherever the icon stands for the app (README, site,
   social card, favicon) it is the plain tile: white, the mark, a hairline edge, no backdrop.
 - `assets/brand/lingtai-mark-rgba-688.png`: the stroke with alpha, 688 px, raster fallback.
@@ -34,20 +34,20 @@ Measured from the icon.
 
 | Token | Value | Use |
 |---|---|---|
-| `brand.stroke.start` | `#32F08C` | left end of the mark's gradient |
-| `brand.stroke.end` | `#10DA6F` | right end of the mark's gradient |
-| `brand.backdrop` | `#0B8E48` | backdrop behind the tile; splash; hero backgrounds |
+| `brand.stroke.start` | `#4F46E5` | left end of the mark's gradient |
+| `brand.stroke.end` | `#6366F1` | right end of the mark's gradient |
+| `brand.backdrop` | `#4F46E5` | backdrop behind the tile; splash; hero backgrounds |
 | `tile` | `#FFFFFF` | icon tile |
 
 ### Light theme
 
 | Token | Value | Contrast | Use |
 |---|---|---|---|
-| `primary` | `#0C7D41` | 5.22 on white | links, primary buttons (white text), status line |
-| `primary.container` | `#EFFAF4` | — | selected rows, chips |
+| `primary` | `#4F46E5` | 6.29 on white | links, primary buttons (white text), status line |
+| `primary.container` | `#EEF2FF` | — | selected rows, chips |
 | `ink` | `#000000` | 21 on white | your message pill (white text), the send button and the scroll-to-latest disc (white arrow), the selected tab's disc |
 | `pill` | `#F2F2F7` |  | the agent's message pill |
-| `primary.tint` | `rgba(12,125,65,0.12)` | — | subtle highlighted surfaces |
+| `primary.tint` | `rgba(79,70,229,0.12)` | — | subtle highlighted surfaces |
 | `bg` | `#FFFFFF` |  | the chat, the pill bar, the menus and the drawer |
 | `bg.grouped` | `#F2F2F7` | — | the settings pages (unchanged from OpenMinis) |
 | `surface` | `#FFFFFF` | — | cards, input |
@@ -56,8 +56,8 @@ Measured from the icon.
 
 | Token | Value | Contrast | Use |
 |---|---|---|---|
-| `primary` | `#32F08C` | 13.98 on `#000`, 11.33 on `#1C1C1E` | links, buttons (black text), status line |
-| `primary.container` | `#074A27` | — | selected rows, chips |
+| `primary` | `#6366F1` | 4.70 on `#000`, 3.81 on `#1C1C1E` | links, buttons (white text), status line |
+| `primary.container` | `#1E1B4B` | — | selected rows, chips |
 | `ink` | `#FFFFFF` | 21 on `#000` | your message pill (black text), the send button and the scroll-to-latest disc (black arrow), the selected tab's disc |
 | `pill` | `#1C1C1E` |  | the agent's message pill |
 | `bg` / `surface` / `surface.2` | `#000000` / `#1C1C1E` / `#2C2C2E` | — | unchanged from OpenMinis |
@@ -65,7 +65,7 @@ Measured from the icon.
 Rules: one accent hue only. Code blocks, thinking text and links that OpenMinis coloured with
 iOS blue, orange and green become `primary` plus neutrals. The conversation itself is
 monochrome: your pill, the send button and the selected tab are the ink colour on the
-canvas, and the green is left to links and the status line (`ChatColors.kt`, written by
+canvas, and the purple is left to links and the status line (`ChatColors.kt`, written by
 `scripts/rebrand.py`). The dragon's own colours stay inside the avatar; they are not UI
 colours.
 
@@ -75,13 +75,13 @@ colours.
   `VectorDrawable` whose `fillColor` is the two-stop linear gradient above; monochrome layer =
   the same path with a flat fill (Android tints it).
 - Icon skins (activity aliases kept from OpenMinis): *Auto* = white tile; *Light* = white tile;
-  *Dark* = `#162D20` tile with a white mark.
+  *Dark* = `#1E1B4B` tile with a white mark.
 - Notification small icon: the mark, flat white, 24 dp.
 - Never ship the old OpenMinis icon, name or the letter-n drafts.
 
 ## Don'ts
 
-- Don't recolour the mark outside the green gradient / flat white / flat black.
+- Don't recolour the mark outside the purple gradient / flat white / flat black.
 - Don't rotate, outline, or add a shadow to the stroke.
-- Don't place the mark on the brand green without the white tile (contrast).
+- Don't place the mark on the brand purple without the white tile (contrast).
 - Don't use another product's mark, name or hue as an asset; the only mark is ours.

@@ -24,8 +24,8 @@ export function BrandMark({ size = 72, className }: { size?: number; className?:
   },
     h('defs', null,
       h('linearGradient', { id, gradientUnits: 'userSpaceOnUse', x1: 12.6, y1: 50, x2: 87.8, y2: 50 },
-        h('stop', { offset: 0, stopColor: '#32F08C' }),
-        h('stop', { offset: 1, stopColor: '#10DA6F' }))),
+        h('stop', { offset: 0, stopColor: '#4F46E5' }),
+        h('stop', { offset: 1, stopColor: '#6366F1' }))),
     // the tile with its hairline edge, so it keeps its shape on a white page
     h('rect', { x: 0.3, y: 0.3, width: 99.4, height: 99.4, rx: 27, ry: 27, fill: '#FFFFFF', stroke: '#D9D9DE', strokeWidth: 0.6 }),
     h('path', { d: STROKE, fill: `url(#${id})` }))

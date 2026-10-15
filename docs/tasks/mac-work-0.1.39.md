@@ -273,4 +273,4 @@ Android、桌面、运行时由 L 做，**iOS 由你做**。规则：
 | iOS 工程 | `android/src/ios/Minis.xcodeproj`，scheme `Minis`，我们的代码在 `灵台/`，测试在 `MinisTests/`，字符串 `Localizable.xcstrings` |
 | 上游改动标记 | `// 灵台:`；品牌替换 `python scripts/rebrand.py`（必须输出 `clean`） |
 | 文档 | `docs/desktop.md`（macOS 两节）、`docs/gui.md`、`docs/ios.md`、`docs/every-device.md`、`docs/hub.md`、`docs/cloud.md` |
-| 已发布的安装包 | `https://github.com/econswarm/灵台/releases/tag/v0.1.38` |
+| 已发布的安装包 | `https://github.com/econswarm/lingtai/releases/tag/v0.1.38` |

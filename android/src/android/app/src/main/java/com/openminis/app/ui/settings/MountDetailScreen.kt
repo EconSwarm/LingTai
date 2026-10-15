@@ -190,7 +190,7 @@ fun MountDetailScreen(
             Spacer(Modifier.height(20.dp))
             ActionRow(
                 icon = Icons.Outlined.Folder,
-                tint = Color(0xFF0C7D41),
+                tint = Color(0xFF4F46E5),
                 label = stringResource(R.string.mount_detail_browse_files),
                 onClick = onBrowseFiles,
             )

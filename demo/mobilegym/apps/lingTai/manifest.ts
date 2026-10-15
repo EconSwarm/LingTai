@@ -19,15 +19,15 @@ export const manifest: AppManifest = {
   type: 'plugin',
   icon: IcLauncher,
   iconBackground: '#ffffff', // the Android app's light tile; the mark keeps its own colours
-  iconForeground: '#0C7D41',
+  iconForeground: '#4F46E5',
   designViewportWidth: 360,
-  // the web app's palette (web/src/index.css) and the Android app's action green (MuseTones)
+  // the web app's palette (web/src/index.css) and the Android app's action purple (MuseTones)
   theme: {
     colors: {
-      primary: '#0C7D41',
-      primaryDark: '#0A6A37',
+      primary: '#4F46E5',
+      primaryDark: '#4338CA',
       onPrimary: '#ffffff',
-      accent: '#0C7D41',
+      accent: '#4F46E5',
       background: '#fcfcfc',
       surface: '#ffffff',
       textPrimary: '#111112',
@@ -37,10 +37,10 @@ export const manifest: AppManifest = {
       navigationBarForeground: 'dark',
     },
     colorsDark: {
-      primary: '#32F08C',
-      primaryDark: '#1FB96D',
+      primary: '#6366F1',
+      primaryDark: '#818CF8',
       onPrimary: '#ffffff',
-      accent: '#32F08C',
+      accent: '#6366F1',
       background: '#181819',
       surface: '#1c1c1e',
       textPrimary: '#ffffff',

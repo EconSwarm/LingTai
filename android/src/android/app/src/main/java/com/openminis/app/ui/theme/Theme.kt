@@ -15,21 +15,21 @@ import androidx.compose.ui.text.font.FontWeight // lingTai
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Accent: one brand green at two lightnesses. [T-android-accent-green-parity]
+// Accent: one brand purple at two lightnesses. [T-android-accent-purple-parity]
 //
 // The hue comes from iOS Assets.xcassets/AccentColor.colorset (sRGB components
-// r0.047 g0.490 b0.255 -> #0C7D41 light, r0.196 g0.941 b0.549 -> #32F08C dark):
-// #32F08C is the brand stroke green from assets/brand/lingtai-mark.svg. The
-// bright green reads at full saturation only on dark surfaces, so light mode
-// stays on the deeper #0C7D41, whose 5.2:1 contrast on white clears WCAG AA's
+// r0.310 g0.275 b0.898 -> #4F46E5 light, r0.388 g0.400 b0.945 -> #6366F1 dark):
+// #6366F1 is the brand secondary purple from assets/brand/lingtai-mark.svg. The
+// bright purple reads at full saturation only on dark surfaces, so light mode
+// stays on the deeper #4F46E5, whose 6.3:1 contrast on white clears WCAG AA's
 // 4.5 for links and filled buttons.
 //
 // Names keep the `Teal` prefix only to avoid churning 90+ call sites; the
 // value is the contract, not the name.
-private val TealPrimary = Color(0xFF0C7D41)
+private val TealPrimary = Color(0xFF4F46E5)
 private val TealOnPrimary = Color(0xFFFFFFFF)
-private val TealPrimaryContainer = Color(0xFFEFFAF4)
-private val TealOnPrimaryContainer = Color(0xFF0E8B48)
+private val TealPrimaryContainer = Color(0xFFEEF2FF)
+private val TealOnPrimaryContainer = Color(0xFF4338CA)
 private val TealSecondary = Color(0xFF4F5B6E)
 private val TealOnSecondary = Color(0xFFFFFFFF)
 private val TealSecondaryContainer = Color(0xFFDCE6F5)
@@ -46,10 +46,10 @@ private val TealSurfaceVariant = Color(0xFFE5E5EA)
 private val TealOnSurfaceVariant = Color(0xFF3C3C43)
 private val TealOutline = Color(0xFF6E6E73)
 
-private val TealDarkPrimary = Color(0xFF32F08C)
-private val TealDarkOnPrimary = Color(0xFF053D1F)
-private val TealDarkPrimaryContainer = Color(0xFF074A27)
-private val TealDarkOnPrimaryContainer = Color(0xFFE7F8EF)
+private val TealDarkPrimary = Color(0xFF6366F1)
+private val TealDarkOnPrimary = Color(0xFFEEF2FF)
+private val TealDarkPrimaryContainer = Color(0xFF1E1B4B)
+private val TealDarkOnPrimaryContainer = Color(0xFFE0E7FF)
 private val TealDarkSecondary = Color(0xFFB8C6DA)
 private val TealDarkOnSecondary = Color(0xFF22304A)
 private val TealDarkSecondaryContainer = Color(0xFF334159)

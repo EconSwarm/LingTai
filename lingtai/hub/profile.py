@@ -175,7 +175,7 @@ class ProfileSync:
         elif avatar == "emoji":
             patch["avatar"] = ""
             patch["emoji"] = str(light.get("emoji") or "") or "✨"
-            patch["color"] = str(light.get("color") or "") or "#0C7D41"
+            patch["color"] = str(light.get("color") or "") or "#4F46E5"
         elif avatar == "face" and light.get("has_face"):
             worn = self._worn_face_id()
             if worn and worn[1] == str(light.get("face_id") or ""):

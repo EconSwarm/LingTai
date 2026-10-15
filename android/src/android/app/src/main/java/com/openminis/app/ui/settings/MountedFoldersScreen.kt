@@ -528,7 +528,7 @@ private fun MountRow(
         Icon(
             imageVector = Icons.Outlined.Folder,
             contentDescription = null,
-            tint = Color(0xFF0C7D41),
+            tint = Color(0xFF4F46E5),
             modifier = Modifier.size(28.dp),
         )
         Spacer(Modifier.width(12.dp))

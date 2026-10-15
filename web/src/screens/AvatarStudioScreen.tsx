@@ -409,7 +409,7 @@ function FacePreview({ avatar, emoji, color, name }: { avatar?: string; emoji?: 
       <div
         key={avatar}
         className="avatar-pop h-[148px] w-[148px] overflow-hidden rounded-full"
-        style={still ? { background: "#f1efeb" } : { background: `linear-gradient(135deg, ${color ?? "#0C7D41"}, color-mix(in srgb, ${color ?? "#0C7D41"} 60%, #ffffff))` }}
+        style={still ? { background: "#f1efeb" } : { background: `linear-gradient(135deg, ${color ?? "#4F46E5"}, color-mix(in srgb, ${color ?? "#4F46E5"} 60%, #ffffff))` }}
       >
         {playable ? (
           <video

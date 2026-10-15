@@ -1014,8 +1014,8 @@ internal fun ThinkingLevelPicker(
             val isHighlighted = isExactMatch || isClampedHighlight
             val bg = when {
                 // [T-android-thinking-picker-ui] Clamped tier -> orange; normal
-                // selection -> green (ChatColors.thinking, the theme-adaptive
-                // brand green), matching iOS's accent. The
+                // selection -> purple (ChatColors.thinking, the theme-adaptive
+                // brand purple), matching iOS's accent. The
                 // old ChatColors.sendButton was black in light / white in dark,
                 // so the selected capsule read as unselected. (OFF no longer
                 // appears in availableLevels, so its former branch is gone.)

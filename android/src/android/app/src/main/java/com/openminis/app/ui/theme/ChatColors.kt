@@ -88,19 +88,19 @@ val LightChatPalette = ChatPalette(
     codeBlockBg = Color(0xFF000000),
     codeBlockText = Color(0xFFE5E5EA),
     inlineCodeBg = Color(0xFFF2F2F7),
-    inlineCodeText = Color(0xFF0C7D41),
-    link = Color(0xFF0C7D41),
-    blockquoteBar = Color(0x800C7D41),
-    thinking = Color(0xFF0C7D41),
+    inlineCodeText = Color(0xFF4F46E5),
+    link = Color(0xFF4F46E5),
+    blockquoteBar = Color(0x804F46E5),
+    thinking = Color(0xFF4F46E5),
     warningBg = Color(0x14FF9500),
     warningText = Color(0x73000000),
     tableBorder = Color(0x1F000000),
     inputShadow = Color.Transparent,
-    toastBg = Color(0x2E0C7D41),
+    toastBg = Color(0x2E4F46E5),
     thumbnailBorder = Color(0x33808080),
     sheetHeaderBg = Color(0xFFFFFFFF),
     sheetHeaderBorder = Color(0x1A000000),
-    fabAccent = Color(0xFF0C7D41),
+    fabAccent = Color(0xFF4F46E5),
 )
 
 // T153: Android-specific dark palette tweaks. iOS borrows the system
@@ -145,19 +145,19 @@ val DarkChatPalette = ChatPalette(
     // toolBg (#3A3A3F), clearly above codeBlockBg (#262626) so small inline
     // chips read against both the wash and fenced blocks.
     inlineCodeBg = Color(0xFF34343A),
-    inlineCodeText = Color(0xFF32F08C),
-    link = Color(0xFF32F08C),
-    blockquoteBar = Color(0x8032F08C),
-    thinking = Color(0xFF32F08C),
+    inlineCodeText = Color(0xFF6366F1),
+    link = Color(0xFF6366F1),
+    blockquoteBar = Color(0x806366F1),
+    thinking = Color(0xFF6366F1),
     warningBg = Color(0x14FF9F0A),
     warningText = Color(0x73FFFFFF),
     tableBorder = Color(0xFF38383A),
     inputShadow = Color(0x80000000),
-    toastBg = Color(0x2E32F08C),
+    toastBg = Color(0x2E6366F1),
     thumbnailBorder = Color(0x20545458),
     sheetHeaderBg = Color(0xFF2C2C2E),
     sheetHeaderBorder = Color(0x33FFFFFF),
-    fabAccent = Color(0xFF32F08C),
+    fabAccent = Color(0xFF6366F1),
 )
 
 val LocalChatPalette = compositionLocalOf { LightChatPalette }

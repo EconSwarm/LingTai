@@ -50,7 +50,7 @@ scripts/gen-ios-icons.py         the app icon and the four alternates, from asse
   那是署名，不是身份。
 - **版本。** `MARKETING_VERSION` 和 `CURRENT_PROJECT_VERSION` 跟随 Android 的
   `versionName` / `versionCode`；CI 用运行编号覆盖构建号。
-- **外观。** AccentColor 用 `#0C7D41` / `#32F08C`，不用 iOS 蓝；一笔画的 N 作为应用图标
+- **外观。** AccentColor 用 `#4F46E5` / `#6366F1`，不用 iOS 蓝；一笔画的 N 作为应用图标
   （白底方块，品牌渐变；深色外观下是深色方块），也作为应用内图标选择器的四款皮肤；智能体的标题符号用 🐾 代替 ✨。
 - **关于。** 指向这个仓库和它的 issues 的链接、隐私页、灵台自己的口号，以及一段致谢：
   基于 OpenMinis 1.13（GPL-3.0），与 Meta 无关。

@@ -232,7 +232,7 @@ fun MinisSkillsBrowserScreen(
                             Text(hudMessage, color = Color.White, style = MaterialTheme.typography.labelLarge, maxLines = 2)
                         }
                         HudState.HINT -> {
-                            Icon(Icons.Filled.Info, contentDescription = null, tint = Color(0xFF0C7D41), modifier = Modifier.size(16.dp))
+                            Icon(Icons.Filled.Info, contentDescription = null, tint = Color(0xFF4F46E5), modifier = Modifier.size(16.dp))
                             Spacer(Modifier.width(10.dp))
                             Text(hudMessage, color = Color.White, style = MaterialTheme.typography.labelLarge, maxLines = 2)
                         }

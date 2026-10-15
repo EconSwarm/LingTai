@@ -12,7 +12,7 @@
   --fg: #1d1d1f;
   --fg-2: #6e6e73;
   --line: #e5e5ea;
-  --action: #0C7D41;
+  --action: #4F46E5;
   --action-fg: #ffffff;
   --card: #ffffff;
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
@@ -58,7 +58,7 @@ html[data-theme="dark"] {
   --fg: #e8e8e8;
   --fg-2: #9c9c9c;
   --line: #2c2c2c;
-  --action: #32F08C;
+  --action: #6366F1;
   --card: #1a1a1a;
   color-scheme: dark;
 }

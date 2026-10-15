@@ -26,10 +26,10 @@ ROOT = Path(__file__).resolve().parents[1]
 BRAND = ROOT / "assets" / "brand"
 RES = ROOT / "android" / "src" / "android" / "app" / "src" / "main" / "res"
 
-STROKE_START = "#32F08C"
-STROKE_END = "#10DA6F"
+STROKE_START = "#4F46E5"
+STROKE_END = "#6366F1"
 TILE_LIGHT = "#FFFFFF"
-TILE_DARK = "#162D20"
+TILE_DARK = "#1E1B4B"
 SCALE, OFFSET = 0.72, 18.0
 TOKEN = re.compile(r"[MLCZ]|-?\d*\.?\d+")
 

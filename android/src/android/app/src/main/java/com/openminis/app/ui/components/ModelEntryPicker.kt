@@ -417,7 +417,7 @@ private fun SelectionDot(isSelected: Boolean) {
     Icon(
         if (isSelected) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
         contentDescription = null,
-        tint = if (isSelected) Color(0xFF0C7D41)
+        tint = if (isSelected) Color(0xFF4F46E5)
         else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
         modifier = Modifier.size(20.dp),
     )

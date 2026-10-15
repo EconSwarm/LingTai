@@ -100,7 +100,7 @@ fun SharedFolderDetailScreen(
                     Icon(
                         imageVector = Icons.Outlined.Folder,
                         contentDescription = null,
-                        tint = Color(0xFF0C7D41),
+                        tint = Color(0xFF4F46E5),
                     )
                     Text(
                         text = stringResource(R.string.shared_folder_browse_files),

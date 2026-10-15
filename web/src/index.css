@@ -57,13 +57,13 @@
    system: light is the default everywhere, dark only when picked (src/theme.ts). */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* The palette is Muse's: white and near-black surfaces, one blue. The conversation itself is
+/* The palette is Muse's: white and near-black surfaces, one purple. The conversation itself is
    monochrome, as on the phone (ChatColors.kt): `ink` is black in the light theme and white in
    the dark one, with `ink-fg` the opposite; it is your message pill (`bubble-user`, the same
    values), the send button and the scroll-to-latest disc. The agent's pill (`bubble-agent`) is
    a neutral grey a step off the canvas; in the dark it is the same step off `#181819` that the
-   phone's `#1c1c1e` is off black. The blue stays with links and the status line. `accent-soft`
-   is the pale blue the selected tab sits on, with the ink that reads on it: the Android app's
+   phone's `#1c1c1e` is off black. The purple stays with links and the status line. `accent-soft`
+   is the pale purple the selected tab sits on, with the ink that reads on it: the Android app's
    primaryContainer and onPrimaryContainer. */
 :root {
   --om-bg: #ffffff;
@@ -72,9 +72,9 @@
   --om-border: #e7e7ea;
   --om-fg: #111112;
   --om-muted: #6b6b71;
-  --om-accent: #0C7D41;
-  --om-accent-soft: #EFFAF4;
-  --om-accent-soft-fg: #0E8B48;
+  --om-accent: #4F46E5;
+  --om-accent-soft: #EEF2FF;
+  --om-accent-soft-fg: #4338CA;
   --om-ink: #000000;
   --om-ink-fg: #ffffff;
   --om-bubble-user: #000000;
@@ -91,9 +91,9 @@ html[data-theme="dark"] {
   --om-border: #333337;
   --om-fg: #ffffff;
   --om-muted: #9d9da4;
-  --om-accent: #32F08C;
-  --om-accent-soft: #074A27;
-  --om-accent-soft-fg: #E7F8EF;
+  --om-accent: #6366F1;
+  --om-accent-soft: #1E1B4B;
+  --om-accent-soft-fg: #E0E7FF;
   --om-ink: #ffffff;
   --om-ink-fg: #000000;
   --om-bubble-user: #ffffff;

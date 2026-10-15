@@ -1089,7 +1089,7 @@ html[data-lt-platform='darwin']:not([data-lt-fullscreen]) .lt-lib-col-top { heig
 
 /* ---- the trajectory of a hands run, in the chat (Trajectory.tsx) ------- */
 /* The phone stage's hues: Muse's action green and its cyan, for the marks drawn on a step's picture. */
-.lt-traj { --lt-traj-accent: #0C7D41; --lt-traj-cyan: #06b6d4; display: block; margin: 8px 0 10px; }
+.lt-traj { --lt-traj-accent: #4F46E5; --lt-traj-cyan: #06b6d4; display: block; margin: 8px 0 10px; }
 .lt-traj-card { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 100%; box-sizing: border-box; padding: 10px 12px 12px; border-radius: 16px; background: var(--lt-card, var(--dsw-alias-bg-layer-2)); box-shadow: inset 0 0 0 1px var(--lt-field-border, var(--lt-divider)); color: var(--dsw-alias-label-primary); outline: none; }
 .lt-traj-card:focus-visible { box-shadow: inset 0 0 0 2px var(--lt-accent); }
 .lt-traj-head { display: flex; align-items: center; gap: 6px; min-height: 26px; font-size: 12.5px; color: var(--dsw-alias-label-secondary); }
@@ -1395,7 +1395,7 @@ html[data-lt-muse] [data-conversation-scroll]:has(> .lt-intro-host) [class*="_co
 .lt-md-clip { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex: none; background: var(--dsw-alias-bg-layer-2); }
 .lt-md-clip-none { display: inline-block; border: 1px dashed var(--lt-divider); background: transparent; }
 .lt-md-bar { height: 4px; margin: 0 14px 12px; border-radius: 999px; background: var(--dsw-alias-bg-layer-3); overflow: hidden; }
-.lt-md-bar > span { display: block; height: 100%; background: var(--lt-accent, #0C7D41); border-radius: 999px; transition: width 300ms; }
+.lt-md-bar > span { display: block; height: 100%; background: var(--lt-accent, #4F46E5); border-radius: 999px; transition: width 300ms; }
 .lt-md-failed { color: #c9302c; }
 `
 

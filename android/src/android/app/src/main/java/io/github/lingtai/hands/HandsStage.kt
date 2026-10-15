@@ -556,11 +556,11 @@ class HandsStage(private val context: Context) {
         }
 
         companion object {
-            /** The desktop stage's accent (Muse's action green) and its cyan. */
-            private const val ACCENT = 0xFF0C7D41.toInt()
+            /** The desktop stage's accent (the brand purple) and its cyan. */
+            private const val ACCENT = 0xFF4F46E5.toInt()
             private const val CYAN = 0xFF06B6D4.toInt()
             /** The glow: the accent while the hands work, amber while they wait for the user (alpha 30 % down from 0.1.22). */
-            private const val GLOW_WORKING = 0x550C7D41.toInt()
+            private const val GLOW_WORKING = 0x554F46E5.toInt()
             private const val GLOW_WAITING = 0x60FFB000.toInt()
             /** Band width as a share of the shorter side; the colour is gone at half of it. */
             private const val GLOW_BAND = 0.14f

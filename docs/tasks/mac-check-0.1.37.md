@@ -10,7 +10,7 @@
 
 ## 0. 背景
 
-- 仓库 https://github.com/econswarm/灵台 （GPL-3.0-or-later）。桌面端在 `harness/`：
+- 仓库 https://github.com/econswarm/lingtai （GPL-3.0-or-later）。桌面端在 `harness/`：
   `harness/dsh-lingtai` 是跑在 DeepSeek Harness（dsh）里的灵台插件包，`harness/desktop`
   是 Electron 外壳（`src/main.ts` 主进程、`src/operator.ts` 操作器、`src/mac-permissions.ts`
   权限模块、`src/preload.ts`、`resources/*.html`），`lingtai/` 是 Python 运行时（电脑端的「双手」，

@@ -497,7 +497,7 @@ private fun renderIconBitmap(context: Context, choice: IconChoice, title: String
 
     val bg = Paint().apply {
         isAntiAlias = true
-        color = AGColor.parseColor("#FF0C7D41")
+        color = AGColor.parseColor("#FF4F46E5")
     }
     canvas.drawRect(RectF(0f, 0f, size.toFloat(), size.toFloat()), bg)
 

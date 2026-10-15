@@ -139,7 +139,7 @@ export function Avatar({ size, profile, mood = 'idle', className, title, still =
         },
       })
     : emoji
-      ? h('span', { className: 'lt-avatar-emoji', style: { background: profile.color || '#0C7D41', fontSize: Math.round(size * 0.58), lineHeight: `${size}px` } }, profile.emoji || '✨')
+      ? h('span', { className: 'lt-avatar-emoji', style: { background: profile.color || '#4F46E5', fontSize: Math.round(size * 0.58), lineHeight: `${size}px` } }, profile.emoji || '✨')
       : h('img', { src: poster, alt: '', width: size, height: size, draggable: false })
 
   return h(

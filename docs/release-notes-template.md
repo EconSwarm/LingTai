@@ -81,13 +81,13 @@ Based on [OpenMinis](https://github.com/OpenMinis/OpenMinis) 1.13 (GPL-3.0), mod
   | Windows 10+ | `灵台-Desktop-<version>-win-x64.exe`（桌面 App，基于 DeepSeek Harness） |
   | macOS 12+ | `灵台-Desktop-<version>-mac-arm64.dmg` / `-mac-x64.dmg`（或 `.zip`：解压后拖进「应用程序」） |
   | Linux x64 | `灵台-Desktop-<version>-linux-x64.deb` / `.AppImage`（需要 FUSE；没有就加 `--appimage-extract-and-run`）/ `.tar.gz`（解压到任意位置，运行 `./lingtai-desktop`）|
-  | 已在用 DeepSeek Harness Desktop | `dsh-lingtai-<version>.tgz`：`dsh plugin --profile desktop add …`（[怎么装](https://github.com/econswarm/灵台/blob/main/harness/README.md)） |
+  | 已在用 DeepSeek Harness Desktop | `dsh-lingtai-<version>.tgz`：`dsh plugin --profile desktop add …`（[怎么装](https://github.com/econswarm/lingtai/blob/main/harness/README.md)） |
 
   实测从国内直接下 GitHub 也不慢；万一下不动，同样的文件十五分钟内会出现在 [lingtai.cn/dl/v<version>/](https://lingtai.cn/dl/v<version>/)。
 
-### 社区灵台开源、免费、非营利。手机号或邮箱登录后有一份起始额度，钱是开发者出的；剩多少、怎么加，账号页里有数。用完可以换成自己的 key，或者用你已经在付费的套餐登录（[教程](https://github.com/econswarm/灵台/blob/main/docs/own-key.md)）。登录后，对话文字会保存在灵台云，让你的几台设备看到同样的对话；「数据控制」里一个开关就能关掉并删除；数据不卖（[隐私政策](https://lingtai.cn/privacy/)）；账号想删就删。
+### 社区灵台开源、免费、非营利。手机号或邮箱登录后有一份起始额度，钱是开发者出的；剩多少、怎么加，账号页里有数。用完可以换成自己的 key，或者用你已经在付费的套餐登录（[教程](https://github.com/econswarm/lingtai/blob/main/docs/own-key.md)）。登录后，对话文字会保存在灵台云，让你的几台设备看到同样的对话；「数据控制」里一个开关就能关掉并删除；数据不卖（[隐私政策](https://lingtai.cn/privacy/)）；账号想删就删。
 
-稳定版也不是最后一句话：灵台在持续进化，接下来做什么写在[路线图](https://github.com/econswarm/灵台/blob/main/docs/zh/roadmap.md)里。我们自己每天在用，知道哪些地方还糙；哪里坏了、想要什么，直接提 issue。谢谢每一位装过、试过、报过问题的人。[提 issue](https://github.com/econswarm/灵台/issues/new/choose) · [发 PR](https://github.com/econswarm/灵台/blob/main/CONTRIBUTING.md) · [Discussions](https://github.com/econswarm/灵台/discussions) · [Discord](https://discord.gg/bkTySmm28X) · [点个 Star](https://github.com/econswarm/灵台)；觉得有用，点个 Star，让更多人看到。
+稳定版也不是最后一句话：灵台在持续进化，接下来做什么写在[路线图](https://github.com/econswarm/lingtai/blob/main/docs/zh/roadmap.md)里。我们自己每天在用，知道哪些地方还糙；哪里坏了、想要什么，直接提 issue。谢谢每一位装过、试过、报过问题的人。[提 issue](https://github.com/econswarm/lingtai/issues/new/choose) · [发 PR](https://github.com/econswarm/lingtai/blob/main/CONTRIBUTING.md) · [Discussions](https://github.com/econswarm/lingtai/discussions) · [Discord](https://discord.gg/bkTySmm28X) · [点个 Star](https://github.com/econswarm/lingtai)；觉得有用，点个 Star，让更多人看到。
 
 基于 [OpenMinis](https://github.com/OpenMinis/OpenMinis) 1.13（GPL-3.0），自 2026-09-24 起修改；本版本的完整对应源码是 tag `v<version>` 加子模块 `android/deps/proot`（[ling-tai/proot](https://github.com/econswarm/proot)）。整个仓库以 GPL-3.0-or-later 发布。灵台桌面版原样携带 DeepSeek Harness 及其许可证文件；名字里的 *harness* 是普通词，不是 DeepSeek 的名字。灵台与 Meta 无关，Muse 是 Meta Platforms, Inc. 的商标。桌面端照着 Muse 应用用起来的样子做，是用过之后写下来的；里面没有 Meta 的任何素材、代码或内容。
 

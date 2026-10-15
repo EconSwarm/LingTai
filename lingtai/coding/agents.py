@@ -137,7 +137,9 @@ def which(agent: str) -> str | None:
 
 def version_of(cli: str) -> str:
     try:
-        out = subprocess.run([cli, "--version"], capture_output=True, text=True, timeout=8)
+        out = subprocess.run(
+            [cli, "--version"], capture_output=True, text=True, errors="replace", timeout=8
+        )
     except (OSError, subprocess.TimeoutExpired):
         return ""
     text = (out.stdout or out.stderr or "").strip().splitlines()
@@ -200,13 +202,13 @@ def _processes() -> list[tuple[str, str]]:
         return out
     if plat == "darwin":
         try:
-            ps = subprocess.run(
-                ["ps", "-axo", "comm=,args="], capture_output=True, text=True, timeout=8
-            )
+            ps = subprocess.run(["ps", "-axo", "comm=,args="], capture_output=True, timeout=8)
         except (OSError, subprocess.TimeoutExpired):
             return []
+        # `ps` prints every process's argv, and one of them may not be valid UTF-8; decoding
+        # strictly would take the whole coding-agents panel down with a UnicodeDecodeError.
         rows = []
-        for line in ps.stdout.splitlines():
+        for line in ps.stdout.decode("utf-8", "replace").splitlines():
             parts = line.strip().split(None, 1)
             if parts:
                 rows.append((parts[0], " ".join(parts[1].split()[:3]) if len(parts) > 1 else ""))
@@ -214,7 +216,11 @@ def _processes() -> list[tuple[str, str]]:
     if plat == "win32":
         try:
             tl = subprocess.run(
-                ["tasklist", "/FO", "CSV", "/NH"], capture_output=True, text=True, timeout=8
+                ["tasklist", "/FO", "CSV", "/NH"],
+                capture_output=True,
+                text=True,
+                errors="replace",
+                timeout=8,
             )
         except (OSError, subprocess.TimeoutExpired):
             return []
@@ -246,6 +252,7 @@ def _windows_node_command_lines() -> list[str]:
             ],
             capture_output=True,
             text=True,
+            errors="replace",
             timeout=15,
         )
     except (OSError, subprocess.TimeoutExpired):

@@ -26,8 +26,8 @@ export function LingTaiMark({
     <svg viewBox="8 16 84 68" width={size} height={size} className={className} style={style} aria-hidden="true">
       <defs>
         <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="12.6" y1="50" x2="87.8" y2="50">
-          <stop offset="0" stopColor="#32F08C" />
-          <stop offset="1" stopColor="#10DA6F" />
+          <stop offset="0" stopColor="#4F46E5" />
+          <stop offset="1" stopColor="#6366F1" />
         </linearGradient>
       </defs>
       <path d={N} fill={`url(#${id})`} />
