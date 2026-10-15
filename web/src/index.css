@@ -72,9 +72,9 @@
   --om-border: #e7e7ea;
   --om-fg: #111112;
   --om-muted: #6b6b71;
-  --om-accent: #0064d4;
-  --om-accent-soft: #e5f0ff;
-  --om-accent-soft-fg: #012f80;
+  --om-accent: #0C7D41;
+  --om-accent-soft: #EFFAF4;
+  --om-accent-soft-fg: #0E8B48;
   --om-ink: #000000;
   --om-ink-fg: #ffffff;
   --om-bubble-user: #000000;
@@ -91,9 +91,9 @@ html[data-theme="dark"] {
   --om-border: #333337;
   --om-fg: #ffffff;
   --om-muted: #9d9da4;
-  --om-accent: #1793ff;
-  --om-accent-soft: #1a2b4a;
-  --om-accent-soft-fg: #e5f0ff;
+  --om-accent: #32F08C;
+  --om-accent-soft: #074A27;
+  --om-accent-soft-fg: #E7F8EF;
   --om-ink: #ffffff;
   --om-ink-fg: #000000;
   --om-bubble-user: #ffffff;

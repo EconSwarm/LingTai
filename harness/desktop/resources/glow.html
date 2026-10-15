@@ -6,9 +6,9 @@
 <style>
   /* A transparent, click-through, always-on-top window over the whole display while the hands
      work — the phone's HandsStage, drawn for a desktop screen: a glow breathing along the four
-     edges (blue while the hands work, amber while they wait for the person; 2.4 s in, 2.4 s out),
+     edges (green while the hands work, amber while they wait for the person; 2.4 s in, 2.4 s out),
      a hairline at the rim, and at the point the hands act the phone's marker — a halo, a ring in
-     Muse's action blue with a cyan arc turning round it, a dot at the centre, the action's name in
+     Muse's action green with a cyan arc turning round it, a dot at the centre, the action's name in
      a dark pill beside it — that locks on in 220 ms and ripples twice as the click lands. A drag
      draws its path as a dashed line and sends the ring along it to an arrowhead; typing, keys and
      waits write their name where the last ring was. Nothing runs round the rim or sweeps across
@@ -17,7 +17,7 @@
      Nothing here is ever in a screenshot: the window has content protection on (macOS, Windows)
      or steps aside for the capture (Linux). The idea of a frame breathing round the screen is
      UI-TARS-desktop's ScreenMarker; nothing of it is copied. */
-  :root { --accent: #0a66e4; --violet: #7c5cff; --cyan: #06b6d4; --glow: rgba(10,102,228,0.34); --edge: rgba(10,102,228,0.45); --band: min(7vmin, 110px); }
+  :root { --accent: #0C7D41; --violet: #7c5cff; --cyan: #06b6d4; --glow: rgba(12,125,65,0.34); --edge: rgba(12,125,65,0.45); --band: min(7vmin, 110px); }
   html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; pointer-events: none; }
   .held { --glow: rgba(255,176,0,0.38); --edge: rgba(255,176,0,0.5); }
   /* the four bands, the colour at the edge gone at half the band; the whole breathes about the centre */
@@ -36,8 +36,8 @@
   .mark { position: fixed; left: 0; top: 0; width: 0; height: 0; opacity: 0; transition: opacity 180ms ease; }
   .mark.shown { opacity: 1; }
   .mark.fade { opacity: 0; transition: opacity 600ms ease; }
-  .mark .halo { position: absolute; left: -32px; top: -32px; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(closest-side, rgba(10,102,228,0.22), rgba(10,102,228,0)); }
-  .mark .ring { position: absolute; left: -12px; top: -12px; width: 24px; height: 24px; border-radius: 50%; box-shadow: 0 0 0 2px var(--accent), 0 0 0 5px rgba(10,102,228,0.22); }
+  .mark .halo { position: absolute; left: -32px; top: -32px; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(closest-side, rgba(12,125,65,0.22), rgba(12,125,65,0)); }
+  .mark .ring { position: absolute; left: -12px; top: -12px; width: 24px; height: 24px; border-radius: 50%; box-shadow: 0 0 0 2px var(--accent), 0 0 0 5px rgba(12,125,65,0.22); }
   .mark .arc { position: absolute; left: -17px; top: -17px; width: 34px; height: 34px; animation: turn 520ms linear infinite; }
   .mark .arc circle { fill: none; stroke: var(--cyan); stroke-width: 2; stroke-dasharray: 37.7 62.8; stroke-linecap: round; }
   @keyframes turn { to { transform: rotate(360deg); } }
@@ -82,7 +82,7 @@
   <div class="glow"><div class="band t"></div><div class="band b"></div><div class="band l"></div><div class="band r"></div></div>
   <div class="hair"></div>
   <svg class="trail" id="trail">
-    <defs><linearGradient id="trailGradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#0a66e4" /><stop offset="1" stop-color="#06b6d4" /></linearGradient></defs>
+    <defs><linearGradient id="trailGradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#0C7D41" /><stop offset="1" stop-color="#06b6d4" /></linearGradient></defs>
     <line id="trailLine" x1="0" y1="0" x2="0" y2="0" /><circle id="trailEnd" r="16" cx="0" cy="0" /><polygon id="trailHead" points="0,0 0,0 0,0" />
   </svg>
   <div class="ripple" id="ripple1"></div>

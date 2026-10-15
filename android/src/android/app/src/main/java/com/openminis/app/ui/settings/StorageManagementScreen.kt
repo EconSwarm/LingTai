@@ -116,7 +116,7 @@ fun StorageManagementScreen(
                 showDivider = true,
             )
             StorageOverviewRow(
-                color = Color(0xFF015CFB),
+                color = Color(0xFF0C7D41),
                 label = stringResource(R.string.storage_overview_database),
                 value = Formatter.formatFileSize(context, dbSize),
                 showDivider = true,

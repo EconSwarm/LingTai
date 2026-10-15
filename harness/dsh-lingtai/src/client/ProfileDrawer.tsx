@@ -348,7 +348,7 @@ function NameEditor({ t, profile, onDone }: { t: Translate; profile: LiveProfile
 function LookEditor({ t, profile, onDone }: { t: Translate; profile: LiveProfile; onDone(): void }): ReactNode {
   const [avatar, setAvatar] = useState<'dragon' | 'emoji'>(profile.avatar === 'emoji' ? 'emoji' : 'dragon')
   const [emoji, setEmoji] = useState(profile.emoji || '✨')
-  const [color, setColor] = useState(profile.color || '#0064d4')
+  const [color, setColor] = useState(profile.color || '#0C7D41')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | undefined>()
   const preview: LiveProfile = { ...profile, avatar, emoji, color }

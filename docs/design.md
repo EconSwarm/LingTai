@@ -6,7 +6,7 @@ The choices behind the app's look, written down so that the app stays coherent a
 
 | | How lingTai does it | Where |
 |---|---|---|
-| Surfaces and colour | Near-white in light and near-black in dark, no gradients, no card shadows to speak of; depth is one step of grey (`surface-2`) for chips and the tab bar. One accent, a saturated blue, used sparingly: `bg`, `surface-2`, `fg`, `muted`, accent `#0064d4`; dark mode by `prefers-color-scheme`. The conversation goes further on the phone and the web alike: the chat sits on pure white in light (on the phone the pill bar, the menus and the drawer too) and on black in dark on the phone, near-black on the web, and the blue stays with links and the status line | `web/src/index.css`, `android/…/values/colors.xml`, `android/…/ui/theme/ChatColors.kt` |
+| Surfaces and colour | Near-white in light and near-black in dark, no gradients, no card shadows to speak of; depth is one step of grey (`surface-2`) for chips and the tab bar. One accent, a saturated green, used sparingly: `bg`, `surface-2`, `fg`, `muted`, accent `#0C7D41`; dark mode by `prefers-color-scheme`. The conversation goes further on the phone and the web alike: the chat sits on pure white in light (on the phone the pill bar, the menus and the drawer too) and on black in dark on the phone, near-black on the web, and the green stays with links and the status line | `web/src/index.css`, `android/…/values/colors.xml`, `android/…/ui/theme/ChatColors.kt` |
 | Type | [Figtree](https://github.com/erikdkennedy/figtree) (OFL), bundled: one family at three or four sizes, large and friendly, tight letter-spacing on headings, generous line-height in bubbles | `web/public/fonts/` |
 | Chat | Monochrome pills on the phone and the web alike: your messages are white pills with black text on the dark canvas (black on white in light), the agent's a shade off the canvas, the send button and the scroll-to-latest control the same ink, and the header a scrim the conversation scrolls under and dissolves into. Tool use is not hidden: a small chip per action ("Checking price") that opens to the tool call; approval requests are cards inside the conversation with the summary the Sentinel wrote, the exact action spelled out, and the scope buttons (once, this conversation, always; on the phone once, this chat, always); files the agent made appear as tiles with a preview | `web/src/screens/ChatScreen.tsx`, `web/src/components/`, `android/…/ui/chat/ChatScreen.kt` |
 | The avatar | The bundled **dragon**, a still per state (idle, working, waiting, happy, error) and a short looping clip for every state but error, so the face changes with what the agent is doing instead of standing still; a face drawn in the avatar studio or an emoji on a colour as alternatives (the red panda of the early releases is the history below) | `web/src/components/Avatar.tsx`, `web/public/avatars/` |
@@ -53,7 +53,7 @@ The web console's tokens (`web/src/index.css`):
 | `border` | `#e7e7ea` | `#333337` |
 | `fg` | `#111112` | `#ffffff` |
 | `muted` | `#6b6b71` | `#9d9da4` |
-| `accent` | `#0064d4` | `#1793ff` |
+| `accent` | `#0c7d41` | `#32f08c` |
 | `ink` (the send button, the *Latest* button; `ink-fg` the glyph on it) | `#000000`, glyph `#ffffff` | `#ffffff`, glyph `#000000` |
 | `bubble-user` and its text (`bubble-user-fg`) | `#000000`, text `#ffffff` | `#ffffff`, text `#000000` |
 | `bubble-agent` | `#f2f2f7` | `#2a2a2d` |
@@ -70,7 +70,7 @@ The Android app's chat palette is `ChatColors.kt`, written by `scripts/rebrand.p
 | your pill (`userBubble`) and its text | `#000000`, text `#FFFFFF` | `#FFFFFF`, text `#000000` |
 | the agent's pill (`assistantBubble`) | `#F2F2F7` | `#1C1C1E` |
 | send and stop buttons (`sendButton`), glyph in the canvas colour | `#000000` | `#FFFFFF` |
-| links, status line (`link`, `thinking`) | `#015CFB` | `#58A6FF` |
+| links, status line (`link`, `thinking`) | `#0C7D41` | `#32F08C` |
 
 The iOS app's chat uses the same values: `LingTaiTones.ink` and `onInk` for your pill, the
 send disc and the scroll-to-latest disc, `agentPill` for the agent's, in `LingTaiFaces.swift`;

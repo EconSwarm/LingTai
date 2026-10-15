@@ -20,13 +20,13 @@
 <p align="center">
   <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/lingTai?style=flat&label=stars" alt="GitHub 스타"></a>
   <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/lingTai/total?label=downloads" alt="다운로드"></a>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0a66e4&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0c7d41&extraCount=16719" alt="Visitors">
   <a href="https://github.com/econswarm/lingtai/actions/workflows/ci.yml"><img src="https://github.com/econswarm/lingtai/actions/workflows/ci.yml/badge.svg?branch=main" alt="Test Suite"></a>
   <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/lingTai?label=license" alt="GPL-3.0-or-later"></a>
   <a href="https://arxiv.org/abs/2610.08699"><img src="https://img.shields.io/badge/arXiv-2610.08699-b31b1b" alt="arXiv 논문"></a>
   <br>
-  <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/%EC%8D%A8_%EB%B3%B4%EA%B8%B0-demo.lingtai.dev-0a66e4" alt="브라우저에서 써 보기"></a>
-  <a href="https://lingtai.cn/"><img src="https://img.shields.io/badge/%EC%9B%B9%EC%82%AC%EC%9D%B4%ED%8A%B8-lingtai.cn-0a66e4" alt="웹사이트"></a>
+  <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/%EC%8D%A8_%EB%B3%B4%EA%B8%B0-demo.lingtai.dev-0c7d41" alt="브라우저에서 써 보기"></a>
+  <a href="https://lingtai.cn/"><img src="https://img.shields.io/badge/%EC%9B%B9%EC%82%AC%EC%9D%B4%ED%8A%B8-lingtai.cn-0c7d41" alt="웹사이트"></a>
   <a href="https://discord.gg/bkTySmm28X"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
@@ -124,7 +124,7 @@ VPS 한 대, 한 시간: [docs/self-hosting.md](../self-hosting.md). 세 가지 
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/lgy0404"><img src="https://avatars.githubusercontent.com/u/63797388?v=4&s=80" width="80" height="80" alt="Guangyi Liu"><br><strong>Guangyi Liu</strong></a><br><a href="mailto:guangyiliu@zju.edu.cn"><img src="https://img.shields.io/badge/e--mail-guangyiliu%40zju.edu.cn-0a66e4" alt="guangyiliu@zju.edu.cn"></a></td>
+    <td align="center"><a href="https://github.com/lgy0404"><img src="https://avatars.githubusercontent.com/u/63797388?v=4&s=80" width="80" height="80" alt="Guangyi Liu"><br><strong>Guangyi Liu</strong></a><br><a href="mailto:guangyiliu@zju.edu.cn"><img src="https://img.shields.io/badge/e--mail-guangyiliu%40zju.edu.cn-0c7d41" alt="guangyiliu@zju.edu.cn"></a></td>
   </tr>
 </table>
 
@@ -181,5 +181,5 @@ lingTai는 독립적인 커뮤니티 프로젝트로, Meta Platforms, Inc.와 �
 
 <p align="center">
   <em>방문해 주셔서 감사합니다 ✨ lingTai.</em><br><br>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0a66e4&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0c7d41&extraCount=16719" alt="Visitors">
 </p>

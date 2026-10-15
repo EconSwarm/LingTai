@@ -24,8 +24,8 @@ test("the glow breathes along the four edges; nothing flows round the rim", () =
   assert.doesNotMatch(glow, /@keyframes flow\b/);
   assert.doesNotMatch(glow, /background-position/);
   assert.doesNotMatch(glow, /class="face"/);
-  // the hues: Muse's action blue while working, amber while the hands wait for the person
-  assert.match(glow, /--accent: #0a66e4/);
+  // the hues: Muse's action green while working, amber while the hands wait for the person
+  assert.match(glow, /--accent: #0C7D41/);
   assert.match(glow, /\.held \{ --glow: rgba\(255,176,0/);
 });
 

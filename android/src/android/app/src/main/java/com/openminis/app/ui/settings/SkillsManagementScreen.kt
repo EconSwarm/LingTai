@@ -1034,9 +1034,9 @@ private fun shareSkillZip(context: android.content.Context, zip: java.io.File) {
 }
 
 /** [T-android-skill-icon-circular] The same iOS-system-palette values the main
- *  Settings rows use (SettingsScreen): blue for navigational/remote actions,
- *  green for local filesystem operations. */
-private val SettingsIconBlue = Color(0xFF015CFB)
+ *  Settings rows use (SettingsScreen): deep green for navigational/remote actions,
+ *  the bright system green for local filesystem operations. */
+private val SettingsIconBlue = Color(0xFF0C7D41)
 private val SettingsIconGreen = Color(0xFF34C759)
 
 /**

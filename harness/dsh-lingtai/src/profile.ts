@@ -134,7 +134,7 @@ export class ProfileStore {
     if (light.avatar === 'emoji') {
       next.avatar = 'emoji'
       next.emoji = light.emoji || '✨'
-      next.color = light.color || '#0064d4'
+      next.color = light.color || '#0C7D41'
     } else if (light.avatar === 'face' && light.hasFace) {
       const faceId = await this.storeFace(apiKey, light)
       if (faceId) {

@@ -40,7 +40,7 @@ const PHONE_WIDTH = 360;
 const PHONE_HEIGHT = 800;
 const STATUS_BAR = 40; // MobileGym's status bar (os/data/simulatorConfig.ts)
 const OVERLAY_ATTR = 'data-muse-overlay';
-const ACCENT = '#0A66E4';
+const ACCENT = '#0C7D41';
 const CYAN = '#06B6D4';
 const RING_MS = 1300;
 const TRAIL_MS = 720;
@@ -69,11 +69,11 @@ const CSS = `
 @property --muse-a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
 .muse-stage { position:absolute; inset:0; z-index:2147483000; pointer-events:none; overflow:hidden;
   font-family:-apple-system,"PingFang SC","Noto Sans CJK SC","Segoe UI",system-ui,sans-serif; -webkit-font-smoothing:antialiased;
-  --accent:#0a66e4; --violet:#7c5cff; --cyan:#06b6d4; --ink:rgba(17,18,24,.84); }
+  --accent:#0C7D41; --violet:#7c5cff; --cyan:#06b6d4; --ink:rgba(17,18,24,.84); }
 .muse-stage canvas { position:absolute; left:0; top:0; width:${PHONE_WIDTH}px; height:${PHONE_HEIGHT}px; }
 /* ---- the rim */
 .muse-frame { position:absolute; inset:0; opacity:0; transition:opacity 480ms ease; --lap:8s;
-  --c1:var(--accent); --c2:var(--violet); --c3:var(--cyan); --dim:rgba(10,102,228,.2); --head:#eef7ff; --haze:rgba(124,92,255,.28); }
+  --c1:var(--accent); --c2:var(--violet); --c3:var(--cyan); --dim:rgba(12,125,65,.2); --head:#eefef4; --haze:rgba(124,92,255,.28); }
 .muse-frame.wait { --c1:#d97706; --c2:#f59e0b; --c3:#fbbf24; --dim:rgba(245,158,11,.22); --head:#fff6dc; --haze:rgba(245,158,11,.26); }
 .muse-frame.on { opacity:1; }
 .muse-frame .e, .muse-frame .g { position:absolute; background-repeat:no-repeat; animation:var(--lap) linear infinite; }
@@ -94,7 +94,7 @@ const CSS = `
 @keyframes muse-run-y { 0%{background-position-y:200%} 50%{background-position-y:0%} 100%{background-position-y:0%} }
 @keyframes muse-run-x-back { 0%{background-position-x:-100%} 50%{background-position-x:100%} 100%{background-position-x:100%} }
 @keyframes muse-run-y-back { 0%{background-position-y:-100%} 50%{background-position-y:100%} 100%{background-position-y:100%} }
-.muse-frame .h { position:absolute; --g:rgba(10,102,228,.15); }
+.muse-frame .h { position:absolute; --g:rgba(12,125,65,.15); }
 .muse-frame.wait .h { --g:rgba(245,158,11,.14); }
 .muse-frame .h.t { top:0; left:0; right:0; height:80px; background:linear-gradient(180deg,var(--g),transparent); }
 .muse-frame .h.b { bottom:0; left:0; right:0; height:80px; background:linear-gradient(0deg,var(--g),transparent); }
@@ -104,7 +104,7 @@ const CSS = `
 .muse-frame .look-set .h { --g:rgba(6,182,212,.3); }
 .muse-frame.look .look-set { opacity:1; }
 .muse-scan { position:absolute; left:0; right:0; top:-6px; height:3px; opacity:0;
-  background:linear-gradient(90deg,transparent,rgba(6,182,212,.9),rgba(10,102,228,.9),transparent); box-shadow:0 0 18px rgba(6,182,212,.6); }
+  background:linear-gradient(90deg,transparent,rgba(6,182,212,.9),rgba(12,125,65,.9),transparent); box-shadow:0 0 18px rgba(6,182,212,.6); }
 .muse-scan.go { animation:muse-sweep 620ms cubic-bezier(.4,0,.2,1) 1; }
 @keyframes muse-sweep { 0%{opacity:0;transform:translateY(0)} 10%{opacity:1} 90%{opacity:1} 100%{opacity:0;transform:translateY(${PHONE_HEIGHT}px)} }
 @keyframes muse-turn { to { --muse-a:360deg; } }
@@ -675,8 +675,8 @@ export class Stage {
   private drawPoint(m: Mark, tt: number, now: number): void {
     const ctx = this.ctx;
     const halo = ctx.createRadialGradient(m.x, m.y, 3, m.x, m.y, 30);
-    halo.addColorStop(0, `rgba(10,102,228,${0.22 * (1 - tt)})`);
-    halo.addColorStop(1, 'rgba(10,102,228,0)');
+    halo.addColorStop(0, `rgba(12,125,65,${0.22 * (1 - tt)})`);
+    halo.addColorStop(1, 'rgba(12,125,65,0)');
     ctx.fillStyle = halo;
     ctx.beginPath();
     ctx.arc(m.x, m.y, 30, 0, Math.PI * 2);
@@ -686,19 +686,19 @@ export class Stage {
       if (r <= 0) continue;
       ctx.beginPath();
       ctx.arc(m.x, m.y, 15 + easeOut(r) * 50, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(10,102,228,${(1 - r) * 0.5})`;
+      ctx.strokeStyle = `rgba(12,125,65,${(1 - r) * 0.5})`;
       ctx.lineWidth = 2.2 - r * 1.4;
       ctx.stroke();
     }
     const a = Math.min(1, 1.6 - tt);
     ctx.beginPath();
     ctx.arc(m.x, m.y, 17, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(10,102,228,${a * 0.22})`;
+    ctx.strokeStyle = `rgba(12,125,65,${a * 0.22})`;
     ctx.lineWidth = 8;
     ctx.stroke();
     ctx.beginPath();
     ctx.arc(m.x, m.y, 17, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(10,102,228,${a})`;
+    ctx.strokeStyle = `rgba(12,125,65,${a})`;
     ctx.lineWidth = 2.5;
     ctx.stroke();
     const from = (now / 520) % (Math.PI * 2);
@@ -763,7 +763,7 @@ export class Stage {
     const ey = m.y + (m.y2 - m.y) * p;
     const fade = 1 - Math.max(0, (tt - 0.7) / 0.3);
     const grad = ctx.createLinearGradient(m.x, m.y, m.x2, m.y2);
-    grad.addColorStop(0, `rgba(10,102,228,${0.9 * fade})`);
+    grad.addColorStop(0, `rgba(12,125,65,${0.9 * fade})`);
     grad.addColorStop(1, `rgba(6,182,212,${0.9 * fade})`);
     ctx.beginPath();
     ctx.moveTo(m.x, m.y);

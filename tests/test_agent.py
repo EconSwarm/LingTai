@@ -156,6 +156,26 @@ async def test_context_window_trims_at_user_boundary(settings: Settings):
     assert [m.content for m in ctx] == ["u2", "a2"]
 
 
+async def test_context_window_never_starts_on_a_tool_result(settings: Settings):
+    """A long tool-heavy turn has no user message left to cut at; the window keeps the
+    assistant that opened the exchange instead of starting on a bare tool result, which
+    providers reject with a 400."""
+    settings.agent.max_context_messages = 3
+    agent, *_ = make_agent(settings, [])
+    from lingtai.schema import Message
+
+    agent.messages = [
+        Message.user("u1"),
+        Message.assistant(tool_calls=[tc("search")]),
+        Message.tool("r1", "x", "search"),
+        Message.assistant(tool_calls=[tc("search")]),
+        Message.tool("r2", "y", "search"),
+    ]
+    ctx = agent.context_messages()
+    assert [m.role for m in ctx] == [Role.ASSISTANT, Role.TOOL, Role.ASSISTANT, Role.TOOL]
+    assert ctx[0].tool_calls
+
+
 async def test_context_window_keeps_only_the_newest_images(settings: Settings):
     """C9: `agent.max_context_images` — the pictures of the newest N image-bearing messages
     go to the model; older ones are replaced by a note. The history itself keeps them."""

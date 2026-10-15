@@ -15,27 +15,21 @@ import androidx.compose.ui.text.font.FontWeight // lingTai
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Accent: iOS blue, desaturated. [T-android-accent-blue-parity]
+// Accent: one brand green at two lightnesses. [T-android-accent-green-parity]
 //
-// Was a teal (#2E8B8B / #4DD9D9) that predated iOS settling on blue. The hue
-// now comes from iOS Assets.xcassets/AccentColor.colorset (sRGB components
-// r0.212 g0.525 b0.933 -> #3686EE light, r0.329 g0.565 b0.894 -> #5490E4 dark),
-// but iOS's saturation (84% / 73%) read as glaring on Android's darker
-// surfaces, so SATURATION is dialled back ~30% with hue and lightness kept:
-//   light  #3686EE  S84% L57%  ->  #528AD2  S59% L57%
-//   dark   #5490E4  S73% L61%  ->  #6A94CE  S51% L61%
-//
-// Lightness is deliberately NOT raised, which is the other way to "lighten".
-// It would have softened dark mode further but pushed light-mode contrast on
-// white from 3.62 to 2.62 — below WCAG AA's 4.5 for text. Desaturating keeps
-// dark mode at 5.93 (passing) and leaves light mode where it was.
+// The hue comes from iOS Assets.xcassets/AccentColor.colorset (sRGB components
+// r0.047 g0.490 b0.255 -> #0C7D41 light, r0.196 g0.941 b0.549 -> #32F08C dark):
+// #32F08C is the brand stroke green from assets/brand/lingtai-mark.svg. The
+// bright green reads at full saturation only on dark surfaces, so light mode
+// stays on the deeper #0C7D41, whose 5.2:1 contrast on white clears WCAG AA's
+// 4.5 for links and filled buttons.
 //
 // Names keep the `Teal` prefix only to avoid churning 90+ call sites; the
 // value is the contract, not the name.
-private val TealPrimary = Color(0xFF015CFB)
+private val TealPrimary = Color(0xFF0C7D41)
 private val TealOnPrimary = Color(0xFFFFFFFF)
-private val TealPrimaryContainer = Color(0xFFE5F0FF)
-private val TealOnPrimaryContainer = Color(0xFF012F80)
+private val TealPrimaryContainer = Color(0xFFEFFAF4)
+private val TealOnPrimaryContainer = Color(0xFF0E8B48)
 private val TealSecondary = Color(0xFF4F5B6E)
 private val TealOnSecondary = Color(0xFFFFFFFF)
 private val TealSecondaryContainer = Color(0xFFDCE6F5)
@@ -52,10 +46,10 @@ private val TealSurfaceVariant = Color(0xFFE5E5EA)
 private val TealOnSurfaceVariant = Color(0xFF3C3C43)
 private val TealOutline = Color(0xFF6E6E73)
 
-private val TealDarkPrimary = Color(0xFF58A6FF)
-private val TealDarkOnPrimary = Color(0xFF00224D)
-private val TealDarkPrimaryContainer = Color(0xFF1A2B4A)
-private val TealDarkOnPrimaryContainer = Color(0xFFE5F0FF)
+private val TealDarkPrimary = Color(0xFF32F08C)
+private val TealDarkOnPrimary = Color(0xFF053D1F)
+private val TealDarkPrimaryContainer = Color(0xFF074A27)
+private val TealDarkOnPrimaryContainer = Color(0xFFE7F8EF)
 private val TealDarkSecondary = Color(0xFFB8C6DA)
 private val TealDarkOnSecondary = Color(0xFF22304A)
 private val TealDarkSecondaryContainer = Color(0xFF334159)

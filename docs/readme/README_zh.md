@@ -20,13 +20,13 @@
 <p align="center">
   <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/lingTai?style=flat&label=stars" alt="GitHub stars"></a>
   <a href="https://github.com/econswarm/灵台/releases"><img src="https://img.shields.io/github/downloads/ling-tai/灵台/total?label=downloads" alt="下载量"></a>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0a66e4&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0c7d41&extraCount=16719" alt="Visitors">
   <a href="https://github.com/econswarm/lingtai/actions/workflows/ci.yml"><img src="https://github.com/econswarm/lingtai/actions/workflows/ci.yml/badge.svg?branch=main" alt="Test Suite"></a>
   <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/lingTai?label=license" alt="GPL-3.0-or-later"></a>
   <a href="https://arxiv.org/abs/2610.08699"><img src="https://img.shields.io/badge/arXiv-2610.08699-b31b1b" alt="arXiv 上的论文"></a>
   <br>
-  <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/%E5%9C%A8%E7%BA%BF%E4%BD%93%E9%AA%8C-demo.lingtai.dev-0a66e4" alt="在线体验"></a>
-  <a href="https://lingtai.cn/"><img src="https://img.shields.io/badge/%E5%AE%98%E7%BD%91-lingtai.cn-0a66e4" alt="官网"></a>
+  <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/%E5%9C%A8%E7%BA%BF%E4%BD%93%E9%AA%8C-demo.lingtai.dev-0c7d41" alt="在线体验"></a>
+  <a href="https://lingtai.cn/"><img src="https://img.shields.io/badge/%E5%AE%98%E7%BD%91-lingtai.cn-0c7d41" alt="官网"></a>
   <a href="https://discord.gg/bkTySmm28X"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
@@ -118,7 +118,7 @@ https://github.com/user-attachments/assets/bf0ec2ae-59aa-4358-9dd0-c9d045ee7bee
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/lgy0404"><img src="https://avatars.githubusercontent.com/u/63797388?v=4&s=80" width="80" height="80" alt="Guangyi Liu"><br><strong>Guangyi Liu</strong></a><br><a href="mailto:guangyiliu@zju.edu.cn"><img src="https://img.shields.io/badge/e--mail-guangyiliu%40zju.edu.cn-0a66e4" alt="guangyiliu@zju.edu.cn"></a></td>
+    <td align="center"><a href="https://github.com/lgy0404"><img src="https://avatars.githubusercontent.com/u/63797388?v=4&s=80" width="80" height="80" alt="Guangyi Liu"><br><strong>Guangyi Liu</strong></a><br><a href="mailto:guangyiliu@zju.edu.cn"><img src="https://img.shields.io/badge/e--mail-guangyiliu%40zju.edu.cn-0c7d41" alt="guangyiliu@zju.edu.cn"></a></td>
   </tr>
 </table>
 
@@ -167,5 +167,5 @@ https://github.com/user-attachments/assets/bf0ec2ae-59aa-4358-9dd0-c9d045ee7bee
 
 <p align="center">
   <em>感谢来访 ✨ 灵台。</em><br><br>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0a66e4&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0c7d41&extraCount=16719" alt="Visitors">
 </p>

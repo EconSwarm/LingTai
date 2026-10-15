@@ -136,7 +136,7 @@ async function render(palette: Palette, profile: Profile | null, name: string, b
     ctx.fillRect(fx, fy, faceSize, faceSize);
     ctx.drawImage(img, fx, fy, faceSize, faceSize);
   } else {
-    ctx.fillStyle = profile?.color ?? "#0064d4";
+    ctx.fillStyle = profile?.color ?? "#0C7D41";
     ctx.fillRect(fx, fy, faceSize, faceSize);
     ctx.font = `${faceSize * 0.5}px system-ui, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif`;
     ctx.textAlign = "center";

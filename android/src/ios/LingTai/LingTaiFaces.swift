@@ -22,13 +22,13 @@ enum LingTaiMood: String, CaseIterable, Codable {
 /// An emoji on a colour: the look the desktop and the web console can set and the profile
 /// carries as `avatar: "emoji"` with `emoji` and `color` (#435). The phone cannot pick one
 /// yet; it wears the one another device chose. The fallbacks are the desktop's
-/// (`src/client/Avatar.tsx`): a sparkle for no emoji, the action blue for no colour.
+/// (`src/client/Avatar.tsx`): a sparkle for no emoji, the action green for no colour.
 struct LingTaiEmojiLook: Codable, Equatable {
     var emoji: String
     var color: String
 
     static let defaultEmoji = "✨"
-    static let defaultColor = "#0064d4"
+    static let defaultColor = "#0C7D41"
 
     /// What is drawn: the emoji, or the sparkle when the profile carries none.
     var shownEmoji: String {
@@ -39,13 +39,13 @@ struct LingTaiEmojiLook: Codable, Equatable {
     /// The disc's colour, parsed from the profile's `#rrggbb`.
     var uiColor: UIColor { Self.color(hex: color) }
 
-    /// `#rrggbb` (the `#` optional, either case) as a colour; anything else is the default blue.
+    /// `#rrggbb` (the `#` optional, either case) as a colour; anything else is the default green.
     static func color(hex: String) -> UIColor {
         var digits = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         if digits.hasPrefix("#") { digits.removeFirst() }
         guard digits.count == 6, let value = UInt32(digits, radix: 16) else {
-            // #0064d4, the action blue
-            return UIColor(red: 0, green: 100.0 / 255.0, blue: 212.0 / 255.0, alpha: 1)
+            // #0C7D41, the action green
+            return UIColor(red: 12.0 / 255.0, green: 125.0 / 255.0, blue: 65.0 / 255.0, alpha: 1)
         }
         return UIColor(
             red: CGFloat((value >> 16) & 0xff) / 255,

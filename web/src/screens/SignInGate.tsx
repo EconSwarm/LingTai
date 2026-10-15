@@ -33,14 +33,14 @@ export function SignInGate() {
   );
   return (
     <div className="relative mx-auto flex h-[100dvh] w-full max-w-[760px] flex-col overflow-hidden bg-bg sm:border-x sm:border-border wide:max-w-none wide:border-0">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[46vh] bg-[radial-gradient(ellipse_at_top,rgba(0,100,212,0.14),transparent_65%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(23,147,255,0.2),transparent_65%)] wide:inset-y-0 wide:h-auto wide:bg-[radial-gradient(ellipse_at_left,rgba(0,100,212,0.12),transparent_60%)] wide:dark:bg-[radial-gradient(ellipse_at_left,rgba(23,147,255,0.16),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[46vh] bg-[radial-gradient(ellipse_at_top,rgba(12,125,65,0.14),transparent_65%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(50,240,140,0.2),transparent_65%)] wide:inset-y-0 wide:h-auto wide:bg-[radial-gradient(ellipse_at_left,rgba(12,125,65,0.12),transparent_60%)] wide:dark:bg-[radial-gradient(ellipse_at_left,rgba(50,240,140,0.16),transparent_60%)]" />
       <div className="titlebar-room relative" />
       <div className="relative flex-1 overflow-y-auto px-6 pb-8 wide:flex wide:items-center wide:px-12">
         <div className="mx-auto w-full wide:grid wide:max-w-[980px] wide:grid-cols-[1.1fr_1fr] wide:items-center wide:gap-16">
           {/* the words */}
           <div className="safe-top flex flex-col items-center pt-14 text-center wide:items-start wide:pt-0 wide:text-left">
             {/* the door is the app's, so the app's mark — the face comes once there is a Muse to meet */}
-            <BrandMark size={88} className="drop-shadow-[0_20px_40px_rgba(0,100,212,0.28)]" />
+            <BrandMark size={88} className="drop-shadow-[0_20px_40px_rgba(12,125,65,0.28)]" />
             <h1 className="mt-6 text-[28px] font-bold tracking-tight wide:text-[34px]">{t("Sign in to {name}", { name })}</h1>
             <p className="mt-2 max-w-sm text-[14.5px] leading-relaxed text-muted wide:max-w-md wide:text-[15.5px]">
               {t("One free account. It is what lets your phone and computers work as one and brings a model to start with.")}

@@ -20,13 +20,13 @@
 <p align="center">
   <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/lingTai?style=flat&label=stars" alt="Estrellas en GitHub"></a>
   <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/lingTai/total?label=downloads" alt="Descargas"></a>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0a66e4&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0c7d41&extraCount=16719" alt="Visitors">
   <a href="https://github.com/econswarm/lingtai/actions/workflows/ci.yml"><img src="https://github.com/econswarm/lingtai/actions/workflows/ci.yml/badge.svg?branch=main" alt="Test Suite"></a>
   <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/lingTai?label=license" alt="GPL-3.0-or-later"></a>
   <a href="https://arxiv.org/abs/2610.08699"><img src="https://img.shields.io/badge/arXiv-2610.08699-b31b1b" alt="Artículo en arXiv"></a>
   <br>
-  <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/Pru%C3%A9balo-demo.lingtai.dev-0a66e4" alt="Pruébalo en el navegador"></a>
-  <a href="https://lingtai.cn/"><img src="https://img.shields.io/badge/Sitio_web-lingtai.cn-0a66e4" alt="Sitio web"></a>
+  <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/Pru%C3%A9balo-demo.lingtai.dev-0c7d41" alt="Pruébalo en el navegador"></a>
+  <a href="https://lingtai.cn/"><img src="https://img.shields.io/badge/Sitio_web-lingtai.cn-0c7d41" alt="Sitio web"></a>
   <a href="https://discord.gg/bkTySmm28X"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
@@ -124,7 +124,7 @@ Un VPS, una hora: [docs/self-hosting.md](../self-hosting.md). Tres caminos: sin 
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/lgy0404"><img src="https://avatars.githubusercontent.com/u/63797388?v=4&s=80" width="80" height="80" alt="Guangyi Liu"><br><strong>Guangyi Liu</strong></a><br><a href="mailto:guangyiliu@zju.edu.cn"><img src="https://img.shields.io/badge/e--mail-guangyiliu%40zju.edu.cn-0a66e4" alt="guangyiliu@zju.edu.cn"></a></td>
+    <td align="center"><a href="https://github.com/lgy0404"><img src="https://avatars.githubusercontent.com/u/63797388?v=4&s=80" width="80" height="80" alt="Guangyi Liu"><br><strong>Guangyi Liu</strong></a><br><a href="mailto:guangyiliu@zju.edu.cn"><img src="https://img.shields.io/badge/e--mail-guangyiliu%40zju.edu.cn-0c7d41" alt="guangyiliu@zju.edu.cn"></a></td>
   </tr>
 </table>
 
@@ -181,5 +181,5 @@ lingTai es un proyecto comunitario independiente, no afiliado a Meta Platforms, 
 
 <p align="center">
   <em>Gracias por visitar ✨ lingTai.</em><br><br>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0a66e4&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=0c7d41&extraCount=16719" alt="Visitors">
 </p>

@@ -62,7 +62,7 @@ Applied by `python scripts/rebrand.py` (idempotent; run after every upstream pul
   `HTTP-Referer` keeps pointing at OpenMinis, as on Android: it is attribution, not identity.
 - **Versions.** `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` follow the Android
   `versionName` / `versionCode`; CI overrides the build number with the run number.
-- **Look.** AccentColor `#015CFB` / `#58A6FF` instead of iOS blue; the one-stroke N as the app
+- **Look.** AccentColor `#0C7D41` / `#32F08C` instead of iOS blue; the one-stroke N as the app
   icon (white tile, brand gradient; a dark tile for the dark appearance) and as the four skins of
   the in-app icon picker; the agent's header glyph 🐾 instead of ✨.
 - **About.** Links to this repository and its issues, the privacy page, lingTai's own tagline,

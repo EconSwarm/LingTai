@@ -23,9 +23,9 @@
   --border: #e7e7ea;
   --fg: #111112;
   --muted: #6b6b71;
-  --accent: #0064d4;
+  --accent: #0C7D41;
   --accent-fg: #ffffff;
-  --bubble: #d8e9ff;
+  --bubble: #EFFAF4;
   --rose: #e11d48;
   --rose-soft: #ffe4e6;
   --amber: #f59e0b;
@@ -41,8 +41,8 @@
     --border: #333337;
     --fg: #ffffff;
     --muted: #9d9da4;
-    --accent: #1793ff;
-    --bubble: #1c3d66;
+    --accent: #32F08C;
+    --bubble: #074A27;
     --rose: #fb7185;
     --rose-soft: #3b1d25;
   }
