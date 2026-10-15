@@ -42,7 +42,7 @@ import dev.chrisbanes.haze.hazeEffect
 import io.github.lingtai.ui.chat.LT_CHAT_COMPOSER_BOTTOM_GAP
 
 /**
- * lingTai's bottom bar: a floating frosted-glass pill, five glyphs, icons only. The pill blurs
+ * LingTai's bottom bar: a floating frosted-glass pill, five glyphs, icons only. The pill blurs
  * whatever is behind it (Haze, in the Pixel taskbar's manner) and carries a hairline edge. The
  * current tab shows a filled glyph on a soft indicator pill that springs in; the others are
  * outlined. No labels: the fill and the indicator are the state.

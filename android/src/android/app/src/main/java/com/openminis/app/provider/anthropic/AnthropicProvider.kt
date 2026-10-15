@@ -80,7 +80,7 @@ class AnthropicProvider(
         // [T-android-stale-conn-retry-hang] Shared pool — see NetworkMonitor.
         // Network-transition eviction must reach provider connections.
         .connectionPool(com.openminis.app.network.NetworkMonitor.sharedLLMConnectionPool)
-        .proxyAuthenticator(io.github.lingtai.net.OwnProviderProxy.authenticator) // lingTai: Settings → Network, a proxy with a password
+        .proxyAuthenticator(io.github.lingtai.net.OwnProviderProxy.authenticator) // LingTai: Settings → Network, a proxy with a password
         .build()
 
     override suspend fun sendMessageClamped(
@@ -288,7 +288,7 @@ class AnthropicProvider(
      */
     internal fun resolveSystemPrompt(userPrompt: String?): JSONArray? {
         if (isOAuth) {
-            // lingTai: read the Claude Code identifier only on the OAuth path; the public build leaves
+            // LingTai: read the Claude Code identifier only on the OAuth path; the public build leaves
             // it empty, and an API key never needs it (#333). An empty one refuses the send with a
             // provider error the chat shows as one sentence, instead of throwing out of the getter (#373)
             val claudeCodePrefix = io.github.lingtai.cloud.ClaudeSignIn.identifier

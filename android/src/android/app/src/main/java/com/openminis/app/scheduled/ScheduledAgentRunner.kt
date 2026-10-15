@@ -6,7 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.app.NotificationCompat
 import com.openminis.app.MinisApp
-import com.openminis.app.R // lingTai
+import com.openminis.app.R // LingTai
 import com.openminis.app.debug.HeadlessChatRunner
 import com.openminis.app.logging.AppLogger
 import com.openminis.app.service.AgentForegroundService
@@ -168,7 +168,7 @@ object ScheduledAgentRunner {
                 timeoutMs = RUN_TIMEOUT_MS,
             )
         } else {
-            // lingTai: the row this sends is the routine's, not the person's: the chat draws it as
+            // LingTai: the row this sends is the routine's, not the person's: the chat draws it as
             // a quiet line and the model is told so for this one turn (RoutineWakes).
             io.github.lingtai.chat.RoutineWakes.arm(app, sessionId, task.label)
             HeadlessChatRunner.prompt(
@@ -188,7 +188,7 @@ object ScheduledAgentRunner {
             responseText = "Error: ${t.message}",
             timedOut = false,
         )
-    }.also { if (it.status == "Error") io.github.lingtai.chat.RoutineWakes.disarm(sessionId) } // lingTai: a prompt that never went out leaves no mark
+    }.also { if (it.status == "Error") io.github.lingtai.chat.RoutineWakes.disarm(sessionId) } // LingTai: a prompt that never went out leaves no mark
 
     private suspend fun resolveSessionId(app: MinisApp, task: ScheduledTask): String? {
         return when (val mode = task.targetMode) {
@@ -301,10 +301,10 @@ object ScheduledAgentRunner {
         sessionId: String,
         preview: String,
     ) {
-        // lingTai: the feed's routine tells of its posts itself (and opens the Feed, not a chat).
+        // LingTai: the feed's routine tells of its posts itself (and opens the Feed, not a chat).
         if (io.github.lingtai.feed.FeedFlow.notifyIfFeed(context, task)) return
         val deepLink = Uri.parse("minis://session/$sessionId")
-        // lingTai: to MainActivity by name; the manifest no longer registers the `minis` scheme
+        // LingTai: to MainActivity by name; the manifest no longer registers the `minis` scheme
         val openIntent: Intent = io.github.lingtai.deeplink.OwnScheme.intent(context, deepLink, flags = 0)
         val notificationId = task.id.hashCode() and 0x7FFFFFFF
         val contentPi = PendingIntent.getActivity(
@@ -313,11 +313,11 @@ object ScheduledAgentRunner {
             openIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
-        // lingTai: the agent's own name, as on every other notification it sends.
+        // LingTai: the agent's own name, as on every other notification it sends.
         val title = "${io.github.lingtai.identity.LingTaiIdentity.name(context)}: ${task.label.ifBlank { "Scheduled task" }}"
         val notification = NotificationCompat.Builder(context, ScheduledTaskManager.CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_stat_lingtai) // lingTai: flat status-bar mark
-            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // lingTai: the agent is the sender
+            .setSmallIcon(R.drawable.ic_stat_lingtai) // LingTai: flat status-bar mark
+            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // LingTai: the agent is the sender
             .setContentTitle(title)
             .setContentText(preview)
             .setStyle(NotificationCompat.BigTextStyle().bigText(preview))

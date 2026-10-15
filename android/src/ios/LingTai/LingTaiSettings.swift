@@ -1,6 +1,6 @@
 //
 //  LingTaiSettings.swift
-//  lingTai
+//  LingTai
 //
 //  Settings as Muse cards, in Android's order: the model, the agent, the
 //  phone, the app, about. Reached from the drawer, the ••• menus and the
@@ -175,7 +175,7 @@ struct LingTaiSettingsHomeView: View {
 
     private var aboutCard: some View {
         LingTaiCard {
-            LingTaiLinkRow(title: AppLocalized("About lingTai")) { AboutView() }
+            LingTaiLinkRow(title: AppLocalized("About LingTai")) { AboutView() }
             LingTaiRowDivider()
             LingTaiActionRow(title: AppLocalized("Privacy Policy")) {
                 openURL(LingTaiLinks.privacy)

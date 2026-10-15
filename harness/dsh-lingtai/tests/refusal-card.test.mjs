@@ -98,7 +98,7 @@ test('429 allowance_exhausted: the allowance card — lead, the three ways, Try 
   assert.match(en, /Use your own model key/)
   assert.match(en, /Sign in with a plan you already pay for/)
   assert.match(en, /Invite a friend/)
-  assert.match(en, /Open Settings → lingTai Cloud/)
+  assert.match(en, /Open Settings → LingTai Cloud/)
   assert.match(en, /Step-by-step guide/)
   assert.match(en, />Try again</)
   assert.doesNotMatch(en, /429|allowance_exhausted|lingtai_cloud|[{}]/)
@@ -141,7 +141,7 @@ test('401: the sign-in expired — one sentence and Sign in; 5xx and a timeout: 
   assert.match(signedOut, />Sign in</)
   assert.doesNotMatch(signedOut, /401|bad_key/)
   const down = render('en', nodeFor(502, { message: 'The model provider did not answer.', code: 'upstream' }, 'SERVER'))
-  assert.match(down, /lingTai Cloud did not answer/)
+  assert.match(down, /LingTai Cloud did not answer/)
   assert.match(down, />Try again</)
   const timeout = relayFailure({ message: 'No chunk received for 60 s (idle timeout).', code: 'TIMEOUT' })
   const unreachable = render('zh', { kind: 'turn-error', data: { message: timeout.failure.message, code: timeout.failure.code } })
@@ -153,8 +153,8 @@ test('daily_cap and an account the relay disabled keep the relay’s own sentenc
   assert.match(cap, /Today’s share of the allowance is used up/)
   assert.match(cap, /The relay said: Today&#x27;s allowance is used up\. It resets at midnight UTC\./)
   const disabled = render('en', nodeFor(403, { message: 'This account has been disabled.', code: 'account_disabled' }, 'AUTH'))
-  assert.match(disabled, /This account cannot use lingTai Cloud right now/)
-  assert.match(disabled, />Open Settings → lingTai Cloud</)
+  assert.match(disabled, /This account cannot use LingTai Cloud right now/)
+  assert.match(disabled, />Open Settings → LingTai Cloud</)
 })
 
 test('relay 0.22: the allowance paused by the operator — the same card, saying paused rather than used up; service, sync and hub paused — one sentence and Try again', () => {
@@ -170,9 +170,9 @@ test('relay 0.22: the allowance paused by the operator — the same card, saying
   assert.match(pausedZh, /暂时停发了免费额度，不是用完了/)
   assert.doesNotMatch(pausedZh, /免费额度已用完。/)
 
-  const service = render('en', nodeFor(503, { message: 'lingTai Cloud is paused by its operator for now; your sign-in and your data are kept. Try again later.', code: 'service_paused', paused: true }, 'SERVER'))
+  const service = render('en', nodeFor(503, { message: 'LingTai Cloud is paused by its operator for now; your sign-in and your data are kept. Try again later.', code: 'service_paused', paused: true }, 'SERVER'))
   assert.match(service, /data-kind="service_paused"/)
-  assert.match(service, /lingTai Cloud is paused by its operator for now; your sign-in and your data are kept\./)
+  assert.match(service, /LingTai Cloud is paused by its operator for now; your sign-in and your data are kept\./)
   assert.match(service, />Try again</)
   assert.doesNotMatch(service, /503|did not answer|The relay said/)
   const sync = render('zh', nodeFor(503, { message: 'Conversation sync is paused …', code: 'sync_paused', paused: true }, 'SERVER'))
@@ -189,13 +189,13 @@ test('another provider’s failure (an own key): a plain sentence by the harness
   assert.match(auth, /The provider did not accept the key/)
   assert.match(auth, /<details/)
   assert.match(auth, /<summary[^>]*>What came back</)
-  assert.match(auth, />Open Settings → lingTai Cloud</)
+  assert.match(auth, />Open Settings → LingTai Cloud</)
   const quiet = render('zh', { kind: 'turn-error', data: { message: 'The model returned an empty response.', code: 'EMPTY_RESPONSE' } })
   assert.match(quiet, /模型这次没有回答。/)
   assert.match(quiet, />再试一次</)
-  // *Use lingTai Cloud this time* (0.1.41) needs a signed-in account: the live state here says signed out, so no button; the strings exist in both dictionaries
+  // *Use LingTai Cloud this time* (0.1.41) needs a signed-in account: the live state here says signed out, so no button; the strings exist in both dictionaries
   assert.doesNotMatch(auth, /lt-rf-cloud-once/)
-  assert.equal(bundle.en.rfUseCloudOnce, 'Use lingTai Cloud this time')
+  assert.equal(bundle.en.rfUseCloudOnce, 'Use LingTai Cloud this time')
   assert.equal(bundle.zh.rfUseCloudOnce, '这次改用灵台云')
 })
 

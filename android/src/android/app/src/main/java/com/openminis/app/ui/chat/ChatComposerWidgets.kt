@@ -120,7 +120,7 @@ import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material.icons.filled.Keyboard
 import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.outlined.Mic // lingTai
+import androidx.compose.material.icons.outlined.Mic // LingTai
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.CloseFullscreen
@@ -373,7 +373,7 @@ internal fun AttachmentChip(
 @Composable
 internal fun InputCircleButton(
     onClick: () -> Unit,
-    plain: Boolean = false, // lingTai: bare glyph, no disc (Muse's composer pill)
+    plain: Boolean = false, // LingTai: bare glyph, no disc (Muse's composer pill)
     content: @Composable () -> Unit,
 ) {
     Box(
@@ -409,14 +409,14 @@ internal fun MicButton(
     // [T-android-voice-panel] While the inline voice panel is active the same
     // slot switches back to text input — keyboard glyph (mirrors iOS "T").
     isVoiceActive: Boolean = false,
-    plain: Boolean = false, // lingTai: bare glyph, no disc (Muse's composer pill)
+    plain: Boolean = false, // LingTai: bare glyph, no disc (Muse's composer pill)
 ) {
     val bg = if (isRecording) Color.Red.copy(alpha = 0.15f)
              else if (plain) Color.Transparent
              else ChatColors.inputIconBg
     val tint = if (isRecording) Color.Red
                else MaterialTheme.colorScheme.onSurfaceVariant
-    val borderColor = if (isRecording || plain) Color.Transparent else ChatColors.inputIconBorder // lingTai: plain composer
+    val borderColor = if (isRecording || plain) Color.Transparent else ChatColors.inputIconBorder // LingTai: plain composer
     Box(
         modifier = Modifier
             .size(38.dp)
@@ -430,11 +430,11 @@ internal fun MicButton(
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            if (isVoiceActive) Icons.Default.Keyboard else if (plain) Icons.Outlined.Mic else Icons.Default.Mic, // lingTai: plain composer
+            if (isVoiceActive) Icons.Default.Keyboard else if (plain) Icons.Outlined.Mic else Icons.Default.Mic, // LingTai: plain composer
             contentDescription = if (isVoiceActive) "Switch to keyboard"
             else if (isRecording) "Stop recording" else "Voice input",
             tint = tint,
-            modifier = Modifier.size(if (plain) 22.dp else 20.dp), // lingTai: Muse's outlined mic
+            modifier = Modifier.size(if (plain) 22.dp else 20.dp), // LingTai: Muse's outlined mic
         )
         if (!localeBadge.isNullOrEmpty()) {
             Text(
@@ -712,7 +712,7 @@ private fun ToolPreviewThumbnail(
                         try { android.graphics.BitmapFactory.decodeFile(path) } catch (_: Exception) { null }
                     }
                 }
-                // lingTai: a finished action that saved no screenshot keeps its last live frame.
+                // LingTai: a finished action that saved no screenshot keeps its last live frame.
                 val bitmap = liveBitmap ?: savedBitmap ?: io.github.lingtai.status.BrowserFrames.get(block.id)
                 if (bitmap != null) {
                     Image(
@@ -875,7 +875,7 @@ internal fun FloatingToolStatusBar(
             // stays clean.
 
             // Tool title
-            // lingTai: a finished browser step reads "<title> · Done", the way Muse closes its browser card.
+            // LingTai: a finished browser step reads "<title> · Done", the way Muse closes its browser card.
             val ltTitle = block.toolTitle.ifEmpty { block.toolName }
             Text(
                 text = if (isDone && block.toolName == "browser_use") "$ltTitle · ${stringResource(R.string.lt_tool_done)}" else ltTitle,

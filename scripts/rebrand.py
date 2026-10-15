@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Turn the OpenMinis tree in android/ into lingTai. Idempotent; re-run after every
+"""Turn the OpenMinis tree in android/ into LingTai. Idempotent; re-run after every
 upstream pull (CONTRIBUTING.md), then scripts/gen-android-icons.py.
 
 What it changes, and only this:
 
 - Gradle: applicationId, versionCode / versionName (the Kotlin package and namespace stay).
 - The places that hard-code the package id (shortcuts, the accessibility service id).
-- The product name: "Minis" -> "lingTai" in the 17 strings.xml and in Kotlin string
+- The product name: "Minis" -> "LingTai" in the 17 strings.xml and in Kotlin string
   literals (never in identifiers, paths such as /var/minis, or MinisSkills).
 - The Soul defaults (agent name and header emoji).
 - Links: update source, GitHub repository, issues, privacy policy.
@@ -15,16 +15,16 @@ What it changes, and only this:
   notification also carries the agent's face as its large icon (Muse: the agent
   is the sender).
 - "<name> is browsing": the browser banner string takes the Soul name (%1$s).
-- A handful of first-run / notification strings reworded in lingTai's voice
+- A handful of first-run / notification strings reworded in LingTai's voice
   (COPY below, en + zh + zh-rTW; the other locales keep the upstream text).
 
 - iOS (android/src/ios, when present): the bundle ids (com.openminis.app* → io.github.lingtai.app*,
   including the app group and iCloud container), the display names, MARKETING_VERSION /
-  CURRENT_PROJECT_VERSION, "Minis" -> "lingTai" in Swift string literals and in
+  CURRENT_PROJECT_VERSION, "Minis" -> "LingTai" in Swift string literals and in
   Localizable.xcstrings (keys renamed, every translation updated), the About links, the
   Soul emoji, the accent colour. Icons: scripts/gen-ios-icons.py.
 
-Anything else is a hand edit marked `// lingTai:` in the file.
+Anything else is a hand edit marked `// LingTai:` in the file.
 
     python scripts/rebrand.py            # apply, then report what is still upstream's
     python scripts/rebrand.py --check    # report only, write nothing
@@ -47,10 +47,10 @@ RES = MAIN / "res"
 IOS = ROOT / "android" / "src" / "ios"
 
 APP_ID = "io.github.lingtai.app"
-NAME = "lingTai"
+NAME = "LingTai"
 VERSION_NAME = "1.0.5"
 VERSION_CODE = 48
-REPO = "ling-tai/lingTai"
+REPO = "ling-tai/LingTai"
 REPO_URL = f"https://github.com/{REPO}"
 PRIVACY_URL = f"{REPO_URL}/blob/main/docs/privacy.md"
 
@@ -95,7 +95,7 @@ def package_ids() -> None:
             (
                 r'const val SERVICE_ID = "com\.openminis\.app/\.accessibility\.MinisAccessibilityService"',
                 'val SERVICE_ID = "${BuildConfig.APPLICATION_ID}/com.openminis.app.accessibility.'
-                'MinisAccessibilityService" // lingTai: the applicationId is not the package',
+                'MinisAccessibilityService" // LingTai: the applicationId is not the package',
             ),
         ],
     )
@@ -138,7 +138,7 @@ def soul_defaults() -> None:
             [
                 (
                     r'^([ \t]*)assertEquals\("Minis", back\.metadata\.name\)$',
-                    r"\1// lingTai: round-trip the rebranded default name.\n"
+                    r"\1// LingTai: round-trip the rebranded default name.\n"
                     r"\1assertEquals(SoulMetadata.DEFAULT.name, back.metadata.name)",
                 ),
             ],
@@ -150,7 +150,7 @@ def links() -> None:
         JAVA / "data" / "UpdateChecker.kt",
         [
             (r'private const val OWNER = "[^"]+"', 'private const val OWNER = "ling-tai"'),
-            (r'private const val REPO = "[^"]+"', 'private const val REPO = "lingTai"'),
+            (r'private const val REPO = "[^"]+"', 'private const val REPO = "LingTai"'),
             (
                 r'const val RELEASES_URL: String = "[^"]+"',
                 f'const val RELEASES_URL: String = "{REPO_URL}/releases"',
@@ -249,7 +249,7 @@ def notification_icons() -> None:
             [
                 (
                     r"setSmallIcon\(R\.mipmap\.ic_launcher\)",
-                    "setSmallIcon(R.drawable.ic_stat_lingtai) // lingTai: flat status-bar mark",
+                    "setSmallIcon(R.drawable.ic_stat_lingtai) // LingTai: flat status-bar mark",
                 ),
             ],
         )
@@ -268,7 +268,7 @@ def notification_faces() -> None:
         ctx, indent = m.group(2), m.group(3)
         return (
             f"{m.group(1)}{indent}.setLargeIcon(io.github.lingtai.identity.LingTaiIdentity"
-            f".face({ctx})) // lingTai: the agent is the sender\n"
+            f".face({ctx})) // LingTai: the agent is the sender\n"
         )
 
     for path in sorted(JAVA.rglob("*.kt")):
@@ -279,13 +279,13 @@ def notification_faces() -> None:
             changed.append(str(path.relative_to(ROOT)))
 
 
-# Reworded in lingTai's voice. Locale dir -> string name -> text.
+# Reworded in LingTai's voice. Locale dir -> string name -> text.
 COPY: dict[str, dict[str, str]] = {
     "values": {
         "sessionlist_welcome_subtitle": "Three steps, and you have an assistant that lives on your phone.",
         "about_minis_tagline": "An open-source personal agent for every device you own. On this phone today; everything runs here, with your own model.",
         "onboarding_welcome_subtitle": "An AI assistant with its own terminal and browser, running on this phone.",
-        "bg_service_notification_title": "lingTai is working",
+        "bg_service_notification_title": "LingTai is working",
     },
     "values-zh": {
         "sessionlist_welcome_subtitle": "三步之后，你就有一个住在手机里的助理。",
@@ -443,7 +443,7 @@ def ios_product_name() -> None:
     for key, entry in strings.items():
         new_key = WORD.sub(NAME, key)
         if new_key in renamed and new_key != key:
-            continue  # upstream already has the lingTai spelling; keep theirs
+            continue  # upstream already has the LingTai spelling; keep theirs
         renamed[new_key] = walk(entry)
     if renamed != strings:
         data["strings"] = renamed
@@ -472,7 +472,7 @@ def ios_links() -> None:
             (r'"https://github\.com/OpenMinis"\)', f'"{REPO_URL}")'),
             (r'"https://github\.com/OpenMinis/OpenMinis/issues"\)', f'"{REPO_URL}/issues")'),
             (
-                r'"(?:(?:Minis|lingTai) is Your Fully Local, Fully Private On-Device Agent'
+                r'"(?:(?:Minis|LingTai) is Your Fully Local, Fully Private On-Device Agent'
                 r'|A fully open-source, Muse-style personal agent for every device you own)\."',
                 '"An open-source personal agent for every device you own."',
             ),

@@ -144,13 +144,13 @@ test('the built-in names are two, from the pool of the language, the same for th
 
 test('the addendum follows the phase and quotes the opening; nothing once over', () => {
   const s = fresh()
-  const ask = promptAddendum(s, 'en', 'lingTai')
+  const ask = promptAddendum(s, 'en', 'LingTai')
   assert.ok(ask.startsWith('First conversation. The app already showed the user this opening'))
   for (const line of introLines('en')) assert.ok(ask.includes(line.split('\n')[0]))
   assert.ok(ask.includes('```lingtai-naming'))
   assert.ok(ask.includes('"user_address"'))
   const asking = afterTurn(s, '```lingtai-naming\n{"user_address": "Lin", "suggest": ["Pip", "Wren"]}\n```').state
-  const chooser = promptAddendum(asking, 'en', 'lingTai')
+  const chooser = promptAddendum(asking, 'en', 'LingTai')
   assert.ok(chooser.includes('"Pip", "Wren"'))
   assert.ok(chooser.includes('meaning "Pip"'))
   assert.ok(chooser.includes('The user goes by "Lin"'))

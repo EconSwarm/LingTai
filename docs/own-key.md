@@ -1,10 +1,10 @@
 # Bring your own key
 
 
-lingTai is free and non-profit. The model behind it costs money, and the
+LingTai is free and non-profit. The model behind it costs money, and the
 developer pays for a starting allowance per account (the app shows the relay's
 current figures). When it is gone, there are two ways on that need nothing
-from lingTai: a key of your own at a model provider, or a plan you already
+from LingTai: a key of your own at a model provider, or a plan you already
 pay for (ChatGPT, Claude, Kimi) signed in from the app.
 
 Every client reads the same list of providers, with what each one covers:
@@ -14,7 +14,7 @@ configured provider covers is simply not offered, with one sentence saying
 which providers would; nothing breaks.
 
 Your sign-in, your invite code and your devices are not affected: the account
-stays, only the model provider changes. Nothing you say passes through lingTai
+stays, only the model provider changes. Nothing you say passes through LingTai
 Cloud once your own key or plan is in use.
 
 ## Where you are decides who comes first
@@ -64,7 +64,7 @@ short videos.
 | OpenCode Go | ● | | | | outside mainland China | [opencode.ai/auth](https://opencode.ai/auth) |
 | Ollama / LM Studio / vLLM (on your machine) | ● | | | | both | no key |
 
-Only Bailian has a dot under *Clips* because lingTai's clip generation speaks
+Only Bailian has a dot under *Clips* because LingTai's clip generation speaks
 Bailian's video API; the other vendors' video models sit behind their own task
 APIs, not wired this round. Under *Pictures*, OpenRouter goes through its
 Image API with models such as `openai/gpt-image-2`; Gemini uses
@@ -78,7 +78,7 @@ there, checked against each vendor's documentation in October 2026.
 ## Making a key
 
 The same three steps everywhere: sign up → create an API key in the console →
-paste it into lingTai. **The key is for lingTai only; never send it to anyone
+paste it into LingTai. **The key is for LingTai only; never send it to anyone
 or paste it into a chat.**
 
 - **Alibaba Cloud Bailian.** Sign in to [bailian.console.aliyun.com](https://bailian.console.aliyun.com/) with an Alibaba Cloud account (identity verification is required), accept *Enable Model Studio* on first entry, then create a key on the [API-KEY page](https://bailian.console.aliyun.com/?apiKey=1); it starts with `sk-`. A new account comes with free tokens for a while. Set a usage alert in the console.
@@ -90,16 +90,16 @@ or paste it into a chat.**
 - **MiniMax.** Mainland edition at [platform.minimaxi.com](https://platform.minimaxi.com/user-center/basic-information/interface-key), base URL `https://api.minimaxi.com/v1`; the global base URL is `https://api.minimax.io/v1`.
 - **OpenRouter.** Sign in at [openrouter.ai](https://openrouter.ai/) with Google, GitHub or an e-mail address, add credit under *Credits*, create a key under *Keys*; it starts with `sk-or-v1-`. *Settings → Limits* puts a monthly cap on a key.
 - **OpenAI.** [platform.openai.com](https://platform.openai.com/api-keys), base URL `https://api.openai.com/v1`.
-- **Anthropic.** [platform.claude.com](https://platform.claude.com/settings/keys). lingTai speaks Anthropic's own API; no compatibility layer is needed.
+- **Anthropic.** [platform.claude.com](https://platform.claude.com/settings/keys). LingTai speaks Anthropic's own API; no compatibility layer is needed.
 - **Google Gemini.** [aistudio.google.com/apikey](https://aistudio.google.com/apikey), base URL `https://generativelanguage.googleapis.com/v1beta/openai`.
 - **xAI, Groq, Mistral.** A key from each console; base URLs `https://api.x.ai/v1`, `https://api.groq.com/openai/v1`, `https://api.mistral.ai/v1`.
 - **OpenCode Zen.** A key from [opencode.ai/auth](https://opencode.ai/auth); pay per request from a balance, a few models are free. Base URL `https://opencode.ai/zen/v1`. Only the models on the OpenAI shape are reached, so chat and no hands: the vision model OpenCode lists, `deepseek-v4-flash-vision-exp`, is an id DeepSeek has retired on its own platform. OpenCode publishes no plan sign-in, only a key, so there is nothing to sign in with here.
-- **OpenCode Go.** The subscription on the same host: Go ($10 a month) or Go Plus ($40) in the OpenCode console, then a key from [opencode.ai/auth](https://opencode.ai/auth). Base URL `https://opencode.ai/zen/go/v1`. Usage is counted per model against monthly, weekly and five hour limits. OpenCode means Go for coding agents and asks a client to name itself and to send one stable id per conversation in `x-opencode-session` ([its Go page](https://opencode.ai/go), under *Can I use Go with other coding agents?*). The runtime (and so the web console) sends `lingTai/<version>` as its user agent and the conversation's id in that header on every Go request; a call outside a conversation, such as the connection test, carries an id of its own. The desktop writes Go as its model adapter's own OpenCode Go route, which sends the same header and reaches each model on its own shape: the desktop offers the models that route's catalog lists, those on the Responses and Messages shapes included; elsewhere only the OpenAI shape is reached. The phone apps send it too, on chat and Responses requests to OpenCode's host: the id is the chat's prompt cache key, a hash of its first message that stays the same across its turns (two chats that open with the very same words share one). Chat only, for the same reason as Zen.
+- **OpenCode Go.** The subscription on the same host: Go ($10 a month) or Go Plus ($40) in the OpenCode console, then a key from [opencode.ai/auth](https://opencode.ai/auth). Base URL `https://opencode.ai/zen/go/v1`. Usage is counted per model against monthly, weekly and five hour limits. OpenCode means Go for coding agents and asks a client to name itself and to send one stable id per conversation in `x-opencode-session` ([its Go page](https://opencode.ai/go), under *Can I use Go with other coding agents?*). The runtime (and so the web console) sends `LingTai/<version>` as its user agent and the conversation's id in that header on every Go request; a call outside a conversation, such as the connection test, carries an id of its own. The desktop writes Go as its model adapter's own OpenCode Go route, which sends the same header and reaches each model on its own shape: the desktop offers the models that route's catalog lists, those on the Responses and Messages shapes included; elsewhere only the OpenAI shape is reached. The phone apps send it too, on chat and Responses requests to OpenCode's host: the id is the chat's prompt cache key, a hash of its first message that stays the same across its turns (two chats that open with the very same words share one). Chat only, for the same reason as Zen.
 
-**Paste it into lingTai.**
+**Paste it into LingTai.**
 
 - Phone: *Set it up* on the allowance card opens the provider form pre-filled; or *Settings → Providers → Add*, pick the provider, paste the key, save.
-- Desktop: *Set it up* on the allowance card opens *Settings → lingTai Cloud* at the provider's row; or paste the key on that provider's row under *Ways on* there. The address is already filled in.
+- Desktop: *Set it up* on the allowance card opens *Settings → LingTai Cloud* at the provider's row; or paste the key on that provider's row under *Ways on* there. The address is already filled in.
 - Web console: *Set it up* on the allowance card opens *Connections* with the provider chosen; or *Connections → Chat model*, click the provider, paste the key, save.
 - A runtime of your own: `[llm] provider = "bailian"` (any id from the table) and `api_key` in `config.toml`; the address and the default model fill in from the catalogue. Pictures or clips from another provider are an `[image]` / `[video]` block ([configuration.md](configuration.md#image-and-video)).
 
@@ -108,7 +108,7 @@ one switch per job the provider can do (chat, operating the screen, making
 pictures, making clips), all on. *Use it* moves those rows to this provider, on
 the catalogue's default model for each job (or the first model of its list that
 fits); *Not now* changes nothing, and so does a switch you turned off. Signed
-in, the card says lingTai Cloud keeps the rest. Every row can be changed later
+in, the card says LingTai Cloud keeps the rest. Every row can be changed later
 under *Settings › Models* (web console: *Connections*).
 
 ## Which model does what
@@ -120,12 +120,12 @@ model*, *Hands model*, *Making pictures* and *Making clips* cards on
 
 | Row | What it does | Who is listed |
 |---|---|---|
-| Chat | The model that talks with you. | lingTai Cloud's chat models while signed in and switched on, then every provider of yours with chat models |
-| Operating the screen | Looks at the screen and acts for you. Needs a model that can see images. | lingTai Cloud's hands model, then your providers' models that see images; disabled on the iPhone (*Not on iPhone*) |
-| Making pictures | Portraits of your Muse and the pictures you ask for. | lingTai Cloud, then your providers with image models |
-| Making clips | Short clips of your Muse. | lingTai Cloud, then your providers with video models (Bailian) |
+| Chat | The model that talks with you. | LingTai Cloud's chat models while signed in and switched on, then every provider of yours with chat models |
+| Operating the screen | Looks at the screen and acts for you. Needs a model that can see images. | LingTai Cloud's hands model, then your providers' models that see images; disabled on the iPhone (*Not on iPhone*) |
+| Making pictures | Portraits of your Muse and the pictures you ask for. | LingTai Cloud, then your providers with image models |
+| Making clips | Short clips of your Muse. | LingTai Cloud, then your providers with video models (Bailian) |
 
-Each row shows `provider · model` and opens a picker: the *lingTai Cloud*
+Each row shows `provider · model` and opens a picker: the *LingTai Cloud*
 group first while signed in, its recommended model marked, then one group per
 provider of yours holding only the models that fit. A provider without the
 capability does not appear in that row at all. A row nothing covers shows the
@@ -138,7 +138,7 @@ that has not been written to yet takes the pick as well: the main chat right
 after a sign-in (the account starts with an empty one), or a new chat you
 opened and left. So what the Chat row names is what answers the next message
 you send, in the main chat and in a new one, whichever source you came from:
-a plan you signed in with (ChatGPT, Claude, Kimi), a key of yours or lingTai
+a plan you signed in with (ChatGPT, Claude, Kimi), a key of yours or LingTai
 Cloud; a sign-in never steps in front of a pick. The same
 on the phones and the desktop. A group of yours picked in a chat's own picker
 (a row of the `•••` menu, or a model under it) becomes the default as it is,
@@ -151,16 +151,16 @@ chat takes that level along when it follows the pick, as a new chat and the
 chat's own picker do.
 
 **Automatic.** The screen, pictures and clips rows open with an *Automatic*
-entry that says what it gives right now (*Currently lingTai Cloud ·
+entry that says what it gives right now (*Currently LingTai Cloud ·
 qwen3.8-27b*, say). Pick it and the row forgets any choice made there and
 follows one order: the chat model's provider when it is one of yours and can do
-the job (its catalogue default), else lingTai Cloud while signed in and switched on, else the
-first provider of yours that can. A choice you made always wins; lingTai Cloud
+the job (its catalogue default), else LingTai Cloud while signed in and switched on, else the
+first provider of yours that can. A choice you made always wins; LingTai Cloud
 never steps in front of a provider you chose. Each device keeps its own choice,
 because keys never leave the device where they were entered.
 
 **No silent fallback.** When a model of your own fails under a turn, nothing
-switches by itself: the error card offers *Use lingTai Cloud this time*
+switches by itself: the error card offers *Use LingTai Cloud this time*
 (signed in only), which runs that one turn on the account's model and changes
 no row. The desktop shows the same button after a failed studio round and a
 failed set of clips.
@@ -180,23 +180,23 @@ documents a level for shows no control, as do Bailian (its switch is
 `enable_thinking`, which cannot be left unsent), LM Studio and a custom
 endpoint. A key saved before this build gets the control at the next start.
 
-**Switching lingTai Cloud off.** While signed in, the Models page has one
-switch, *Use lingTai Cloud models*. Off, the Cloud leaves the pickers and the
+**Switching LingTai Cloud off.** While signed in, the Models page has one
+switch, *Use LingTai Cloud models*. Off, the Cloud leaves the pickers and the
 automatic order, no side call (a chat's title, memory, a portrait, the hands)
-runs on it, and the only thing that spends your allowance is the *Use lingTai
+runs on it, and the only thing that spends your allowance is the *Use LingTai
 Cloud this time* button, each time you tap it. You stay signed in: sync, your
 devices and the account page keep working. The Cloud provider cannot be deleted
 the way one of yours can (deleting it was the same as signing out); signing out
-is under *Settings › lingTai Cloud*.
+is under *Settings › LingTai Cloud*.
 
 **Without an account.** With a key of your own the app works signed out: chat,
 the hands, pictures and clips run on your providers, and the first screen
 offers *Use your own API key instead* next to the sign-in. The sign-in is
-needed only for lingTai Cloud's models, conversation sync and your devices
+needed only for LingTai Cloud's models, conversation sync and your devices
 reaching each other.
 
 **Known limits.** On the iPhone the pictures and clips rows list, besides
-lingTai Cloud, only your providers on a DashScope host (Alibaba Cloud Bailian);
+LingTai Cloud, only your providers on a DashScope host (Alibaba Cloud Bailian);
 a key the catalogue says can draw (OpenRouter, OpenAI, Gemini, a custom
 endpoint) is named in one sentence under the picker, *Not offered here: …*,
 with where it does work, so you know the phone has not lost it.
@@ -220,7 +220,7 @@ Some plans sign in directly, with no key to make:
 
 The ChatGPT sign-in uses the authorisation flow of OpenAI's own Codex (web
 console: *Connections → Or sign in with a ChatGPT plan*; desktop: the ChatGPT
-row under *Settings → lingTai Cloud*; phone: *Settings → Providers → OpenAI →
+row under *Settings → LingTai Cloud*; phone: *Settings → Providers → OpenAI →
 Sign in*). Signed in, it covers chat and the hands only: the Codex backend has
 no image or video endpoints, so pictures and clips still want a key.
 
@@ -271,22 +271,22 @@ the same card with that provider's host in it.
 **Settings → Network → HTTP proxy for own providers** (Android and iPhone):
 host, port, an optional user name and password; off by default, kept on this
 phone only. Only the requests to the providers you added with your own key and
-to the ChatGPT plan go through it; lingTai Cloud, your computers and the local
+to the ChatGPT plan go through it; LingTai Cloud, your computers and the local
 network never do. A *Test* row fetches `https://chatgpt.com/` through the proxy
 as entered and says whether it got through and in how many milliseconds. The
 same setting lives where each app keeps its keys: the phones have it in the
-provider form; the desktop under **Settings → lingTai Cloud → Network**, one
+provider form; the desktop under **Settings → LingTai Cloud → Network**, one
 address (`http://host:port` or `socks5://host:port`) that the app applies to its
 host process at the next start (*Restart now* is under the row), so every own
 key, the ChatGPT sign-in, the hands' runtime and whatever else the app sends out go
-through it, and lingTai Cloud never does ([desktop.md](desktop.md)); the web app has the *Proxy* field in the
+through it, and LingTai Cloud never does ([desktop.md](desktop.md)); the web app has the *Proxy* field in the
 own-key form; the runtime has `[llm] proxy` in `config.toml`
 ([configuration.md](configuration.md#llm)).
 
 ## Local models
 
 Ollama, LM Studio and vLLM on your own computer work too: pick the preset
-(web console: *Connections*; desktop: *Settings → lingTai Cloud*; phone:
+(web console: *Connections*; desktop: *Settings → LingTai Cloud*; phone:
 *Settings → Providers*); the address defaults to the local port
 (`http://127.0.0.1:11434/v1`, `:1234`, `:8000`) and no key is needed. They
 count as *chat*; the hands need a model that sees, so run a multimodal one
@@ -305,7 +305,7 @@ Anything that speaks the OpenAI API works; choose *Custom*:
 | API key | the key made in the provider's console (a local server may leave it empty) |
 | Model | pick from the list after saving; if the endpoint does not list its models, the form asks for their ids (comma-separated) and saves with those |
 
-What a custom endpoint covers is yours to say: lingTai takes it for chat, and
+What a custom endpoint covers is yours to say: LingTai takes it for chat, and
 the hands, picture and clip models count once their ids are filled in.
 
 **Several at once.** On the desktop app and in the web console the custom

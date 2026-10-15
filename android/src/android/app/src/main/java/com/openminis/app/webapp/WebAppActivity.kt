@@ -205,7 +205,7 @@ class WebAppActivity : ComponentActivity() {
 
     /**
      * T-pwa-3: replaces the prior toast-and-finish with an inline error
-     * screen offering an "Open in lingTai" escape hatch.
+     * screen offering an "Open in LingTai" escape hatch.
      */
     @OptIn(ExperimentalMaterial3Api::class)
     private fun renderSourceMissing(sourceSessionId: String?) {

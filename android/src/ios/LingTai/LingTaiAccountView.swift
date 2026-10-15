@@ -109,7 +109,7 @@ struct LingTaiAccountSections: View {
                 docs: spend.ownKeyDocs ?? (ways.docs.isEmpty ? LingTaiLinks.ownKeyDocs : ways.docs),
                 compact: false
             ) { pick = $0 }
-            // lingTai: the policy's gate (LingTaiStar / contract C1), not a bare "starred" check
+            // LingTai: the policy's gate (LingTaiStar / contract C1), not a bare "starred" check
             if spend.exhausted && exhaustedAsk {
                 Label {
                     VStack(alignment: .leading, spacing: 4) {
@@ -345,7 +345,7 @@ struct LingTaiAccountSections: View {
             let next = try await LingTaiCloud.sheet()
             sheet = next
             account = LingTaiCloud.account
-            // lingTai: contract C1 — the policy's gate decides, once per moment
+            // LingTai: contract C1 — the policy's gate decides, once per moment
             if LingTaiStar.shared.signedIn() { starAsk = true }
             if next.spend?.exhausted == true, LingTaiStar.shared.due(.exhausted) {
                 LingTaiStar.shared.markShown(.exhausted)

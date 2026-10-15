@@ -71,8 +71,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val notification = NotificationCompat.Builder(context, AlarmOffloadManager.CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
-            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // lingTai: the agent is the sender
-            .setContentTitle(io.github.lingtai.identity.LingTaiIdentity.name(context)) // lingTai: the agent set this alarm
+            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // LingTai: the agent is the sender
+            .setContentTitle(io.github.lingtai.identity.LingTaiIdentity.name(context)) // LingTai: the agent set this alarm
             .setContentText(label)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)

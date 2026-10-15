@@ -12,7 +12,7 @@ import okhttp3.Request
 import org.json.JSONObject
 
 object GeminiModelsApi {
-    private val client = OkHttpClient.Builder().proxyAuthenticator(io.github.lingtai.net.OwnProviderProxy.authenticator).build() // lingTai: Settings → Network, a proxy with a password
+    private val client = OkHttpClient.Builder().proxyAuthenticator(io.github.lingtai.net.OwnProviderProxy.authenticator).build() // LingTai: Settings → Network, a proxy with a password
     private val cache = ProviderModelsCache("gemini")
 
     /**

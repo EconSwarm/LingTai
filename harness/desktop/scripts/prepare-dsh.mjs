@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Stage the harness the desktop app carries: `dsh/` next to this file's parent, with
-// `@deepseek-ai/dsh` (the version the bundle's peer dependencies name) and the lingTai
+// `@deepseek-ai/dsh` (the version the bundle's peer dependencies name) and the LingTai
 // bundle installed side by side by npm — the Loader finds a bundle linked from the profile
 // to that copy, so no pnpm runs on the person's machine.
 //
@@ -67,7 +67,7 @@ rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 writeFileSync(
   join(out, "package.json"),
-  `${JSON.stringify({ name: "lingtai-desktop-dsh", private: true, description: "DeepSeek Harness and the lingTai bundle, as lingTai Desktop carries them" }, null, 2)}\n`,
+  `${JSON.stringify({ name: "lingtai-desktop-dsh", private: true, description: "DeepSeek Harness and the LingTai bundle, as LingTai Desktop carries them" }, null, 2)}\n`,
 );
 // No install scripts, whatever the npm version's policy (npm 11 blocks them by default,
 // npm 10 runs them): the harness's dependencies carry prebuilt binaries and their scripts
@@ -152,7 +152,7 @@ rmSync(join(out, "node_modules", ".package-lock.json"), { force: true });
 const runtimeDir = join(appDir, "runtime");
 if (!existsSync(runtimeDir)) {
   mkdirSync(runtimeDir);
-  writeFileSync(join(runtimeDir, "README.txt"), "No runtime for the hands was built into this copy of lingTai Desktop; `lingtai` on PATH or LINGTAI_PY serves them.\n");
+  writeFileSync(join(runtimeDir, "README.txt"), "No runtime for the hands was built into this copy of LingTai Desktop; `lingtai` on PATH or LINGTAI_PY serves them.\n");
 }
 
 // ---------------------------------------------------------------- the record

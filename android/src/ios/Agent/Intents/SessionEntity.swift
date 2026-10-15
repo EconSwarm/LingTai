@@ -39,7 +39,7 @@ struct SessionEntityQuery: EntityQuery {
     }
 
     func suggestedEntities() async throws -> [SessionEntity] {
-        let sessions = await LingTaiSync.shared.visible(await ChatStore.shared.listSessions()) // lingTai: C12 — another account's chats stay hidden
+        let sessions = await LingTaiSync.shared.visible(await ChatStore.shared.listSessions()) // LingTai: C12 — another account's chats stay hidden
         return sessions.prefix(100).map { SessionEntity(from: $0) }
     }
 }

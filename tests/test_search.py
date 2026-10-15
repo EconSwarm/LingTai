@@ -21,7 +21,7 @@ from lingtai.tools import WebSearch
 from lingtai.vault import CredentialVault
 
 DDG_ROWS = [
-    {"title": "lingTai", "href": "https://github.com/econswarm/lingtai", "body": "An agent."},
+    {"title": "LingTai", "href": "https://github.com/econswarm/lingtai", "body": "An agent."},
     {"title": "Muse", "href": "https://example.com/muse", "body": "Something else."},
 ]
 
@@ -85,7 +85,7 @@ async def test_duckduckgo_is_the_default(ddg):
     assert p.name == "duckduckgo" and p.configured and p.host == "duckduckgo.com"
     assert p.describe() == "DuckDuckGo (no key needed)"
     results, note = await p.search("lingtai", 1, "cn-zh")
-    assert note == "" and [r.title for r in results] == ["lingTai"]
+    assert note == "" and [r.title for r in results] == ["LingTai"]
     assert ddg == [{"query": "lingtai", "max_results": 1, "region": "cn-zh"}]
 
 
@@ -174,7 +174,7 @@ async def test_you_without_a_key(wire: Wire, ddg):
     assert (
         note == "You.com failed (the keyless limit is used up (HTTP 429)); results from DuckDuckGo"
     )
-    assert [r.title for r in results] == ["lingTai", "Muse"] and len(ddg) == 1
+    assert [r.title for r in results] == ["LingTai", "Muse"] and len(ddg) == 1
     wire.status = 401
     _, note = await p.search("lingtai", 2, "")
     assert "the keyless limit is used up (HTTP 401)" in note
@@ -216,7 +216,7 @@ async def test_searxng(wire: Wire, ddg):
     wire.text = "<html>not a search api</html>"
     results, note = await p.search("lingtai", 3, "")
     assert "not JSON" in note and "results from DuckDuckGo" in note
-    assert [r.title for r in results] == ["lingTai", "Muse"]
+    assert [r.title for r in results] == ["LingTai", "Muse"]
 
 
 async def test_failures_fall_back_to_duckduckgo_with_a_note(
@@ -309,7 +309,7 @@ async def test_tool_renders_results_and_the_note(wire: Wire, ddg):
     wire.status = 429
     out = await tool.execute(query="lingtai", max_results=2)
     lines = out.output.splitlines()
-    assert lines[0].startswith("(Brave Search failed") and lines[1] == "1. lingTai"
+    assert lines[0].startswith("(Brave Search failed") and lines[1] == "1. LingTai"
     assert (await tool.execute(query="  ")).error
     # the default tool is DuckDuckGo
     plain = WebSearch()

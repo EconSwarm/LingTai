@@ -1,7 +1,7 @@
 import XCTest
 @testable import Minis
 
-/// The pure parts of the lingTai iPhone layer, pinned so they cannot drift from Android:
+/// The pure parts of the LingTai iPhone layer, pinned so they cannot drift from Android:
 /// the fences the model writes, the words that change the avatar, the goal and feed blocks,
 /// the scheduler's arithmetic, the region rule, the model menu and the first-run gating.
 /// Android: AvatarFlowTest, GoalFlowTest, FencesTest, FirstRunSetupTest, SharedConnectorsTest.
@@ -675,14 +675,14 @@ final class LingTaiLogicTests: XCTestCase {
     func testUpdateIndexReadsTheReleasesList() {
         // The index as lingtai.cn/dl/index.json is written: releases newest first, each with a tag.
         let index: [String: Any] = [
-            "repo": "ling-tai/lingTai",
-            "releases": [["tag": "v1.0.0", "name": "lingTai 1.0.0", "assets": [String]()], ["tag": "v0.1.41"]],
+            "repo": "ling-tai/LingTai",
+            "releases": [["tag": "v1.0.0", "name": "LingTai 1.0.0", "assets": [String]()], ["tag": "v0.1.41"]],
         ]
         let found = LingTaiUpdateCheck.parseIndex(index)
         XCTAssertEqual(found?.version, "v1.0.0", "the newest release's tag, as Android reads it")
         XCTAssertEqual(found?.page, LingTaiUpdateCheck.downloadPage, "a tap leads to the download page")
         XCTAssertEqual(LingTaiUpdateCheck.parseIndex(["releases": [["tag": ""], ["tag": "v0.9.0"]]])?.version, "v0.9.0", "an empty tag is skipped")
-        XCTAssertNil(LingTaiUpdateCheck.parseIndex(["repo": "ling-tai/lingTai"]), "no releases, no answer")
+        XCTAssertNil(LingTaiUpdateCheck.parseIndex(["repo": "ling-tai/LingTai"]), "no releases, no answer")
         XCTAssertNil(LingTaiUpdateCheck.parseIndex(["releases": [[String: Any]]()]))
         // The older shapes still read.
         XCTAssertEqual(LingTaiUpdateCheck.parseIndex(["ios": ["version": "1.2.0", "page": "https://example.invalid/r"]]), LingTaiUpdateCheck.Found(version: "1.2.0", page: "https://example.invalid/r"))

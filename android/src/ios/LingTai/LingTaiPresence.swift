@@ -1,6 +1,6 @@
 //
 //  LingTaiPresence.swift
-//  lingTai
+//  LingTai
 //
 //  Contract C9: while another device of the account works on a synced
 //  conversation, this phone says so under that device's last line —

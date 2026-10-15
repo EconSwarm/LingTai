@@ -47,7 +47,7 @@ site/assets/
 # the docs site, built by pages.yml from website/ into site/docs/
 site/docs/
 
-# lingTai on DeepSeek Harness (harness/README.md): built by `pnpm build`, not committed
+# LingTai on DeepSeek Harness (harness/README.md): built by `pnpm build`, not committed
 harness/dsh-lingtai/node_modules/
 harness/dsh-lingtai/lib/
 
@@ -74,5 +74,5 @@ android/native/build/
 # uv lockfile: the project installs with `uv pip install -e .`, not `uv sync`
 uv.lock
 
-# lingTai Cloud relay runtime data
+# LingTai Cloud relay runtime data
 cloud/data/

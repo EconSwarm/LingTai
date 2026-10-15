@@ -1,4 +1,4 @@
-"""Model Context Protocol client: expose tools of MCP servers as lingTai tools.
+"""Model Context Protocol client: expose tools of MCP servers as LingTai tools.
 
 Configure in ``config.toml``::
 

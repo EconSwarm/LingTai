@@ -318,7 +318,7 @@ struct AIChatView: View {
     }
 
     @State private var floatingBarHeight: CGFloat = 0
-    @StateObject private var ltComposer = LingTaiComposerWatch() // lingTai: rebuilds the composer column when it stops laying out (the "lost keyboard"), and keeps the evidence for the check page
+    @StateObject private var ltComposer = LingTaiComposerWatch() // LingTai: rebuilds the composer column when it stops laying out (the "lost keyboard"), and keeps the evidence for the check page
     @State private var showFileBrowser = false
     // [T-browser-download-ux-v2] Downloads panel + "Show in Files" locate target.
     @State private var showDownloadsPanel = false
@@ -458,9 +458,9 @@ struct AIChatView: View {
     /// Session being edited via the title-pill tap. Drives the SessionEditSheet.
     @State private var titlePillEditSession: ChatSession?
     /// Default chat title for sessions without a generated title. Sourced
-    /// from SOUL.md (`name`), falls back to "lingTai". Refreshed on .soulMdChanged.
+    /// from SOUL.md (`name`), falls back to "LingTai". Refreshed on .soulMdChanged.
     @State private var soulName: String = SoulStore.cachedMetadata.name.isEmpty
-        ? "lingTai" : SoulStore.cachedMetadata.name
+        ? "LingTai" : SoulStore.cachedMetadata.name
 
     /// True when any sheet or fullScreenCover is presented (suppress auto-focus to avoid keyboard bugs).
     private var hasOverlayPresented: Bool {
@@ -522,7 +522,7 @@ struct AIChatView: View {
                             }
                     }
                 }
-                // lingTai: upstream's `.overlay(alignment: .bottom) { ZStack … }` is one link of the chain,
+                // LingTai: upstream's `.overlay(alignment: .bottom) { ZStack … }` is one link of the chain,
                 // LingTaiComposerHost (LingTaiChatModifiers.swift): the composer column lies over the
                 // list's bottom edge, above the shell's bottom bar (`ltBottomOverlay`), and the list's
                 // content scrolls under both with an inset of the column's height (`ltColumnHeight`);
@@ -530,7 +530,7 @@ struct AIChatView: View {
                 // row under a shorter list, which left nothing behind the bar's glass. Build 9 overflowed
                 // the stack in this body's getter, so every link counts. The layout notes below are
                 // upstream's and hold again: the popup's bottom edge is the column's top edge, by layout.
-                .modifier(LingTaiComposerHost(stack: ltComposerStack, popup: ltComposerPopup, overlay: ltBottomOverlay, columnHeight: $ltColumnHeight, fade: !vm.messages.isEmpty && !vm.isNearBottom)) // lingTai: was `.overlay(alignment: .bottom) {`
+                .modifier(LingTaiComposerHost(stack: ltComposerStack, popup: ltComposerPopup, overlay: ltBottomOverlay, columnHeight: $ltColumnHeight, fade: !vm.messages.isEmpty && !vm.isNearBottom)) // LingTai: was `.overlay(alignment: .bottom) {`
                     // Tool preview + input bar stacked at the bottom.
                     // Both overlay on top of the message list for immersive scrolling.
                     //
@@ -580,7 +580,7 @@ struct AIChatView: View {
                     //      top edge. inputBarHeight here is just the input
                     //      bar (NOT including toolbar) so popup covers
                     //      toolbar when both visible.
-                    // lingTai: the VStack of that ZStack is `ltComposerColumn`, the popup and its catcher
+                    // LingTai: the VStack of that ZStack is `ltComposerColumn`, the popup and its catcher
                     // `ltComposerPopup`; LingTaiComposerHost lays the column over the list's bottom edge
                     // and the popup on the column. The list's bottom inset is the column's measured height.
                 // Collapse the expanded speech player on a tap anywhere in the chat
@@ -666,10 +666,10 @@ struct AIChatView: View {
             }
         }
         .environment(\.chatSessionId, vm.sessionId)
-        // lingTai: the Muse header's ••• menu, the composer's expectation around a turn and the C9
+        // LingTai: the Muse header's ••• menu, the composer's expectation around a turn and the C9
         // presence line, as one link (LingTaiChatHooks) — four links here overflowed the stack in 0.1.38
-        .modifier(LingTaiChatHooks(vm: vm, processing: vm.isProcessing, composer: ltComposer, readOnly: isReadOnly, perform: { ltPerform($0) }, voice: voiceVM, enterVoice: { ltEnterVoice() })) // lingTai:
-        .modifier(NavBarStyleModifier(topSafeAreaInset: $topSafeAreaInset, scrolledUp: !vm.messages.isEmpty && !vm.isNearBottom)) // lingTai: the side chat's scrim follows the list
+        .modifier(LingTaiChatHooks(vm: vm, processing: vm.isProcessing, composer: ltComposer, readOnly: isReadOnly, perform: { ltPerform($0) }, voice: voiceVM, enterVoice: { ltEnterVoice() })) // LingTai:
+        .modifier(NavBarStyleModifier(topSafeAreaInset: $topSafeAreaInset, scrolledUp: !vm.messages.isEmpty && !vm.isNearBottom)) // LingTai: the side chat's scrim follows the list
         .navigationBarTitleDisplayMode(.inline)
         // [T-ios-navbar-toolbar-host] The ENTIRE toolbar now lives inside an
         // equatable-gated host child. Root cause of the mid-streaming "..."
@@ -1197,8 +1197,8 @@ struct AIChatView: View {
             inputBarHeightDebounce?.cancel()
             inputBarHeightDebounce = nil
             AppLogger(category: "InputBarLayout").info("inputBarHeight re-arm seed on appear (was \(inputBarHeight))")
-            ltComposer.visible = true // lingTai: the composer watch only acts while the chat is on screen
-            if !isReadOnly { ltComposer.expect("the chat appeared") } // lingTai: a composer must report a height within a second, or the column is rebuilt
+            ltComposer.visible = true // LingTai: the composer watch only acts while the chat is on screen
+            if !isReadOnly { ltComposer.expect("the chat appeared") } // LingTai: a composer must report a height within a second, or the column is rebuilt
             vm.sessionId = sessionId
             vm.draftId = draftId
             vm.remoteDeviceId = remoteDeviceId
@@ -1318,7 +1318,7 @@ struct AIChatView: View {
         }
         .onDisappear {
             isChatViewVisible = false
-            ltComposer.visible = false // lingTai: a host torn down because the chat left is not a failure
+            ltComposer.visible = false // LingTai: a host torn down because the chat left is not a failure
             // [T-voice-inputbar-collapse-selfheal] The health probe must not
             // outlive the view — its report would describe a composer that no
             // longer exists.
@@ -1452,10 +1452,10 @@ struct AIChatView: View {
                         AppLogger(category: "InputBarLayout").info("[InputBarHealth] OK after foreground — composer re-reported geometry (h=\(latestInputBarFrameH) committed=\(inputBarHeight))")
                     } else {
                         AppLogger(category: "InputBarLayout").error("[InputBarHealth] STALLED — no geometry callback 900ms after foreground. committed=\(inputBarHeight) latest=\(latestInputBarFrameH) lastReport=\(String(format: "%.1f", age))s ago voice=\(voiceInputActive) editing=\(voiceVM.isEditingTranscript) seeded=\(didSeedInputBarHeight). The composer host is not laying out; expect a blank bottom area. Leaving and re-entering the session rebuilds it.")
-                        ltComposer.stalled() // lingTai: the rebuild upstream only describes — if the host really is gone, LingTaiComposerWatch re-creates it
+                        ltComposer.stalled() // LingTai: the rebuild upstream only describes — if the host really is gone, LingTaiComposerWatch re-creates it
                     }
                 }
-                ltComposer.sceneActive() // lingTai: and a plain check a beat after every foreground
+                ltComposer.sceneActive() // LingTai: and a plain check a beat after every foreground
                 // [T-voice-bg-fg-gap] Foreground reseal: if we return to a
                 // voice-mode-not-editing state, no responder should be armed.
                 // Releasing here is a no-op when nothing is focused and clears
@@ -1907,18 +1907,18 @@ struct AIChatView: View {
         )
     }
 
-    // lingTai: one of the Muse header's menu entries, the same paths as the "…" menu above.
-    private func ltPerform(_ action: LingTaiChatAction) { // lingTai:
-        switch action { // lingTai:
-        case .newChat: requestNewChatFromMenu() // lingTai:
-        case .model: showModelPicker = true // lingTai:
-        case .clearChat: showClearChatConfirm = true // lingTai:
-        case .terminal: showTerminal = true // lingTai:
-        case .browser: showBrowserSheet = true // lingTai:
-        case .files: showFileBrowser = true // lingTai:
-        case .tokenUsage: showTokenUsage = true // lingTai:
-        } // lingTai:
-    } // lingTai:
+    // LingTai: one of the Muse header's menu entries, the same paths as the "…" menu above.
+    private func ltPerform(_ action: LingTaiChatAction) { // LingTai:
+        switch action { // LingTai:
+        case .newChat: requestNewChatFromMenu() // LingTai:
+        case .model: showModelPicker = true // LingTai:
+        case .clearChat: showClearChatConfirm = true // LingTai:
+        case .terminal: showTerminal = true // LingTai:
+        case .browser: showBrowserSheet = true // LingTai:
+        case .files: showFileBrowser = true // LingTai:
+        case .tokenUsage: showTokenUsage = true // LingTai:
+        } // LingTai:
+    } // LingTai:
 
     // MARK: - New Chat (menu entry)
 
@@ -2017,13 +2017,13 @@ struct AIChatView: View {
         // a fix of it: the top-crop of the snapshot itself is UIKit-level and
         // out of SwiftUI's reach.
         let cap = max(120, UIScreen.main.bounds.width - 140)
-        if LingTaiShellPrefs.museHeader { // lingTai: face · name · status line instead of the title stack
-            LingTaiHeaderTitle( // lingTai:
-                vm: vm, soulName: soulName, // lingTai:
-                modelName: SessionModelDisplay(store: configStore, draftGroupId: vm.initialGroupId).displayName(for: vm.sessionId) // lingTai:
-            ) { showModelPicker = true } // lingTai: the text column keeps the model picker reachable
-            .frame(maxWidth: cap) // lingTai:
-        } else if #available(iOS 19, *) { // lingTai: upstream title unchanged below
+        if LingTaiShellPrefs.museHeader { // LingTai: face · name · status line instead of the title stack
+            LingTaiHeaderTitle( // LingTai:
+                vm: vm, soulName: soulName, // LingTai:
+                modelName: SessionModelDisplay(store: configStore, draftGroupId: vm.initialGroupId).displayName(for: vm.sessionId) // LingTai:
+            ) { showModelPicker = true } // LingTai: the text column keeps the model picker reachable
+            .frame(maxWidth: cap) // LingTai:
+        } else if #available(iOS 19, *) { // LingTai: upstream title unchanged below
             titleView
                 .frame(maxWidth: cap)
         } else {
@@ -2123,7 +2123,7 @@ struct AIChatView: View {
         // when one exists (auto-generated or user-renamed). Tap opens the
         // same SessionEditSheet used from the home screen so users can
         // rename / re-categorize without leaving the chat. Falls back to
-        // the SOUL.md `name` (or "lingTai") for draft sessions or before a
+        // the SOUL.md `name` (or "LingTai") for draft sessions or before a
         // title has been generated.
         let sessionTitle: String? = (titlePillSession?.title?.trimmingCharacters(in: .whitespacesAndNewlines))
             .flatMap { $0.isEmpty ? nil : $0 }
@@ -2160,7 +2160,7 @@ struct AIChatView: View {
         // 2026-05-20 tightening overlapped row 2 into the title's line box by
         // 8pt — more than the 13pt font's entire descender zone (~3.1pt), so
         // any title containing g/p/y/z visually fused with the model pill
-        // (only descender-less titles like "lingTai" hid it). -3 keeps a ~2pt
+        // (only descender-less titles like "LingTai" hid it). -3 keeps a ~2pt
         // visible gap for descender titles. HEIGHT-NEUTRAL: the 5pt spent
         // here is reclaimed inside row 2 (provider-row bottom clearance
         // 4 → 1 and group vertical padding 3 → 2 on legacy), so the stack's
@@ -2218,7 +2218,7 @@ struct AIChatView: View {
                     .padding(.top, legacyLayout ? 0 : 2)
                     .onReceive(NotificationCenter.default.publisher(for: .soulMdChanged)) { _ in
                         let n = SoulStore.cachedMetadata.name
-                        soulName = n.isEmpty ? "lingTai" : n
+                        soulName = n.isEmpty ? "LingTai" : n
                     }
             }
             .buttonStyle(.plain)
@@ -2489,7 +2489,7 @@ struct AIChatView: View {
                     || next?.title != titlePillSession?.title
                     || next?.category != titlePillSession?.category {
                     // Direct replace — animating the toolbar title makes the
-                    // old "lingTai" string slide before the real title swaps
+                    // old "LingTai" string slide before the real title swaps
                     // in, which looks broken. SwiftUI's default crossfade
                     // for non-animated text changes is what we want.
                     titlePillSession = next
@@ -2667,11 +2667,11 @@ struct AIChatView: View {
                     screenshotPreview = ChatScreenshotPreview(image: image)
                 },
                 maxContentWidth: maxContentWidth ?? 0,
-                floatingBarHeight: 0, // lingTai: the tool strip is part of the composer column, measured with it (LingTaiComposerHost)
-                inputBarHeight: ltColumnHeight + ltBottomOverlay, // lingTai: the column lies over the list's bottom edge and the shell's bottom bar under it; the rows scroll under both and the last one stops above the column
-                topOverlay: ltTopOverlay // lingTai: the shell's Muse header over the list's top edge; the rows scroll under it and start below it
+                floatingBarHeight: 0, // LingTai: the tool strip is part of the composer column, measured with it (LingTaiComposerHost)
+                inputBarHeight: ltColumnHeight + ltBottomOverlay, // LingTai: the column lies over the list's bottom edge and the shell's bottom bar under it; the rows scroll under both and the last one stops above the column
+                topOverlay: ltTopOverlay // LingTai: the shell's Muse header over the list's top edge; the rows scroll under it and start below it
             )
-            // lingTai: with the shell's header over the chat, the list runs up under it (and the
+            // LingTai: with the shell's header over the chat, the list runs up under it (and the
             // status bar, which UIKit's own safe area handles) and keeps its rows down by
             // `topOverlay`, so they dissolve under the header's scrim instead of ending at a hard
             // edge under the face. A `safeAreaInset` on a UIKit view shortens the view, unlike a
@@ -2736,14 +2736,14 @@ struct AIChatView: View {
                     Button {
                         vm.forceScrollToBottom.send()
                     } label: {
-                        scrollFloatingButtonLabel("chevron.down", ink: LingTaiShellPrefs.shell) // lingTai: in the shell the scroll-to-latest disc is the chat's ink, as the send disc (Android #331)
+                        scrollFloatingButtonLabel("chevron.down", ink: LingTaiShellPrefs.shell) // LingTai: in the shell the scroll-to-latest disc is the chat's ink, as the send disc (Android #331)
                     }
                     .transition(.opacity.combined(with: .scale(scale: 0.8)))
                 }
                 .padding(.trailing, 4)
                 .frame(maxWidth: maxContentWidth ?? .infinity, alignment: .trailing)
                 .padding(.horizontal, 12)
-                .padding(.bottom, ltColumnHeight + ltBottomOverlay + 12) // lingTai: was inputBarHeight + (hasFloatingPreview ? 80 : 12); the column and the shell's bottom bar lie over the list's bottom edge
+                .padding(.bottom, ltColumnHeight + ltBottomOverlay + 12) // LingTai: was inputBarHeight + (hasFloatingPreview ? 80 : 12); the column and the shell's bottom bar lie over the list's bottom edge
                 .animation(.easeInOut(duration: 0.2), value: vm.isNearBottom)
                 .animation(.easeInOut(duration: 0.2), value: vm.isAtFirstTurn)
                 .animation(.easeInOut(duration: 0.2), value: hasFloatingPreview)
@@ -2763,7 +2763,7 @@ struct AIChatView: View {
             .padding(.trailing, 4)
             .frame(maxWidth: maxContentWidth ?? .infinity, alignment: .trailing)
             .padding(.horizontal, 12)
-            .padding(.bottom, ltColumnHeight + ltBottomOverlay + 12 + 92) // lingTai: was inputBarHeight + (hasFloatingPreview ? 80 : 12) + 92; over the column and the shell's bottom bar, above the scroll buttons
+            .padding(.bottom, ltColumnHeight + ltBottomOverlay + 12 + 92) // LingTai: was inputBarHeight + (hasFloatingPreview ? 80 : 12) + 92; over the column and the shell's bottom bar, above the scroll buttons
             .animation(.easeInOut(duration: 0.2), value: hasFloatingPreview)
             .capsuleProtectedFrame("downloadButton")
         }
@@ -2771,16 +2771,16 @@ struct AIChatView: View {
 
     /// Shared label style for the floating scroll buttons (up / down), matching
     /// the original scroll-to-bottom button look.
-    private func scrollFloatingButtonLabel(_ systemName: String, ink: Bool = false) -> some View { // lingTai: `ink` draws the disc in LingTaiTones.ink with the glyph in the canvas colour
+    private func scrollFloatingButtonLabel(_ systemName: String, ink: Bool = false) -> some View { // LingTai: `ink` draws the disc in LingTaiTones.ink with the glyph in the canvas colour
         Image(systemName: systemName)
             .font(.system(size: 14, weight: .semibold))
-            .foregroundStyle(ink ? AnyShapeStyle(LingTaiTones.onInk) : AnyShapeStyle(HierarchicalShapeStyle.secondary)) // lingTai:
+            .foregroundStyle(ink ? AnyShapeStyle(LingTaiTones.onInk) : AnyShapeStyle(HierarchicalShapeStyle.secondary)) // LingTai:
             .frame(width: 36, height: 36)
-            .background { if ink { LingTaiTones.ink.clipShape(Circle()) } else { ScrollToBottomBackground().clipShape(Circle()) } } // lingTai:
+            .background { if ink { LingTaiTones.ink.clipShape(Circle()) } else { ScrollToBottomBackground().clipShape(Circle()) } } // LingTai:
             // Border + shadow give the near-opaque disc its edge on a white
             // page — at 0.25/0.12 the button had no readable outline over
             // plain reply text. [T-ios-scrollbtn-invisible-lightmode]
-            .overlay(Circle().stroke(Color.gray.opacity(ink ? 0 : 0.35), lineWidth: 0.5)) // lingTai: the ink disc needs no edge
+            .overlay(Circle().stroke(Color.gray.opacity(ink ? 0 : 0.35), lineWidth: 0.5)) // LingTai: the ink disc needs no edge
             .shadow(color: .black.opacity(0.18), radius: 5, y: 2)
     }
 
@@ -3381,14 +3381,14 @@ struct AIChatView: View {
         }, isVoiceActive: voiceInputActive)
     }
 
-    // lingTai: the voice panel's keyboard button — the same path as the mic/keyboard toggle
+    // LingTai: the voice panel's keyboard button — the same path as the mic/keyboard toggle
     // (the transcript stays in the field), then the field takes focus once the panel has
     // released its own responder (InlineVoiceInputView ends editing on the next runloop turn).
-    private func ltBackToTyping() { // lingTai:
-        voiceVM.reset(clearTranscript: false) // lingTai:
-        withAnimation(.easeInOut(duration: 0.2)) { voiceInputActive = false } // lingTai:
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { inputFocused = true } // lingTai:
-    } // lingTai:
+    private func ltBackToTyping() { // LingTai:
+        voiceVM.reset(clearTranscript: false) // LingTai:
+        withAnimation(.easeInOut(duration: 0.2)) { voiceInputActive = false } // LingTai:
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { inputFocused = true } // LingTai:
+    } // LingTai:
 
     /// Send / Enqueue / Stop circular button.
     ///
@@ -3447,7 +3447,7 @@ struct AIChatView: View {
                     onPasteImage: { image in vm.addImageAttachment(image) },
                     onPasteFile: { url in vm.addFileAttachment(from: url) },
                     conversationContext: { voiceCorrectionContext(from: vm.messages) },
-                    onBackToTyping: { ltBackToTyping() } // lingTai: the panel's keyboard button
+                    onBackToTyping: { ltBackToTyping() } // LingTai: the panel's keyboard button
                 )
             )
         }
@@ -3490,42 +3490,42 @@ struct AIChatView: View {
             .padding(.bottom, 10)
             return AnyView(waveform)
         }
-        let field = composerTextField // lingTai: built once, for this bar and for the Muse pill
+        let field = composerTextField // LingTai: built once, for this bar and for the Muse pill
         return AnyView(composerBody(field: field, topPadding: topPadding))
     }
 
-    // lingTai: whether the composer is Muse's pill (the shell on) or the OpenMinis bar.
-    private var ltPill: Bool { LingTaiShellPrefs.shell } // lingTai:
+    // LingTai: whether the composer is Muse's pill (the shell on) or the OpenMinis bar.
+    private var ltPill: Bool { LingTaiShellPrefs.shell } // LingTai:
 
-    // lingTai: the shell's floating bottom bar under this chat (0 without the shell, or while the
+    // LingTai: the shell's floating bottom bar under this chat (0 without the shell, or while the
     // keyboard has it away): the composer column stands this much above the bottom edge.
-    @Environment(\.ltBottomOverlay) private var ltBottomOverlay // lingTai:
-    // lingTai: the shell's Muse header over this chat's top edge (0 without the shell and in a
+    @Environment(\.ltBottomOverlay) private var ltBottomOverlay // LingTai:
+    // LingTai: the shell's Muse header over this chat's top edge (0 without the shell and in a
     // pushed side chat): the message list extends under it and keeps its rows this much down.
-    @Environment(\.ltTopOverlay) private var ltTopOverlay // lingTai:
-    // lingTai: the composer column's height as LingTaiComposerHost measured it; with the bar it is
+    @Environment(\.ltTopOverlay) private var ltTopOverlay // LingTai:
+    // LingTai: the composer column's height as LingTaiComposerHost measured it; with the bar it is
     // the list's bottom inset and the lift of the scroll buttons.
-    @State private var ltColumnHeight: CGFloat = 0 // lingTai:
+    @State private var ltColumnHeight: CGFloat = 0 // LingTai:
 
-    // lingTai: the composer column — the cards, the tool strip, the input bar — the VStack of
+    // LingTai: the composer column — the cards, the tool strip, the input bar — the VStack of
     // upstream's ZStack from the message list's `.overlay(alignment: .bottom)`, hosted by
     // LingTaiComposerHost as a row under the list since 0.1.40. The comments on its layout stay
     // at the host's link in `body`. An AnyView on purpose: this is the heaviest subtree of the
     // chat's body, and boxed it is one pointer in the body's value and one leaf in its type
     // (LingTaiChatModifiers.swift says why).
-    private var ltComposerStack: AnyView { // lingTai:
-        AnyView(ltComposerColumn) // lingTai:
-    } // lingTai:
+    private var ltComposerStack: AnyView { // LingTai:
+        AnyView(ltComposerColumn) // LingTai:
+    } // LingTai:
 
-    // lingTai: the `/` and `@` popup with its tap-outside catcher — the rest of that ZStack —
+    // LingTai: the `/` and `@` popup with its tap-outside catcher — the rest of that ZStack —
     // which the host lays over the list's bottom edge, so the popup stands on the column's top.
-    private var ltComposerPopup: AnyView { // lingTai:
-        AnyView(ltPopupLayer) // lingTai:
-    } // lingTai:
+    private var ltComposerPopup: AnyView { // LingTai:
+        AnyView(ltPopupLayer) // LingTai:
+    } // LingTai:
 
-    @ViewBuilder private var ltComposerColumn: some View { // lingTai:
+    @ViewBuilder private var ltComposerColumn: some View { // LingTai:
         VStack(spacing: 0) {
-            // lingTai: virtual cards for this chat (avatar price/takes/share, the name chooser).
+            // LingTai: virtual cards for this chat (avatar price/takes/share, the name chooser).
             LingTaiChatCardsHost(vm: vm)
                 .frame(maxWidth: maxContentWidth)
             floatingToolPreview
@@ -3540,16 +3540,16 @@ struct AIChatView: View {
             inputBar
             #endif
         }
-        // lingTai: the probe tells the watch whether this column is really in a window and how
+        // LingTai: the probe tells the watch whether this column is really in a window and how
         // tall it is; a tick on `.id` rebuilds the whole column when it is not (LingTaiComposerWatch).
-        .background(LingTaiComposerProbe(watch: ltComposer)) // lingTai:
-        .id(ltComposer.rebuildTick) // lingTai:
+        .background(LingTaiComposerProbe(watch: ltComposer)) // LingTai:
+        .id(ltComposer.rebuildTick) // LingTai:
         // Register the composer (tool preview + input bar) as a
         // region the global speech capsule must not cover.
         .capsuleProtectedFrame("inputBar")
-    } // lingTai:
+    } // LingTai:
 
-    @ViewBuilder private var ltPopupLayer: some View { // lingTai:
+    @ViewBuilder private var ltPopupLayer: some View { // LingTai:
         ZStack(alignment: .bottom) {
             // Tap-outside catcher placed UNDER the popup (declared
             // first → lower z-order). When the popup is visible,
@@ -3565,81 +3565,81 @@ struct AIChatView: View {
                         else if vm.showMentionMenu { vm.dismissMentionMenu() }
                     }
             }
-            inputPopupOverlay // lingTai: no bottom padding — the layer's bottom edge is the column's top edge
+            inputPopupOverlay // LingTai: no bottom padding — the layer's bottom edge is the column's top edge
         }
-    } // lingTai:
+    } // LingTai:
 
-    // lingTai: the pill's rows. Text mode: plus · field · mic-or-send on one row (the field grows
+    // LingTai: the pill's rows. Text mode: plus · field · mic-or-send on one row (the field grows
     // to several lines on its own). Voice mode and the legacy dictation band keep upstream's panel
     // and its bottom row inside the same pill, so the keyboard button, read-aloud and send stay.
     // Editing a past message: the exit chip above the row, as Android shows it above the field.
     @ViewBuilder
-    private var ltPillRows: some View { // lingTai:
-        if voiceInputActive || speechManager.state == .recording { // lingTai:
-            inputFieldOrWaveform // lingTai:
-            inputBottomRow // lingTai:
-                .padding(.horizontal, 12) // lingTai:
-                .padding(.bottom, 10) // lingTai:
-        } else { // lingTai:
-            if vm.editingMessageIndex != nil { // lingTai:
-                HStack { editExitButton; Spacer() } // lingTai:
-                    .padding(.horizontal, 12) // lingTai:
-                    .padding(.top, 8) // lingTai:
-            } // lingTai:
-            LingTaiComposerPill( // lingTai:
-                hasContent: hasMovableShareContent, // lingTai: text or an attachment
-                isProcessing: vm.isProcessing, // lingTai:
-                canSend: canSend, // lingTai:
-                canEnqueue: canEnqueue, // lingTai:
-                onCamera: { showCamera = true }, // lingTai:
-                onPhotos: { showPhotoPicker = true }, // lingTai:
-                onFile: { showDocumentPicker = true }, // lingTai:
-                onPasteImage: { image in vm.addImageAttachment(image) }, // lingTai: the pill's field is SwiftUI's and takes no image paste; the plus menu does
-                onCommands: { vm.showSlashMenuOverInput(); inputFocused = true }, // lingTai:
-                onMic: { ltEnterVoice() }, // lingTai:
-                onSend: { performSend() }, // lingTai:
-                onEnqueue: { performEnqueue() }, // lingTai:
-                onStop: { vm.cancel() } // lingTai:
-            ) { // lingTai:
-                ltPillField // lingTai:
-            } // lingTai:
-        } // lingTai:
-    } // lingTai:
+    private var ltPillRows: some View { // LingTai:
+        if voiceInputActive || speechManager.state == .recording { // LingTai:
+            inputFieldOrWaveform // LingTai:
+            inputBottomRow // LingTai:
+                .padding(.horizontal, 12) // LingTai:
+                .padding(.bottom, 10) // LingTai:
+        } else { // LingTai:
+            if vm.editingMessageIndex != nil { // LingTai:
+                HStack { editExitButton; Spacer() } // LingTai:
+                    .padding(.horizontal, 12) // LingTai:
+                    .padding(.top, 8) // LingTai:
+            } // LingTai:
+            LingTaiComposerPill( // LingTai:
+                hasContent: hasMovableShareContent, // LingTai: text or an attachment
+                isProcessing: vm.isProcessing, // LingTai:
+                canSend: canSend, // LingTai:
+                canEnqueue: canEnqueue, // LingTai:
+                onCamera: { showCamera = true }, // LingTai:
+                onPhotos: { showPhotoPicker = true }, // LingTai:
+                onFile: { showDocumentPicker = true }, // LingTai:
+                onPasteImage: { image in vm.addImageAttachment(image) }, // LingTai: the pill's field is SwiftUI's and takes no image paste; the plus menu does
+                onCommands: { vm.showSlashMenuOverInput(); inputFocused = true }, // LingTai:
+                onMic: { ltEnterVoice() }, // LingTai:
+                onSend: { performSend() }, // LingTai:
+                onEnqueue: { performEnqueue() }, // LingTai:
+                onStop: { vm.cancel() } // LingTai:
+            ) { // LingTai:
+                ltPillField // LingTai:
+            } // LingTai:
+        } // LingTai:
+    } // LingTai:
 
-    // lingTai: the field alone — the pill adds its own insets. SwiftUI's own TextField since 0.1.38
+    // LingTai: the field alone — the pill adds its own insets. SwiftUI's own TextField since 0.1.38
     // (LingTaiComposerField): no representable host under the pill that could vanish. The handlers
     // are the ones composerTextField wires; the caret is the end of the text, the scroll flags are
     // an estimate (the field tells no more), the iPad resize height still applies.
-    private var ltPillField: AnyView { // lingTai:
-        AnyView( // lingTai:
-            LingTaiComposerField( // lingTai:
-                text: inputTextBinding, // lingTai:
-                isFocused: $inputFocused, // lingTai:
-                placeholder: AppLocalized("Message"), // lingTai:
-                fixedHeight: composerTextHeight, // lingTai:
-                onReturn: { handleReturnKey() }, // lingTai:
-                onCaret: { handleCaretChange($0) }, // lingTai:
-                onArrowUp: { handleArrowUp() }, // lingTai:
-                onArrowDown: { handleArrowDown() }, // lingTai:
-                onTab: { handleTabKey() }, // lingTai:
-                onOverflow: { over in inputIsScrollable = over; inputAtScrollBottom = !over } // lingTai:
-            ) // lingTai:
-            // lingTai: never below one line (LingTaiComposerWatch.fieldFloor is the natural one-line height).
-            .frame(minHeight: LingTaiComposerWatch.fieldFloor) // lingTai:
-        ) // lingTai:
-    } // lingTai:
+    private var ltPillField: AnyView { // LingTai:
+        AnyView( // LingTai:
+            LingTaiComposerField( // LingTai:
+                text: inputTextBinding, // LingTai:
+                isFocused: $inputFocused, // LingTai:
+                placeholder: AppLocalized("Message"), // LingTai:
+                fixedHeight: composerTextHeight, // LingTai:
+                onReturn: { handleReturnKey() }, // LingTai:
+                onCaret: { handleCaretChange($0) }, // LingTai:
+                onArrowUp: { handleArrowUp() }, // LingTai:
+                onArrowDown: { handleArrowDown() }, // LingTai:
+                onTab: { handleTabKey() }, // LingTai:
+                onOverflow: { over in inputIsScrollable = over; inputAtScrollBottom = !over } // LingTai:
+            ) // LingTai:
+            // LingTai: never below one line (LingTaiComposerWatch.fieldFloor is the natural one-line height).
+            .frame(minHeight: LingTaiComposerWatch.fieldFloor) // LingTai:
+        ) // LingTai:
+    } // LingTai:
 
-    // lingTai: the pill's mic — the same switch into voice mode as MicButton's onTap.
-    private func ltEnterVoice() { // lingTai:
-        inputFocused = false // lingTai:
-        vm.voiceUsedInComposition = true // lingTai:
-        VoiceModePreference.shared.enteredFromText = true // lingTai:
-        withAnimation(.easeInOut(duration: 0.2)) { voiceInputActive = true } // lingTai:
-    } // lingTai:
+    // LingTai: the pill's mic — the same switch into voice mode as MicButton's onTap.
+    private func ltEnterVoice() { // LingTai:
+        inputFocused = false // LingTai:
+        vm.voiceUsedInComposition = true // LingTai:
+        VoiceModePreference.shared.enteredFromText = true // LingTai:
+        withAnimation(.easeInOut(duration: 0.2)) { voiceInputActive = true } // LingTai:
+    } // LingTai:
 
     /// The multi-line text field itself, with every handler the composer wires. One
-    /// builder for the classic bar and the Muse pill. // lingTai: extracted from inputFieldOrWaveform
-    private var composerTextField: PastableTextView { // lingTai:
+    /// builder for the classic bar and the Muse pill. // LingTai: extracted from inputFieldOrWaveform
+    private var composerTextField: PastableTextView { // LingTai:
         PastableTextView(
             text: inputTextBinding,
             isFocused: $inputFocused,
@@ -3650,7 +3650,7 @@ struct AIChatView: View {
             // `%@` form ("Message %@ (@ to mention files)") as the lookup
             // key in Localizable.xcstrings, so translators get one
             // parameterized entry per locale instead of one per soul name.
-            placeholder: LingTaiShellPrefs.shell ? AppLocalized("Message") : AppLocalized("Message \(soulName) (@ to mention files)"), // lingTai: Muse's short placeholder in the shell
+            placeholder: LingTaiShellPrefs.shell ? AppLocalized("Message") : AppLocalized("Message \(soulName) (@ to mention files)"), // LingTai: Muse's short placeholder in the shell
             onPasteImage: { image in vm.addImageAttachment(image) },
             onPasteFile: { url in vm.addFileAttachment(from: url) },
             onReturnKey: handleReturnKey,
@@ -3824,15 +3824,15 @@ struct AIChatView: View {
                     .padding(.top, 8)
                 }
 
-                if ltPill { // lingTai: Muse's pill in the shell — one row, bare glyphs (Android: ltPill)
-                    ltPillRows // lingTai:
-                } else { // lingTai: the OpenMinis composer when the shell is off
+                if ltPill { // LingTai: Muse's pill in the shell — one row, bare glyphs (Android: ltPill)
+                    ltPillRows // LingTai:
+                } else { // LingTai: the OpenMinis composer when the shell is off
                 inputFieldOrWaveform
 
                 inputBottomRow
                     .padding(.horizontal, 12)
                     .padding(.bottom, 10)
-                } // lingTai:
+                } // LingTai:
             }
             .contentShape(RoundedRectangle(cornerRadius: 20))
             .onTapGesture { inputFocused = true }
@@ -3867,9 +3867,9 @@ struct AIChatView: View {
                     .padding(.trailing, 10)
                 }
             }
-            .modifier(ComposerSurface(pill: ltPill)) // lingTai: the flat grey capsule in the shell
-            .frame(maxWidth: ltPill ? LingTaiColumn.pillWidth(for: hSizeClass, otherwise: nil) : maxContentWidth) // lingTai: in the shell the pill is the column less its margins on an iPad, so its edges meet the bubbles' and the bottom bar is its width
-            .padding(.horizontal, ltPill ? 16 : 12) // lingTai: Muse's 16 pt margins
+            .modifier(ComposerSurface(pill: ltPill)) // LingTai: the flat grey capsule in the shell
+            .frame(maxWidth: ltPill ? LingTaiColumn.pillWidth(for: hSizeClass, otherwise: nil) : maxContentWidth) // LingTai: in the shell the pill is the column less its margins on an iPad, so its edges meet the bubbles' and the bottom bar is its width
+            .padding(.horizontal, ltPill ? 16 : 12) // LingTai: Muse's 16 pt margins
             .padding(.vertical, 8)
             // [T-ios-geometry-observer-crash] onGeometryChange replaces the
             // GeometryReader scaffold (async-renderer SIGTRAP — see the
@@ -3880,7 +3880,7 @@ struct AIChatView: View {
                 proxy.frame(in: .global)
             } action: { frame in
                 let newH = frame.size.height
-                ltComposer.geometry(height: newH) // lingTai: every sample, the zero ones included — a lasting 0 is the collapsed composer
+                ltComposer.geometry(height: newH) // LingTai: every sample, the zero ones included — a lasting 0 is the collapsed composer
                 // [voice-inputbar-padding-zero] Guard against transient 0.
                 guard newH > 0 else { return }
 
@@ -4761,7 +4761,7 @@ struct AIChatView: View {
         speechManager.recognizedText = ""
         lastRecognizedLength = 0
         hasInjectedShareContent = false
-        ltComposer.expect("a message was sent") // lingTai: the composer must still be there a second after a send
+        ltComposer.expect("a message was sent") // LingTai: the composer must still be there a second after a send
         // Send FIRST while inputText still holds the recognized text. Clearing the
         // voice transcript here (clearAndRearm) mirrors "" into inputText via the
         // onChange binding, so doing it before send() left send() with empty text
@@ -4783,7 +4783,7 @@ struct AIChatView: View {
     /// Max content width — unconstrained in compact (portrait iPhone),
     /// capped in regular (landscape / iPad) for readability.
     private var maxContentWidth: CGFloat? {
-        hSizeClass == .regular ? LingTaiColumn.width : nil // lingTai: 760, the column the composer and the bottom bar share on an iPad (was 900)
+        hSizeClass == .regular ? LingTaiColumn.width : nil // LingTai: 760, the column the composer and the bottom bar share on an iPad (was 900)
     }
 
 }
@@ -4813,19 +4813,19 @@ struct AIChatView: View {
 /// fill and BOTH shadows byte-for-byte, including the dark-mode-only top shadow
 /// that lifts the bar off the message list.
 private struct ComposerSurface: ViewModifier {
-    /// lingTai: Muse's pill in the shell — a flat grey capsule, no shadow (Android: MuseTones.bubble, 26 dp).
-    var pill = false // lingTai:
+    /// LingTai: Muse's pill in the shell — a flat grey capsule, no shadow (Android: MuseTones.bubble, 26 dp).
+    var pill = false // LingTai:
 
     private var shape: RoundedRectangle {
-        RoundedRectangle(cornerRadius: pill ? 26 : 20, style: .continuous) // lingTai: 26 for the pill
+        RoundedRectangle(cornerRadius: pill ? 26 : 20, style: .continuous) // LingTai: 26 for the pill
     }
 
     func body(content: Content) -> some View {
-        if pill { // lingTai:
-            content // lingTai:
-                .background(shape.fill(LingTaiTones.bubble)) // lingTai:
-                .clipShape(shape) // lingTai:
-                .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2) // lingTai: soft shadow matching Android
+        if pill { // LingTai:
+            content // LingTai:
+                .background(shape.fill(LingTaiTones.bubble)) // LingTai:
+                .clipShape(shape) // LingTai:
+                .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2) // LingTai: soft shadow matching Android
         } else if #available(iOS 26.0, *) {
             content
                 .glassEffect(.regular, in: shape)
@@ -5008,15 +5008,15 @@ private struct NavTitleFrameModifier: ViewModifier {
 
 private struct NavBarStyleModifier: ViewModifier {
     @Binding var topSafeAreaInset: CGFloat
-    /// lingTai: the list is scrolled away from the latest message (the scrim's second fade).
+    /// LingTai: the list is scrolled away from the latest message (the scrim's second fade).
     var scrolledUp: Bool = false
-    /// lingTai: a side chat pushed from the Muse shell (set there); the main chat has no system bar.
+    /// LingTai: a side chat pushed from the Muse shell (set there); the main chat has no system bar.
     @Environment(\.ltSystemBarScrim) private var systemBarScrim
 
     func body(content: Content) -> some View {
-        // lingTai: in the Muse shell the header is a top safe-area inset the list scrolls under,
+        // LingTai: in the Muse shell the header is a top safe-area inset the list scrolls under,
         // so the content must keep the container's top inset; the shell takes the lower branch.
-        if #available(iOS 26, *), !LingTaiShellPrefs.shell { // lingTai:
+        if #available(iOS 26, *), !LingTaiShellPrefs.shell { // LingTai:
             // iOS 26: extend content behind nav bar so liquid-glass has
             // something to show through; the collection view's
             // contentInsetAdjustmentBehavior = .automatic keeps messages
@@ -5027,17 +5027,17 @@ private struct NavBarStyleModifier: ViewModifier {
         } else {
             // iOS 16–18: opaque navbar background
             content
-                // lingTai: a side chat pushed from the shell gets the main chat's scrim behind the
+                // LingTai: a side chat pushed from the shell gets the main chat's scrim behind the
                 // system bar (LingTaiHeaderScrim, docs/design.md): the bar's own background and
                 // its hairline go, and a zero-height inset's background fades the canvas colour
                 // down over the rows, as the Muse header's does. Upstream's bar stays opaque.
                 // The content runs up under the bar as in the iOS 26 branch, so the rows have
                 // somewhere to fade; the bar is UIKit's, so the list's `.automatic` adjustment
                 // keeps the first row below it, as there.
-                .ignoresSafeArea(.container, edges: systemBarScrim ? Edge.Set.top : []) // lingTai:
-                .toolbarBackground(systemBarScrim ? Visibility.hidden : Visibility.visible, for: .navigationBar) // lingTai:
+                .ignoresSafeArea(.container, edges: systemBarScrim ? Edge.Set.top : []) // LingTai:
+                .toolbarBackground(systemBarScrim ? Visibility.hidden : Visibility.visible, for: .navigationBar) // LingTai:
                 .toolbarBackground(ChatColors.background, for: .navigationBar)
-                .safeAreaInset(edge: .top, spacing: 0) { // lingTai:
+                .safeAreaInset(edge: .top, spacing: 0) { // LingTai:
                     if systemBarScrim {
                         Color.clear.frame(height: 0)
                             .background { LingTaiHeaderScrim(scrolledUp: scrolledUp).ignoresSafeArea(edges: .top) }
@@ -5736,7 +5736,7 @@ private struct MoveToSessionSheet: View {
             }
         }
         .task {
-            sessions = LingTaiSync.shared.visible(await ChatStore.shared.listSessions()) // lingTai: C12 — another account's chats stay hidden
+            sessions = LingTaiSync.shared.visible(await ChatStore.shared.listSessions()) // LingTai: C12 — another account's chats stay hidden
         }
     }
 

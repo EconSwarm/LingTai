@@ -652,7 +652,7 @@ class BrowserUseManager(
 
     suspend fun execute(input: BrowserActionInput): BrowserActionResult {
         val prevUrl = withContext(Dispatchers.Main) { webView.url }
-        val ltGate = ltGuard(input) // lingTai: secret fields refused, pay/send/delete taps approved first
+        val ltGate = ltGuard(input) // LingTai: secret fields refused, pay/send/delete taps approved first
         ltGate.blocked?.let { return it }
         var result: BrowserActionResult = when (input.action) {
             BrowserAction.NAVIGATE -> navigate(input.url)
@@ -679,7 +679,7 @@ class BrowserUseManager(
             BrowserAction.WAIT_FOR_DOM_STABLE -> return waitForDomStable(input.timeoutMs)
             BrowserAction.NEW_TAB, BrowserAction.CLOSE_TAB, BrowserAction.LIST_TABS ->
                 return BrowserActionResult.error("Tab management actions must be routed through BrowserTabPool")
-            // lingTai: handled by the chat before the pool sees it
+            // LingTai: handled by the chat before the pool sees it
             BrowserAction.HAND_OVER ->
                 return BrowserActionResult.error("hand_over is handled by the chat, not by a tab")
         }
@@ -703,7 +703,7 @@ class BrowserUseManager(
             }
         }
 
-        // lingTai: a remembered approval (or a payment that ran on one) is told to the model.
+        // LingTai: a remembered approval (or a payment that ran on one) is told to the model.
         ltGate.notice?.let { if (result.success) result = result.copy(text = result.text + "\n" + it) }
         return result
     }
@@ -992,10 +992,10 @@ class BrowserUseManager(
         return file
     }
 
-    // lingTai: the guard's word on an action — [blocked] when it may not run, else an optional [notice] for the model.
+    // LingTai: the guard's word on an action — [blocked] when it may not run, else an optional [notice] for the model.
     private data class LtGate(val blocked: BrowserActionResult? = null, val notice: String? = null)
 
-    // lingTai: what a click or type is about to touch, judged before it happens.
+    // LingTai: what a click or type is about to touch, judged before it happens.
     private suspend fun ltGuard(input: BrowserActionInput): LtGate {
         if (input.action != BrowserAction.CLICK && input.action != BrowserAction.TYPE) return LtGate()
         val guard = io.github.lingtai.guard.BrowserGuard

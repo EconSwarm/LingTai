@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ling-tai/lingTai/main/assets/brand/lingtai-cover.png" alt="lingTai: открытый персональный агент для всех ваших устройств">
+  <img src="https://raw.githubusercontent.com/ling-tai/LingTai/main/assets/brand/lingtai-cover.png" alt="LingTai: открытый персональный агент для всех ваших устройств">
 </p>
 
 <p align="center">
@@ -18,11 +18,11 @@
   <a href="https://trendshift.io/repositories/286894?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-286894" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/286894/daily?language=Swift" alt="ling-tai%2FlingTai | Trendshift" width="250" height="55"/></a>
 </p>
 <p align="center">
-  <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/lingTai?style=flat&label=stars" alt="Звёзды GitHub"></a>
-  <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/lingTai/total?label=downloads" alt="Загрузки"></a>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
+  <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/LingTai?style=flat&label=stars" alt="Звёзды GitHub"></a>
+  <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/LingTai/total?label=downloads" alt="Загрузки"></a>
+  <img src="https://hits.sh/github.com/ling-tai/LingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
   <a href="https://github.com/econswarm/lingtai/actions/workflows/ci.yml"><img src="https://github.com/econswarm/lingtai/actions/workflows/ci.yml/badge.svg?branch=main" alt="Test Suite"></a>
-  <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/lingTai?label=license" alt="GPL-3.0-or-later"></a>
+  <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/LingTai?label=license" alt="GPL-3.0-or-later"></a>
   <a href="https://arxiv.org/abs/2610.08699"><img src="https://img.shields.io/badge/arXiv-2610.08699-b31b1b" alt="Статья на arXiv"></a>
   <br>
   <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/%D0%9F%D0%BE%D0%BF%D1%80%D0%BE%D0%B1%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-demo.lingtai.dev-4f46e5" alt="Попробовать в браузере"></a>
@@ -30,14 +30,14 @@
   <a href="https://discord.gg/bkTySmm28X"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
-**lingTai — открытый персональный агент для всех ваших устройств.** Один агент со своим именем и обликом, того же рода, что [Muse](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/) от Meta: он делает дела, а не отвечает на вопросы, продолжает работать при закрытом приложении, помнит вас и останавливается спросить перед тем, что нельзя отменить.
+**LingTai — открытый персональный агент для всех ваших устройств.** Один агент со своим именем и обликом, того же рода, что [Muse](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/) от Meta: он делает дела, а не отвечает на вопросы, продолжает работать при закрытом приложении, помнит вас и останавливается спросить перед тем, что нельзя отменить.
 
 *nano* значит полный комплект, достаточно небольшой, чтобы вы запустили и развернули его сами: приложение для телефона, приложение для компьютера, веб-консоль и реле, которое их связывает: всё это лежит в этом репозитории, под GPL-3.0-or-later. **[Бесплатно, открыто, некоммерчески. Давайте строить вместе.](../../CONTRIBUTING.md)** После входа вы получаете бесплатный лимит на модели через реле сообщества (его оплачивает разработчик); когда он кончится, [подключите свой ключ](../own-key.md). То же реле работает на вашем собственном сервере, и тогда ничего не покидает дом. Последняя версия: **1.0.5 Lookout**, [заметки о выпуске](https://github.com/econswarm/lingtai/releases/tag/v1.0.5) · [попробовать в браузере](https://demo.lingtai.dev/).
 
 > [!NOTE]
-> **lingTai продолжает развиваться**
+> **LingTai продолжает развиваться**
 >
-> Персональный агент не должен жить только в чужом облаке, поэтому lingTai делает открытую и недорогую альтернативу: на ваших собственных устройствах, с моделью, которую выбираете вы, и с реле, которое можно поднять самому. Мы хотим строить его вместе с разработчиками и пользователями со всего мира, чтобы у каждого был по-настоящему свой персональный агент. Откройте [issue](https://github.com/econswarm/lingtai/issues/new/choose) или пришлите [pull request](../../CONTRIBUTING.md); и то и другое помогает lingTai становиться лучше.
+> Персональный агент не должен жить только в чужом облаке, поэтому LingTai делает открытую и недорогую альтернативу: на ваших собственных устройствах, с моделью, которую выбираете вы, и с реле, которое можно поднять самому. Мы хотим строить его вместе с разработчиками и пользователями со всего мира, чтобы у каждого был по-настоящему свой персональный агент. Откройте [issue](https://github.com/econswarm/lingtai/issues/new/choose) или пришлите [pull request](../../CONTRIBUTING.md); и то и другое помогает LingTai становиться лучше.
 
 https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 
@@ -48,8 +48,8 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 - `2026-10-13` ⭐ 1000 звёзд на GitHub, через восемнадцать дней после первого выпуска, и по пути четыре дня в списке Swift на GitHub Trending ([Trendshift](https://trendshift.io/repositories/286894): седьмое место 7 октября, четвёртое 10 октября). Спасибо за каждую попытку, каждое сообщение об ошибке и каждый pull request. Мы продолжаем: новая версия раз в несколько дней, а [дорожная карта](../roadmap.md) говорит, что дальше.
 - `2026-10-09` 🚀 Вышла версия [1.0.0 Keel](https://github.com/econswarm/lingtai/releases/tag/v1.0.0), для телефона, компьютера и браузера; она ставится поверх предыдущей с сохранением ваших данных, а в заметках к выпуску перечислено каждое изменение.
 - `2026-10-08` 🤗 Наша статья попала в [Hugging Face Daily Papers](https://huggingface.co/papers/2610.08699) и заняла третье место в списке за 8 октября; вопросы и комментарии можно оставить на странице статьи.
-- `2026-10-07` 📄 Наша статья доступна на [arXiv](https://arxiv.org/abs/2610.08699): *lingTai: An Open-Source Personal Agent for Every Device You Own*, авторы Guangyi Liu, Yong Liu и Jiangning Zhang (Чжэцзянский университет); ссылка для цитирования в конце этой страницы.
-- `2026-09-25` 🎉 lingTai выпущен на GitHub под GPL-3.0-or-later: Android-приложение на основе OpenMinis 1.13; реле, настольное приложение и приложение для iPhone появились в следующие дни.
+- `2026-10-07` 📄 Наша статья доступна на [arXiv](https://arxiv.org/abs/2610.08699): *LingTai: An Open-Source Personal Agent for Every Device You Own*, авторы Guangyi Liu, Yong Liu и Jiangning Zhang (Чжэцзянский университет); ссылка для цитирования в конце этой страницы.
+- `2026-09-25` 🎉 LingTai выпущен на GitHub под GPL-3.0-or-later: Android-приложение на основе OpenMinis 1.13; реле, настольное приложение и приложение для iPhone появились в следующие дни.
 
 Все версии: [releases](https://github.com/econswarm/lingtai/releases).
 
@@ -57,12 +57,12 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 
 | | |
 |---|---|
-| **Браузер** | [demo.lingtai.dev](https://demo.lingtai.dev/): lingTai на симулированном телефоне, после входа. Это демо; настоящие приложения ниже |
-| **Android** 8.0+, arm64 | [lingTai-1.0.5-arm64.apk](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-1.0.5-arm64.apk): все версии подписаны одним ключом и ставятся поверх предыдущей |
+| **Браузер** | [demo.lingtai.dev](https://demo.lingtai.dev/): LingTai на симулированном телефоне, после входа. Это демо; настоящие приложения ниже |
+| **Android** 8.0+, arm64 | [LingTai-1.0.5-arm64.apk](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-1.0.5-arm64.apk): все версии подписаны одним ключом и ставятся поверх предыдущей |
 | **iPhone / iPad** | [TestFlight](https://testflight.apple.com/join/ZHexbDqc): бета, прошедшая бета-проверку Apple; ссылка устанавливает её · [iOS](../ios.md) |
-| **macOS** 12+ | [Apple Silicon](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-mac-arm64.dmg) · [Intel](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-mac-x64.dmg). Без нотаризации: в первый раз правый клик → «Открыть» |
-| **Windows** 10+ | [lingTai-Desktop-1.0.5-win-x64.exe](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-win-x64.exe): один раз нажмите «Выполнить в любом случае» |
-| **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.tar.gz) |
+| **macOS** 12+ | [Apple Silicon](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-mac-arm64.dmg) · [Intel](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-mac-x64.dmg). Без нотаризации: в первый раз правый клик → «Открыть» |
+| **Windows** 10+ | [LingTai-Desktop-1.0.5-win-x64.exe](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-win-x64.exe): один раз нажмите «Выполнить в любом случае» |
+| **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.tar.gz) |
 | **Docker** | `bash scripts/self-host.sh --local` для своего реле; `docker compose up -d app` для веб-приложения на своём сервере; см. [самостоятельный хостинг](../self-hosting.md) |
 
 Все загрузки берутся из [последнего выпуска на GitHub](https://github.com/econswarm/lingtai/releases/latest); те же файлы лежат на [lingtai.cn/dl](https://lingtai.cn/dl/), если GitHub у вас медленный. Откройте приложение, войдите по e-mail или по номеру телефона материкового Китая, и у агента есть модель, чтобы думать. Телефон, компьютер и веб делят один аккаунт и показывают одни и те же разговоры.
@@ -90,17 +90,17 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 
 ## Как это устроено
 
-На каждом устройстве работает свой агент: на телефоне — внутри APK (Alpine Linux под proot, шелл, браузер, MCP), на компьютере — внутри lingTai Desktop (DeepSeek Harness плюс Python-рантайм для рук). После входа они встречаются на реле и могут просить друг друга о чём-то; текст разговоров идёт через реле, файлы и скриншоты остаются там, где были сделаны.
+На каждом устройстве работает свой агент: на телефоне — внутри APK (Alpine Linux под proot, шелл, браузер, MCP), на компьютере — внутри LingTai Desktop (DeepSeek Harness плюс Python-рантайм для рук). После входа они встречаются на реле и могут просить друг друга о чём-то; текст разговоров идёт через реле, файлы и скриншоты остаются там, где были сделаны.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ling-tai/lingTai/main/assets/brand/devices-loop.png" alt="Android, компьютер (Mac, Windows, Linux), iPhone и iPad и веб-приложение вокруг одного аккаунта: реле авторизует устройства в аккаунте и передаёт разговор между ними" width="92%">
+  <img src="https://raw.githubusercontent.com/ling-tai/LingTai/main/assets/brand/devices-loop.png" alt="Android, компьютер (Mac, Windows, Linux), iPhone и iPad и веб-приложение вокруг одного аккаунта: реле авторизует устройства в аккаунте и передаёт разговор между ними" width="92%">
 </p>
 
 Об устройствах — [docs/every-device.md](../every-device.md), о кадрах — [docs/hub.md](../hub.md), о реле — [docs/cloud.md](../cloud.md), о том, что оно хранит, — [docs/privacy.md](../privacy.md).
 
 ## В сравнении с Muse и OpenMinis
 
-| | Meta Muse | OpenMinis | lingTai |
+| | Meta Muse | OpenMinis | LingTai |
 |---|---|---|---|
 | Где работает агент | Облачная VM на каждого пользователя | Телефон, на котором установлен | Ваш телефон, ваш компьютер или ваш сервер, один аккаунт на всё |
 | Приложения без API | Недоступны; VM не касается ваших устройств | CLI доступности на Android | Экран как рука и на телефоне, и на компьютере: скриншоты, сначала API, вход берёте на себя вы. Не на iOS, где система не позволяет |
@@ -148,11 +148,11 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 
 ## ⭐️ Цитирование
 
-Если lingTai вам пригодился, пожалуйста, сошлитесь на статью.
+Если LingTai вам пригодился, пожалуйста, сошлитесь на статью.
 
 ```bibtex
 @misc{liu2026lingtaiopensourcepersonalagent,
-      title={lingTai: An Open-Source Personal Agent for Every Device You Own}, 
+      title={LingTai: An Open-Source Personal Agent for Every Device You Own}, 
       author={Guangyi Liu and Yong Liu and Jiangning Zhang},
       year={2026},
       eprint={2610.08699},
@@ -164,7 +164,7 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 
 ## Благодарности
 
-lingTai опирается на работу других людей; условия изложены в [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md).
+LingTai опирается на работу других людей; условия изложены в [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md).
 
 - [OpenMinis](https://github.com/OpenMinis/OpenMinis): агент на устройстве, на котором построено приложение для телефона, с [proot](https://github.com/econswarm/proot) и [Alpine Linux](https://alpinelinux.org/) для песочницы.
 - [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): агентный harness, плагином к которому является приложение для компьютера.
@@ -173,13 +173,13 @@ lingTai опирается на работу других людей; услов
 
 ## Отказ от ответственности
 
-lingTai — независимый проект сообщества, не связанный с Meta Platforms, Inc. и не поддерживаемый ею; Muse — их торговая марка. Дракон принадлежит проекту.
+LingTai — независимый проект сообщества, не связанный с Meta Platforms, Inc. и не поддерживаемый ею; Muse — их торговая марка. Дракон принадлежит проекту.
 
 ## Лицензия
 
 [GPL-3.0-or-later](../../LICENSE). Приложение для телефона основано на OpenMinis 1.13 (GPL-3.0) и изменяется с 2026-09-24; см. [NOTICE](../../NOTICE). Более ранние версии линии Python были под MIT (тег `pre-openminis`).
 
 <p align="center">
-  <em>Спасибо, что заглянули ✨ lingTai.</em><br><br>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
+  <em>Спасибо, что заглянули ✨ LingTai.</em><br><br>
+  <img src="https://hits.sh/github.com/ling-tai/LingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
 </p>

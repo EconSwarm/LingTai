@@ -3,7 +3,7 @@
 # lingtai-traffic.timer runs it every ten minutes; install.sh links the script to
 # /usr/local/bin/lingtai-traffic. `lingtai-traffic --report` shows the last two weeks.
 [Unit]
-Description=lingTai site traffic: count the day's visits and downloads
+Description=LingTai site traffic: count the day's visits and downloads
 After=network-online.target
 Wants=network-online.target
 

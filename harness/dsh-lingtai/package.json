@@ -1,7 +1,7 @@
 {
   "name": "dsh-lingtai",
   "version": "1.0.5",
-  "description": "lingTai as a DeepSeek Harness bundle: the account, the face, the persona, Hands and Reach of a Muse-style personal agent, as plugins.",
+  "description": "LingTai as a DeepSeek Harness bundle: the account, the face, the persona, Hands and Reach of a Muse-style personal agent, as plugins.",
   "license": "GPL-3.0-or-later",
   "repository": {
     "type": "git",

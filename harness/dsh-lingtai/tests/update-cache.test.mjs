@@ -119,7 +119,7 @@ test('a check that read nothing is not kept for the day: the next quiet check as
   globalThis.fetch = async () => {
     asked += 1
     if (down) return { ok: false, status: 503, json: async () => ({}) }
-    return { ok: true, status: 200, json: async () => ({ repo: 'ling-tai/lingTai', releases: [{ tag: `v${BUNDLE_VERSION}`, assets: [] }] }) }
+    return { ok: true, status: 200, json: async () => ({ repo: 'ling-tai/LingTai', releases: [{ tag: `v${BUNDLE_VERSION}`, assets: [] }] }) }
   }
   try {
     const failed = await out.svc.update(false)
@@ -157,7 +157,7 @@ test('update(false) does not answer from a cache another version made; it checks
   const realFetch = globalThis.fetch
   const asked = []
   // the mirror answers that this very version is the latest; nothing leaves the test
-  globalThis.fetch = async (url) => { asked.push(String(url)); return { ok: true, status: 200, json: async () => ({ repo: 'ling-tai/lingTai', releases: [{ tag: `v${BUNDLE_VERSION}`, assets: [] }] }) } }
+  globalThis.fetch = async (url) => { asked.push(String(url)); return { ok: true, status: 200, json: async () => ({ repo: 'ling-tai/LingTai', releases: [{ tag: `v${BUNDLE_VERSION}`, assets: [] }] }) } }
   try {
     // the stale cache, put back in memory as if nothing had normalised it
     const stale = checkedByPrevious(BUNDLE_VERSION)

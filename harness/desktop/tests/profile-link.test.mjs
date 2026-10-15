@@ -32,7 +32,7 @@ test("a fresh link is made and reported", () => {
 
 test("a dangling link from an earlier install is replaced", () => {
   const dir = scratch();
-  const old = join(dir, "Programs", "lingTai", "lingtai-desktop", "dsh-lingtai");
+  const old = join(dir, "Programs", "LingTai", "lingtai-desktop", "dsh-lingtai");
   mkdirSync(old, { recursive: true });
   const link = join(dir, "node_modules", "dsh-lingtai");
   mkdirSync(join(dir, "node_modules"));

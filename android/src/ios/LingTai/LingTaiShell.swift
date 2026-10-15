@@ -1,6 +1,6 @@
 //
 //  LingTaiShell.swift
-//  lingTai
+//  LingTai
 //
 //  The Muse shell on iPhone and iPad: one main chat pinned to the Chat tab,
 //  a bottom bar for Chat / Feed / Ideas / Goals / Library, and a side
@@ -373,10 +373,10 @@ struct LingTaiHomeView: View {
     /// Reduce Motion on: the bottom bar fades out for the keyboard instead of sliding down.
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    /// The agent's name from SOUL.md, "lingTai" until it has one.
+    /// The agent's name from SOUL.md, "LingTai" until it has one.
     static func currentAgentName() -> String {
         let n = SoulStore.cachedMetadata.name
-        return n.isEmpty ? "lingTai" : n
+        return n.isEmpty ? "LingTai" : n
     }
 
     /// Hidden while the keyboard is up (Android's IME) and while the chat's voice panel is
@@ -735,7 +735,7 @@ struct LingTaiHomeView: View {
         .accessibilityLabel(Text(AppLocalized("More")))
     }
 
-    /// One of this chat's own menu entries: AIChatView acts on it (see its `// lingTai:` hook).
+    /// One of this chat's own menu entries: AIChatView acts on it (see its `// LingTai:` hook).
     private func chatAction(_ action: LingTaiChatAction) {
         guard let id = main.chatId else { return }
         LingTaiChatAction.post(action, session: main.liveId ?? id)
@@ -822,7 +822,7 @@ struct LingTaiHomeView: View {
 
 extension Notification.Name {
     /// `object` is a session id (or a `__new__…` draft id): the shell shows it.
-    static let lingTaiOpenChat = Notification.Name("lingTai.openChat")
+    static let lingTaiOpenChat = Notification.Name("LingTai.openChat")
 }
 
 /// The upstream layout, presented from the drawer as a sheet (swipe down
@@ -1011,7 +1011,7 @@ private struct LingTaiCategoryShape: Shape {
 extension Notification.Name {
     /// `object` is one of "settings", "coding", "routines", "systemFiles", "sharedFolders",
     /// "chatFiles": the home opens that page over the current tab.
-    static let lingTaiHomeAction = Notification.Name("lingTai.homeAction")
+    static let lingTaiHomeAction = Notification.Name("LingTai.homeAction")
 }
 
 /// What Feed / Ideas / Goals / Library need to draw the Muse header: the

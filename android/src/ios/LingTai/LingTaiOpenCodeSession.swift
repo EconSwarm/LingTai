@@ -1,11 +1,11 @@
 //
 //  LingTaiOpenCodeSession.swift
-//  lingTai
+//  LingTai
 //
 //  OpenCode Go asks every client to name itself with its own user agent and to send one stable
 //  id per conversation in `x-opencode-session` (opencode.ai/docs/go, "Where can I use it?"); the
 //  catalogue says so in the entry's `session_header`. The user agent is already the app's own
-//  (`MinisUserAgent.default`, `lingTai/<version> (iOS …)`); this names the header and the
+//  (`MinisUserAgent.default`, `LingTai/<version> (iOS …)`); this names the header and the
 //  endpoints that get it. `OpenAIAgentProvider` passes the conversation's prompt cache key (a
 //  hash of its first user message, stable across turns) to `OpenAIProvider.streamRaw`, which
 //  sets the header on chat and Responses requests.

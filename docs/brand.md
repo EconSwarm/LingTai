@@ -1,4 +1,4 @@
-# lingTai brand
+# LingTai brand
 
 Decided 2026-09-24. The app icon and the in-app colour system are one decision: the palette
 is derived from the icon so the whole app matches the tile on the home screen.

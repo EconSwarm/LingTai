@@ -547,7 +547,7 @@ class SystemSpeechRecognitionEngine(private val appContext: Context) : SpeechRec
     private fun startInternal(locale: Locale, allowOnDeviceRetry: Boolean) {
         mainHandler.post {
             try {
-                // lingTai: Keep the factory's actual mode when on-device creation falls back.
+                // LingTai: Keep the factory's actual mode when on-device creation falls back.
                 // Only reach for the on-device recognizer when the user actually
                 // asked for offline. It used to be created unconditionally on
                 // S+, which silently overrode the panel's "System Recognition
@@ -670,7 +670,7 @@ class SystemSpeechRecognitionEngine(private val appContext: Context) : SpeechRec
      */
     @Volatile var preferOffline: Boolean = false
 
-    // lingTai: Use the framework's error name in this locale explanation.
+    // LingTai: Use the framework's error name in this locale explanation.
     /**
      * [T-android-asr-script-subtag] Strip the SCRIPT subtag from a language tag
      * before handing it to the recognizer.
@@ -680,7 +680,7 @@ class SystemSpeechRecognitionEngine(private val appContext: Context) : SpeechRec
      * matches its language packs on plain `language-REGION` tags, so the script
      * subtag makes it report "Locale not supported" / "Failed to get language
      * pack of required locale" and fail the session.
-     * lingTai: The framework calls this ERROR_LANGUAGE_NOT_SUPPORTED (12).
+     * LingTai: The framework calls this ERROR_LANGUAGE_NOT_SUPPORTED (12).
      * The mic opens and immediately closes. Observed on a
      * Pixel 4a whose system locale is zh-Hans-CN.
      *
@@ -1072,7 +1072,7 @@ class SystemSpeechRecognitionEngine(private val appContext: Context) : SpeechRec
             SpeechRecognizer.ERROR_AUDIO -> RecognitionError.AUDIO_ERROR
             SpeechRecognizer.ERROR_CLIENT -> RecognitionError.OEM_NO_SERVICE
             SpeechRecognizer.ERROR_SERVER -> RecognitionError.NETWORK
-            // lingTai: API 31 language errors are 12/13; 11 is a service disconnect.
+            // LingTai: API 31 language errors are 12/13; 11 is a service disconnect.
             SpeechRecognizer.ERROR_LANGUAGE_NOT_SUPPORTED,
             SpeechRecognizer.ERROR_LANGUAGE_UNAVAILABLE -> RecognitionError.LANGUAGE_UNSUPPORTED
             else -> RecognitionError.UNKNOWN
@@ -1088,7 +1088,7 @@ class SystemSpeechRecognitionEngine(private val appContext: Context) : SpeechRec
             SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "Recognizer busy"
             SpeechRecognizer.ERROR_SERVER -> "Server error"
             SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "Speech timeout"
-            // lingTai: Match the existing language messages to the framework's error codes.
+            // LingTai: Match the existing language messages to the framework's error codes.
             SpeechRecognizer.ERROR_LANGUAGE_NOT_SUPPORTED ->
                 "Language not supported by the recognizer"
             SpeechRecognizer.ERROR_LANGUAGE_UNAVAILABLE ->

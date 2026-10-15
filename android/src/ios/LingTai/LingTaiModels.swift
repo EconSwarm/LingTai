@@ -1,11 +1,11 @@
 //
 //  LingTaiModels.swift
-//  lingTai
+//  LingTai
 //
 //  Which model answers, and how a pick sticks (contract C4): the relay's
 //  menu says `for: ["chat"] | ["gui"] | ["chat","gui"]`; the chat opens on
 //  `deepseek-v4.1-flash`; a model picked in the chat's picker moves to the
-//  front of the lingTai Cloud group so new chats follow it. Own-key
+//  front of the LingTai Cloud group so new chats follow it. Own-key
 //  presets for Alibaba Cloud Bailian and OpenRouter, and whether a model
 //  sees pictures judged from its name when nobody said.
 //  Android: cloud/LingTaiCloud.kt (followPick, recommendedChat),

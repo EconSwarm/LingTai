@@ -21,7 +21,7 @@ export function MemoryScreen() {
   const [category, setCategory] = useState("profile");
   const [adding, setAdding] = useState(false);
   const [tidying, setTidying] = useState(false);
-  const name = state.profile?.name ?? "lingTai";
+  const name = state.profile?.name ?? "LingTai";
   const t = useT();
 
   const load = () =>

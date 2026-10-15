@@ -1,4 +1,4 @@
-"""Where this lingTai runs: on a computer, in a container, or on the phone itself.
+"""Where this LingTai runs: on a computer, in a container, or on the phone itself.
 
 On the phone the Android app (``android/``) starts ``lingtai serve`` inside its own Linux
 root file system — Alpine, unpacked from the APK, run under PRoot without root — and tells

@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Install the lingTai app into a MobileGym checkout.
+# Install the LingTai app into a MobileGym checkout.
 #
 #   demo/mobilegym/install.sh /path/to/mobilegym
 #
@@ -27,4 +27,4 @@ echo "installed apps/LingTai into $target"
 if [ -d "$target/node_modules" ] && [ ! -d "$target/node_modules/modern-screenshot" ]; then
   (cd "$target" && npm install --no-save --no-audit --no-fund modern-screenshot@^4.7.0)
 fi
-echo "next: (cd $target && npm install && npm install --no-save modern-screenshot && npm run dev), then open the lingTai app on the phone."
+echo "next: (cd $target && npm install && npm install --no-save modern-screenshot && npm run dev), then open the LingTai app on the phone."

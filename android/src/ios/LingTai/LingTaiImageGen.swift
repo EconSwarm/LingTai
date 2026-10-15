@@ -1,12 +1,12 @@
 //
 //  LingTaiImageGen.swift
-//  lingTai
+//  LingTai
 //
 //  Where the pictures for the face come from. With an Alibaba Cloud Bailian
 //  key on this phone (an OpenAI-compatible provider whose base URL is on
 //  dashscope / aliyuncs), the face is drawn with that key through Model
 //  Studio's native multimodal endpoint — the compatible endpoint answers 404
-//  to image models. Otherwise through lingTai Cloud, where a cost estimate
+//  to image models. Otherwise through LingTai Cloud, where a cost estimate
 //  is shown first. Android: avatar/ImageGen.kt.
 //
 
@@ -58,7 +58,7 @@ extension LingTaiImageGen {
     private static let defaultsPreferRelayKey = "lingtai.avatar.prefer_relay"
     private static let defaultsRelayModelKey = "lingtai.avatar.relay_model"
 
-    /// The person chose lingTai Cloud for pictures (Settings › Models, or the older Image &
+    /// The person chose LingTai Cloud for pictures (Settings › Models, or the older Image &
     /// video models page). An explicit choice: it wins over any key on the phone while signed in.
     static var preferRelay: Bool {
         get { UserDefaults.standard.bool(forKey: defaultsPreferRelayKey) }
@@ -71,7 +71,7 @@ extension LingTaiImageGen {
         return s.isEmpty ? nil : s
     }
 
-    /// Pictures through lingTai Cloud from now on, with `model` when the person picked one.
+    /// Pictures through LingTai Cloud from now on, with `model` when the person picked one.
     @MainActor
     static func useRelay(model: String? = nil) {
         preferRelay = true
@@ -116,7 +116,7 @@ extension LingTaiImageGen {
         return host
     }
 
-    /// Bailian instances with a key on this phone, the lingTai Cloud instance excluded.
+    /// Bailian instances with a key on this phone, the LingTai Cloud instance excluded.
     @MainActor
     static func bailianInstances() -> [ProviderInstance] {
         let cloudId = LingTaiCloud.instance?.id
@@ -131,10 +131,10 @@ extension LingTaiImageGen {
 
     /// Where the next picture is drawn (0.1.41, the contract's section 3): the person's choice
     /// first; without one, the chat provider's own image model when the chat runs on a key of
-    /// their own that draws, then lingTai Cloud when signed in, then the first key on the
+    /// their own that draws, then LingTai Cloud when signed in, then the first key on the
     /// phone that draws. Cloud no longer loses to a Bailian key the person did not pick, and a
     /// Bailian key the person did pick is never passed over for Cloud. `.relay` when nothing
-    /// can draw: the relay call then says *Sign in to lingTai Cloud first*.
+    /// can draw: the relay call then says *Sign in to LingTai Cloud first*.
     @MainActor
     static func route() -> Route {
         let candidates = bailianInstances()
@@ -185,7 +185,7 @@ extension LingTaiImageGen {
         }
     }
 
-    /// "Drawn by lingTai Cloud" / "Drawn by Bailian · qwen-image-3.0".
+    /// "Drawn by LingTai Cloud" / "Drawn by Bailian · qwen-image-3.0".
     @MainActor
     static func providerLine() -> String {
         switch route() {

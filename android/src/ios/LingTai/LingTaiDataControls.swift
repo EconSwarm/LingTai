@@ -1,8 +1,8 @@
 //
 //  LingTaiDataControls.swift
-//  lingTai
+//  LingTai
 //
-//  Data controls for a lingTai Cloud account: whether the text of chats
+//  Data controls for a LingTai Cloud account: whether the text of chats
 //  with the Cloud models is kept to train the community's model, how many
 //  turns were kept, and a way to delete them. Android: ui/cloud/DataControlsScreen.kt.
 //
@@ -24,14 +24,14 @@ struct LingTaiDataControlsView: View {
             LingTaiSyncSection()
             if !LingTaiCloud.isSignedIn {
                 Section {
-                    Text(AppLocalized("Sign in to lingTai Cloud to use it."))
+                    Text(AppLocalized("Sign in to LingTai Cloud to use it."))
                         .foregroundStyle(.secondary)
                 }
             } else {
                 Section {
                     Toggle(isOn: $on) {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(AppLocalized("Help improve lingTai's AI models"))
+                            Text(AppLocalized("Help improve LingTai's AI models"))
                             if let info {
                                 Text(String(format: AppLocalized("%d turns kept so far."), info.samples))
                                     .font(.footnote)
@@ -46,7 +46,7 @@ struct LingTaiDataControlsView: View {
                     }
                 } footer: {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(AppLocalized("While this is on, the text of your chats with the lingTai Cloud models is kept on the relay to train the community's own open model: what you wrote, what it answered and the tools it chose to call. Not your memory or SOUL (the system prompt), not what tools returned, not pictures, and never next to who you are. Your own API key never passes through the relay."))
+                        Text(AppLocalized("While this is on, the text of your chats with the LingTai Cloud models is kept on the relay to train the community's own open model: what you wrote, what it answered and the tools it chose to call. Not your memory or SOUL (the system prompt), not what tools returned, not pictures, and never next to who you are. Your own API key never passes through the relay."))
                         if let info {
                             Text(info.defaultOn ? AppLocalized("New accounts start with it on.") : AppLocalized("New accounts start with it off."))
                         }

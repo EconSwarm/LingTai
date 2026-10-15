@@ -1,7 +1,7 @@
 [project]
 name = "lingtai-showcase-gateway"
 version = "0.3.0"
-description = "Hands a visitor of the lingTai showcase a private, short-lived lingTai and meters what it spends"
+description = "Hands a visitor of the LingTai showcase a private, short-lived LingTai and meters what it spends"
 requires-python = ">=3.11"
 license = "GPL-3.0-or-later"
 dependencies = [

@@ -1,6 +1,6 @@
 //
 //  LingTaiNetworkView.swift
-//  lingTai
+//  LingTai
 //
 //  Settings → Network: the HTTP proxy for own providers and the ChatGPT plan (LingTaiProxy)
 //  — one switch, host, port, an optional user name and password, saved as typed, and a Test
@@ -41,7 +41,7 @@ struct LingTaiNetworkView: View {
             } header: {
                 Text(AppLocalized("HTTP proxy for own providers"))
             } footer: {
-                Text(AppLocalized("Only the requests to the providers you added with your own key, and to the ChatGPT plan, go through it. lingTai Cloud, your computers and the local network never do. Kept on this phone only."))
+                Text(AppLocalized("Only the requests to the providers you added with your own key, and to the ChatGPT plan, go through it. LingTai Cloud, your computers and the local network never do. Kept on this phone only."))
             }
 
             Section {

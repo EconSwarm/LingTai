@@ -1072,7 +1072,7 @@ actor ChatStore {
             memDiagLogger.error("[MemDiag] createSession prepare FAILED sid=\(session.id.prefix(8))")
         }
         sqlite3_finalize(stmt)
-        Task { @MainActor [id = session.id] in LingTaiAccountData.shared.claim(id) } // lingTai: the chat belongs to whoever is signed in now (contract C12)
+        Task { @MainActor [id = session.id] in LingTaiAccountData.shared.claim(id) } // LingTai: the chat belongs to whoever is signed in now (contract C12)
 
         // Deliberately NOT marking the Session dirty here. A freshly-created
         // session has no messages yet — it's a placeholder the user may never
@@ -4349,10 +4349,10 @@ actor ChatStore {
         return order
     }
 
-    /// lingTai: C8 — a text pulled from another device moves its chat up the list, as a local one would.
-    func ltTouchSession(_ sessionId: String) { // lingTai:
-        touchSession(sessionId) // lingTai:
-    } // lingTai:
+    /// LingTai: C8 — a text pulled from another device moves its chat up the list, as a local one would.
+    func ltTouchSession(_ sessionId: String) { // LingTai:
+        touchSession(sessionId) // LingTai:
+    } // LingTai:
 
     private func touchSession(_ sessionId: String) {
         invalidateSessionListCache()

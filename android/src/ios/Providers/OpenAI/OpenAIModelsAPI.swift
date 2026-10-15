@@ -46,7 +46,7 @@ enum OpenAIModelsAPI {
     }
 
     private static func performFetch(_ request: URLRequest, filterOpenAIOnly: Bool = true) async throws -> [LLMModel] {
-        let (data, response) = try await LingTaiProxy.session.data(for: request) // lingTai: Settings → Network
+        let (data, response) = try await LingTaiProxy.session.data(for: request) // LingTai: Settings → Network
         let http = response as? HTTPURLResponse
         let statusCode = http?.statusCode ?? -1
 

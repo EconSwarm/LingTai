@@ -60,7 +60,7 @@ object ExecutionCoordinator {
         appContext = context.applicationContext
     }
 
-    // lingTai: test-only view of the per-session registry, so the instrumentation test can
+    // LingTai: test-only view of the per-session registry, so the instrumentation test can
     // observe a shell's lifetime without reflection (the old single mountedSessionId is gone).
     internal fun hasShell(sessionId: String): Boolean = shells.containsKey(sessionId)
 

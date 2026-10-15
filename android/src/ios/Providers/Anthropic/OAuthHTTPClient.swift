@@ -34,7 +34,7 @@ final class OAuthHTTPClient: HTTPClient {
         config.protocolClasses = [OAuthURLProtocol.self]
         config.httpAdditionalHeaders = (config.httpAdditionalHeaders ?? [:]).merging(
             ["X-Minis-OAuth-UUID": rid]) { _, new in new }
-        LingTaiProxy.apply(to: config) // lingTai: Settings → Network, the proxy for own providers
+        LingTaiProxy.apply(to: config) // LingTai: Settings → Network, the proxy for own providers
         let session = URLSession(configuration: config)
         self.underlying = URLSessionHTTPClientAdapter(urlSession: session)
     }

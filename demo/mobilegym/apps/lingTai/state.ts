@@ -14,17 +14,17 @@ export interface DemoRecord {
 }
 
 interface LingTaiState {
-  /** Origin of the lingTai server, no trailing slash: "http://127.0.0.1:8787". */
+  /** Origin of the LingTai server, no trailing slash: "http://127.0.0.1:8787". */
   serverUrl: string;
   /** The access token `lingtai serve` prints (also in the QR code). */
   token: string;
   /** Mirror approvals, questions and background results into the notification shade. */
   notify: boolean;
-  /** Let lingTai operate this phone through its screen (its own GUI switch must be on too). */
+  /** Let LingTai operate this phone through its screen (its own GUI switch must be on too). */
   gui: boolean;
   /** The hosted showcase session this phone is on, if any. */
   demo: DemoRecord | null;
-  /** The showcase's ticket from a lingTai Cloud sign-in (demo.ts), and who it is for. */
+  /** The showcase's ticket from a LingTai Cloud sign-in (demo.ts), and who it is for. */
   ticket: string;
   visitor: { hint: string; channel: string } | null;
   /** Live state of the notification bridge's WebSocket. Not persisted. */

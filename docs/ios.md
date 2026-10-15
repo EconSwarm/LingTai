@@ -1,10 +1,10 @@
 # iOS
 
-lingTai on the iPhone is the iOS half of OpenMinis 1.13 under lingTai's name, built by CI on a
+LingTai on the iPhone is the iOS half of OpenMinis 1.13 under LingTai's name, built by CI on a
 Mac runner and handed to TestFlight. This page says what is in the tree, how it is built, what
 the TestFlight pipeline needs, and what is still to be ported from the Android app.
 
-**Status.** The tree, the branding, the lingTai Cloud sign-in, the hub client and the pipeline
+**Status.** The tree, the branding, the LingTai Cloud sign-in, the hub client and the pipeline
 were written on a Linux machine. The app **builds, signs and is on TestFlight**: the first build,
 0.1.31 (2), went through the *iOS · TestFlight* workflow on 2026-10-03; 1.0.0 is build 16, which
 passed Apple's beta review, so the public link
@@ -24,7 +24,7 @@ than in a second subtree, is what keeps `git subtree pull` working for both plat
 
 ```
 android/src/ios/                 the Xcode project: Minis.xcodeproj, app, extensions, tests
-android/src/ios/LingTai/        ours: lingTai Cloud client and screens (a synchronized folder
+android/src/ios/LingTai/        ours: LingTai Cloud client and screens (a synchronized folder
                                  of the Minis target; drop a .swift file in, it is compiled)
 android/src/ios/fastlane/        the TestFlight lane
 android/deps/build_lame.sh       LAME → FFmpeg → iSH → Alpine rootfs → rclone, in that order
@@ -38,10 +38,10 @@ scripts/gen-ios-icons.py         the app icon and the four alternates, from asse
 ```
 
 The rules of [CONTRIBUTING.md](../CONTRIBUTING.md) apply unchanged: new code in new files (here:
-the `LingTai/` folder), an edit inside an upstream Swift file carries a `// lingTai:` comment,
+the `LingTai/` folder), an edit inside an upstream Swift file carries a `// LingTai:` comment,
 and rebranding is the script, never a hand edit.
 
-## What is lingTai here
+## What is LingTai here
 
 Applied by `python scripts/rebrand.py` (idempotent; run after every upstream pull):
 
@@ -56,7 +56,7 @@ Applied by `python scripts/rebrand.py` (idempotent; run after every upstream pul
   from the system is read as its `minis://` form (`LingTai/LingTaiOwnScheme.swift`), and a
   button of ours outside the chat opens such a link through the deep-link router, never through
   the system.
-- **Names.** Display name lingTai, "Share to lingTai", "lingTai Files"; "Minis" → "lingTai"
+- **Names.** Display name LingTai, "Share to LingTai", "LingTai Files"; "Minis" → "LingTai"
   in Swift string literals, in `Localizable.xcstrings` (keys renamed, all nine translations
   updated) and in the Info.plist usage descriptions in every language. The OpenRouter
   `HTTP-Referer` keeps pointing at OpenMinis, as on Android: it is attribution, not identity.
@@ -65,12 +65,12 @@ Applied by `python scripts/rebrand.py` (idempotent; run after every upstream pul
 - **Look.** AccentColor `#4F46E5` / `#6366F1` instead of iOS blue; the one-stroke N as the app
   icon (white tile, brand gradient; a dark tile for the dark appearance) and as the four skins of
   the in-app icon picker; the agent's header glyph 🐾 instead of ✨.
-- **About.** Links to this repository and its issues, the privacy page, lingTai's own tagline,
+- **About.** Links to this repository and its issues, the privacy page, LingTai's own tagline,
   and a Credits section: based on OpenMinis 1.13 (GPL-3.0), not affiliated with Meta.
 
 Ours, in `LingTai/`:
 
-- **lingTai Cloud.** *Providers* opens with a "lingTai Cloud" row: a phone number or an
+- **LingTai Cloud.** *Providers* opens with a "LingTai Cloud" row: a phone number or an
   e-mail address, a code, and the relay ([cloud.md](cloud.md)) is an ordinary OpenAI-compatible
   provider in the app, with a model group of its own that becomes the default when there is none.
   Same wire format and the same rules as the Android client (`io.github.lingtai.cloud`): one
@@ -82,9 +82,9 @@ Ours, in `LingTai/`:
   holding a key, the timeline, deletion, the same sections as the phone's `CloudAccountScreen`.
 - **The agent's steps, the status line.** *Settings → Chat → Steps* keeps the tool capsules out of
   finished messages unless asked for; the typing line reads *〈name〉 is on it*, not *is thinking*.
-  Both are one-line edits in upstream's `AssistantBlockView` / `ContentView`, marked `// lingTai:`.
+  Both are one-line edits in upstream's `AssistantBlockView` / `ContentView`, marked `// LingTai:`.
 - **The Muse shell (0.1.33; iPad too since 0.1.34).** `LingTaiRoot` replaces upstream's
-  `ContentView` at the root; *Settings → lingTai* has the two switches (*Muse home*, *Face and
+  `ContentView` at the root; *Settings → LingTai* has the two switches (*Muse home*, *Face and
   name in the chat header*), and the OpenMinis layout stays one tap away in the drawer. The chat's
   navigation title becomes **face · name · status line** (`LingTaiHeader.swift`): the status
   reads *waiting for you* while a question or an approval is up, then the running tool's
@@ -102,7 +102,7 @@ Ours, in `LingTai/`:
   and left out of the iCloud and computer backups with its still, and *Default face* removes it;
   the section in [avatar.md](avatar.md) has the fallback rule).
   The drawer holds the sessions, search,
-  a new side chat, *Pin as the main chat*, *All chats* and the lingTai settings; it opens from
+  a new side chat, *Pin as the main chat*, *All chats* and the LingTai settings; it opens from
   the round button and, on the main chat, from a swipe in at the left edge
   (`LingTaiEdgeSwipe.swift`, a screen-edge pan on the window, as Android's drawer on the Chat
   tab; a pushed side chat keeps the system's back swipe).
@@ -129,7 +129,7 @@ Ours, in `LingTai/`:
   `BGAppRefreshTask` it asks for when it goes to the background
   (`io.github.lingtai.app.scheduler`) never runs a routine: when iOS grants it, the handler
   posts the reminder for whatever came due and asks for the next slot, nothing more. Every piece
-  of copy about routines says so. *Settings → lingTai → Scheduled tasks* lists them all, the
+  of copy about routines says so. *Settings → LingTai → Scheduled tasks* lists them all, the
   goal check-ins and the feed's included.
 - **Goals (0.1.34)** (`LingTaiGoals.swift`, Android `goals/`): *Create a goal › category* sends
   the opener to the main chat with a system addendum for a few turns; the model's
@@ -148,7 +148,7 @@ Ours, in `LingTai/`:
   〈name〉), with *I have my own API key* opening the own-key sheet (the whole catalogue;
   see *Your own key* below), and the first conversation afterwards (the
   opening lines, "what should I call you?", the name chooser from the model's ` ```lingtai-naming `
-  block, GLOBAL.md and SOUL.md written). *Settings → lingTai*: the account, **Coding agents**
+  block, GLOBAL.md and SOUL.md written). *Settings → LingTai*: the account, **Coding agents**
   (Cursor / Codex / Claude Code sessions on the computers of the account over the hub's
   `coding.*` actions, a message to any of them), **Scheduled tasks**, **System files** (SOUL,
   GLOBAL, the diary, the feed's instruction, the routines' schedule, *Import memory* from another
@@ -157,12 +157,12 @@ Ours, in `LingTai/`:
   (the one marked recommended *for chat*; `qwen3.8-27b` is the hands' model and never the chat
   default); a pick made in the chat's picker moves to the front of the Cloud group so new chats
   follow it, as Android's `followPick`. DeepSeek ids are text-only unless they name `v4.1` or
-  later, `vision` or `ocr`: a `// lingTai:` step at the top of `LLMModel.withInferredModality()`.
+  later, `vision` or `ocr`: a `// LingTai:` step at the top of `LLMModel.withInferredModality()`.
 - **Models as four slots (0.1.41)** (`LingTaiModelSlots.swift`, `LingTaiModelsView.swift`;
-  Android `ui/models/ModelsScreen.kt`): the first card of *Settings → lingTai* is *Models* and
+  Android `ui/models/ModelsScreen.kt`): the first card of *Settings → LingTai* is *Models* and
   opens four rows: *Chat*, *Operating the screen* (disabled on iPhone, *Not on iPhone*, *Your
   computer uses its own setting.*), *Making pictures*, *Making clips*, each showing
-  `<provider> · <model>` and opening a picker grouped *lingTai Cloud* first (the relay's
+  `<provider> · <model>` and opening a picker grouped *LingTai Cloud* first (the relay's
   recommended one marked *Recommended*) and then one group per provider of your own that can do
   it; an empty row says what is missing and offers *Add a provider*, and so does the page's last
   row; under the pictures and clips pickers a key the catalogue says can draw but the phone
@@ -170,11 +170,11 @@ Ours, in `LingTai/`:
   sentence, *Not offered here: …*, with where it does work. Picking a chat model sets the default group for new chats (a group of ours for that
   provider, the pick first; a mixed group you made becomes the default as it is) and moves the
   main chat's binding with it (`LingTaiModelSlots.mainChatFollows`: the main chat is never a
-  new chat, so on 0.1.41 it stayed on lingTai Cloud after a key of your own was chosen while
+  new chat, so on 0.1.41 it stayed on LingTai Cloud after a key of your own was chosen while
   side chats answered through the key); the page says *Applies to the main chat and to new
   chats; a side chat keeps its model.*; a pick made in a chat's own picker sticks the same way,
   for any provider, not only Cloud. Pictures and clips resolve in one order (your choice, else the chat
-  provider's own default when it is a Model Studio key that draws, else lingTai Cloud when
+  provider's own default when it is a Model Studio key that draws, else LingTai Cloud when
   signed in, else the first key that can), so Cloud is no longer passed over for a Bailian key
   you did not pick; the image and video models come from the catalogue's `defaults`, not from
   names in the code. The pictures and clips pickers open with an *Automatic* entry (*Currently
@@ -189,7 +189,7 @@ Ours, in `LingTai/`:
   per slot the key covers (pictures and clips only on a DashScope host, the screen never on
   iPhone), all on; *Use it* moves the ticked slots to the provider's defaults, *Not now* changes
   nothing, and saving no longer switches anything by itself. When a model of your own fails, the
-  failure card (and upstream's plain error) gains *Use lingTai Cloud this time* while signed
+  failure card (and upstream's plain error) gains *Use LingTai Cloud this time* while signed
   in: the retry runs on the relay's chat model (`LingTaiCloudOnce`, read at the top of
   `resolveCurrentEntry()`), and no slot changes. The relay's menu is kept on the phone at sign-in
   and refreshed when the page opens. *Image & video models* stays as a shortcut with the animate
@@ -235,10 +235,10 @@ Ours, in `LingTai/`:
   with OpenAI's sentence and the reset time. The same kinds, lines and rules as Android's
   `ProviderReach`.
 - **When the relay refuses a turn** (`LingTaiRelayRefusal.swift`,
-  `LingTaiRelayRefusalCard.swift`): every refusal lingTai Cloud sends is one plain sentence in
+  `LingTaiRelayRefusalCard.swift`): every refusal LingTai Cloud sends is one plain sentence in
   the phone's language and the button that fits, never a status code, the relay's JSON or
   upstream's *Rate limited*. `LingTaiReachSignal` hands each non-2xx reply of a model call to
-  `LingTaiRelaySignal` first (the same existing `// lingTai:` spot in `mapHTTPError`, nothing
+  `LingTaiRelaySignal` first (the same existing `// LingTai:` spot in `mapHTTPError`, nothing
   new in upstream's files); a reply with `type: lingtai_cloud` or one of the relay's codes (or a
   bare 413 / 401 / 5xx from the relay's host) becomes a canonical `lt_relay:` line in the
   message, which `LingTaiProviderReachCard` draws as the refusal card. The sentence is
@@ -251,7 +251,7 @@ Ours, in `LingTai/`:
   conversation.* with *New chat* and *Try again*, and the compaction's split-retry
   (`isSegmentRetryableError`) leaves it alone, since the same words come back refused however
   small the request; an error the relay puts inside a stream (`data: {"error": …}` on a 200)
-  now ends the turn with its card instead of an empty reply (a `// lingTai:` spot in
+  now ends the turn with its card instead of an empty reply (a `// LingTai:` spot in
   `OpenAIProvider`'s stream loop); `401 bad_key` / `account_deleted` → *Sign
   in*; `403 not_invited` / `account_disabled` / `signup_closed` → *Open Settings*; `429
   too_many_in_flight` / `locked` / `rate_limited` and `provider_busy` (with the wait from
@@ -272,7 +272,7 @@ Ours, in `LingTai/`:
   current, `--check` in CI), and the relay's `spend.guidance` first when it sent one (relay
   0.21; also beside a `429 allowance_exhausted`), kept in `UserDefaults` between runs, so a
   vendor added on the relay shows before the app is updated. `LingTaiWaysList` is the one list
-  on the pinned card, Settings → lingTai Cloud and the own-key sheet: *Use your own model key*:
+  on the pinned card, Settings → LingTai Cloud and the own-key sheet: *Use your own model key*:
   the region's lead first (Alibaba Cloud Bailian on the mainland, OpenRouter and OpenAI
   elsewhere), three at a time behind *More providers*, every row saying what it covers (*chat ·
   screen · pictures · clips*), *Get a key* opening the vendor's key page, *Add* opening
@@ -284,7 +284,7 @@ Ours, in `LingTai/`:
   this access cut off before (OpenCode, January 2026), and that an API key works if it stops (the
   relay's own wording when it sent one); *On a computer of your own* (Ollama, LM Studio, vLLM)
   takes the address. No vendor is recommended.
-- **Network** (`LingTaiProxy.swift`, `LingTaiNetworkView.swift`, *Settings → lingTai →
+- **Network** (`LingTaiProxy.swift`, `LingTaiNetworkView.swift`, *Settings → LingTai →
   Network*): the HTTP proxy for own providers: host, port, optional user name and password, off
   by default, on this phone only: the address and the user name in `UserDefaults`, the password
   in the Keychain as a device-only item (`io.github.lingtai.app.proxy`, the relay key's rules;
@@ -302,7 +302,7 @@ Ours, in `LingTai/`:
   the live status line under it, round drawer and ••• buttons) on the chat and on Feed, Ideas,
   Goals and Library; the side drawer after Android's; the agent's grey bubble for its replies
   (`LingTaiAssistantBubble` in `LingTaiChatCards.swift`); the agent page's toolbar as round
-  buttons; *Settings → lingTai* rebuilt as Muse cards in the Android order
+  buttons; *Settings → LingTai* rebuilt as Muse cards in the Android order
   (`LingTaiSettingsHomeView`: Image & video models, Avatar, Computers, Appearance (avatar size,
   the model under the name, the steps, the theme), Notifications, Account, Coding, Scheduled
   tasks, Shared folders, Chat files, System files, Version). A `ltOnChange` helper keeps
@@ -335,7 +335,7 @@ Ours, in `LingTai/`:
   first run.
 - **The composer (0.1.38, 0.1.40)** (`LingTaiShell.swift` → `LingTaiHomeView.body`,
   `LingTaiChatModifiers.swift`, `LingTaiComposerField.swift`, `LingTaiComposerWatch.swift`,
-  `LingTaiComposerCheck.swift`, the `// lingTai:` lines in `Views/Chat/AIChatView.swift`). Four
+  `LingTaiComposerCheck.swift`, the `// LingTai:` lines in `Views/Chat/AIChatView.swift`). Four
   releases reported a chat with no input field (0.1.36 and 0.1.37 on the maintainer's iPhone after
   the first conversation's naming, 0.1.39 on the iPad), and the 0.1.37 watchdog, the 0.1.38 native
   field and the 0.1.38 fail-safe (a second host when the overlay reported nothing) were all written
@@ -485,7 +485,7 @@ Ours, in `LingTai/`:
   `LingTaiFirstRun.swift`, `LingTaiProviderReachCard.swift`, `LingTaiSystemFiles.swift`,
   `*.lproj/InfoPlist.strings`, `Localizable.xcstrings`): `LingTaiFlowLayout`, a wrapping row
   (iOS 16 `Layout`), holds the name chips of the first conversation and the buttons under the
-  provider card, so four names or *Try again · Use lingTai Cloud this time · Network settings ·
+  provider card, so four names or *Try again · Use LingTai Cloud this time · Network settings ·
   Add a key of your own* fit an iPhone SE and a large text size instead of being cut off at the
   right edge; a setup page's fine print is one paragraph with *Learn more* at its end. The
   permission prompts for NFC, Bluetooth and Face ID are in all nine languages (they fell back
@@ -496,7 +496,7 @@ Ours, in `LingTai/`:
   *Checks every 6 hours*) instead of English *daily*, *once*, *every 6 h*; the memory import
   prompt follows an in-app language change.
 - **The audit's follow-ups (round 11)** (`Localizable.xcstrings`, `LingTaiVendorSheet.swift`,
-  `LingTaiFeed.swift`, `LingTaiAppearance.swift`, the `// lingTai:` spots of
+  `LingTaiFeed.swift`, `LingTaiAppearance.swift`, the `// LingTai:` spots of
   `OpenAIProvider.swift`, `MinisTests/LingTaiCopyTests.swift`): no sentence a person reads
   carries a dash any more, in any of the nine languages: 73 keys were rewritten as two
   sentences, a comma, a colon or a middle dot (*Before we start, what should I call you?*,
@@ -541,14 +541,14 @@ Ours, in `LingTai/`:
   Chinese page gets the answer in English. `LingTaiHubTasks.prompt` is pure and tested. The
   phone's own `@device` mentions have sent the tag since 1.0.0.
 - **The third audit: the Cloud switch and the chat (1.0.x)** (`LingTaiModelSlots.swift`,
-  `LingTaiCloud.swift`, `LingTaiModelsView.swift`, the `// lingTai:` spots of
-  `ProviderInstanceDetailView.swift`, `MinisTests/LingTaiModelSlotsTests.swift`): *Use lingTai
+  `LingTaiCloud.swift`, `LingTaiModelsView.swift`, the `// LingTai:` spots of
+  `ProviderInstanceDetailView.swift`, `MinisTests/LingTaiModelSlotsTests.swift`): *Use LingTai
   Cloud models* off (Settings › Models, or *Enabled* on the Cloud provider's own page) while new
   chats answer through the account now hands the Chat slot and the main chat to the first provider
   of your own that chats, on the catalogue's default for it (`LingTaiSlotResolver.nextChat`,
   Android's `ModelSlots.nextChat`; `LingTaiModelSlots.chatLeaves` does the move through
   `useForChat`). With no own chat model the switch is refused: `LingTaiCloud.setModelsOn` returns
-  false, the switch stays on, and *Add a provider of your own first; with lingTai Cloud off,
+  false, the switch stays on, and *Add a provider of your own first; with LingTai Cloud off,
   nothing else could answer.* appears under it, inside the card on the Models page and as the
   Status section's footer on the provider page. Before, the switch went off, the Chat row kept
   naming the account, and the main chat stopped with upstream's *No model configured* error; the
@@ -582,7 +582,7 @@ Ours, in `LingTai/`:
   canvas the pill read as a white one (seen on the iPad on 1.0.3).
 - **The chat is monochrome** (`LingTaiTones.ink` / `onInk` / `agentPill` in `LingTaiFaces.swift`,
   `LingTaiHeaderScrim` in `LingTaiHeader.swift`, `LingTaiComposer.swift`,
-  `LingTaiChatCards.swift`, and `// lingTai:` lines in `Views/Chat/ChatMessageViews.swift` and
+  `LingTaiChatCards.swift`, and `// LingTai:` lines in `Views/Chat/ChatMessageViews.swift` and
   `Views/Chat/AIChatView.swift`; Android's #331 by @Ichiro786). With the Muse shell on, your
   messages are pills in the ink colour with text in the canvas colour: black with white text on
   the white canvas in light, white with black text on the black canvas in dark, no blue and no
@@ -667,14 +667,14 @@ Ours, in `LingTai/`:
   computer (*Coding agents*, the Reach sheet, an `@device` message) is one sentence in the phone's
   language from the hub's code, as Android's `HubErrors.describe` (`LingTaiHubErrors`): *That
   computer is offline.*, *The computer did not answer in time.*, *The computer runs an older
-  lingTai that does not know this action.*; before, the English line the relay or the runtime
+  LingTai that does not know this action.*; before, the English line the relay or the runtime
   sent was shown as it came. The Library's and the account page's segmented pickers and the •••
   menus of a goal, a routine and a feed post carry a VoiceOver label.
 
 ## Voice prompts from the Action Button
 
 *Voice Prompt* is a Shortcut the app registers (`LingTai/VoicePromptIntent.swift`): it opens
-lingTai and starts listening, so a prompt can be spoken instead of typed. Bind it once in the
+LingTai and starts listening, so a prompt can be spoken instead of typed. Bind it once in the
 Shortcuts app, to the Action Button (Settings › Action Button › Shortcut), to Back Tap or to a
 widget; one press and the composer is in voice mode with the mic running, and what you say
 appears in the composer as it is recognised. Sending stays a tap on the send button: a sentence
@@ -693,7 +693,7 @@ inline voice panel on the mic button's path and press the panel's mic once it is
 `VoiceInputViewModel.handleMainButtonTap` and its permission flow. One recording path, one
 transcription stack; the transcript reaches `inputText` the way it always does. A request older
 than 30 seconds is dropped. iOS gives an App Intent no way to take free-form speech, which is
-why this is a voice entry rather than "ask lingTai something" in one breath, and why the app
+why this is a voice entry rather than "ask LingTai something" in one breath, and why the app
 opens: a microphone running with nothing on screen would read as a fault. The Siri phrases are
 in the nine `AppShortcuts.strings` tables (one per `<lang>.lproj`, legacy `.strings` because the
 deployment target is iOS 16), the intent's own strings in `Localizable.xcstrings` (#296, #298).
@@ -705,7 +705,7 @@ Requirements are upstream's, in [android/BUILDING.md](../android/BUILDING.md): a
 for rclone.
 
 ```bash
-git clone --recurse-submodules https://github.com/econswarm/lingtai.git && cd lingTai/android
+git clone --recurse-submodules https://github.com/econswarm/lingtai.git && cd LingTai/android
 ./deps/build_lame.sh && ./deps/build_ffmpeg.sh          # FFmpeg links against LAME: this order
 ./deps/build_ish.sh && ./deps/prepare_alpine_rootfs.sh  # the sandbox kernel and its rootfs
 ./deps/build_rclone_ios.sh                              # Rclone.xcframework
@@ -733,7 +733,7 @@ when either grows past its ceiling.
 Distribution is TestFlight, **internal testers**: the people you add as users of your App Store
 Connect team (up to 100), who get every build minutes after it is processed, with no App Review.
 An external group (public link, up to 10,000 testers) needs Apple's beta review once per version;
-the group *lingTai Beta* and its public link exist, and each build is added to it and submitted
+the group *LingTai Beta* and its public link exist, and each build is added to it and submitted
 for review after the internal testers have had it. The pipeline is the same either way.
 
 ### Where it stands
@@ -741,18 +741,18 @@ for review after the internal testers have had it. The pipeline is the same eith
 Set up on 2026-10-03, all of it under the account holder's developer account (team
 `TN43QYW8K4`), nothing of which is in the repository:
 
-- the app record *lingTai*, iOS, bundle id `io.github.lingtai.app`, SKU `lingtai-ios`,
+- the app record *LingTai*, iOS, bundle id `io.github.lingtai.app`, SKU `lingtai-ios`,
   Apple ID `6818802049`; the three extension bundle ids `…app.ShareExtension`,
   `…app.FileProvider`, `…app.AgentWidget`; the app group `group.io.github.lingtai.app` and the
   iCloud container `iCloud.io.github.lingtai.app`; the capabilities the four `.entitlements`
   ask for (App Groups, HealthKit with clinical records, HomeKit, iCloud/CloudKit, NFC tag
   reading, WeatherKit) turned on on the identifiers;
-- the API key *lingTai CI* (role App Manager), the Apple Distribution certificate
+- the API key *LingTai CI* (role App Manager), the Apple Distribution certificate
   *Apple Distribution: Guangyi Liu* (valid to 2027-10-03) and the four App Store profiles
-  *lingTai App Store*, *lingTai ShareExtension App Store*, *lingTai FileProvider App Store*,
-  *lingTai AgentWidget App Store*;
+  *LingTai App Store*, *LingTai ShareExtension App Store*, *LingTai FileProvider App Store*,
+  *LingTai AgentWidget App Store*;
 - the six repository secrets of the table below;
-- the internal TestFlight group *lingTai Core* with automatic distribution, so every processed
+- the internal TestFlight group *LingTai Core* with automatic distribution, so every processed
   build reaches its testers by itself; the device list is empty on purpose (nothing here needs
   one);
 - **the first build**: 0.1.31 (2), archived and uploaded by the workflow on 2026-10-03, processed
@@ -760,13 +760,13 @@ Set up on 2026-10-03, all of it under the account holder's developer account (te
   testing with the internal group: the first thing that can be installed from TestFlight;
 - the test information an external group needs, in English and Simplified Chinese: the beta app
   description, the feedback address, the marketing and privacy-policy links, and *What to Test*
-  on each build (none of it names other products); the external group *lingTai Beta* with its
+  on each build (none of it names other products); the external group *LingTai Beta* with its
   public link, `https://testflight.apple.com/join/ZHexbDqc`; the beta-review contact and a
   review account on the relay in *Beta App Review Information*;
-- **build 16 (1.0.0)** was added to *lingTai Beta* and submitted to Apple's beta review on
+- **build 16 (1.0.0)** was added to *LingTai Beta* and submitted to Apple's beta review on
   2026-10-09 and passed it, so the public link installs it (build 14, 0.1.41, was what the link
   delivered before); build 17, 1.0.0 with the fixes merged after the tag, went to the internal
-  testers only. **Build 18 (1.0.1)** was added to *lingTai Beta* and submitted to the review on
+  testers only. **Build 18 (1.0.1)** was added to *LingTai Beta* and submitted to the review on
   2026-10-10 and **build 19 (1.0.2)** on 2026-10-11; both passed on 2026-10-12, so the link installs build 19. **Build 22 (1.0.3)** was submitted on 2026-10-12 and **build 26 (1.0.4)** on 2026-10-13; both passed on 2026-10-13, so the link installs build 26. **Build 28 (1.0.5)** was submitted on 2026-10-14; builds 23, 24 and 25 (1.0.3 with fixes merged after the tag) and 27 (1.0.4 the same way) went to the internal testers only. The public link delivers a build only
   once a review has passed, and each new version repeats the step (the review is per version;
   later builds of an approved version need none).
@@ -774,7 +774,7 @@ Set up on 2026-10-03, all of it under the account holder's developer account (te
 
 ### Once, in App Store Connect
 
-1. **The app record.** *Apps → + → New App*: platform iOS, name lingTai, bundle id
+1. **The app record.** *Apps → + → New App*: platform iOS, name LingTai, bundle id
    `io.github.lingtai.app`, a SKU. Automatic signing registers identifiers, but the app record
    itself is created once, by hand. If the bundle id is not offered in the list, register it first
    under *Certificates, Identifiers & Profiles → Identifiers*.
@@ -820,14 +820,14 @@ the key is lost (a team may hold two or three distribution certificates; revoke 
 ```sh
 umask 077 && cd ~/.private/apple/dist                                # anywhere outside the repository
 openssl genrsa -out dist.key 2048
-openssl req -new -key dist.key -out dist.csr -subj "/emailAddress=<account e-mail>/CN=lingTai CI distribution/C=CN"
+openssl req -new -key dist.key -out dist.csr -subj "/emailAddress=<account e-mail>/CN=LingTai CI distribution/C=CN"
 # POST /v1/certificates { certificateType: DISTRIBUTION, csrContent: <dist.csr> } with a JWT signed
 # by the API key (the key's role must be App Manager or Admin); save certificateContent, base64, as dist.cer
 openssl x509 -inform DER -in dist.cer -out dist.pem
 openssl rand -base64 24 | tr -d '\n' > dist.p12.pass
 openssl pkcs12 -export -inkey dist.key -in dist.pem -out dist.p12 -passout file:dist.p12.pass   # with OpenSSL 3 add -legacy
-base64 -w0 dist.p12 | gh secret set IOS_DIST_P12_BASE64 -R ling-tai/lingTai
-gh secret set IOS_DIST_P12_PASSWORD -R ling-tai/lingTai < dist.p12.pass
+base64 -w0 dist.p12 | gh secret set IOS_DIST_P12_BASE64 -R ling-tai/LingTai
+gh secret set IOS_DIST_P12_PASSWORD -R ling-tai/LingTai < dist.p12.pass
 ```
 
 The private key stays in that folder on the maintainer's machine (and in the secret); nothing
@@ -866,7 +866,7 @@ The runner is `macos-26`; if the label is not available on your GitHub plan, `ma
 
 ## What follows
 
-The Android app is where lingTai's shape lives; since 0.1.34 the iPhone carries the same shape
+The Android app is where LingTai's shape lives; since 0.1.34 the iPhone carries the same shape
 over OpenMinis (the agent's page, the chat-driven avatar, goals, feed, routines, the first run),
 with iOS's limits on background work spelled out in the copy. Where the Android code is, and
 what became of it here:
@@ -883,7 +883,7 @@ what became of it here:
 | `ui.home`, `ui.chat`, `ui.settings`, `ui.profile`: the shell, header, agent page | Done: `LingTaiShell.swift`, `LingTaiHeader.swift`, `LingTaiAgentPage.swift`, `LingTaiSettings.swift`; 0.1.35 the Muse header on every room, the settings as Muse cards (`LingTaiChrome.swift`, `LingTaiAppearance.swift`) |
 | `avatar`: the drawn face, the chat-driven change, the studio | Done (0.1.34): `LingTaiAvatarFlow.swift`, `LingTaiAvatarStudio.swift`, `LingTaiImageGen.swift` |
 | `goals`, `feed`, the scheduler | Done (0.1.34) as far as iOS allows: foreground catch-up, `BGAppRefreshTask`, local notifications. No alarm-exact runs while the app is asleep; the copy says so |
-| `coding`: the computers' coding agents over the hub | Done (0.1.34): `LingTaiCoding.swift`; the computer must run lingTai signed in with the same account |
+| `coding`: the computers' coding agents over the hub | Done (0.1.34): `LingTaiCoding.swift`; the computer must run LingTai signed in with the same account |
 | `reach`: the phone drives the computer | Done: `LingTaiReach.swift` over the hub |
 | `hands`: the phone's own screen | No equivalent: iOS does not let an app drive another. App Intents / Shortcuts are the door there |
 | Widgets | Upstream's `AgentWidget` as it is |

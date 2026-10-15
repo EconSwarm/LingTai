@@ -106,7 +106,7 @@ fun OffloadPermissionScreen(
             )
         }
 
-        // lingTai: the approvals the user chose to remember, revocable here.
+        // LingTai: the approvals the user chose to remember, revocable here.
         io.github.lingtai.ui.guard.GrantsSection()
 
         autoCategories.forEach { (category, tools) ->

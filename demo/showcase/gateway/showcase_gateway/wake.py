@@ -82,7 +82,7 @@ def token_from_first_frame(text: str | None) -> str | None:
     return token if isinstance(token, str) and token else None
 
 
-WAKE_PAGE = """<!doctype html><html lang="__LANG__"><meta charset="utf-8"><title>lingTai</title>
+WAKE_PAGE = """<!doctype html><html lang="__LANG__"><meta charset="utf-8"><title>LingTai</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <body style="margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
 font:15px/1.5 system-ui,sans-serif;color:#1b1730;background:#f4f3fa;text-align:center;padding:24px">
@@ -126,7 +126,7 @@ WAKE_STRINGS = {
         "no_token": "Open your Muse from where you signed in.",
         "not_yours": "That link is no longer yours.",
         "could_not_wake": "Could not wake your Muse.",
-        "unreachable": "Could not reach lingTai.",
+        "unreachable": "Could not reach LingTai.",
         "try_again": "Try again in a moment.",
     },
     "zh": {

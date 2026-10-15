@@ -78,15 +78,15 @@ final class ChatMessage: Identifiable, ObservableObject {
     var lastSourceSortOrder: Int?
     /// Links back to the QueuedPrompt so we can withdraw it.
     var queuedPromptId: UUID?
-    /// lingTai: C8 — the device this row was written on when it came down through account sync
+    /// LingTai: C8 — the device this row was written on when it came down through account sync
     /// (the bubble's "From {device}" caption); nil for this phone's own rows.
-    var ltFromDevice: String? // lingTai:
-    /// lingTai: a routine sent this user row (the daily feed, a check-in, a routine of the person's):
+    var ltFromDevice: String? // LingTai:
+    /// LingTai: a routine sent this user row (the daily feed, a check-in, a routine of the person's):
     /// the chat shows it as one quiet line, not a bubble in their voice (LingTaiRoutineWakes).
-    var ltRoutine: LingTaiRoutineWakes.Wake? // lingTai:
-    /// lingTai: C9 — the device at work on this conversation, shown as "{device} is working…"
+    var ltRoutine: LingTaiRoutineWakes.Wake? // LingTai:
+    /// LingTai: C9 — the device at work on this conversation, shown as "{device} is working…"
     /// under this row while it is the last one and a remote user line (LingTaiPresence).
-    @Published var ltWorkingDevice: String? // lingTai:
+    @Published var ltWorkingDevice: String? // LingTai:
     let timestamp = Date()
 
     init(role: ChatMessageRole, content: String, blocks: [AssistantBlock] = [], isQueued: Bool = false) {

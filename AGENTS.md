@@ -1,12 +1,12 @@
 # AGENTS.md
 
-lingTai is an open-source personal agent for every device a person owns: a phone app (Android and iOS, built on OpenMinis), a desktop app (a DeepSeek Harness plugin in an Electron shell), a Python runtime for the hands, a web console, and the relay that signs people in and lets their devices talk. Everything is GPL-3.0-or-later; read [CONTRIBUTING.md](CONTRIBUTING.md) first and [docs/architecture.md](docs/architecture.md) before touching the runtime.
+LingTai is an open-source personal agent for every device a person owns: a phone app (Android and iOS, built on OpenMinis), a desktop app (a DeepSeek Harness plugin in an Electron shell), a Python runtime for the hands, a web console, and the relay that signs people in and lets their devices talk. Everything is GPL-3.0-or-later; read [CONTRIBUTING.md](CONTRIBUTING.md) first and [docs/architecture.md](docs/architecture.md) before touching the runtime.
 
 ## Repository layout
 
 ```
 lingtai/               Python runtime: agent loop, Sentinel, tools, hands (phone/computer operators), server for the web app
-cloud/                  lingTai Cloud, the relay: FastAPI + SQLite; sign-in, models, hub, conversation sync, console at /app
+cloud/                  LingTai Cloud, the relay: FastAPI + SQLite; sign-in, models, hub, conversation sync, console at /app
 web/                    the web console (Vite + React); `npm run build` writes lingtai/server/static/, which is committed
 harness/dsh-lingtai/   the desktop app proper: a DeepSeek Harness plugin (TypeScript, React client, i18n in src/client/locales.ts)
 harness/desktop/        the Electron shell around dsh + the plugin; ships the Python runtime for the hands
@@ -59,7 +59,7 @@ cd website && npm ci && npm run docs:build       # also the dead-link check; `np
 
 ## Conventions
 
-- **Two trees, two sets of rules.** `android/` is an upstream subtree we must keep pullable: new code in new files (`io.github.lingtai.*`, `LingTai/*.swift`); an edit inside an upstream file carries a `// lingTai:` comment, one change per spot; never rename the Kotlin package, the Gradle namespace or the sandbox paths. Rebranding is `scripts/rebrand.py` (plus `gen-android-icons.py`, `gen-ios-icons.py`), idempotent; fix the script, not the miss. Details in [CONTRIBUTING.md](CONTRIBUTING.md).
+- **Two trees, two sets of rules.** `android/` is an upstream subtree we must keep pullable: new code in new files (`io.github.lingtai.*`, `LingTai/*.swift`); an edit inside an upstream file carries a `// LingTai:` comment, one change per spot; never rename the Kotlin package, the Gradle namespace or the sandbox paths. Rebranding is `scripts/rebrand.py` (plus `gen-android-icons.py`, `gen-ios-icons.py`), idempotent; fix the script, not the miss. Details in [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Our Android strings** live in `res/values*/lt_strings.xml` with `lt_` keys; upstream's `strings.xml` stays theirs.
 - **Generated files are regenerated, not edited.** The connectors catalogue is `harness/dsh-lingtai/src/connectors-catalogue.ts`; `node scripts/connectors-json.mjs` writes the phones' `connectors.json` and CI runs `--check`. The own-key provider catalogue is `lingtai/llm/providers.json` (ids, base URLs, key pages, capabilities, defaults, verified against the vendors' docs); `node scripts/providers-json.mjs` writes the desktop's and the phones' `providers.json` and CI runs `--check`. The ideas lists `ideas.en.json`/`ideas.zh.json` under `harness/dsh-lingtai/assets/` must be byte-identical to the Android app's copies under `app/src/main/assets/lingtai/` and the iPhone app's under `LingTai/Resources/` (`tests/fences.test.mjs` checks). The web build writes `lingtai/server/static/`; commit it with the change.
 - **Lock files resolve against the public registry only.** After any `npm install`, every `resolved` URL in the lock file must point at `https://registry.npmjs.org/`; CI greps for anything else. A private mirror's host never lands in the repository.

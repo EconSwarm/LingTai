@@ -159,7 +159,7 @@ api_key  = "{{vault:VIDEO_API_KEY}}"
 
 ```toml
 [agent]
-name                 = "lingTai"      # what the agent calls itself (the app's profile overrides this)
+name                 = "LingTai"      # what the agent calls itself (the app's profile overrides this)
 max_steps            = 30              # tool calls per turn before it must wrap up
 # workspace          = "./workspace"   # the only directory the files tool can touch; default ./workspace if present here, else <data_dir>/workspace
 extra_roots          = []              # directories outside the workspace the files tool may read and write, e.g. ["~/Documents/notes"]; writable inside the sandbox too
@@ -354,7 +354,7 @@ hook_min_seconds  = 10   # deliveries to one webhook closer together than this g
 ```toml
 [browser]
 enabled    = true      # pip install "lingtai[browser]" && playwright install chromium
-backend    = "auto"    # auto | playwright | device — the phone's own WebView when a lingTai app is connected, Chromium otherwise
+backend    = "auto"    # auto | playwright | device — the phone's own WebView when a LingTai app is connected, Chromium otherwise
 profile    = ""        # mobile | desktop | "" (mobile on the phone, desktop on a computer)
 headless   = true      # Playwright only
 timeout_ms = 30000

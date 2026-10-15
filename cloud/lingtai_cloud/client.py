@@ -121,9 +121,9 @@ def platform_of(ua: str) -> str:
     the runtime on each system (which serves the web app, the desktop and the harness),
     a browser, or something else."""
     ua = str(ua or "")
-    if ua.startswith("lingTai-Android"):
+    if ua.startswith("LingTai-Android"):
         return "android"
-    if ua.startswith("lingTai/"):
+    if ua.startswith("LingTai/"):
         system = ua[ua.find("(") + 1 : ua.find(")")].lower() if "(" in ua and ")" in ua else ""
         return {"windows": "windows", "darwin": "macos", "linux": "linux"}.get(system, "runtime")
     if ua.startswith("Mozilla/"):
@@ -132,10 +132,10 @@ def platform_of(ua: str) -> str:
 
 
 def client_version(ua: str) -> str:
-    """The version the client names in its user agent (``lingTai-Android/0.1.26 …``,
-    ``lingTai/0.1.26 (linux)``), or an empty string."""
+    """The version the client names in its user agent (``LingTai-Android/0.1.26 …``,
+    ``LingTai/0.1.26 (linux)``), or an empty string."""
     ua = str(ua or "")
     head = ua.split(" ", 1)[0]
-    if "/" in head and head.startswith("lingTai"):
+    if "/" in head and head.startswith("LingTai"):
         return head.split("/", 1)[1][:24]
     return ""

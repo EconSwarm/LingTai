@@ -1,6 +1,6 @@
 //
 //  LingTaiAgentPage.swift
-//  lingTai
+//  LingTai
 //
 //  What opens when the face is tapped: the agent's own page. The face,
 //  large, with a pen badge (Change avatar / Edit name / Your own clip… / Avatar studio…),
@@ -15,11 +15,11 @@ import UIKit
 
 extension Notification.Name {
     /// The face was tapped: present the agent page.
-    static let lingTaiOpenAgentPage = Notification.Name("lingTai.openAgentPage")
+    static let lingTaiOpenAgentPage = Notification.Name("LingTai.openAgentPage")
     /// Put words into the composer of a chat. object: target id (session or draft); userInfo["text"].
-    static let lingTaiComposerPrefill = Notification.Name("lingTai.composerPrefill")
+    static let lingTaiComposerPrefill = Notification.Name("LingTai.composerPrefill")
     /// Switch to Goals and scroll to routines.
-    static let lingTaiOpenRoutines = Notification.Name("lingTai.openRoutines")
+    static let lingTaiOpenRoutines = Notification.Name("LingTai.openRoutines")
 }
 
 // MARK: - Page
@@ -46,7 +46,7 @@ struct LingTaiAgentPage: View {
 
     private var name: String {
         let n = soulName.trimmingCharacters(in: .whitespaces)
-        return n.isEmpty ? "lingTai" : n
+        return n.isEmpty ? "LingTai" : n
     }
 
     var body: some View {
@@ -593,7 +593,7 @@ struct LingTaiShareCard: View {
         ZStack {
             palette.background
             VStack(spacing: 0) {
-                Text(String(format: AppLocalized("Hi, I'm %@, a personal AI agent. Meet lingTai: open source, runs on your phone."), agentName))
+                Text(String(format: AppLocalized("Hi, I'm %@, a personal AI agent. Meet LingTai: open source, runs on your phone."), agentName))
                     .font(.system(size: 42))
                     .foregroundStyle(Color(red: 0.106, green: 0.106, blue: 0.122))
                     .multilineTextAlignment(.center)
@@ -620,8 +620,8 @@ struct LingTaiShareCard: View {
             }
             VStack(alignment: .leading, spacing: 8) {
                 Spacer()
-                Text("lingTai").font(.system(size: 40, weight: .bold)).foregroundStyle(palette.accent)
-                Text(AppLocalized("Your personal AI agent, open source · github.com/ling-tai/lingTai"))
+                Text("LingTai").font(.system(size: 40, weight: .bold)).foregroundStyle(palette.accent)
+                Text(AppLocalized("Your personal AI agent, open source · github.com/ling-tai/LingTai"))
                     .font(.system(size: 28)).foregroundStyle(.black.opacity(0.6))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -736,7 +736,7 @@ struct LingTaiAvatarDoneCard: View {
         .padding(12)
         .background(LingTaiTones.surface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         .sheet(isPresented: $share) {
-            LingTaiAvatarShareSheet(agentName: SoulStore.cachedMetadata.name.isEmpty ? "lingTai" : SoulStore.cachedMetadata.name)
+            LingTaiAvatarShareSheet(agentName: SoulStore.cachedMetadata.name.isEmpty ? "LingTai" : SoulStore.cachedMetadata.name)
         }
     }
 }

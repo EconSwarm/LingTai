@@ -1,4 +1,4 @@
-"""Chat channels: your lingTai inside Feishu, DingTalk, WeCom and Telegram.
+"""Chat channels: your LingTai inside Feishu, DingTalk, WeCom and Telegram.
 
 Everything the vendors need is imported lazily; this package imports with none of their
 SDKs installed. See ``docs/channels.md``.

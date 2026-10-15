@@ -1,6 +1,6 @@
 //
 //  LingTaiReach.swift
-//  lingTai
+//  LingTai
 //
 //  Reaching the account's other devices from this iPhone through the hub:
 //  open a link there, send a note, ask for a screenshot, run a shell
@@ -95,7 +95,7 @@ private struct LingTaiReachSheet: View {
                     TextField(AppLocalized("A short note"), text: $note, axis: .vertical)
                         .lineLimit(1...4)
                     Button(AppLocalized("Send the note")) {
-                        run("notify", ["text": note.trimmingCharacters(in: .whitespacesAndNewlines), "title": "lingTai"]) { _ in
+                        run("notify", ["text": note.trimmingCharacters(in: .whitespacesAndNewlines), "title": "LingTai"]) { _ in
                             AppLocalized("Sent.")
                         }
                     }

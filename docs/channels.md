@@ -189,7 +189,7 @@ of them, useful from a script or a reminder.
 
 | What you see | What it means |
 |---|---|
-| **Not installed** | the SDK is missing on the machine running lingTai: run the line shown (`pip install 'lingtai[feishu]'`), then switch the channel on again |
+| **Not installed** | the SDK is missing on the machine running LingTai: run the line shown (`pip install 'lingtai[feishu]'`), then switch the channel on again |
 | **Needs settings** | a required field is empty; the card names it |
 | **Error** with the vendor's words | the credentials were refused or the vendor is unreachable; fix and switch off/on, or *Save* again |
 | the bot does not answer in a group | the group policy is *mention* and the bot was not @-mentioned; or the sender is not paired (groups never show codes) |

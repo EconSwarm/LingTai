@@ -1,6 +1,6 @@
 /**
  * Pictures through an own key (0.1.41 "Choice"): the avatar studio's candidates and poses
- * drawn by the provider the person chose under Settings → Models, not only by lingTai
+ * drawn by the provider the person chose under Settings → Models, not only by LingTai
  * Cloud. Three shapes, the same three the Python runtime's `lingtai/avatar/studio.py`
  * tells apart:
  *
@@ -28,7 +28,7 @@ export interface ImageEndpoint {
   baseURL: string
   apiKey: string
   model: string
-  /** `lingTai Cloud`, or the row's label. */
+  /** `LingTai Cloud`, or the row's label. */
   label: string
   /** `lingtai` for the account, else the own row's id. */
   instanceId: string

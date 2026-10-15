@@ -1,11 +1,11 @@
 name: Website
 
-# Publishes site/ to GitHub Pages: https://ling-tai.github.io/lingTai/
+# Publishes site/ to GitHub Pages: https://ling-tai.github.io/LingTai/
 # Since 0.1.6 the homepage lives in ling-tai/ling-tai.github.io, served at lingtai.cn; this
 # project page is a redirect to it, with the earlier page kept at legacy.html (its generated parts,
 # the dragon's five moods, icons, fonts, screenshots, are copied from web/ and docs/ below).
 # Since 0.1.38 the docs site (website/, VitePress over docs/) is built into site/docs/ and
-# published alongside: https://ling-tai.github.io/lingTai/docs/. The same build with
+# published alongside: https://ling-tai.github.io/LingTai/docs/. The same build with
 # DOCS_BASE=/docs/ is what lingtai.cn/docs/ serves.
 
 on:
@@ -70,7 +70,7 @@ jobs:
       - name: Build the docs site into site/docs/
         working-directory: website
         env:
-          DOCS_BASE: /lingTai/docs/
+          DOCS_BASE: /LingTai/docs/
         run: |
           npm ci
           npm run docs:build

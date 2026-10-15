@@ -26,7 +26,7 @@ enum MinisUserAgent {
         let device = UIDevice.current
         let osVersion = device.systemVersion          // e.g. "26.5"
         let model = device.model                        // "iPhone" / "iPad"
-        let ua = "lingTai/\(version) (iOS \(osVersion); \(model))"
+        let ua = "LingTai/\(version) (iOS \(osVersion); \(model))"
         cached = ua
         return ua
     }

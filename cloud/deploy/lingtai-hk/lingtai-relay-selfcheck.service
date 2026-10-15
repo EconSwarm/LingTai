@@ -1,5 +1,5 @@
 [Unit]
-Description=lingTai Cloud: self-check (public door, relay health aggregates, disk, backup age)
+Description=LingTai Cloud: self-check (public door, relay health aggregates, disk, backup age)
 After=docker.service
 Requires=docker.service
 

@@ -112,7 +112,7 @@ def intro_lines(lang: str) -> list[str]:
             "开始之前，我该怎么称呼你？",
         ]
     return [
-        "Hi, I'm lingTai, the assistant that lives on your computer. "
+        "Hi, I'm LingTai, the assistant that lives on your computer. "
         "Let me take a few things off your plate.",
         "A bit about how I work:\n\n"
         "- I work on this computer: I can run commands, open websites and fill in forms.\n"
@@ -120,7 +120,7 @@ def intro_lines(lang: str) -> list[str]:
         "reminders and scheduled tasks.\n"
         "- Before any step that matters, I ask you first.\n"
         "- Everything runs on this computer. Your messages go to the model you configured; "
-        "signed in to lingTai Cloud, this conversation also follows you to your other devices; "
+        "signed in to LingTai Cloud, this conversation also follows you to your other devices; "
         "Data controls switches that off.",
         "Before we start, what should I call you?",
     ]

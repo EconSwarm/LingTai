@@ -22,15 +22,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.material.icons.outlined.CloudQueue // lingTai: lingTai Cloud row
-import androidx.compose.material.icons.outlined.Computer // lingTai: Computers row
-import androidx.compose.material.icons.outlined.TouchApp // lingTai: Hands row
-import androidx.compose.material.icons.outlined.Storage // lingTai: Data controls row
-import androidx.compose.material.icons.outlined.Language // lingTai: Network row
+import androidx.compose.material.icons.outlined.CloudQueue // LingTai: LingTai Cloud row
+import androidx.compose.material.icons.outlined.Computer // LingTai: Computers row
+import androidx.compose.material.icons.outlined.TouchApp // LingTai: Hands row
+import androidx.compose.material.icons.outlined.Storage // LingTai: Data controls row
+import androidx.compose.material.icons.outlined.Language // LingTai: Network row
 import androidx.compose.material.icons.outlined.BarChart
 import androidx.compose.material.icons.outlined.BatteryFull
 import androidx.compose.material.icons.outlined.BugReport
-import androidx.compose.material.icons.outlined.Link // lingTai: the Connectors row
+import androidx.compose.material.icons.outlined.Link // LingTai: the Connectors row
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.Email
@@ -58,8 +58,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState // lingTai
-import androidx.compose.runtime.collectAsState // lingTai: the hub's device list for the Coding row
+import androidx.compose.runtime.collectAsState // LingTai
+import androidx.compose.runtime.collectAsState // LingTai: the hub's device list for the Coding row
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -97,16 +97,16 @@ fun SettingsScreen(
     // Agent Runtime section; default no-op for callers that haven't wired
     // the route yet.
     onSoulClick: () -> Unit = {},
-    onSystemFilesClick: () -> Unit = {}, // lingTai
-    onAvatarClick: () -> Unit = {}, // lingTai
-    onModelsClick: () -> Unit = {}, // lingTai: Settings → Models (the four slots: chat, the screen, pictures, clips)
-    onCloudClick: () -> Unit = {}, // lingTai: Settings → lingTai Cloud (the starter allowance)
-    onHandsClick: () -> Unit = {}, // lingTai: Settings → Hands (the screen as a hand)
-    onDataControlsClick: () -> Unit = {}, // lingTai: Settings → Data controls (what lingTai Cloud keeps)
-    onNetworkClick: () -> Unit = {}, // lingTai: Settings → Network (the proxy for own providers)
-    onComputersClick: () -> Unit = {}, // lingTai: Settings → Computers (the phone drives a PC)
-    onCodingClick: () -> Unit = {}, // lingTai: Settings → Coding agents (Cursor/Codex/Claude Code on the account's computers)
-    onConnectorsClick: () -> Unit = {}, // lingTai: Settings → Connectors (the services the agent can be let into)
+    onSystemFilesClick: () -> Unit = {}, // LingTai
+    onAvatarClick: () -> Unit = {}, // LingTai
+    onModelsClick: () -> Unit = {}, // LingTai: Settings → Models (the four slots: chat, the screen, pictures, clips)
+    onCloudClick: () -> Unit = {}, // LingTai: Settings → LingTai Cloud (the starter allowance)
+    onHandsClick: () -> Unit = {}, // LingTai: Settings → Hands (the screen as a hand)
+    onDataControlsClick: () -> Unit = {}, // LingTai: Settings → Data controls (what LingTai Cloud keeps)
+    onNetworkClick: () -> Unit = {}, // LingTai: Settings → Network (the proxy for own providers)
+    onComputersClick: () -> Unit = {}, // LingTai: Settings → Computers (the phone drives a PC)
+    onCodingClick: () -> Unit = {}, // LingTai: Settings → Coding agents (Cursor/Codex/Claude Code on the account's computers)
+    onConnectorsClick: () -> Unit = {}, // LingTai: Settings → Connectors (the services the agent can be let into)
     onPermissionsClick: () -> Unit = {},
     onUsageClick: () -> Unit = {},
     onAppearanceClick: () -> Unit = {},
@@ -128,7 +128,7 @@ fun SettingsScreen(
 ) {
     val context = LocalContext.current
     var showFeedbackSheet by remember { mutableStateOf(false) }
-    // lingTai: Muse's settings page — the round back glyph, the title centred,
+    // LingTai: Muse's settings page — the round back glyph, the title centred,
     // white cards of outlined-glyph rows on the grey canvas, no section headers
     // or subtitles. Every OpenMinis entry is kept; they are regrouped the way
     // Muse groups its own (the agent, the data on the phone, the app, about).
@@ -170,7 +170,7 @@ fun SettingsScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(onClick = onModelsClick) // lingTai: the Models page, not the model groups
+                        .clickable(onClick = onModelsClick) // LingTai: the Models page, not the model groups
                         .padding(horizontal = 16.dp, vertical = 14.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -195,7 +195,7 @@ fun SettingsScreen(
                     )
                 }
                 io.github.lingtai.ui.muse.MuseRowDivider(inset = 16.dp)
-                // lingTai: the relay account — signed in shows what is left of the allowance.
+                // LingTai: the relay account — signed in shows what is left of the allowance.
                 val cloudAccount = io.github.lingtai.cloud.LingTaiCloud.account(context)
                 io.github.lingtai.ui.muse.MuseRow(
                     title = stringResource(R.string.lt_cloud_title),
@@ -218,7 +218,7 @@ fun SettingsScreen(
                     onClick = onProvidersClick,
                 )
                 io.github.lingtai.ui.muse.MuseRowDivider()
-                // lingTai: the image and video models moved into the Models card above (0.1.41).
+                // LingTai: the image and video models moved into the Models card above (0.1.41).
                 io.github.lingtai.ui.muse.MuseRow(
                     title = stringResource(R.string.settings_token_usage),
                     icon = Icons.Outlined.BarChart,
@@ -239,11 +239,11 @@ fun SettingsScreen(
                 io.github.lingtai.ui.muse.MuseRowDivider()
                 io.github.lingtai.ui.muse.MuseRow(title = stringResource(R.string.settings_skills), icon = Icons.Outlined.Extension, onClick = onSkillsClick)
                 io.github.lingtai.ui.muse.MuseRowDivider()
-                // lingTai: one entry for every service the agent can be let into — the connectors
+                // LingTai: one entry for every service the agent can be let into — the connectors
                 // catalogue, with the person's own MCP servers behind it (the MCP page is reached from there).
                 io.github.lingtai.ui.muse.MuseRow(title = stringResource(R.string.lt_connectors_title), icon = Icons.Outlined.Link, onClick = onConnectorsClick)
                 io.github.lingtai.ui.muse.MuseRowDivider()
-                // lingTai: the phone's screen as a hand — off by default.
+                // LingTai: the phone's screen as a hand — off by default.
                 io.github.lingtai.ui.muse.MuseRow(
                     title = stringResource(R.string.lt_hands_title),
                     icon = Icons.Outlined.TouchApp,
@@ -251,7 +251,7 @@ fun SettingsScreen(
                     onClick = onHandsClick,
                 )
                 io.github.lingtai.ui.muse.MuseRowDivider()
-                // lingTai: the account's computers, over the hub.
+                // LingTai: the account's computers, over the hub.
                 run {
                     val hubDevices by io.github.lingtai.hub.Hub.devices.collectAsState()
                     val me = remember { io.github.lingtai.hub.Hub.deviceId(context) }
@@ -264,7 +264,7 @@ fun SettingsScreen(
                     )
                 }
                 io.github.lingtai.ui.muse.MuseRowDivider()
-                // lingTai: the coding agents on the account's computers, over the hub.
+                // LingTai: the coding agents on the account's computers, over the hub.
                 run {
                     val hubDevices by io.github.lingtai.hub.Hub.devices.collectAsState()
                     val me = remember { io.github.lingtai.hub.Hub.deviceId(context) }
@@ -301,10 +301,10 @@ fun SettingsScreen(
             io.github.lingtai.ui.muse.MuseCard {
                 io.github.lingtai.ui.muse.MuseRow(title = stringResource(R.string.settings_section_appearance), icon = Icons.Outlined.Palette, onClick = onAppearanceClick)
                 io.github.lingtai.ui.muse.MuseRowDivider()
-                // lingTai: data controls — the one switch over what lingTai Cloud keeps of the chats.
+                // LingTai: data controls — the one switch over what LingTai Cloud keeps of the chats.
                 io.github.lingtai.ui.muse.MuseRow(title = stringResource(R.string.lt_data_title), icon = Icons.Outlined.Storage, onClick = onDataControlsClick)
                 io.github.lingtai.ui.muse.MuseRowDivider()
-                // lingTai: network — the HTTP proxy for own providers and the ChatGPT plan.
+                // LingTai: network — the HTTP proxy for own providers and the ChatGPT plan.
                 io.github.lingtai.ui.muse.MuseRow(title = stringResource(R.string.lt_network_title), icon = Icons.Outlined.Language, onClick = onNetworkClick)
                 io.github.lingtai.ui.muse.MuseRowDivider()
                 io.github.lingtai.ui.muse.MuseRow(title = stringResource(R.string.settings_section_logs), icon = Icons.Outlined.Description, onClick = onLogsClick)
@@ -318,19 +318,19 @@ fun SettingsScreen(
                 io.github.lingtai.ui.muse.MuseRow(
                     title = stringResource(R.string.settings_privacy_policy),
                     icon = Icons.Outlined.FrontHand,
-                    // lingTai: the policy on the site (docs/privacy.md is its source)
+                    // LingTai: the policy on the site (docs/privacy.md is its source)
                     onClick = { openExternalUrl(context, io.github.lingtai.cloud.LingTaiCloud.PRIVACY_URL) },
                 )
                 io.github.lingtai.ui.muse.MuseRowDivider()
                 io.github.lingtai.ui.muse.MuseRow(
                     title = stringResource(R.string.settings_feedback),
                     icon = Icons.Outlined.Feedback,
-                    // lingTai: GitHub Issues is the one feedback channel (no
+                    // LingTai: GitHub Issues is the one feedback channel (no
                     // Telegram group, no mailbox), so skip the chooser sheet.
                     onClick = { openExternalUrl(context, buildBugReportUrl()) },
                 )
                 io.github.lingtai.ui.muse.MuseRowDivider()
-                // lingTai: the installed build and the latest release, with Update when one is out.
+                // LingTai: the installed build and the latest release, with Update when one is out.
                 io.github.lingtai.ui.settings.VersionRow()
             }
 
@@ -439,7 +439,7 @@ private fun buildBugReportUrl(): String {
         |-------|-------|
         | Platform | Android |
         | OS Version | Android $osVersion (API $sdkInt) |
-        | lingTai Version | $versionName (build $versionCode) |
+        | LingTai Version | $versionName (build $versionCode) |
         | Device Model | $manufacturer $model |
 
         ## 🔁 Steps to Reproduce
@@ -468,7 +468,7 @@ private fun buildBugReportUrl(): String {
     // since URLEncoder turns spaces into '+' which GitHub also accepts but
     // the spec calls for the literal "[Bug] " form.
     val title = java.net.URLEncoder.encode("[Bug] ", "UTF-8")
-    // lingTai: the repository uses an issue form (app_bug_report.yml), which
+    // LingTai: the repository uses an issue form (app_bug_report.yml), which
     // takes its fields as query parameters; `body` is ignored by forms.
     val version = java.net.URLEncoder.encode("$versionName ($versionCode)", "UTF-8")
     val device = java.net.URLEncoder.encode("Android $osVersion (API $sdkInt), $manufacturer $model", "UTF-8")
@@ -497,7 +497,7 @@ private fun buildFeedbackMailto(): String {
 
         Screenshot (optional): Please attach a screenshot if relevant.
     """.trimIndent()
-    val subject = java.net.URLEncoder.encode("lingTai Feedback", "UTF-8")
+    val subject = java.net.URLEncoder.encode("LingTai Feedback", "UTF-8")
     val encodedBody = java.net.URLEncoder.encode(body, "UTF-8")
     return "mailto:dev@openminis.app?subject=$subject&body=$encodedBody"
 }

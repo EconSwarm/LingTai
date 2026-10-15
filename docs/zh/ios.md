@@ -17,7 +17,7 @@ Mac runner 上构建后交给 TestFlight。这一页说的是：源码树里有�
 
 ```
 android/src/ios/                 the Xcode project: Minis.xcodeproj, app, extensions, tests
-android/src/ios/LingTai/        ours: lingTai Cloud client and screens (a synchronized folder
+android/src/ios/LingTai/        ours: LingTai Cloud client and screens (a synchronized folder
                                  of the Minis target; drop a .swift file in, it is compiled)
 android/src/ios/fastlane/        the TestFlight lane
 android/deps/build_lame.sh       LAME → FFmpeg → iSH → Alpine rootfs → rclone, in that order
@@ -396,7 +396,7 @@ scripts/gen-ios-icons.py         the app icon and the four alternates, from asse
 iOS 26 SDK）、Homebrew 的 `ninja meson llvm lld libarchive pkg-config`、给 rclone 用的 Go 1.25。
 
 ```bash
-git clone --recurse-submodules https://github.com/econswarm/lingtai.git && cd lingTai/android
+git clone --recurse-submodules https://github.com/econswarm/lingtai.git && cd LingTai/android
 ./deps/build_lame.sh && ./deps/build_ffmpeg.sh          # FFmpeg links against LAME: this order
 ./deps/build_ish.sh && ./deps/prepare_alpine_rootfs.sh  # the sandbox kernel and its rootfs
 ./deps/build_rclone_ios.sh                              # Rclone.xcframework
@@ -430,8 +430,8 @@ open src/ios/Minis.xcodeproj
   HealthKit、HomeKit、iCloud/CloudKit、NFC 标签读取、WeatherKit）已在标识符上打开；
 - API key *灵台 CI*（角色 App Manager）、Apple Distribution 证书
   *Apple Distribution: Guangyi Liu*（有效期至 2027-10-03）和四个 App Store 描述文件
-  *lingTai App Store*、*lingTai ShareExtension App Store*、*lingTai FileProvider App Store*、
-  *lingTai AgentWidget App Store*；
+  *LingTai App Store*、*LingTai ShareExtension App Store*、*LingTai FileProvider App Store*、
+  *LingTai AgentWidget App Store*；
 - 下表里的六个仓库 secrets；
 - 内部 TestFlight 组 *灵台 Core*，自动分发，所以每个处理完的构建会自己到达测试员手里；
   设备列表故意留空（这里没有什么需要设备）；
@@ -481,14 +481,14 @@ Xcode 的自动签名（带 key 的 `-allowProvisioningUpdates`）是最初的�
 ```sh
 umask 077 && cd ~/.private/apple/dist                                # anywhere outside the repository
 openssl genrsa -out dist.key 2048
-openssl req -new -key dist.key -out dist.csr -subj "/emailAddress=<account e-mail>/CN=lingTai CI distribution/C=CN"
+openssl req -new -key dist.key -out dist.csr -subj "/emailAddress=<account e-mail>/CN=LingTai CI distribution/C=CN"
 # POST /v1/certificates { certificateType: DISTRIBUTION, csrContent: <dist.csr> } with a JWT signed
 # by the API key (the key's role must be App Manager or Admin); save certificateContent, base64, as dist.cer
 openssl x509 -inform DER -in dist.cer -out dist.pem
 openssl rand -base64 24 | tr -d '\n' > dist.p12.pass
 openssl pkcs12 -export -inkey dist.key -in dist.pem -out dist.p12 -passout file:dist.p12.pass   # with OpenSSL 3 add -legacy
-base64 -w0 dist.p12 | gh secret set IOS_DIST_P12_BASE64 -R ling-tai/lingTai
-gh secret set IOS_DIST_P12_PASSWORD -R ling-tai/lingTai < dist.p12.pass
+base64 -w0 dist.p12 | gh secret set IOS_DIST_P12_BASE64 -R ling-tai/LingTai
+gh secret set IOS_DIST_P12_PASSWORD -R ling-tai/LingTai < dist.p12.pass
 ```
 
 私钥留在维护者机器上的那个文件夹里（以及 secret 里）；它的任何部分都不进仓库、日志或者聊天。描述文件是用同一套 API 在账号里创建一次的（`POST /v1/profiles`，类型 `IOS_APP_STORE`，

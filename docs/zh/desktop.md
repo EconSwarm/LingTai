@@ -218,9 +218,9 @@ macOS 14 及以后，答「是」还要再用 ScreenCaptureKit（`SCShareableCon
 
 **在 Mac 上核对。** `~/.lingtai/desktop/desktop.log` 里有整条链路：
 
-- `helper: lingTai Computer Use <version> (pid …) at http://127.0.0.1:… — screen granted, accessibility true, capture ScreenCaptureKit`：
+- `helper: LingTai Computer Use <version> (pid …) at http://127.0.0.1:… — screen granted, accessibility true, capture ScreenCaptureKit`：
   助手程序起来了，并且在 macOS 14+ 上说明用哪条路径截图（12 和 13 上是 `CoreGraphics`）。
-- `permissions: accessibility=granted screen=granted (lingTai Computer Use <version>, capture ScreenCaptureKit)`：
+- `permissions: accessibility=granted screen=granted (LingTai Computer Use <version>, capture ScreenCaptureKit)`：
   应用启动时读到的授权；面板里开关开着、这里却是 `screen=denied` 时，版本号后面会带上
   ScreenCaptureKit 给的原因。
 - `operator: helper screenshot failed (…) — not falling back to desktopCapturer`：截图失败了，

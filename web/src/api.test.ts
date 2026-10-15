@@ -34,10 +34,10 @@ describe("failureDetail", () => {
 
   it("never shows a validation list, a JSON body or the status number", () => {
     const list = failureDetail(422, { detail: [{ loc: ["body", "text"], msg: "field required", type: "missing" }] });
-    expect(list).toBe("Your lingTai could not do that.");
-    expect(failureDetail(500, undefined)).toBe("Your lingTai hit a problem; try again in a moment.");
-    expect(failureDetail(502, { error: "upstream" })).toBe("Your lingTai hit a problem; try again in a moment.");
-    expect(failureDetail(404, { detail: "" })).toBe("Your lingTai could not do that.");
+    expect(list).toBe("Your LingTai could not do that.");
+    expect(failureDetail(500, undefined)).toBe("Your LingTai hit a problem; try again in a moment.");
+    expect(failureDetail(502, { error: "upstream" })).toBe("Your LingTai hit a problem; try again in a moment.");
+    expect(failureDetail(404, { detail: "" })).toBe("Your LingTai could not do that.");
     for (const text of [list, failureDetail(500, undefined)]) {
       expect(text).not.toMatch(/\d{3}|\[object|\{/);
     }

@@ -1,4 +1,4 @@
-# lingTai <version> · <Codename>
+# LingTai <version> · <Codename>
 
 <!-- The first line is the GitHub release title (scripts/release-apk.sh reads it).
      English first; the Chinese version of the same notes goes in the <details> block at the end.
@@ -16,7 +16,7 @@
      Changelog link are generated from the merged pull requests by scripts/release_notes.py
      where the marker below stands, when the release is published. -->
 
-🐉 **lingTai `<version>` “<Codename>”** <one sentence: what this version is about>.
+🐉 **LingTai `<version>` “<Codename>”** <one sentence: what this version is about>.
 
 <One or two short paragraphs: the headline, and the other story; in plain words, what it means for the person using it.>
 
@@ -27,30 +27,30 @@
 
 ## Upgrade Notes
 
-- **Android installs over <previous> and keeps your data.** `lingTai-<version>-arm64.apk` (Android 8.0+, arm64; versionCode <n>) is signed with the same key as every version before it. Verify with `sha256sum -c lingTai-<version>-arm64.apk.sha256`.
+- **Android installs over <previous> and keeps your data.** `LingTai-<version>-arm64.apk` (Android 8.0+, arm64; versionCode <n>) is signed with the same key as every version before it. Verify with `sha256sum -c LingTai-<version>-arm64.apk.sha256`.
 - **The desktop installers are not notarised.** On macOS open the app once from *System Settings → Privacy & Security → Open Anyway* (or right-click → *Open*); on Windows click *Run anyway*. They arrive a little after the APK (CI builds them from the tag), and `SHA256SUMS-desktop.txt` lists every checksum, the Windows update metadata included (`latest.yml` and the installer's `.exe.blockmap`).
 - <Anything a person upgrading must know: a setting that moved, a relay version an operator needs, a platform that needs a newer build.>
 - **Where to get it.**
 
   | | |
   |---|---|
-  | Browser | [demo.lingtai.dev](https://demo.lingtai.dev/): a lingTai on a simulated phone, after a sign-in; a demo, the apps below are the real thing |
-  | Android 8.0+, arm64 | `lingTai-<version>-arm64.apk` |
+  | Browser | [demo.lingtai.dev](https://demo.lingtai.dev/): a LingTai on a simulated phone, after a sign-in; a demo, the apps below are the real thing |
+  | Android 8.0+, arm64 | `LingTai-<version>-arm64.apk` |
   | iPhone, iPad | [TestFlight](https://testflight.apple.com/join/ZHexbDqc): a beta; build <n>, delivered once Apple's beta review has passed |
-  | Windows 10+ | `lingTai-Desktop-<version>-win-x64.exe` (the desktop app, on DeepSeek Harness) |
-  | macOS 12+ | `lingTai-Desktop-<version>-mac-arm64.dmg` / `-mac-x64.dmg` (or the `.zip`: unzip, drag to Applications) |
-  | Linux x64 | `lingTai-Desktop-<version>-linux-x64.deb` / `.AppImage` (needs FUSE; `--appimage-extract-and-run` without) / `.tar.gz` (unpack anywhere, run `./lingtai-desktop`) |
+  | Windows 10+ | `LingTai-Desktop-<version>-win-x64.exe` (the desktop app, on DeepSeek Harness) |
+  | macOS 12+ | `LingTai-Desktop-<version>-mac-arm64.dmg` / `-mac-x64.dmg` (or the `.zip`: unzip, drag to Applications) |
+  | Linux x64 | `LingTai-Desktop-<version>-linux-x64.deb` / `.AppImage` (needs FUSE; `--appimage-extract-and-run` without) / `.tar.gz` (unpack anywhere, run `./lingtai-desktop`) |
   | DeepSeek Harness Desktop you already run | `dsh-lingtai-<version>.tgz`: `dsh plugin --profile desktop add …` ([how](https://github.com/econswarm/lingtai/blob/main/harness/README.md)) |
 
   In our measurements GitHub's own downloads are quick from China as well; if they fail where you are, the same files are on [lingtai.cn/dl/v<version>/](https://lingtai.cn/dl/v<version>/) within fifteen minutes.
 
 ## Community
 
-lingTai is open source, free and non-profit. Sign in with a phone number or an e-mail and you get a starting allowance; the developer pays for it. The account page shows what is left and how to add more. When it is gone, use your own key or a plan you already pay for ([how](https://github.com/econswarm/lingtai/blob/main/docs/own-key.md)). With an account, the text of your conversations is kept on lingTai Cloud so that your devices show the same chats; one switch in Data controls turns it off and deletes it; nothing is sold ([privacy policy](https://lingtai.cn/privacy/)); delete the account whenever you want.
+LingTai is open source, free and non-profit. Sign in with a phone number or an e-mail and you get a starting allowance; the developer pays for it. The account page shows what is left and how to add more. When it is gone, use your own key or a plan you already pay for ([how](https://github.com/econswarm/lingtai/blob/main/docs/own-key.md)). With an account, the text of your conversations is kept on LingTai Cloud so that your devices show the same chats; one switch in Data controls turns it off and deletes it; nothing is sold ([privacy policy](https://lingtai.cn/privacy/)); delete the account whenever you want.
 
-A stable version is not the last word: lingTai keeps evolving, and the [roadmap](https://github.com/econswarm/lingtai/blob/main/docs/roadmap.md) says what comes next. We use it every day and know where it is rough; tell us where it broke for you and what you want it to do. Thanks to everyone who tried a build and reported what broke. [Open an issue](https://github.com/econswarm/lingtai/issues/new/choose) · [send a pull request](https://github.com/econswarm/lingtai/blob/main/CONTRIBUTING.md) · [Discussions](https://github.com/econswarm/lingtai/discussions) · [Discord](https://discord.gg/bkTySmm28X) · [star the repo](https://github.com/econswarm/lingtai); if it is useful to you, a star helps others find it.
+A stable version is not the last word: LingTai keeps evolving, and the [roadmap](https://github.com/econswarm/lingtai/blob/main/docs/roadmap.md) says what comes next. We use it every day and know where it is rough; tell us where it broke for you and what you want it to do. Thanks to everyone who tried a build and reported what broke. [Open an issue](https://github.com/econswarm/lingtai/issues/new/choose) · [send a pull request](https://github.com/econswarm/lingtai/blob/main/CONTRIBUTING.md) · [Discussions](https://github.com/econswarm/lingtai/discussions) · [Discord](https://discord.gg/bkTySmm28X) · [star the repo](https://github.com/econswarm/lingtai); if it is useful to you, a star helps others find it.
 
-Based on [OpenMinis](https://github.com/OpenMinis/OpenMinis) 1.13 (GPL-3.0), modified since 2026-09-24. The complete corresponding source of this build is tag `v<version>` plus the `android/deps/proot` submodule ([ling-tai/proot](https://github.com/econswarm/proot)). The whole repository is GPL-3.0-or-later. lingTai Desktop carries DeepSeek Harness unmodified, with its licence files inside; *harness* in the name is the word, not DeepSeek's. lingTai is not affiliated with Meta; Muse is a trademark of Meta Platforms, Inc. The desktop follows what Muse's app looks like and does, written down from using it; none of Meta's assets, code or content is in it.
+Based on [OpenMinis](https://github.com/OpenMinis/OpenMinis) 1.13 (GPL-3.0), modified since 2026-09-24. The complete corresponding source of this build is tag `v<version>` plus the `android/deps/proot` submodule ([ling-tai/proot](https://github.com/econswarm/proot)). The whole repository is GPL-3.0-or-later. LingTai Desktop carries DeepSeek Harness unmodified, with its licence files inside; *harness* in the name is the word, not DeepSeek's. LingTai is not affiliated with Meta; Muse is a trademark of Meta Platforms, Inc. The desktop follows what Muse's app looks like and does, written down from using it; none of Meta's assets, code or content is in it.
 
 <!-- pull requests -->
 
@@ -76,7 +76,7 @@ Based on [OpenMinis](https://github.com/OpenMinis/OpenMinis) 1.13 (GPL-3.0), mod
   | | |
   |---|---|
   | 浏览器 | [demo.lingtai.dev](https://demo.lingtai.dev/)：模拟手机里的一个灵台，登录后体验；这是演示，下面的应用才是正式版 |
-  | Android 8.0+，arm64 | `lingTai-<version>-arm64.apk` |
+  | Android 8.0+，arm64 | `LingTai-<version>-arm64.apk` |
   | iPhone、iPad | [TestFlight](https://testflight.apple.com/join/ZHexbDqc)：测试版，公开链接等 Apple 审核；第 <n> 个构建，通过后即可安装 |
   | Windows 10+ | `灵台-Desktop-<version>-win-x64.exe`（桌面 App，基于 DeepSeek Harness） |
   | macOS 12+ | `灵台-Desktop-<version>-mac-arm64.dmg` / `-mac-x64.dmg`（或 `.zip`：解压后拖进「应用程序」） |

@@ -3,8 +3,8 @@
 在手机、电脑和浏览器上登录同一个灵台云账号，它们就能看见彼此。每台设备跑着自己的 Muse，带着自己的手（手机上的 App 和沙箱，电脑上的 shell 和屏幕），其中任何一台都可以从任何网络拜托任何另一台做点什么。网页控制台自己没有手；它是通往其余设备的前门。
 
 ```
-phone ──┐                         ┌── computer (lingTai Desktop)
-        ├──▶  lingTai Cloud  ◀───┤
+phone ──┐                         ┌── computer (LingTai Desktop)
+        ├──▶  LingTai Cloud  ◀───┤
 web  ───┘        /v1/hub          └── another phone / computer
 ```
 

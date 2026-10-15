@@ -10,7 +10,7 @@ final class LingTaiModelSlotsTests: XCTestCase {
 
     private var cloud: LingTaiSlotProvider {
         LingTaiSlotProvider(
-            id: cloudId, label: "lingTai Cloud", isCloud: true,
+            id: cloudId, label: "LingTai Cloud", isCloud: true,
             capabilities: ["chat", "vision", "image", "video"],
             defaults: ["chat": "deepseek-v4.1-flash", "image": "qwen-image-3.0", "video": "wan2.2-i2v-flash"],
             models: [.chat: ["deepseek-v4.1-flash", "qwen3.8-27b"], .hands: ["qwen3.8-27b"], .image: ["qwen-image-3.0"], .video: ["wan2.2-i2v-flash"]]
@@ -121,7 +121,7 @@ final class LingTaiModelSlotsTests: XCTestCase {
         XCTAssertEqual(LingTaiSlotResolver.resolve(slot: .chat, chosen: nil, chatProviderId: nil, providers: [openrouter, bailian]), LingTaiSlotChoice(providerId: "openrouter-1", model: "deepseek/deepseek-v4.1-flash"))
     }
 
-    // MARK: - lingTai Cloud switched off while the chat was the account's (Android: ChatLeavesTest)
+    // MARK: - LingTai Cloud switched off while the chat was the account's (Android: ChatLeavesTest)
 
     func testChatLeavesCloudForTheFirstOwnProvidersDefault() {
         // The first own provider in the order they were added, on the catalogue's default for it.

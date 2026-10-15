@@ -18,11 +18,11 @@
   <a href="https://trendshift.io/repositories/286894?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-286894" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/286894/daily?language=Swift" alt="ling-tai%2FlingTai | Trendshift" width="250" height="55"/></a>
 </p>
 <p align="center">
-  <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/lingTai?style=flat&label=stars" alt="GitHub stars"></a>
+  <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/LingTai?style=flat&label=stars" alt="GitHub stars"></a>
   <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/灵台/total?label=downloads" alt="下载量"></a>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/LingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
   <a href="https://github.com/econswarm/lingtai/actions/workflows/ci.yml"><img src="https://github.com/econswarm/lingtai/actions/workflows/ci.yml/badge.svg?branch=main" alt="Test Suite"></a>
-  <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/lingTai?label=license" alt="GPL-3.0-or-later"></a>
+  <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/LingTai?label=license" alt="GPL-3.0-or-later"></a>
   <a href="https://arxiv.org/abs/2610.08699"><img src="https://img.shields.io/badge/arXiv-2610.08699-b31b1b" alt="arXiv 上的论文"></a>
   <br>
   <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/%E5%9C%A8%E7%BA%BF%E4%BD%93%E9%AA%8C-demo.lingtai.dev-4f46e5" alt="在线体验"></a>
@@ -62,7 +62,7 @@ https://github.com/user-attachments/assets/bf0ec2ae-59aa-4358-9dd0-c9d045ee7bee
 | **iPhone / iPad** | [TestFlight](https://testflight.apple.com/join/ZHexbDqc)：测试版，已通过 Apple 的 beta 审核；从这个链接安装 · [iOS](../ios.md) |
 | **macOS** 12 以上 | [Apple 芯片](https://github.com/econswarm/lingtai/releases/download/v1.0.5/灵台-Desktop-1.0.5-mac-arm64.dmg) · [Intel](https://github.com/econswarm/lingtai/releases/download/v1.0.5/灵台-Desktop-1.0.5-mac-x64.dmg)。没有公证：第一次右键 → 打开 |
 | **Windows** 10 以上 | [灵台-Desktop-1.0.5-win-x64.exe](https://github.com/econswarm/lingtai/releases/download/v1.0.5/灵台-Desktop-1.0.5-win-x64.exe)：点一次「仍要运行」 |
-| **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.tar.gz) |
+| **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.tar.gz) |
 | **Docker** | `bash scripts/self-host.sh --local` 搭自己的中继；`docker compose up -d app` 在自己的服务器上跑网页版；见[自己部署](../self-hosting.md) |
 
 下载都来自 [GitHub 最新版本](https://github.com/econswarm/lingtai/releases/latest)；GitHub 下不动时，同样的文件在 [lingtai.cn/dl](https://lingtai.cn/dl/)。打开 App，用邮箱或中国大陆手机号登录，它就有模型可用。手机、桌面和网页共用一个账号，看到的是同样的对话。
@@ -98,7 +98,7 @@ https://github.com/user-attachments/assets/bf0ec2ae-59aa-4358-9dd0-c9d045ee7bee
 
 ## 和 Muse、OpenMinis 的对比
 
-| | Meta Muse | OpenMinis | lingTai |
+| | Meta Muse | OpenMinis | LingTai |
 |---|---|---|---|
 | 智能体跑在哪 | 每人一台云端 VM | 装了它的那台手机 | 你的手机、你的电脑，或者你自己的服务器，一个账号串起来 |
 | 没有 API 的 App | 碰不到；VM 不碰你的设备 | Android 上的一个无障碍 CLI | 手机和电脑上都把屏幕当手：看截图，先试 API，登录由你接管。iOS 上没有，系统不允许 |
@@ -142,7 +142,7 @@ https://github.com/user-attachments/assets/bf0ec2ae-59aa-4358-9dd0-c9d045ee7bee
 
 ```bibtex
 @misc{liu2026lingtaiopensourcepersonalagent,
-      title={lingTai: An Open-Source Personal Agent for Every Device You Own}, 
+      title={LingTai: An Open-Source Personal Agent for Every Device You Own}, 
       author={Guangyi Liu and Yong Liu and Jiangning Zhang},
       year={2026},
       eprint={2610.08699},
@@ -167,5 +167,5 @@ https://github.com/user-attachments/assets/bf0ec2ae-59aa-4358-9dd0-c9d045ee7bee
 
 <p align="center">
   <em>感谢来访 ✨ 灵台。</em><br><br>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/LingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
 </p>

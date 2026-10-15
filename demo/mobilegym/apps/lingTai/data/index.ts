@@ -7,7 +7,7 @@ import { manifest } from '../manifest';
  *
  * `demoGateway` is the hosted showcase's gateway (`/api/demo` on the public site), set at
  * build time with `VITE_LINGTAI_DEMO`. Empty in a normal checkout: the app then asks for the
- * address of your own lingTai.
+ * address of your own LingTai.
  */
 export const LINGTAI_CONFIG = {
   ...defaults,

@@ -117,7 +117,7 @@ def _controls(args: argparse.Namespace) -> None:
 
 
 def main(argv: list[str] | None = None) -> None:
-    ap = argparse.ArgumentParser(prog="lingtai-cloud", description="lingTai Cloud relay")
+    ap = argparse.ArgumentParser(prog="lingtai-cloud", description="LingTai Cloud relay")
     sub = ap.add_subparsers(dest="cmd")
     serve = sub.add_parser("serve", help="run the relay (the default)")
     for p in (ap, serve):

@@ -1,21 +1,21 @@
 # The hub: every device is a Muse
 
-Sign in to the same lingTai Cloud account on a phone, a computer and a browser,
+Sign in to the same LingTai Cloud account on a phone, a computer and a browser,
 and they see each other. Each device runs its own Muse with its own hands (the
 phone's apps and sandbox, the computer's shell and screen), and any of them can
 ask any other for something, from any network. The web console has no hands of
 its own; it is a front door to the rest.
 
 ```
-phone ──┐                         ┌── computer (lingTai Desktop)
-        ├──▶  lingTai Cloud  ◀───┤
+phone ──┐                         ┌── computer (LingTai Desktop)
+        ├──▶  LingTai Cloud  ◀───┤
 web  ───┘        /v1/hub          └── another phone / computer
 ```
 
 Every device opens one outbound WebSocket to the relay and keeps it. Nothing
 listens on the device, nothing needs a port forwarded or a shared Wi-Fi; the
 relay only routes frames between devices of one account and never looks inside
-a task. This is the way to add a computer: install lingTai Desktop on it and
+a task. This is the way to add a computer: install LingTai Desktop on it and
 sign in with the same account; nothing to download by hand, no code to type.
 It is the only way in: the stand-alone host script that paired over the local
 network (0.1.13–0.1.23) is gone, so a computer that is missing from the phone's
@@ -30,7 +30,7 @@ On the phone, in any chat:
 - "让电脑把项目编译一遍，把日志发给我": `lingtai-pc task "…" --on desk`
 - "电脑截个图给我看": `lingtai-pc screen --on desk`
 
-On the computer, in lingTai Desktop (or `lingtai chat` in a terminal):
+On the computer, in LingTai Desktop (or `lingtai chat` in a terminal):
 
 - "on my phone, take a screenshot": `device_screen`
 - "tell the phone's Muse to read me the last notification": `delegate`
@@ -84,13 +84,13 @@ Two kinds of request travel over the hub:
   [coding-agents.md](coding-agents.md).
 
 Each device decides what it lets others do. On the phone, *Let other devices
-operate this phone* (*Settings → lingTai Cloud → Devices*) off makes the phone
+operate this phone* (*Settings → LingTai Cloud → Devices*) off makes the phone
 answer `info` and nothing else; it still sees and drives the others.
 With it on, a raw action that does something *to* the device (`shell`, `files`,
 `file.get`, `file.put`, `open`, `screen`, `coding.send`, `coding.stop`) is first
 agreed to by the person at that device: the usual approval card, *once* or
 *always for that device*; the standing answer is a grant
-(`remote_control:<device id>`) under Permissions. lingTai Desktop asks with the
+(`remote_control:<device id>`) under Permissions. LingTai Desktop asks with the
 same card by default; its *Remote control without asking* (*Settings → Devices*)
 lets every device of the account run things there without the card. Nobody there, and the caller
 hears `not_allowed` when the card expires. `info` and `notify` never ask; a
@@ -274,13 +274,13 @@ computer's own hands) is in [every-device.md](every-device.md).
   honoured), `HubService`
   (foreground, `remoteMessaging`). `lingtai-pc` (`io.github.lingtai.reach`)
   reaches the hub devices from the phone's sandbox shell.
-- lingTai Desktop: [`harness/dsh-lingtai/src/hub.ts`](../harness/dsh-lingtai/src/hub.ts)
+- LingTai Desktop: [`harness/dsh-lingtai/src/hub.ts`](../harness/dsh-lingtai/src/hub.ts)
   (the socket, reconnect), [`harness/dsh-lingtai/src/actions.ts`](../harness/dsh-lingtai/src/actions.ts)
   (what this computer does for others, the card before a remote action); see [desktop.md](desktop.md).
 - iOS: [`LingTai/LingTaiHub.swift`](../android/src/ios/LingTai/LingTaiHub.swift):
   `info`, `open`, `notify`, `task` (its `language` is honoured), `stop`; `screen` is
   refused (`no_screen`), the shell and files actions with `not_supported`. A step of a
-  `task` that needs approval is not sent back as an `event`: with lingTai in front the
+  `task` that needs approval is not sent back as an `event`: with LingTai in front the
   phone shows its own card, in the background the step is declined and the answer says so.
   The other way round, a `task` the phone sends (`@〈device〉`,
   [`LingTaiDeviceMention.swift`](../android/src/ios/LingTai/LingTaiDeviceMention.swift))

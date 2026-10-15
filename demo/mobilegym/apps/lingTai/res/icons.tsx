@@ -1,5 +1,5 @@
-// Icons used by the lingTai shell. Monochrome lucide icons, colored with currentColor — except
-// the launcher icon, which is the lingTai mark in its own colours (res/mark.tsx, the same N the
+// Icons used by the LingTai shell. Monochrome lucide icons, colored with currentColor — except
+// the launcher icon, which is the LingTai mark in its own colours (res/mark.tsx, the same N the
 // Android app's launcher icon has).
 import { AlertTriangle, ChevronLeft, Cloud, Hand, KeyRound, Link2, MessageCircle, Monitor, RefreshCw, Unplug } from 'lucide-react';
 import { LingTaiMark } from './mark';

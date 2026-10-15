@@ -1,4 +1,4 @@
-# cloud.lingtai.cn — lingTai Cloud (the sign-in relay and the hub), served by
+# cloud.lingtai.cn — LingTai Cloud (the sign-in relay and the hub), served by
 # the showcase's Caddy next to lingtai.cn. Goes into demo/showcase/sites.d/;
 # the relay container (cloud/deploy/lingtai-hk/docker-compose.yml) is on the
 # same `showcase_edge` network as `lingtai-relay`. Certificate the ordinary

@@ -1,6 +1,6 @@
 //
 //  LingTaiDeviceMention.swift
-//  lingTai
+//  LingTai
 //
 //  Contract C7, rule 8: a message that starts with "@<device name>" is work
 //  for that device. The iOS agent has no `delegate` tool of its own, so the

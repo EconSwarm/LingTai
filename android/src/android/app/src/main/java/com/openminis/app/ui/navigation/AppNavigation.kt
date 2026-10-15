@@ -91,7 +91,7 @@ object Routes {
     const val SETTINGS = "settings"
     const val PROVIDER_LIST = "providers"
     const val ADD_PROVIDER = "add_provider"
-    // lingTai: the same form, pre-filled for a known vendor (`bailian` = Alibaba Cloud Bailian)
+    // LingTai: the same form, pre-filled for a known vendor (`bailian` = Alibaba Cloud Bailian)
     const val ADD_PROVIDER_PATTERN = "add_provider?preset={preset}"
     fun addProvider(preset: String?): String = if (preset.isNullOrBlank()) ADD_PROVIDER else "add_provider?preset=$preset"
     const val PROVIDER_DETAIL = "provider/{instanceId}"
@@ -244,7 +244,7 @@ fun AppNavigation(
         (context.applicationContext as com.openminis.app.MinisApp).mountedFoldersStore
     }
 
-    // lingTai: whether SESSION_LIST renders the home shell (compact windows) — decided here,
+    // LingTai: whether SESSION_LIST renders the home shell (compact windows) — decided here,
     // ahead of the deep-link effects, and published for the non-composable entry points
     // (MainActivity's warm deep links). Written during composition on purpose so the effects
     // below already see it. Wide windows keep the upstream list/detail behaviour.
@@ -255,7 +255,7 @@ fun AppNavigation(
     // launch, with the voice / camera action seeded so ChatScreen consumes it on its first
     // LaunchedEffect tick. Upstream mounted the NavHost straight into chat/<draft>; in compact
     // windows the home shell opens the draft itself (see the deep-link effect and the
-    // startDestination block below). lingTai: remembered, so a recomposition does not mint a
+    // startDestination block below). LingTai: remembered, so a recomposition does not mint a
     // new id and re-seed the action.
     val quickActionSession: String? = remember(initialDeepLink) {
         when (initialDeepLink) {
@@ -279,7 +279,7 @@ fun AppNavigation(
                 navController.safeNavigate(Routes.terminal(initialDeepLink.initCommand))
             }
             is DeepLinkAction.OpenSession -> {
-                // lingTai: in compact windows the home shell shows the chat itself.
+                // LingTai: in compact windows the home shell shows the chat itself.
                 if (io.github.lingtai.ui.home.HomeShell.openSession(navController, initialDeepLink.sessionId)) {
                     return@LaunchedEffect
                 }
@@ -318,7 +318,7 @@ fun AppNavigation(
             is DeepLinkAction.OpenPermissionSettings -> {
                 navController.safeNavigate(Routes.PERMISSIONS)
             }
-            // lingTai: a cold start from the feed's notification: the shell mounts on its own and
+            // LingTai: a cold start from the feed's notification: the shell mounts on its own and
             // picks the tab up from the bus
             is DeepLinkAction.OpenHomeTab -> {
                 io.github.lingtai.ui.home.HomeShell.openTab(navController, initialDeepLink.tab)
@@ -337,7 +337,7 @@ fun AppNavigation(
                 // Navigation handled by startDestination = chat/<__new__…>
                 // when the launch intent carries one of these actions.
                 // Nothing to do here — see startDestination block below.
-                // lingTai: except in compact windows, where the home shell opens the draft.
+                // LingTai: except in compact windows, where the home shell opens the draft.
                 if (ltHomeActive && quickActionSession != null) {
                     io.github.lingtai.ui.home.HomeShell.openSession(navController, quickActionSession)
                 }
@@ -356,7 +356,7 @@ fun AppNavigation(
     // regardless of mode 1 / 2 / 0. Wait for the start destination to
     // settle into RESUMED before navigating; for mode 3 (Home) we don't
     // need to navigate at all so we can skip the wait entirely.
-    // lingTai: in compact windows SESSION_LIST renders the home shell
+    // LingTai: in compact windows SESSION_LIST renders the home shell
     // (io.github.lingtai.ui.home), which opens on the main chat by itself —
     // the launch-session resolver and the warm-share fallback below step
     // aside for it (`ltHomeActive`, decided above). Wide windows keep the
@@ -364,7 +364,7 @@ fun AppNavigation(
     LaunchedEffect(Unit) {
         val hasDeepLink = initialDeepLink != null && initialDeepLink !is DeepLinkAction.Unknown
         if (hasDeepLink) return@LaunchedEffect
-        if (ltHomeActive) return@LaunchedEffect // lingTai
+        if (ltHomeActive) return@LaunchedEffect // LingTai
         val hasPendingShare =
             com.openminis.app.share.ShareCoordinator.bufferVersion.value > 0
         val rawMode = getAppearancePrefs(context).getInt(KEY_LAUNCH_SESSION, 0)
@@ -489,7 +489,7 @@ fun AppNavigation(
     LaunchedEffect(shareBufferVersion) {
         if (shareBufferVersion == 0) return@LaunchedEffect
         val current = navController.currentDestination?.route ?: return@LaunchedEffect
-        // lingTai: the home shell has a ChatScreen mounted that drains the buffer itself.
+        // LingTai: the home shell has a ChatScreen mounted that drains the buffer itself.
         if (current == Routes.SESSION_LIST && !ltHomeActive) {
             navController.safeNavigate(Routes.chat("__new__${java.util.UUID.randomUUID()}")) {
                 popUpTo(Routes.SESSION_LIST) { inclusive = false }
@@ -508,7 +508,7 @@ fun AppNavigation(
     // draft chat, seeding the pending action so ChatScreen consumes it on
     // its first LaunchedEffect tick. Mirrors the htmlShortcut path —
     // avoids a sessions-list flash and a duplicate back-stack entry.
-    // lingTai: the draft id is minted (and the action seeded) in `quickActionSession` above;
+    // LingTai: the draft id is minted (and the action seeded) in `quickActionSession` above;
     // in compact windows the home shell opens it, so the NavHost starts on SESSION_LIST.
     val quickActionStart: String? = quickActionSession?.takeIf { !ltHomeActive }?.let { Routes.chat(it) }
     val startDestination = when {
@@ -591,7 +591,7 @@ fun AppNavigation(
         // them keeps working unchanged. On a phone the scaffold resolves to a
         // single pane, so those pushes look and behave exactly as before.
         composable(Routes.SESSION_LIST) {
-            // lingTai: compact windows open on the home shell (main chat +
+            // LingTai: compact windows open on the home shell (main chat +
             // bottom tabs); the upstream split keeps wide windows.
             if (!shouldUseTwoPane()) {
                 io.github.lingtai.ui.home.LingTaiHome(
@@ -614,7 +614,7 @@ fun AppNavigation(
             )
         }
 
-        // lingTai: the agent's system files (SOUL / USER / MEMORY / feed
+        // LingTai: the agent's system files (SOUL / USER / MEMORY / feed
         // preferences / HEARTBEAT), one file page, and the memory import.
         composable(io.github.lingtai.ui.sysfiles.ROUTE_SYSTEM_FILES) {
             io.github.lingtai.ui.sysfiles.SystemFilesScreen(
@@ -641,7 +641,7 @@ fun AppNavigation(
         composable(io.github.lingtai.ui.sysfiles.ROUTE_MEMORY_IMPORT) {
             io.github.lingtai.ui.sysfiles.MemoryImportScreen(onBack = { navController.safePopBackStack() })
         }
-        // lingTai: the face — generate, pick, pose.
+        // LingTai: the face — generate, pick, pose.
         composable(io.github.lingtai.ui.avatar.ROUTE_AVATAR_STUDIO) {
             io.github.lingtai.ui.avatar.AvatarStudioScreen(
                 onBack = { navController.safePopBackStack() },
@@ -649,7 +649,7 @@ fun AppNavigation(
                 onOpenMediaModels = { navController.safeNavigate(io.github.lingtai.ui.media.ROUTE_MEDIA_MODELS) },
             )
         }
-        // lingTai: Settings → Models — the four slots (chat, the screen, pictures, clips), each
+        // LingTai: Settings → Models — the four slots (chat, the screen, pictures, clips), each
         // row a picker; and the "Use it for" card after a provider of the person's own is saved.
         composable(io.github.lingtai.ui.models.ROUTE_MODELS) {
             io.github.lingtai.ui.models.ModelsScreen(
@@ -680,7 +680,7 @@ fun AppNavigation(
                 onDone = { navController.safePopBackStack() },
             )
         }
-        // lingTai: the three models — chat, image, video — and what stops without each.
+        // LingTai: the three models — chat, image, video — and what stops without each.
         composable(io.github.lingtai.ui.media.ROUTE_MEDIA_MODELS) {
             io.github.lingtai.ui.media.MediaModelsScreen(
                 onBack = { navController.safePopBackStack() },
@@ -688,7 +688,7 @@ fun AppNavigation(
                 onOpenProviders = { navController.safeNavigate(Routes.PROVIDER_LIST) },
             )
         }
-        // lingTai: lingTai Cloud — sign in with a phone/e-mail code for a starter allowance,
+        // LingTai: LingTai Cloud — sign in with a phone/e-mail code for a starter allowance,
         // and the account page (balance, sign out) behind Settings.
         composable(io.github.lingtai.ui.cloud.ROUTE_CLOUD_SIGN_IN) {
             io.github.lingtai.ui.cloud.CloudSignInScreen(
@@ -703,22 +703,22 @@ fun AppNavigation(
                 onOpenProvider = { id -> navController.safeNavigate(Routes.providerDetail(id)) },
                 onOpenModelGroups = { navController.safeNavigate(Routes.MODEL_GROUPS) },
                 onOpenDataControls = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_DATA_CONTROLS) },
-                // lingTai: "Ask this device" — back to the chat with "@<name> " in the composer
+                // LingTai: "Ask this device" — back to the chat with "@<name> " in the composer
                 onAskDevice = { name -> io.github.lingtai.ui.home.HomeShell.prefill(navController, "@$name ") },
             )
         }
-        // lingTai: Settings → Data controls — the switch over what lingTai Cloud keeps of the chats.
+        // LingTai: Settings → Data controls — the switch over what LingTai Cloud keeps of the chats.
         composable(io.github.lingtai.ui.cloud.ROUTE_DATA_CONTROLS) {
             io.github.lingtai.ui.cloud.DataControlsScreen(
                 onBack = { navController.safePopBackStack() },
                 onSignIn = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_CLOUD_SIGN_IN) },
             )
         }
-        // lingTai: Settings → Network — the HTTP proxy for own providers and the ChatGPT plan.
+        // LingTai: Settings → Network — the HTTP proxy for own providers and the ChatGPT plan.
         composable(io.github.lingtai.ui.net.ROUTE_NETWORK) {
             io.github.lingtai.ui.net.NetworkScreen(onBack = { navController.safePopBackStack() })
         }
-        // lingTai: the phone's screen as a hand — the switch, what it needs, the screen model.
+        // LingTai: the phone's screen as a hand — the switch, what it needs, the screen model.
         composable(io.github.lingtai.ui.hands.ROUTE_HANDS) {
             io.github.lingtai.ui.hands.HandsScreen(
                 onBack = { navController.safePopBackStack() },
@@ -726,28 +726,28 @@ fun AppNavigation(
                 onOpenHandsModel = { navController.safeNavigate(io.github.lingtai.ui.models.modelPickRoute(io.github.lingtai.models.ModelSlots.Slot.HANDS)) },
             )
         }
-        // lingTai: the account's computers, and how one joins.
+        // LingTai: the account's computers, and how one joins.
         composable(io.github.lingtai.ui.reach.ROUTE_COMPUTERS) {
             io.github.lingtai.ui.reach.ComputersScreen(
                 onBack = { navController.safePopBackStack() },
                 onOpenAccount = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_CLOUD_ACCOUNT) },
             )
         }
-        // lingTai: the services the agent can be let into — the connectors catalogue, each a remote MCP server.
+        // LingTai: the services the agent can be let into — the connectors catalogue, each a remote MCP server.
         composable(io.github.lingtai.ui.connectors.ROUTE_CONNECTORS) {
             io.github.lingtai.ui.connectors.ConnectorsScreen(
                 onBack = { navController.safePopBackStack() },
                 onOpenMcp = { navController.safeNavigate(Routes.MCP) },
             )
         }
-        // lingTai: the coding agents (Cursor, Codex, Claude Code) on the account's computers.
+        // LingTai: the coding agents (Cursor, Codex, Claude Code) on the account's computers.
         composable(io.github.lingtai.ui.coding.ROUTE_CODING) {
             io.github.lingtai.ui.coding.CodingScreen(
                 onBack = { navController.safePopBackStack() },
                 onOpenDevices = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_CLOUD_ACCOUNT) },
             )
         }
-        // lingTai: the agent's page behind the face — today's activity, approvals, daily,
+        // LingTai: the agent's page behind the face — today's activity, approvals, daily,
         // soul & memory; the pen offers "Change avatar" (back to the chat, pre-typed) and
         // "Edit name".
         composable(io.github.lingtai.ui.profile.ROUTE_AGENT_PROFILE) {
@@ -771,7 +771,7 @@ fun AppNavigation(
             )
         }
 
-        // lingTai: the full OpenMinis session list (folders, search, bulk
+        // LingTai: the full OpenMinis session list (folders, search, bulk
         // actions), one tap behind the drawer's archive glyph. Picking a chat
         // hands it to the home shell underneath.
         composable(io.github.lingtai.ui.home.ROUTE_ALL_CHATS) {
@@ -824,16 +824,16 @@ fun AppNavigation(
                 onMemoryClick = { navController.safeNavigate(Routes.MEMORY) },
                 onMcpClick = { navController.safeNavigate(Routes.MCP) },
                 onSoulClick = { navController.safeNavigate(Routes.SOUL) },
-                onSystemFilesClick = { navController.safeNavigate(io.github.lingtai.ui.sysfiles.ROUTE_SYSTEM_FILES) }, // lingTai
-                onAvatarClick = { navController.safeNavigate(io.github.lingtai.ui.avatar.ROUTE_AVATAR_STUDIO) }, // lingTai
-                onModelsClick = { navController.safeNavigate(io.github.lingtai.ui.models.ROUTE_MODELS) }, // lingTai
-                onCloudClick = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_CLOUD_ACCOUNT) }, // lingTai
-                onHandsClick = { navController.safeNavigate(io.github.lingtai.ui.hands.ROUTE_HANDS) }, // lingTai
-                onDataControlsClick = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_DATA_CONTROLS) }, // lingTai
-                onNetworkClick = { navController.safeNavigate(io.github.lingtai.ui.net.ROUTE_NETWORK) }, // lingTai
-                onComputersClick = { navController.safeNavigate(io.github.lingtai.ui.reach.ROUTE_COMPUTERS) }, // lingTai
-                onCodingClick = { navController.safeNavigate(io.github.lingtai.ui.coding.ROUTE_CODING) }, // lingTai
-                onConnectorsClick = { navController.safeNavigate(io.github.lingtai.ui.connectors.ROUTE_CONNECTORS) }, // lingTai
+                onSystemFilesClick = { navController.safeNavigate(io.github.lingtai.ui.sysfiles.ROUTE_SYSTEM_FILES) }, // LingTai
+                onAvatarClick = { navController.safeNavigate(io.github.lingtai.ui.avatar.ROUTE_AVATAR_STUDIO) }, // LingTai
+                onModelsClick = { navController.safeNavigate(io.github.lingtai.ui.models.ROUTE_MODELS) }, // LingTai
+                onCloudClick = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_CLOUD_ACCOUNT) }, // LingTai
+                onHandsClick = { navController.safeNavigate(io.github.lingtai.ui.hands.ROUTE_HANDS) }, // LingTai
+                onDataControlsClick = { navController.safeNavigate(io.github.lingtai.ui.cloud.ROUTE_DATA_CONTROLS) }, // LingTai
+                onNetworkClick = { navController.safeNavigate(io.github.lingtai.ui.net.ROUTE_NETWORK) }, // LingTai
+                onComputersClick = { navController.safeNavigate(io.github.lingtai.ui.reach.ROUTE_COMPUTERS) }, // LingTai
+                onCodingClick = { navController.safeNavigate(io.github.lingtai.ui.coding.ROUTE_CODING) }, // LingTai
+                onConnectorsClick = { navController.safeNavigate(io.github.lingtai.ui.connectors.ROUTE_CONNECTORS) }, // LingTai
                 onPermissionsClick = { navController.safeNavigate(Routes.PERMISSIONS) },
                 onUsageClick = { navController.safeNavigate(Routes.USAGE_STATS) },
                 onAppearanceClick = { navController.safeNavigate(Routes.APPEARANCE) },
@@ -1104,16 +1104,16 @@ fun AppNavigation(
         }
 
         composable(
-            route = Routes.ADD_PROVIDER_PATTERN, // lingTai: optional ?preset=…; plain ADD_PROVIDER still matches
+            route = Routes.ADD_PROVIDER_PATTERN, // LingTai: optional ?preset=…; plain ADD_PROVIDER still matches
             arguments = listOf(navArgument("preset") { type = NavType.StringType; nullable = true; defaultValue = null }),
         ) { backStackEntry ->
-            // lingTai: the instances before the form, so the save can open "Use it for" on the new one
+            // LingTai: the instances before the form, so the save can open "Use it for" on the new one
             val ltBefore = remember { providerRepository.config.value.instances.map { it.id }.toSet() }
             AddProviderScreen(
                 providerRepository = providerRepository,
                 onBack = { navController.safePopBackStack() },
-                onSaved = { io.github.lingtai.ui.models.UseItFor.afterProviderSaved(navController, providerRepository, ltBefore) }, // lingTai
-                preset = backStackEntry.arguments?.getString("preset"), // lingTai
+                onSaved = { io.github.lingtai.ui.models.UseItFor.afterProviderSaved(navController, providerRepository, ltBefore) }, // LingTai
+                preset = backStackEntry.arguments?.getString("preset"), // LingTai
             )
         }
 
@@ -1135,7 +1135,7 @@ fun AppNavigation(
                 onVoiceServiceClick = { id ->
                     navController.safeNavigate(Routes.shadowVoiceDetail(id))
                 },
-                onKeyAdded = { id -> io.github.lingtai.ui.models.UseItFor.open(navController, id) }, // lingTai: the "Use it for" card
+                onKeyAdded = { id -> io.github.lingtai.ui.models.UseItFor.open(navController, id) }, // LingTai: the "Use it for" card
             )
         }
 

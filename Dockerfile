@@ -1,4 +1,4 @@
-# lingTai in a container: the agent sees only /data and /workspace.
+# LingTai in a container: the agent sees only /data and /workspace.
 #
 #   docker build -t lingtai .
 #   docker run -d -p 8787:8787 --env-file .env -v lingtai-data:/data -v $PWD/workspace:/workspace lingtai

@@ -452,7 +452,7 @@ export default class LingTaiRooms extends Service {
   }
 
   /**
-   * Start was pressed: the main chat, opened on the agent's own folder (`~/lingTai`,
+   * Start was pressed: the main chat, opened on the agent's own folder (`~/LingTai`,
    * registered as a workspace so the composer is live at once), bound as the first
    * conversation. The app speaks first there, from the browser, at no cost in tokens; the
    * model only hears from the person. A second Start lands in the same chat while it lives.
@@ -474,11 +474,11 @@ export default class LingTaiRooms extends Service {
       await this.saveFirstRun()
       return { sessionId: synced }
     }
-    const folder = join(homeDir(), 'lingTai')
+    const folder = join(homeDir(), 'LingTai')
     await mkdir(folder, { recursive: true })
     let workspaceId: string | undefined
     try {
-      workspaceId = (await (this.ctx.get('workspaceRegistry') as RegistryLike | undefined)?.create(folder, 'lingTai'))?.id
+      workspaceId = (await (this.ctx.get('workspaceRegistry') as RegistryLike | undefined)?.create(folder, 'LingTai'))?.id
     } catch (error) {
       this.warn('home workspace', error)
     }
@@ -944,7 +944,7 @@ export default class LingTaiRooms extends Service {
     const home = dshHome()
     const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
     const folder = await downloadsDir()
-    const out = join(folder, `lingTai-data-${stamp}.zip`)
+    const out = join(folder, `LingTai-data-${stamp}.zip`)
     await mkdir(folder, { recursive: true })
     const entries: ZipEntry[] = []
     const add = async (folder: string, under: string, skip: (name: string) => boolean = () => false) => {
@@ -967,7 +967,7 @@ export default class LingTaiRooms extends Service {
     await add(join(home, 'sessions'), 'sessions/')
     const prefs = join(home, 'desktop.json')
     if (await stat(prefs).catch(() => null)) entries.push({ name: 'desktop.json', data: await readFile(prefs), at: new Date() })
-    entries.push({ name: 'README.txt', at: new Date(), data: Buffer.from(['Your lingTai data, exported ' + new Date().toISOString(), '', 'lingtai/cloud.json    the account snapshot (no sign-in token)', 'lingtai/profile.json  the agent’s name and look; faces/ its pictures', 'lingtai/rooms.json    feed, ideas, goals, the library index and memory', 'sessions/              the chats, as DeepSeek Harness keeps them (zstd-compressed JSON lines)', ''].join('\n'))})
+    entries.push({ name: 'README.txt', at: new Date(), data: Buffer.from(['Your LingTai data, exported ' + new Date().toISOString(), '', 'lingtai/cloud.json    the account snapshot (no sign-in token)', 'lingtai/profile.json  the agent’s name and look; faces/ its pictures', 'lingtai/rooms.json    feed, ideas, goals, the library index and memory', 'sessions/              the chats, as DeepSeek Harness keeps them (zstd-compressed JSON lines)', ''].join('\n'))})
     await writeFile(out, zip(entries), { mode: 0o600 })
     const sc = this.ctx.get('sessionController')
     if (sc) await sc.openWorkspacePath({ path: out, action: 'reveal' }, new AbortController().signal).catch(() => undefined)
@@ -1753,7 +1753,7 @@ export default class LingTaiRooms extends Service {
       ? '给我做一个关于我关心的事的动态。短一点、直接一点，扫一眼就能看完，别搞标题党。'
       : 'Build me a feed about what I care about. Keep it short and direct, easy to skim, no clickbait.')
     return [
-      `[Background job from lingTai: write the person's feed. Nobody reads this chat; the app parses your final answer.]`,
+      `[Background job from LingTai: write the person's feed. Nobody reads this chat; the app parses your final answer.]`,
       `You are the person's own agent, writing their personal feed: ${n} short posts made just for them, in ${languageName(this.lang)}. Think of a thoughtful friend who knows what they care about: news worth their attention on the topics they follow (use web_search for anything time-sensitive, and link the source inline in Markdown), a nudge on a goal, a small plan for the day, a question worth thinking about. Specific to this person; never generic filler. No greetings, no "as your agent". Do not call feed_post here — the JSON below is how this batch is delivered.`,
       ``,
       `What the person asked to read here:`,

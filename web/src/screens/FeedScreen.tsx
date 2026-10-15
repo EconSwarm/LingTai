@@ -43,7 +43,7 @@ export function FeedScreen() {
   // why the posts could not be fetched, shown in their place with Try again (null: no failure)
   const [postsError, setPostsError] = useState<string | null>(null);
   const [retry, setRetry] = useState(0);
-  const name = state.profile?.name ?? "lingTai";
+  const name = state.profile?.name ?? "LingTai";
   const t = useT();
   const locale = useLocale();
 

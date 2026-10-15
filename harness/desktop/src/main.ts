@@ -19,11 +19,11 @@ import { HostWork } from "./host-work";
 import { ProtectedExit, type ExitDialog, type ExitIntent, type WorkItem, type WorkSource } from "./protected-exit";
 
 /**
- * lingTai Desktop — the lingTai desktop, built on DeepSeek Harness.
+ * LingTai Desktop — the LingTai desktop, built on DeepSeek Harness.
  *
  * The window shows the harness's own web app, served by a dsh Host this shell starts as a
  * child process: the Electron binary in Node mode (`ELECTRON_RUN_AS_NODE`, as the harness's
- * own desktop does), running the `dsh` that ships under `resources/dsh` with the lingTai
+ * own desktop does), running the `dsh` that ships under `resources/dsh` with the LingTai
  * bundle (`harness/dsh-lingtai`) installed next to it. The profile the Host boots lives
  * under `~/.lingtai/desktop` and names the bundle; nothing is installed at first run and
  * no Node or pnpm is needed on the machine. When the runtime for the hands is bundled
@@ -123,7 +123,7 @@ let hostProxy = "";
 /**
  * `~/.lingtai/desktop`, the harness home of this app alone — the CLI's `~/.dsh` is left alone.
  * `LINGTAI_DESKTOP_HOME` moves it (`LINGTAI_HARNESS_HOME`, the 0.1.28–0.1.29 name, still
- * counts). A home the app kept as lingTai Harness under `~/.lingtai/harness` is taken over
+ * counts). A home the app kept as LingTai Harness under `~/.lingtai/harness` is taken over
  * once, so the account and the chats of those two versions carry on.
  */
 let resolvedHome: string | undefined;
@@ -225,7 +225,7 @@ function ensureProfile(dshDir: string): string {
   if (!existsSync(join(dir, "cordis.patch.yml"))) {
     writeFileSync(
       join(dir, "cordis.patch.yml"),
-      "# Your patch layer for this dsh profile, applied after every bundle layer:\n# a top-level YAML array of loader patch entries. lingTai Desktop and dsh\n# write settings here; you may edit it too.\n[]\n",
+      "# Your patch layer for this dsh profile, applied after every bundle layer:\n# a top-level YAML array of loader patch entries. LingTai Desktop and dsh\n# write settings here; you may edit it too.\n[]\n",
     );
   }
   const link = join(dir, "node_modules", BUNDLE);
@@ -440,7 +440,7 @@ async function askKeepWaiting(watch: HostStartWatch, state: WaitState): Promise<
     if (quitting || startWatch !== watch) return;
     if (response === 1) {
       clipboard.writeText(details(`${T.stillStarting} (${waited})`));
-      await dialog.showMessageBox({ type: "info", title: "lingTai", message: T.copied, buttons: ["OK"] });
+      await dialog.showMessageBox({ type: "info", title: "LingTai", message: T.copied, buttons: ["OK"] });
       continue;
     }
     if (response === 2) {
@@ -592,7 +592,7 @@ function details(message: string): string {
   return [
     message,
     "",
-    `lingTai Desktop ${app.getVersion()} · dsh ${s.dsh ?? "?"} · ${BUNDLE} ${s.bundle ?? "?"}`,
+    `LingTai Desktop ${app.getVersion()} · dsh ${s.dsh ?? "?"} · ${BUNDLE} ${s.bundle ?? "?"}`,
     `Electron ${process.versions.electron} · ${process.platform} ${process.arch}`,
     `home: ${harnessHome()}`,
     "",
@@ -619,7 +619,7 @@ async function reportStartupFailure(exc: unknown): Promise<void> {
     });
     if (response === 0) {
       clipboard.writeText(details(message));
-      await dialog.showMessageBox({ type: "info", title: "lingTai", message: T.copied, buttons: ["OK"] });
+      await dialog.showMessageBox({ type: "info", title: "LingTai", message: T.copied, buttons: ["OK"] });
       continue;
     }
     if (response === 1) {
@@ -715,7 +715,7 @@ const PERMISSION_PANES: Record<PermissionKind | "files", string> = {
   files: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles",
 };
 
-// ---- macOS: "lingTai Computer Use", the helper that holds the hands' permissions ----------
+// ---- macOS: "LingTai Computer Use", the helper that holds the hands' permissions ----------
 //
 // The grants go to the responsible process, so a separate app bundle started through `open`
 // has its own rows in the Screen Recording and Accessibility panes and can be restarted on
@@ -747,7 +747,7 @@ async function helperReady(): Promise<boolean> {
 
 /** What the permission dialogs name as the switch to flip. */
 function permissionTarget(): string {
-  return macPermissions.helperInUse() ? HELPER_NAME : "lingTai Desktop";
+  return macPermissions.helperInUse() ? HELPER_NAME : "LingTai Desktop";
 }
 
 let awakeBlocker: number | null = null;
@@ -872,7 +872,7 @@ function applyMenuBar(): void {
     log(`menu bar: ${String(exc)}`);
     return;
   }
-  tray.setToolTip("lingTai");
+  tray.setToolTip("LingTai");
   tray.setContextMenu(
     Menu.buildFromTemplate([
       { label: T.open, click: () => void showWindow() },
@@ -893,7 +893,7 @@ function applyOpenAtLogin(): void {
       if (prefs.openAtLogin) {
         mkdirSync(dir, { recursive: true });
         const exe = process.env.APPIMAGE || process.execPath;
-        writeFileSync(file, `[Desktop Entry]\nType=Application\nName=lingTai\nExec="${exe}"\nIcon=lingtai-desktop\nX-GNOME-Autostart-enabled=true\nTerminal=false\n`);
+        writeFileSync(file, `[Desktop Entry]\nType=Application\nName=LingTai\nExec="${exe}"\nIcon=lingtai-desktop\nX-GNOME-Autostart-enabled=true\nTerminal=false\n`);
       } else rmSync(file, { force: true });
     } catch (exc) {
       log(`open at login: ${String(exc)}`);
@@ -923,7 +923,7 @@ function prefsView(): Prefs & { quickChatKey: string; quickChatDefault: string; 
 async function reportBug(): Promise<{ screenshot: string; url: string }> {
   const s = shipped();
   const facts = [
-    `lingTai Desktop ${app.getVersion()} · ${process.platform} ${process.arch}`,
+    `LingTai Desktop ${app.getVersion()} · ${process.platform} ${process.arch}`,
     `DeepSeek Harness ${s.dsh ?? "?"} · dsh-lingtai ${s.bundle ?? "?"} · Electron ${process.versions.electron}`,
   ];
   let screenshot = "";
@@ -931,7 +931,7 @@ async function reportBug(): Promise<{ screenshot: string; url: string }> {
     try {
       const image = await mainWindow.webContents.capturePage();
       const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
-      screenshot = join(app.getPath("downloads"), `lingTai-${stamp}.png`);
+      screenshot = join(app.getPath("downloads"), `LingTai-${stamp}.png`);
       writeFileSync(screenshot, image.toPNG());
     } catch (exc) {
       log(`report: no screenshot: ${String(exc)}`);
@@ -946,7 +946,7 @@ async function reportBug(): Promise<{ screenshot: string; url: string }> {
     surface: "Desktop app",
     version: app.getVersion(),
     os: facts.join(" · "),
-    what: screenshot ? `\n\n(Drag the screenshot lingTai saved to Downloads, ${screenshot.split(/[\\/]/).pop()}, in here.)` : "",
+    what: screenshot ? `\n\n(Drag the screenshot LingTai saved to Downloads, ${screenshot.split(/[\\/]/).pop()}, in here.)` : "",
   });
   const url = `${ISSUES_PAGE}/new?${params.toString()}`;
   void shell.openExternal(url);
@@ -1249,7 +1249,7 @@ function ensureOperator(): Promise<OperatorServer | null> {
   operator ??= new Operator({
     log,
     permissions: () => ({ accessibility: permissionState("accessibility") !== "denied", screen: permissionState("screen") === "granted" || permissionState("screen") === "not-needed" }),
-    // macOS: "lingTai Computer Use" takes the screenshots and moves the mouse when it is there (src/mac-helper.ts)
+    // macOS: "LingTai Computer Use" takes the screenshots and moves the mouse when it is there (src/mac-helper.ts)
     helper: helper() ?? undefined,
     onAction: async (marker) => {
       setMarker(marker);
@@ -1309,7 +1309,7 @@ function ensureOperator(): Promise<OperatorServer | null> {
         log(`operator: ${info?.available ? "available" : `not available (${info?.reason ?? "?"})`} · display ${info?.display.width}×${info?.display.height} (scale ${info?.display.scaleFactor})`);
       };
       // macOS: the line is about the helper's grants once it runs — written after it is up
-      // (or has failed), not before, when it would name lingTai Desktop's own rows
+      // (or has failed), not before, when it would name LingTai Desktop's own rows
       if (process.platform === "darwin" && helper()?.present()) void helperReady().then(status, status);
       else status();
       return server;
@@ -1601,8 +1601,8 @@ async function guidePermissions(): Promise<Record<PermissionKind, PermissionStat
           ? `动手操作电脑要靠它移动鼠标和输入。系统会弹出请求；在「系统设置 → 隐私与安全性 → 辅助功能」里打开 ${target} 即可。这是灵台自带的一个小程序，专门负责截图和操作，权限只给它。`
           : "动手操作电脑要靠它移动鼠标和输入。系统会弹出请求；在「系统设置 → 隐私与安全性 → 辅助功能」里打开灵台 Desktop 即可。它附带的运行时作为应用的一部分运行，不会单独出现在列表里。"
         : viaHelper
-          ? `The hands move the mouse and type through it. The system asks next; in System Settings → Privacy & Security → Accessibility, switch on ${target}, the small program lingTai brings along for the screenshots and the input. Only it needs the permission.`
-          : "The hands move the mouse and type through it. The system asks next; in System Settings → Privacy & Security → Accessibility, switch on lingTai Desktop. The runtime it bundles runs as part of the app and does not appear separately.",
+          ? `The hands move the mouse and type through it. The system asks next; in System Settings → Privacy & Security → Accessibility, switch on ${target}, the small program LingTai brings along for the screenshots and the input. Only it needs the permission.`
+          : "The hands move the mouse and type through it. The system asks next; in System Settings → Privacy & Security → Accessibility, switch on LingTai Desktop. The runtime it bundles runs as part of the app and does not appear separately.",
       buttons: [zh ? "继续" : "Continue", zh ? "以后再说" : "Later"],
       defaultId: 0,
       cancelId: 1,
@@ -1619,7 +1619,7 @@ async function guidePermissions(): Promise<Record<PermissionKind, PermissionStat
           : "它靠截图看到屏幕上有什么。点「继续」后系统会询问一次；在「屏幕录制」面板里打开灵台 Desktop（只需要这一项），然后重新启动应用：macOS 的这项权限只对重新启动后的应用生效。"
         : viaHelper
           ? `It sees the screen through screenshots. After Continue the system asks once; switch on ${target} in the Screen Recording pane (that one entry is all). It restarts by itself once the switch is on; the app does not need to.`
-          : "It sees the screen through screenshots. After Continue the system asks once; switch on lingTai Desktop in the Screen Recording pane (that one entry is all), then relaunch the app: macOS applies this permission to freshly started apps only.",
+          : "It sees the screen through screenshots. After Continue the system asks once; switch on LingTai Desktop in the Screen Recording pane (that one entry is all), then relaunch the app: macOS applies this permission to freshly started apps only.",
       buttons: [zh ? "继续" : "Continue", zh ? "以后再说" : "Later"],
       defaultId: 0,
       cancelId: 1,
@@ -1751,7 +1751,7 @@ function watchScreenGrant(): void {
         message: zh ? "屏幕录制已允许，重新启动后生效" : "Screen Recording is on; it takes effect after a restart",
         detail: zh
           ? "macOS 只对重新启动后的应用应用这项权限。现在重新启动灵台，手就能看到屏幕；否则截图仍是一片黑。"
-          : "macOS applies this permission to freshly started apps only. Restart lingTai now and the hands see the screen; until then screenshots come back black.",
+          : "macOS applies this permission to freshly started apps only. Restart LingTai now and the hands see the screen; until then screenshots come back black.",
         buttons: [zh ? "立即重启" : "Restart now", zh ? "稍后" : "Later"],
         defaultId: 0,
         cancelId: 1,
@@ -1788,7 +1788,7 @@ function createWindow(): BrowserWindow {
     height: 840,
     minWidth: 960,
     minHeight: 620,
-    title: "lingTai",
+    title: "LingTai",
     icon: process.platform === "darwin" ? undefined : nativeImage.createFromPath(iconPath()),
     backgroundColor: nativeTheme.shouldUseDarkColors ? BASE_DARK : BASE_LIGHT,
     show: false,
@@ -1877,7 +1877,7 @@ function about(): void {
   const s = shipped();
   const lines = [
     // the same version line as the web client's About (About.tsx `versionLine`)
-    `lingTai Desktop ${app.getVersion()} · harness ${s.bundle ?? "?"}`,
+    `LingTai Desktop ${app.getVersion()} · harness ${s.bundle ?? "?"}`,
     zh ? "一个开源的个人智能体，装在你的每一台设备上。" : "An open-source personal agent for every device you own.",
     "",
     `DeepSeek Harness ${s.dsh ?? "?"} (MIT) · ${BUNDLE} ${s.bundle ?? "?"} (GPL-3.0-or-later)`,
@@ -1885,12 +1885,12 @@ function about(): void {
     "",
     zh
       ? "灵台是社区项目，与 Meta 无关；Muse 是 Meta 的商标。基于 DeepSeek Harness 构建，DeepSeek Harness 是 DeepSeek 的名称。"
-      : "lingTai is a community project with no affiliation to Meta; Muse is a trademark of Meta. Built on DeepSeek Harness, a name of DeepSeek's.",
+      : "LingTai is a community project with no affiliation to Meta; Muse is a trademark of Meta. Built on DeepSeek Harness, a name of DeepSeek's.",
   ];
   void dialog.showMessageBox({
     type: "info",
     title: T.about,
-    message: "lingTai",
+    message: "LingTai",
     detail: lines.join("\n"),
     buttons: ["OK"],
     icon: nativeImage.createFromPath(iconPath()),
@@ -1917,7 +1917,7 @@ function buildMenu(): void {
     ...(process.platform === "darwin"
       ? [
           {
-            label: "lingTai",
+            label: "LingTai",
             submenu: [
               { label: T.about, click: about },
               { type: "separator" },
@@ -1979,9 +1979,9 @@ if (!app.requestSingleInstanceLock({ version: app.getVersion() })) {
     showWindow();
   });
   app.setAboutPanelOptions({
-    applicationName: "lingTai",
+    applicationName: "LingTai",
     applicationVersion: app.getVersion(),
-    copyright: "GPL-3.0-or-later · the lingTai community · built on DeepSeek Harness (MIT)",
+    copyright: "GPL-3.0-or-later · the LingTai community · built on DeepSeek Harness (MIT)",
     website: "https://lingtai.cn/",
   });
   app.whenReady().then(async () => {
@@ -1991,7 +1991,7 @@ if (!app.requestSingleInstanceLock({ version: app.getVersion() })) {
     prefs = readPrefs();
     applyPrefs();
     exitGuard = new ProtectedExit({ work: workSource, dialog: exitDialog, finish: () => app.quit(), log });
-    log(`lingTai Desktop ${app.getVersion()} starting (${process.platform} ${process.arch}, packaged=${app.isPackaged})`);
+    log(`LingTai Desktop ${app.getVersion()} starting (${process.platform} ${process.arch}, packaged=${app.isPackaged})`);
     if (operatorCheckFlag) {
       await operatorCheck(operatorCheckFlag);
       return;

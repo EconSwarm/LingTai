@@ -1,6 +1,6 @@
 //
 //  LingTaiProviderReach.swift
-//  lingTai
+//  LingTai
 //
 //  Why a provider did not answer, read off the error the model client raised, so the chat
 //  shows a card that says what happened and what helps instead of the transport's own words
@@ -26,7 +26,7 @@ enum LingTaiProviderReach {
         case signedOut = "signed_out"
         case quota
         case rateLimited = "rate_limited"
-        /// lingTai Cloud refused the turn (`lt_relay:` line; LingTaiRelayRefusal): `detail` is the whole line, the card is LingTaiRelayRefusalCard.
+        /// LingTai Cloud refused the turn (`lt_relay:` line; LingTaiRelayRefusal): `detail` is the whole line, the card is LingTaiRelayRefusalCard.
         case relay
     }
 
@@ -193,7 +193,7 @@ final class LingTaiReachSignal: @unchecked Sendable {
 
     /// Call for every non-2xx answer of a model request; only the ones the card is for are kept.
     func noteHTTPError(status: Int, body: String?, host: String, oauth: Bool, retryAfter: String? = nil) {
-        // lingTai Cloud's refusals (413 too large, the allowance, the operator's switches …) have a card of their own
+        // LingTai Cloud's refusals (413 too large, the allowance, the operator's switches …) have a card of their own
         if LingTaiRelaySignal.shared.noteHTTPError(status: status, body: body, host: host) { return }
         let retry = retryAfter.flatMap { Double($0.trimmingCharacters(in: .whitespaces)) }.map { Int($0) }
         guard let reach = LingTaiProviderReach.fromHTTP(status: status, body: body, host: host, oauth: oauth, retryAfterS: retry) else { return }

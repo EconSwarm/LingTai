@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ling-tai/lingTai/main/assets/brand/lingtai-cover.png" alt="lingTai: trợ lý cá nhân mã nguồn mở cho mọi thiết bị của bạn">
+  <img src="https://raw.githubusercontent.com/ling-tai/LingTai/main/assets/brand/lingtai-cover.png" alt="LingTai: trợ lý cá nhân mã nguồn mở cho mọi thiết bị của bạn">
 </p>
 
 <p align="center">
@@ -18,11 +18,11 @@
   <a href="https://trendshift.io/repositories/286894?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-286894" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/286894/daily?language=Swift" alt="ling-tai%2FlingTai | Trendshift" width="250" height="55"/></a>
 </p>
 <p align="center">
-  <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/lingTai?style=flat&label=stars" alt="Sao GitHub"></a>
-  <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/lingTai/total?label=downloads" alt="Lượt tải"></a>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
+  <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/LingTai?style=flat&label=stars" alt="Sao GitHub"></a>
+  <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/LingTai/total?label=downloads" alt="Lượt tải"></a>
+  <img src="https://hits.sh/github.com/ling-tai/LingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
   <a href="https://github.com/econswarm/lingtai/actions/workflows/ci.yml"><img src="https://github.com/econswarm/lingtai/actions/workflows/ci.yml/badge.svg?branch=main" alt="Test Suite"></a>
-  <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/lingTai?label=license" alt="GPL-3.0-or-later"></a>
+  <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/LingTai?label=license" alt="GPL-3.0-or-later"></a>
   <a href="https://arxiv.org/abs/2610.08699"><img src="https://img.shields.io/badge/arXiv-2610.08699-b31b1b" alt="Bài báo trên arXiv"></a>
   <br>
   <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/D%C3%B9ng_th%E1%BB%AD-demo.lingtai.dev-4f46e5" alt="Dùng thử trên trình duyệt"></a>
@@ -30,14 +30,14 @@
   <a href="https://discord.gg/bkTySmm28X"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
-**lingTai là một trợ lý cá nhân mã nguồn mở cho mọi thiết bị của bạn.** Một trợ lý duy nhất có tên và hình dáng riêng, cùng loại với [Muse](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/) của Meta: nó làm việc thay vì chỉ trả lời câu hỏi, tiếp tục làm khi ứng dụng đã đóng, nhớ bạn, và dừng lại hỏi trước bất cứ việc gì bạn không thể hoàn tác.
+**LingTai là một trợ lý cá nhân mã nguồn mở cho mọi thiết bị của bạn.** Một trợ lý duy nhất có tên và hình dáng riêng, cùng loại với [Muse](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/) của Meta: nó làm việc thay vì chỉ trả lời câu hỏi, tiếp tục làm khi ứng dụng đã đóng, nhớ bạn, và dừng lại hỏi trước bất cứ việc gì bạn không thể hoàn tác.
 
 *nano* nghĩa là trọn bộ nhưng đủ nhỏ để bạn tự chạy và tự triển khai: ứng dụng điện thoại, ứng dụng máy tính, bảng điều khiển web và relay nối chúng lại đều nằm trong kho này, theo giấy phép GPL-3.0-or-later. **[Miễn phí, mã nguồn mở, phi lợi nhuận. Cùng nhau xây dựng.](../../CONTRIBUTING.md)** Đăng nhập là bạn có một khoản miễn phí để dùng mô hình qua relay của cộng đồng (do người phát triển trả); dùng hết thì [chuyển sang khóa của riêng bạn](../own-key.md). Cùng relay đó chạy được trên máy chủ của bạn, nên dữ liệu không cần rời khỏi nhà bạn. Phiên bản mới nhất: **1.0.5 Lookout**, [ghi chú phát hành](https://github.com/econswarm/lingtai/releases/tag/v1.0.5) · [dùng thử trên trình duyệt](https://demo.lingtai.dev/).
 
 > [!NOTE]
-> **lingTai không ngừng phát triển**
+> **LingTai không ngừng phát triển**
 >
-> Trợ lý cá nhân không nên chỉ sống trong đám mây của người khác, nên lingTai muốn là lựa chọn thay thế mã nguồn mở, chi phí thấp: chạy trên thiết bị của chính bạn, mô hình do bạn chọn, relay cũng có thể tự dựng. Chúng tôi muốn cùng các nhà phát triển và người dùng khắp nơi xây dựng nó, để mỗi người thật sự có một trợ lý cá nhân của riêng mình. Mở một [issue](https://github.com/econswarm/lingtai/issues/new/choose) hay gửi một [pull request](../../CONTRIBUTING.md), cách nào cũng giúp lingTai tốt hơn.
+> Trợ lý cá nhân không nên chỉ sống trong đám mây của người khác, nên LingTai muốn là lựa chọn thay thế mã nguồn mở, chi phí thấp: chạy trên thiết bị của chính bạn, mô hình do bạn chọn, relay cũng có thể tự dựng. Chúng tôi muốn cùng các nhà phát triển và người dùng khắp nơi xây dựng nó, để mỗi người thật sự có một trợ lý cá nhân của riêng mình. Mở một [issue](https://github.com/econswarm/lingtai/issues/new/choose) hay gửi một [pull request](../../CONTRIBUTING.md), cách nào cũng giúp LingTai tốt hơn.
 
 https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 
@@ -48,8 +48,8 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 - `2026-10-13` ⭐ 1.000 sao trên GitHub, mười tám ngày sau bản phát hành đầu tiên, với bốn ngày trong danh sách Swift của GitHub Trending trên đường đi ([Trendshift](https://trendshift.io/repositories/286894): hạng bảy ngày 7 tháng 10, hạng tư ngày 10 tháng 10). Cảm ơn mỗi lần dùng thử, mỗi báo cáo lỗi và mỗi pull request. Chúng tôi tiếp tục: vài ngày một phiên bản, và [lộ trình](../roadmap.md) cho biết điều gì tiếp theo.
 - `2026-10-09` 🚀 Phiên bản [1.0.0 Keel](https://github.com/econswarm/lingtai/releases/tag/v1.0.0) đã ra mắt, cho điện thoại, máy tính và trình duyệt; cài đè lên bản trước mà vẫn giữ dữ liệu của bạn, và ghi chú phát hành liệt kê mọi thay đổi.
 - `2026-10-08` 🤗 Bài báo của chúng tôi có mặt trên [Hugging Face Daily Papers](https://huggingface.co/papers/2610.08699), xếp thứ ba trong danh sách ngày 8 tháng 10; câu hỏi và góp ý xin gửi tại trang bài báo.
-- `2026-10-07` 📄 Bài báo của chúng tôi đã có trên [arXiv](https://arxiv.org/abs/2610.08699): *lingTai: An Open-Source Personal Agent for Every Device You Own*, tác giả Guangyi Liu, Yong Liu và Jiangning Zhang (Đại học Chiết Giang); trích dẫn ở cuối trang này.
-- `2026-09-25` 🎉 lingTai đã ra mắt trên GitHub theo GPL-3.0-or-later: một ứng dụng Android xây trên OpenMinis 1.13; relay, ứng dụng máy tính và ứng dụng iPhone lần lượt ra mắt trong những ngày sau đó.
+- `2026-10-07` 📄 Bài báo của chúng tôi đã có trên [arXiv](https://arxiv.org/abs/2610.08699): *LingTai: An Open-Source Personal Agent for Every Device You Own*, tác giả Guangyi Liu, Yong Liu và Jiangning Zhang (Đại học Chiết Giang); trích dẫn ở cuối trang này.
+- `2026-09-25` 🎉 LingTai đã ra mắt trên GitHub theo GPL-3.0-or-later: một ứng dụng Android xây trên OpenMinis 1.13; relay, ứng dụng máy tính và ứng dụng iPhone lần lượt ra mắt trong những ngày sau đó.
 
 Mọi phiên bản: [releases](https://github.com/econswarm/lingtai/releases).
 
@@ -57,12 +57,12 @@ Mọi phiên bản: [releases](https://github.com/econswarm/lingtai/releases).
 
 | | |
 |---|---|
-| **Trình duyệt** | [demo.lingtai.dev](https://demo.lingtai.dev/): một lingTai trên điện thoại mô phỏng, sau khi đăng nhập. Đây là bản demo; các ứng dụng bên dưới mới là bản thật |
-| **Android** 8.0 trở lên, arm64 | [lingTai-1.0.5-arm64.apk](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-1.0.5-arm64.apk): mọi phiên bản ký cùng một khóa, cài đè lên bản cũ là được |
+| **Trình duyệt** | [demo.lingtai.dev](https://demo.lingtai.dev/): một LingTai trên điện thoại mô phỏng, sau khi đăng nhập. Đây là bản demo; các ứng dụng bên dưới mới là bản thật |
+| **Android** 8.0 trở lên, arm64 | [LingTai-1.0.5-arm64.apk](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-1.0.5-arm64.apk): mọi phiên bản ký cùng một khóa, cài đè lên bản cũ là được |
 | **iPhone / iPad** | [TestFlight](https://testflight.apple.com/join/ZHexbDqc): bản beta đã qua vòng duyệt beta của Apple; cài từ liên kết này · [iOS](../ios.md) |
-| **macOS** 12 trở lên | [Apple Silicon](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-mac-arm64.dmg) · [Intel](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-mac-x64.dmg). Chưa được công chứng: lần đầu nhấp chuột phải → *Mở* |
-| **Windows** 10 trở lên | [lingTai-Desktop-1.0.5-win-x64.exe](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-win-x64.exe): bấm *Vẫn chạy* một lần |
-| **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.tar.gz) |
+| **macOS** 12 trở lên | [Apple Silicon](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-mac-arm64.dmg) · [Intel](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-mac-x64.dmg). Chưa được công chứng: lần đầu nhấp chuột phải → *Mở* |
+| **Windows** 10 trở lên | [LingTai-Desktop-1.0.5-win-x64.exe](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-win-x64.exe): bấm *Vẫn chạy* một lần |
+| **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.tar.gz) |
 | **Docker** | `bash scripts/self-host.sh --local` để có relay của riêng bạn; `docker compose up -d app` để chạy ứng dụng web trên máy chủ của bạn; xem [tự lưu trữ](../self-hosting.md) |
 
 Mọi bản tải đều từ [bản phát hành mới nhất trên GitHub](https://github.com/econswarm/lingtai/releases/latest); cùng các tệp đó có tại [lingtai.cn/dl](https://lingtai.cn/dl/) nếu GitHub chậm ở chỗ bạn. Mở ứng dụng, đăng nhập bằng e-mail hoặc số điện thoại Trung Quốc đại lục, và trợ lý đã có sẵn một mô hình để làm việc. Điện thoại, máy tính và web dùng chung một tài khoản và hiển thị cùng những cuộc trò chuyện.
@@ -90,17 +90,17 @@ Mọi bản tải đều từ [bản phát hành mới nhất trên GitHub](http
 
 ## Cách hoạt động
 
-Mỗi thiết bị chạy trợ lý của riêng mình: điện thoại trong APK (Alpine Linux dưới proot, shell, trình duyệt, MCP), máy tính trong lingTai Desktop (DeepSeek Harness cùng runtime Python cho đôi tay). Đăng nhập xong, chúng gặp nhau trên relay và có thể nhờ vả nhau; văn bản trò chuyện đi qua relay, còn tệp và ảnh chụp màn hình ở lại nơi chúng được tạo ra.
+Mỗi thiết bị chạy trợ lý của riêng mình: điện thoại trong APK (Alpine Linux dưới proot, shell, trình duyệt, MCP), máy tính trong LingTai Desktop (DeepSeek Harness cùng runtime Python cho đôi tay). Đăng nhập xong, chúng gặp nhau trên relay và có thể nhờ vả nhau; văn bản trò chuyện đi qua relay, còn tệp và ảnh chụp màn hình ở lại nơi chúng được tạo ra.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ling-tai/lingTai/main/assets/brand/devices-loop.png" alt="Android, máy tính (Mac, Windows, Linux), iPhone và iPad, và ứng dụng web quanh một tài khoản: relay đăng nhập các thiết bị và chuyển cuộc trò chuyện giữa chúng" width="92%">
+  <img src="https://raw.githubusercontent.com/ling-tai/LingTai/main/assets/brand/devices-loop.png" alt="Android, máy tính (Mac, Windows, Linux), iPhone và iPad, và ứng dụng web quanh một tài khoản: relay đăng nhập các thiết bị và chuyển cuộc trò chuyện giữa chúng" width="92%">
 </p>
 
 [docs/every-device.md](../every-device.md) nói về các thiết bị, [docs/hub.md](../hub.md) về khung tin, [docs/cloud.md](../cloud.md) về relay, [docs/privacy.md](../privacy.md) về những gì nó lưu.
 
 ## So với Muse và OpenMinis
 
-| | Meta Muse | OpenMinis | lingTai |
+| | Meta Muse | OpenMinis | LingTai |
 |---|---|---|---|
 | Trợ lý chạy ở đâu | Một VM đám mây cho mỗi người dùng | Chiếc điện thoại cài nó | Điện thoại, máy tính của bạn hoặc máy chủ của bạn, một tài khoản cho tất cả |
 | Ứng dụng không có API | Ngoài tầm với; VM không bao giờ chạm vào thiết bị của bạn | Một CLI trợ năng trên Android | Màn hình làm đôi tay trên cả điện thoại lẫn máy tính: ảnh chụp màn hình, thử API trước, đăng nhập thì bạn tiếp quản. Không có trên iOS, vì hệ thống không cho phép |
@@ -148,11 +148,11 @@ Tất cả những ai có thay đổi đã vào `main`, theo danh sách người
 
 ## ⭐️ Trích dẫn
 
-Nếu lingTai hữu ích với bạn, hãy trích dẫn bài báo.
+Nếu LingTai hữu ích với bạn, hãy trích dẫn bài báo.
 
 ```bibtex
 @misc{liu2026lingtaiopensourcepersonalagent,
-      title={lingTai: An Open-Source Personal Agent for Every Device You Own}, 
+      title={LingTai: An Open-Source Personal Agent for Every Device You Own}, 
       author={Guangyi Liu and Yong Liu and Jiangning Zhang},
       year={2026},
       eprint={2610.08699},
@@ -164,7 +164,7 @@ Nếu lingTai hữu ích với bạn, hãy trích dẫn bài báo.
 
 ## Ghi nhận
 
-lingTai được xây trên công sức của người khác; điều khoản ở [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md).
+LingTai được xây trên công sức của người khác; điều khoản ở [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md).
 
 - [OpenMinis](https://github.com/OpenMinis/OpenMinis): trợ lý chạy ngay trên thiết bị, là nền của ứng dụng điện thoại, với [proot](https://github.com/econswarm/proot) và [Alpine Linux](https://alpinelinux.org/) làm hộp cát.
 - [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): harness mà ứng dụng máy tính là một plugin.
@@ -173,13 +173,13 @@ lingTai được xây trên công sức của người khác; điều khoản �
 
 ## Tuyên bố
 
-lingTai là dự án cộng đồng độc lập, không liên kết với Meta Platforms, Inc. và không được họ bảo trợ; Muse là nhãn hiệu của họ. Chú rồng là của dự án này.
+LingTai là dự án cộng đồng độc lập, không liên kết với Meta Platforms, Inc. và không được họ bảo trợ; Muse là nhãn hiệu của họ. Chú rồng là của dự án này.
 
 ## Giấy phép
 
 [GPL-3.0-or-later](../../LICENSE). Ứng dụng điện thoại dựa trên OpenMinis 1.13 (GPL-3.0), được sửa đổi từ ngày 2026-09-24; xem [NOTICE](../../NOTICE). Các phiên bản trước đó của nhánh Python theo giấy phép MIT (tag `pre-openminis`).
 
 <p align="center">
-  <em>Cảm ơn bạn đã ghé thăm ✨ lingTai.</em><br><br>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
+  <em>Cảm ơn bạn đã ghé thăm ✨ LingTai.</em><br><br>
+  <img src="https://hits.sh/github.com/ling-tai/LingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
 </p>

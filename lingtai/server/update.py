@@ -1,4 +1,4 @@
-"""Is there a newer lingTai? The download mirror's index first, GitHub Releases second,
+"""Is there a newer LingTai? The download mirror's index first, GitHub Releases second,
 kept for a day, a failed check for an hour (contract C2: every client shows the installed
 and the latest version).
 
@@ -28,7 +28,7 @@ from lingtai.logger import logger
 
 INDEX_URL = "https://lingtai.cn/dl/index.json"
 DOWNLOAD_PAGE = "https://lingtai.cn/dl/"
-RELEASES_API = "https://api.github.com/repos/ling-tai/lingTai/releases/latest"
+RELEASES_API = "https://api.github.com/repos/ling-tai/LingTai/releases/latest"
 RELEASES_PAGE = "https://github.com/econswarm/lingtai/releases/latest"
 RELEASE_TAG_PAGE = "https://github.com/econswarm/lingtai/releases/tag/{tag}"
 CACHE_S = 24 * 3600
@@ -127,7 +127,7 @@ class UpdateCheck:
     async def _check(self) -> None:
         self.checked_at = time.monotonic()
         self.checked_wall = datetime.now(UTC).isoformat(timespec="seconds")
-        headers = {"User-Agent": f"lingTai/{self.current}"}
+        headers = {"User-Agent": f"LingTai/{self.current}"}
         errors: list[str] = []
         async with httpx.AsyncClient(follow_redirects=True) as client:
             # 1. the download mirror's index (short timeout: it is the quick way, not the only one)

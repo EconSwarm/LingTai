@@ -19,7 +19,7 @@
 "NSAlarmKitUsageDescription" = "灵台使用鬧鐘功能，以便 AI 智能體代您設置鬧鐘和計時器。";
 "NSLocalNetworkUsageDescription" = "灵台使用本機網路執行偵錯伺服器，並讓 AI 智慧代理存取您自己網路中的服務。"; /* 灵台: the app has no VM; the sentence matches Info.plist */
 
-/* lingTai: the keys Info.plist declares but this file lacked, so the prompt is in the person's language */
+/* LingTai: the keys Info.plist declares but this file lacked, so the prompt is in the person's language */
 "NFCReaderUsageDescription" = "灵台使用 NFC，以便 AI 智慧代理代您讀寫 NFC 標籤。";
 "NSBluetoothAlwaysUsageDescription" = "灵台使用藍牙，以便 AI 智慧代理代您掃描、連接附近的 BLE 裝置並與之通訊。";
 "NSBluetoothPeripheralUsageDescription" = "灵台使用藍牙，以便 AI 智慧代理代您掃描、連接附近的 BLE 裝置並與之通訊。";

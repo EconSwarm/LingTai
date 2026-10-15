@@ -166,7 +166,7 @@ fun FilePreviewScreen(
     // (FileBrowserScreen) renders correctly with zero overrides; do the same.
     Scaffold(
         topBar = {
-            io.github.lingtai.ui.muse.MuseTopAppBar( // lingTai: Muse's bar (drop-in for TopAppBar)
+            io.github.lingtai.ui.muse.MuseTopAppBar( // LingTai: Muse's bar (drop-in for TopAppBar)
                 title = {
                     Text(
                         text = if (showFullPath) item.file.absolutePath else item.name,
@@ -1300,7 +1300,7 @@ private suspend fun saveImageToGallery(context: Context, src: File): Boolean =
                     put(MediaStore.Images.Media.MIME_TYPE, mime)
                     put(
                         MediaStore.Images.Media.RELATIVE_PATH,
-                        Environment.DIRECTORY_PICTURES + "/lingTai",
+                        Environment.DIRECTORY_PICTURES + "/LingTai",
                     )
                     put(MediaStore.Images.Media.IS_PENDING, 1)
                 }
@@ -1318,7 +1318,7 @@ private suspend fun saveImageToGallery(context: Context, src: File): Boolean =
                 val dir = Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_PICTURES,
                 )
-                val minisDir = File(dir, "lingTai").also { it.mkdirs() }
+                val minisDir = File(dir, "LingTai").also { it.mkdirs() }
                 val dest = File(minisDir, filename)
                 src.inputStream().use { input ->
                     dest.outputStream().use { input.copyTo(it) }

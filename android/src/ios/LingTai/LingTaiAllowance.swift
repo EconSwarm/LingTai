@@ -1,6 +1,6 @@
 //
 //  LingTaiAllowance.swift
-//  lingTai
+//  LingTai
 //
 //  The free allowance as the chat sees it (docs/parity.md, item 33). Two things, kept here
 //  so the shell and the composer can show them without a link of their own on
@@ -94,7 +94,7 @@ final class LingTaiAllowance: ObservableObject {
             d.removeObject(forKey: Keys.warnHidden)
         }
         guard !d.bool(forKey: Keys.warnHidden) else { headsUp = nil; return }
-        headsUp = String(format: AppLocalized("Nearly used up: ¥%@ of ¥%@ of the free allowance left. A key of your own or a plan you already pay for keeps you going, under Settings → lingTai Cloud."), Self.money(left), Self.money(grant))
+        headsUp = String(format: AppLocalized("Nearly used up: ¥%@ of ¥%@ of the free allowance left. A key of your own or a plan you already pay for keeps you going, under Settings → LingTai Cloud."), Self.money(left), Self.money(grant))
     }
 
     /// The heads-up was waved away: not again for this pool size.

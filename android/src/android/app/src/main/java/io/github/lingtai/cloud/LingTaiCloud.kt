@@ -30,7 +30,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /**
- * lingTai Cloud: the "start now" path. An e-mail address, a code, and the
+ * LingTai Cloud: the "start now" path. An e-mail address, a code, and the
  * app has a provider with a starter allowance — no key of one's own needed. The server is the
  * relay in `cloud/` of the repository; anyone can run one, and "Use a different server" on the
  * sign-in screen points the phone at it ([RelayAddress]).
@@ -47,7 +47,7 @@ import org.json.JSONObject
  */
 object LingTaiCloud {
     const val DEFAULT_BASE = "https://cloud.lingtai.cn"
-    const val LABEL = "lingTai Cloud"
+    const val LABEL = "LingTai Cloud"
 
     private const val PREFS = "lingtai"
     private const val KEY_BASE = "cloud.base"
@@ -216,7 +216,7 @@ object LingTaiCloud {
         val inviteeBonusCny: Double = 0.0,
         val inviteEarnedCny: Double = 0.0,
         /**
-         * Data controls — "Help improve lingTai's AI models": whether the relay keeps this
+         * Data controls — "Help improve LingTai's AI models": whether the relay keeps this
          * account's chat turns for the community's model, and how many it holds so far.
          */
         val contribute: Boolean = false,
@@ -251,7 +251,7 @@ object LingTaiCloud {
     private fun prefs(context: Context) = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
     /**
-     * The relay this phone talks to: lingTai Cloud, or the one the person named on the
+     * The relay this phone talks to: LingTai Cloud, or the one the person named on the
      * sign-in screen ("Use a different server" — people who run their own, 0.1.38). Kept
      * across launches; the hub, the console links and the media models all read it from here.
      */
@@ -283,10 +283,10 @@ object LingTaiCloud {
     }
 
     /**
-     * Whether lingTai Cloud is one of the model sources: signed in and the Cloud provider
+     * Whether LingTai Cloud is one of the model sources: signed in and the Cloud provider
      * instance switched on (upstream's `isEnabled`, the switch Settings › Models shows as *Use
-     * lingTai Cloud models*). Off, no automatic choice and no side call (title, memory,
-     * pictures, clips) goes through the relay; only the explicit *Use lingTai Cloud this time*
+     * LingTai Cloud models*). Off, no automatic choice and no side call (title, memory,
+     * pictures, clips) goes through the relay; only the explicit *Use LingTai Cloud this time*
      * button does ([io.github.lingtai.chat.CloudRetry]). The sign-in itself is untouched:
      * sync, the hub and the account page keep working.
      */
@@ -408,7 +408,7 @@ object LingTaiCloud {
     }
 
     /**
-     * Data controls — flip "Help improve lingTai's AI models": while on, the relay keeps this
+     * Data controls — flip "Help improve LingTai's AI models": while on, the relay keeps this
      * account's chat turns (the training view: what was written, what was answered, the tool
      * calls) for the community's own model. Nothing about the allowance changes. Returns the
      * account as the relay now describes it.
@@ -799,7 +799,7 @@ object LingTaiCloud {
         if (chatEntry != null) {
             // Ours already, with the recommended model or with the person's own choice
             // (a member who swapped the recommended model for another must not get a
-            // second "lingTai Cloud" group with the old one back on signing in again).
+            // second "LingTai Cloud" group with the old one back on signing in again).
             val already = config.modelGroups.any { chatEntry.id in it.memberEntryIds || (it.name == LABEL && it.memberEntryIds.isNotEmpty()) }
             if (!already) {
                 // A group of ours left empty by an earlier sign-out is reused rather
@@ -1120,7 +1120,7 @@ object LingTaiCloud {
     private fun request(context: Context, method: String, path: String, body: JSONObject?, token: String?): Request {
         val builder = Request.Builder().url(baseUrl(context) + path)
         if (token != null) builder.header("Authorization", "Bearer $token")
-        builder.header("User-Agent", "lingTai-Android/${BuildConfig.VERSION_NAME}")
+        builder.header("User-Agent", "LingTai-Android/${BuildConfig.VERSION_NAME}")
         when (method) {
             "GET" -> builder.get()
             else -> builder.method(method, (body?.toString() ?: "{}").toRequestBody(json))

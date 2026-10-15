@@ -1,6 +1,6 @@
 //
 //  LingTaiComposerWatch.swift
-//  lingTai
+//  LingTai
 //
 //  The composer that disappears: the watch behind it, and the evidence for
 //  the next report.

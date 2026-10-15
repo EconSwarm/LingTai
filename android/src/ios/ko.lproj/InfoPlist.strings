@@ -17,9 +17,9 @@
 "NSSpeechRecognitionUsageDescription" = "lingTai는 음성을 텍스트 메시지로 변환하기 위해 음성 인식을 사용합니다.";
 "NSHomeKitUsageDescription" = "lingTai는 AI 에이전트가 스마트 홈 액세서리를 조회하고 제어할 수 있도록 HomeKit 접근 권한을 사용합니다.";
 "NSAlarmKitUsageDescription" = "lingTai는 AI 에이전트가 알람과 타이머를 설정할 수 있도록 AlarmKit을 사용합니다.";
-"NSLocalNetworkUsageDescription" = "lingTai는 디버그 서버를 위해, 그리고 AI 에이전트가 사용자의 네트워크에 있는 서비스에 접근할 수 있도록 로컬 네트워크를 사용합니다."; /* lingTai: the app has no VM; the sentence matches Info.plist */
+"NSLocalNetworkUsageDescription" = "lingTai는 디버그 서버를 위해, 그리고 AI 에이전트가 사용자의 네트워크에 있는 서비스에 접근할 수 있도록 로컬 네트워크를 사용합니다."; /* LingTai: the app has no VM; the sentence matches Info.plist */
 
-/* lingTai: the keys Info.plist declares but this file lacked, so the prompt is in the person's language */
+/* LingTai: the keys Info.plist declares but this file lacked, so the prompt is in the person's language */
 "NFCReaderUsageDescription" = "lingTai는 AI 에이전트가 사용자를 대신해 NFC 태그를 읽고 쓸 수 있도록 NFC를 사용합니다.";
 "NSBluetoothAlwaysUsageDescription" = "lingTai는 AI 에이전트가 사용자를 대신해 주변 BLE 기기를 검색하고 연결하여 통신할 수 있도록 Bluetooth를 사용합니다.";
 "NSBluetoothPeripheralUsageDescription" = "lingTai는 AI 에이전트가 사용자를 대신해 주변 BLE 기기를 검색하고 연결하여 통신할 수 있도록 Bluetooth를 사용합니다.";

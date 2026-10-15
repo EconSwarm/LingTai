@@ -20,7 +20,7 @@ from lingtai.search import WebSearchProvider
 from lingtai.tools.base import BaseTool, CallAssessment, int_arg
 
 USER_AGENT = (
-    f"Mozilla/5.0 (X11; Linux x86_64) lingTai/{__version__} (+https://github.com/econswarm/lingtai)"
+    f"Mozilla/5.0 (X11; Linux x86_64) LingTai/{__version__} (+https://github.com/econswarm/lingtai)"
 )
 
 

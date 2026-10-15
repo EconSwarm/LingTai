@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-REPO = "ling-tai/lingTai"
+REPO = "ling-tai/LingTai"
 API = f"https://api.github.com/repos/{REPO}/contributors"
 START = "<!-- contributors:start -->"
 END = "<!-- contributors:end -->"

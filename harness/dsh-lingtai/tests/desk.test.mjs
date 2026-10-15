@@ -117,11 +117,11 @@ test('versions compare numerically, with pre-releases below the release', () => 
   // offered the installed release as an update
   assert.equal(compareVersions('0.1.40', 'dsh-lingtai 0.1.40'), 0)
   assert.equal(compareVersions('dsh-lingtai 0.1.41', 'v0.1.40'), 1)
-  assert.equal(compareVersions('lingTai-Desktop-0.1.40', '0.1.41'), -1)
+  assert.equal(compareVersions('LingTai-Desktop-0.1.40', '0.1.41'), -1)
 })
 
 test('the update check compares the bare bundle version, so the installed release is not offered again', async () => {
-  const mirror = { repo: 'ling-tai/lingTai', releases: [{ tag: 'v0.1.40', assets: [] }] }
+  const mirror = { repo: 'ling-tai/LingTai', releases: [{ tag: 'v0.1.40', assets: [] }] }
   const fetchMirror = async () => ({ ok: true, status: 200, json: async () => mirror })
   const same = await checkForUpdate(BUNDLE_VERSION, fetchMirror)
   assert.equal(same.current, BUNDLE_VERSION)
@@ -138,18 +138,18 @@ test('the update check compares the bare bundle version, so the installed releas
 })
 
 test('the installer for this computer is picked from the release', () => {
-  const assets = ['lingTai-Desktop-0.1.34-linux-x64.AppImage', 'lingTai-Desktop-0.1.34-linux-x64.deb', 'lingTai-Desktop-0.1.34-mac-arm64.dmg', 'lingTai-Desktop-0.1.34-mac-x64.zip', 'lingTai-Desktop-0.1.34-win-x64.exe', 'lingTai-0.1.34-arm64.apk'].map((name) => ({ name, url: `https://x/${name}`, size: 1 }))
-  assert.equal(pickAsset(assets, 'darwin', 'arm64')?.name, 'lingTai-Desktop-0.1.34-mac-arm64.dmg')
-  assert.equal(pickAsset(assets, 'darwin', 'x64')?.name, 'lingTai-Desktop-0.1.34-mac-x64.zip')
-  assert.equal(pickAsset(assets, 'win32', 'x64')?.name, 'lingTai-Desktop-0.1.34-win-x64.exe')
-  assert.equal(pickAsset(assets, 'linux', 'x64')?.name, 'lingTai-Desktop-0.1.34-linux-x64.deb', 'the .deb is the one the docs prefer')
-  assert.equal(pickAsset(assets, 'linux', 'x64', true)?.name, 'lingTai-Desktop-0.1.34-linux-x64.AppImage', 'an AppImage install stays an AppImage')
+  const assets = ['LingTai-Desktop-0.1.34-linux-x64.AppImage', 'LingTai-Desktop-0.1.34-linux-x64.deb', 'LingTai-Desktop-0.1.34-mac-arm64.dmg', 'LingTai-Desktop-0.1.34-mac-x64.zip', 'LingTai-Desktop-0.1.34-win-x64.exe', 'LingTai-0.1.34-arm64.apk'].map((name) => ({ name, url: `https://x/${name}`, size: 1 }))
+  assert.equal(pickAsset(assets, 'darwin', 'arm64')?.name, 'LingTai-Desktop-0.1.34-mac-arm64.dmg')
+  assert.equal(pickAsset(assets, 'darwin', 'x64')?.name, 'LingTai-Desktop-0.1.34-mac-x64.zip')
+  assert.equal(pickAsset(assets, 'win32', 'x64')?.name, 'LingTai-Desktop-0.1.34-win-x64.exe')
+  assert.equal(pickAsset(assets, 'linux', 'x64')?.name, 'LingTai-Desktop-0.1.34-linux-x64.deb', 'the .deb is the one the docs prefer')
+  assert.equal(pickAsset(assets, 'linux', 'x64', true)?.name, 'LingTai-Desktop-0.1.34-linux-x64.AppImage', 'an AppImage install stays an AppImage')
   assert.equal(pickAsset(assets, 'linux', 'arm64'), undefined)
 })
 
 test('the update check reads the lingtai.cn index first, GitHub second, and never throws (C2)', async () => {
-  const github = { tag_name: 'v0.1.34', html_url: 'https://github.com/econswarm/lingtai/releases/tag/v0.1.34', body: 'notes', assets: [{ name: 'lingTai-Desktop-0.1.34-win-x64.exe', browser_download_url: 'https://dl/x.exe', size: 5 }] }
-  const mirror = { repo: 'ling-tai/lingTai', releases: [{ tag: 'v0.1.33', assets: [{ name: 'lingTai-Desktop-0.1.33-linux-x64.AppImage', size: 3 }] }] }
+  const github = { tag_name: 'v0.1.34', html_url: 'https://github.com/econswarm/lingtai/releases/tag/v0.1.34', body: 'notes', assets: [{ name: 'LingTai-Desktop-0.1.34-win-x64.exe', browser_download_url: 'https://dl/x.exe', size: 5 }] }
+  const mirror = { repo: 'ling-tai/LingTai', releases: [{ tag: 'v0.1.33', assets: [{ name: 'LingTai-Desktop-0.1.33-linux-x64.AppImage', size: 3 }] }] }
   // both answer: the index wins, and GitHub is not asked at all
   const asked = []
   const both = async (url) => { asked.push(url); return { ok: true, status: 200, json: async () => (url.includes('github') ? github : mirror) } }
@@ -157,7 +157,7 @@ test('the update check reads the lingtai.cn index first, GitHub second, and neve
   assert.equal(a.source, 'lingtai.cn')
   assert.equal(a.latest, '0.1.33')
   assert.equal(a.newer, false)
-  assert.equal(a.assets[0].url, 'https://github.com/econswarm/lingtai/releases/download/v0.1.33/lingTai-Desktop-0.1.33-linux-x64.AppImage')
+  assert.equal(a.assets[0].url, 'https://github.com/econswarm/lingtai/releases/download/v0.1.33/LingTai-Desktop-0.1.33-linux-x64.AppImage')
   assert.deepEqual(asked, ['https://lingtai.cn/dl/index.json'])
 
   // the index does not answer: GitHub

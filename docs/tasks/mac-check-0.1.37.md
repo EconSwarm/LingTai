@@ -50,7 +50,7 @@ xcode-select --install 2>/dev/null || true          # 命令行工具（git、co
 brew install node@22 pnpm python@3.12 cliclick
 export PATH="/opt/homebrew/opt/node@22/bin:$PATH"    # Intel Mac 是 /usr/local/opt/node@22/bin
 node -v   # v22.x
-git clone https://github.com/econswarm/lingtai.git && cd lingTai
+git clone https://github.com/econswarm/lingtai.git && cd LingTai
 git checkout -b mac-check-0.1.37
 ```
 
@@ -144,7 +144,7 @@ cd harness/desktop && npm ci && npm run typecheck
 - 预期：弹一次「屏幕录制已允许，重新启动后生效 / Screen Recording is on; it takes effect after a
   restart」，按「立即重启」：
   1. `desktop.log` 里先有 `host exited: code=…`（旧 host 被 `before-quit` 停掉），然后新进程的
-     `lingTai Desktop 0.1.37 starting`；
+     `LingTai Desktop 0.1.37 starting`；
   2. 重启后 `pgrep -fl "lingtai mcp"` 只有**一个**（新的）；重启前记下旧的 PID，确认它没了；
   3. 重启后截图正常，`permissions: … screen=granted (native)`。
 - 对话框只弹一次，「稍后」之后不再弹。

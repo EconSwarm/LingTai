@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 const val ROUTE_MEDIA_MODELS = "lingtai/media"
 
 /**
- * Settings → Image & video models. The one place that says what Muse never has to: lingTai
+ * Settings → Image & video models. The one place that says what Muse never has to: LingTai
  * runs on three of the user's own models. The chat model is OpenMinis' default group (a row to
  * its picker); the image and video models are chosen here the same way the chat models are — a
  * provider, then one of the models the key turns out to have (the provider's list, filtered to

@@ -1,4 +1,4 @@
-/** Ids of the global panels lingTai adds to the harness's `main` seat. */
+/** Ids of the global panels LingTai adds to the harness's `main` seat. */
 
 /** The rooms of the Muse desktop, in the rail's order. */
 export const FEED_PANEL = 'lingtai-feed'
@@ -11,7 +11,7 @@ export const DEVICES_PANEL = 'lingtai-devices'
 
 export const ROOM_PANELS = [FEED_PANEL, IDEAS_PANEL, GOALS_PANEL, LIBRARY_PANEL, DEVICES_PANEL] as const
 
-/** Where a problem with lingTai is reported. */
+/** Where a problem with LingTai is reported. */
 export const REPO_URL = 'https://github.com/econswarm/lingtai'
 export const ISSUES_URL = 'https://github.com/econswarm/lingtai/issues'
 export const DOCS_URL = 'https://lingtai.cn/docs/desktop'

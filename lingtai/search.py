@@ -48,7 +48,7 @@ PROVIDERS: dict[str, dict[str, Any]] = {
     "searxng": {"label": "SearXNG", "needs_key": False, "host": ""},
 }
 TIMEOUT = 20.0
-# On You.com requests only, at the vendor's request, so they can tell lingTai's traffic apart.
+# On You.com requests only, at the vendor's request, so they can tell LingTai's traffic apart.
 YOU_USER_AGENT = "youdotcom-integration/ling-tai-lingtai"
 
 
@@ -158,7 +158,7 @@ class WebSearchProvider:
                 query, max_results, region
             ), f"{self.label} failed ({reason}); results from DuckDuckGo"
 
-    async def probe(self, query: str = "lingTai personal agent") -> dict[str, Any]:
+    async def probe(self, query: str = "LingTai personal agent") -> dict[str, Any]:
         """One search against the configured provider, no fallback — for the test button."""
         loop = asyncio.get_running_loop()
         started = loop.time()

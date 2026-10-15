@@ -276,7 +276,7 @@ export function makeOnboarding(t: Translate, _actions: OnboardingActions) {
     if (!decided || !status || stage === null) return null
 
     const profile = live.streaming ? live.profile : status.profile
-    const name = profile?.name || 'lingTai'
+    const name = profile?.name || 'LingTai'
 
     let body: ReactNode
     if (starting) {

@@ -1045,7 +1045,7 @@ extension AIChatViewModel {
     static func isSegmentRetryableError(_ error: Error) -> Bool {
         if error is CancellationError { return false }
         if let llm = error as? LLMError {
-            // lingTai: a content check saying no (the relay's `content_rejected`, a provider's
+            // LingTai: a content check saying no (the relay's `content_rejected`, a provider's
             // `DataInspectionFailed`) is about the words, not the size; halving sends the same
             // words twice, and one long chat was refused two hundred times in an hour that way.
             if case .providerError(let message) = llm, LingTaiRelayRefusal.contentCheck(message) { return false }

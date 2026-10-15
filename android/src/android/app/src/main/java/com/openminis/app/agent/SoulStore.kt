@@ -75,7 +75,7 @@ data class SoulMetadata(
         const val DISPLAY_EMOJI = "🐾"
 
         val DEFAULT = SoulMetadata(
-            name = "lingTai",
+            name = "LingTai",
             // Default emoji is intentionally empty — UI uses the fixed
             // [displayEmoji] sparkle and [SoulMDParser.serialize] no longer
             // writes the `emoji:` line. The field is kept on the struct only
@@ -318,7 +318,7 @@ object SoulStore {
      * `SoulStore.defaultContent` byte-for-byte (74c0daf).
      */
     val DEFAULT_CONTENT: String = """---
-name: "lingTai"
+name: "LingTai"
 style: ""
 lang: "auto"
 ---
@@ -377,7 +377,7 @@ lang: "auto"
             tmp.delete()
         }
         _cachedMetadata.value = file.metadata
-        // lingTai: the agent's name is the account's — the other devices hear of a change
+        // LingTai: the agent's name is the account's — the other devices hear of a change
         io.github.lingtai.cloud.ProfileSync.changed()
     }
 
@@ -484,7 +484,7 @@ object SystemPromptBuilder {
         val file = SoulStore.load(context)
         val name = (file?.metadata?.name ?: SoulMetadata.DEFAULT.name)
             .trim()
-            .ifEmpty { "lingTai" }
+            .ifEmpty { "LingTai" }
 
         val style = (file?.metadata?.style ?: "").trim()
 

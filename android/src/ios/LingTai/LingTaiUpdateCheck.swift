@@ -1,6 +1,6 @@
 //
 //  LingTaiUpdateCheck.swift
-//  lingTai
+//  LingTai
 //
 //  The version row in Settings (contract C2): what is installed, what the latest
 //  release is, and a link to it when it is newer. The download index on lingtai.cn
@@ -18,7 +18,7 @@ final class LingTaiUpdateCheck: ObservableObject {
     static let shared = LingTaiUpdateCheck()
 
     nonisolated static let indexURL = "https://lingtai.cn/dl/index.json"
-    nonisolated static let githubURL = "https://api.github.com/repos/ling-tai/lingTai/releases/latest"
+    nonisolated static let githubURL = "https://api.github.com/repos/ling-tai/LingTai/releases/latest"
     nonisolated static let fallbackReleasePage = "https://github.com/econswarm/lingtai/releases/latest"
     /// The download page on lingtai.cn, where a release found through the index leads (Android's `DOWNLOAD_URL`).
     nonisolated static let downloadPage = "https://lingtai.cn/dl/"
@@ -157,7 +157,7 @@ final class LingTaiUpdateCheck: ObservableObject {
         var request = URLRequest(url: url)
         request.timeoutInterval = 10
         request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue("lingTai-iOS/\(installed)", forHTTPHeaderField: "User-Agent")
+        request.setValue("LingTai-iOS/\(installed)", forHTTPHeaderField: "User-Agent")
         guard let result = try? await URLSession.shared.data(for: request) else { return nil }
         let (data, response) = result
         guard (200..<300).contains((response as? HTTPURLResponse)?.statusCode ?? 0) else { return nil }

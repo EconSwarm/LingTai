@@ -1,6 +1,6 @@
 //
 //  LingTaiHubTasks.swift
-//  lingTai
+//  LingTai
 //
 //  The iPhone as a target of other devices' `task` calls: "@iPhone …" said on
 //  the Android phone or a computer reaches this phone's Muse through the hub,
@@ -10,7 +10,7 @@
 //  in the background. `stop {call}` or `stop {conversation}` from the device
 //  that asked ends the run and the task answers `cancelled`. Android:
 //  HubActions.task / HubTasks; runtime: lingtai/hub/service.py _task. Works
-//  while lingTai is open, that is the hub connection itself.
+//  while LingTai is open, that is the hub connection itself.
 //
 
 import Combine
@@ -85,11 +85,11 @@ enum LingTaiHubTasks {
         let text = (args["text"] as? String ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return .failure(code: "usage", message: "text is required") }
         guard RootfsManager.shared.isInstalled else {
-            return .failure(code: "not_ready", message: "lingTai on the iPhone is still starting")
+            return .failure(code: "not_ready", message: "LingTai on the iPhone is still starting")
         }
         let store = ProviderConfigStore.shared
         guard store.defaultPrimaryGroupId != nil || !store.modelEntries.isEmpty else {
-            return .failure(code: "no_model", message: "this iPhone has no model to think with; sign in to lingTai Cloud there")
+            return .failure(code: "no_model", message: "this iPhone has no model to think with; sign in to LingTai Cloud there")
         }
 
         let senderId = (from["id"] as? String).flatMap { $0.isEmpty ? nil : $0 } ?? "unknown"

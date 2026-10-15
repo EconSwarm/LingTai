@@ -75,11 +75,11 @@ const val ROUTE_CLOUD_ACCOUNT = "lingtai/cloud/account"
 private const val CLOUD_DOC_URL = "https://github.com/econswarm/lingtai/blob/main/docs/cloud.md"
 
 /**
- * Sign in to lingTai Cloud: a mainland phone number (the code comes by SMS) or an e-mail
+ * Sign in to LingTai Cloud: a mainland phone number (the code comes by SMS) or an e-mail
  * address, then the code it receives — or the account's password. The code box is marked as a
  * one-time code so the system's autofill or the keyboard can offer the SMS it just saw.
  * On success the relay is a provider with a default model, and the caller decides where to
- * go (the first run continues to "Meet lingTai"; from Settings it returns to the account page).
+ * go (the first run continues to "Meet LingTai"; from Settings it returns to the account page).
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -445,7 +445,7 @@ fun CloudSignInScreen(
 
 /**
  * The relay's address for people who run their own (0.1.38): the field, *Check* (the relay's
- * `/healthz`, its version shown), *Use this server*, and a way back to lingTai Cloud. https
+ * `/healthz`, its version shown), *Use this server*, and a way back to LingTai Cloud. https
  * unless the host is on a private network. What is chosen here is what the key will belong
  * to — the account page shows it, and changing it later means signing out first.
  */

@@ -1,10 +1,10 @@
 # The landing page (legacy)
 
-The lingTai homepage now lives in [ling-tai/ling-tai.github.io](https://github.com/econswarm/ling-tai.github.io)
+The LingTai homepage now lives in [ling-tai/ling-tai.github.io](https://github.com/econswarm/ling-tai.github.io)
 and is served at <https://lingtai.cn/>, with a GitHub Pages copy at <https://ling-tai.github.io/>.
 `site/index.html` here is a redirect to it;
 the page below — the Python line's site with the promo film — is kept as `legacy.html` and
-still published by `.github/workflows/pages.yml` under `https://ling-tai.github.io/lingTai/legacy.html`.
+still published by `.github/workflows/pages.yml` under `https://ling-tai.github.io/LingTai/legacy.html`.
 
 `legacy.html` is one static page, no framework, English and 中文 in the same file (the toggle
 in the top right, `?lang=zh` or `?lang=en` in the URL).

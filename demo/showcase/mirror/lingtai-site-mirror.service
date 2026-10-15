@@ -1,7 +1,7 @@
 # One sync of the project site's mirror; lingtai-site-mirror.timer runs it every minute.
 # Installed by install.sh, which also links sync.sh to /usr/local/bin/lingtai-site-mirror.
 [Unit]
-Description=lingTai site mirror (lingtai.cn): sync from GitHub
+Description=LingTai site mirror (lingtai.cn): sync from GitHub
 After=network-online.target docker.service
 Wants=network-online.target
 

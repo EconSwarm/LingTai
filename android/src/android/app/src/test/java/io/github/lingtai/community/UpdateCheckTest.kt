@@ -28,8 +28,8 @@ class UpdateCheckTest {
     @Test
     fun `the download index is read newest first`() {
         val index = """
-            {"repo":"ling-tai/lingTai","releases":[
-              {"tag":"v0.1.35","name":"Turns+","published_at":"2026-10-05T00:00:00Z","assets":[{"name":"lingTai-0.1.35.apk","size":1}]},
+            {"repo":"ling-tai/LingTai","releases":[
+              {"tag":"v0.1.35","name":"Turns+","published_at":"2026-10-05T00:00:00Z","assets":[{"name":"LingTai-0.1.35.apk","size":1}]},
               {"tag":"v0.1.34","name":"Turns","published_at":"2026-09-28T00:00:00Z","assets":[]}
             ]}
         """.trimIndent()

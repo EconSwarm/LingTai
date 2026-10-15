@@ -2,17 +2,17 @@ import type { AppManifest } from '@/os/types/manifest';
 import { IcLauncher } from './res/icons';
 
 /**
- * lingTai as an app on the simulated phone.
+ * LingTai as an app on the simulated phone.
  *
- * The app is a thin shell: it shows the lingTai web app (served by `lingtai serve` on the
+ * The app is a thin shell: it shows the LingTai web app (served by `lingtai serve` on the
  * host) full-screen, and mirrors what the server wants from you — approvals, questions,
  * background results — into the simulator's notification shade.
  */
 export const manifest: AppManifest = {
   id: 'lingtai',
   packageName: 'org.lingtai.app',
-  displayName: 'lingTai',
-  displayNameEn: 'lingTai',
+  displayName: 'LingTai',
+  displayNameEn: 'LingTai',
   aliases: ['muse', 'open muse', 'personal agent', 'assistant'],
   version: '0.2.0',
   versionCode: 2,

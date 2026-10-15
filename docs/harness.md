@@ -1,11 +1,11 @@
-# lingTai on DeepSeek Harness
+# LingTai on DeepSeek Harness
 
 > **Status: shipping.** The code is in [`harness/`](../harness/) on `main`. From 0.1.30
-> this is **lingTai Desktop**, the one desktop app: installers for Windows, macOS and
+> this is **LingTai Desktop**, the one desktop app: installers for Windows, macOS and
 > Linux with the harness, the bundle and the runtime for the hands inside
 > ([desktop.md](desktop.md)); the bundle alone also ships packed, `dsh-lingtai-<v>.tgz`,
 > for a DeepSeek Harness Desktop someone already runs ([harness/README.md](../harness/README.md)).
-> It came in two steps: the bundle from 0.1.27, the shell as *lingTai Harness* beside the
+> It came in two steps: the bundle from 0.1.27, the shell as *LingTai Harness* beside the
 > older Electron app in 0.1.28–0.1.29 ([Phases](#phases)). This page is the design and the
 > plan; [desktop-muse.md](desktop-muse.md) is what the window is meant to look like.
 
@@ -22,7 +22,7 @@ and a model layer that takes any OpenAI-compatible endpoint from configuration. 
 0.2.0-rc, a developer preview whose plugin API will break, and it has the community a
 project of ours will not have for years.
 
-So the next desktop is **dsh plus lingTai plugins**: what makes lingTai lingTai (the
+So the next desktop is **dsh plus LingTai plugins**: what makes LingTai LingTai (the
 account, the face, the voice, Hands, Reach, the Sentinel) goes in as plugins; the loop,
 the tools and the UI are dsh's. We stop maintaining a second harness for the desktop.
 The phone keeps the Python runtime (dsh is Node and does not run on Android), the browser
@@ -36,19 +36,19 @@ linked into a profile created from dsh's own web template:
 - **Account.** A host service `lingtaiCloud` signs in against the relay with the same
   two calls the phone and the desktop use (`/v1/auth/code`, `/v1/auth/verify`), keeps the
   key in dsh's credential store as `LINGTAI_CLOUD_TOKEN`, and writes the account's chat
-  models into dsh's model adapter (`dsh-llm-pi-ai`) as a provider called *lingTai
+  models into dsh's model adapter (`dsh-llm-pi-ai`) as a provider called *LingTai
   Cloud* with the relay's `/v1` as its base URL. No model adapter of ours: the relay
   speaks OpenAI Chat Completions, dsh speaks it back. Sign-out removes both again. A
   loopback API (`/lingtai/cloud/{status,code,verify,refresh,sign-out}`, same-origin
   only) serves the settings section.
 - **Face and name.** The browser half fills dsh's slots: the dragon in the sidebar brand
-  seat and the hero, the *lingTai* wordmark, and a *lingTai account* section in
+  seat and the hero, the *LingTai* wordmark, and a *LingTai account* section in
   Settings (phone or e-mail → code → signed in, with the masked identifier, the
   allowance and the models). The stock brand plugin is disabled by the patch; the stills
   are served by the host half.
 - **Voice.** dsh's web sessions compose from an *agent preset*, and a preset's persona
   wins over the global one, so the bundle declares a preset `lingtai` (the same plugin
-  list as dsh's *Standard* with lingTai's persona) and makes it the default. The
+  list as dsh's *Standard* with LingTai's persona) and makes it the default. The
   person can still pick *Standard*, *PTC* or *Minimal*.
 - **Hands, the first of our capabilities as a plugin.** The preset mounts dsh's MCP
   client on `lingtai mcp` ([cli.md](cli.md#audit-and-config)): the runtime's
@@ -68,8 +68,8 @@ linked into a profile created from dsh's own web template:
   runtime the preset simply has no hands.
 
 Verified end to end on a scratch install against a local relay: sign in, the two chat
-models appear under *lingTai Cloud* in the picker without a restart, a new session
-starts as *lingTai*, "who are you?" is answered through the relay in lingTai's voice,
+models appear under *LingTai Cloud* in the picker without a restart, a new session
+starts as *LingTai*, "who are you?" is answered through the relay in LingTai's voice,
 and "what is on my screen?" is answered after one `mcp__lingtai__computer_screen` call
 with a correct description of the desktop. [`harness/README.md`](../harness/README.md)
 has the recipe.
@@ -101,7 +101,7 @@ The second slice adds what the Android app has around the chat, modelled on what
   first, with the command or URL in it), `device_files`, `device_notify`, and `delegate`:
   the other device's own Muse runs the task, and when *it* asks for an approval the
   question comes back here as an approval card and the answer travels back over the hub.
-  Settings → *lingTai account* lists the devices with online dots, renames this
+  Settings → *LingTai account* lists the devices with online dots, renames this
   computer and forgets offline ones.
 - **The capsule.** While Hands or Reach work, a pill at the top of the window shows the
   face, moving bars, *Hands · step N* or *Reach · step N*, what it is doing ("on Laptop
@@ -126,7 +126,7 @@ The third slice makes the desktop answer the phone, so Reach runs both ways:
   `.lingtai-part` rename), `open` and `screen` (`screencapture`, PowerShell,
   `gnome-screenshot` / `spectacle` / `grim` / `scrot` / `import` in turn). Same names,
   same shapes, same error codes, so a phone cannot tell a runtime from a dsh desktop.
-- **The remote-control switch.** Settings → *lingTai account* → under *this computer*,
+- **The remote-control switch.** Settings → *LingTai account* → under *this computer*,
   the same switch the runtime has: on, the device announces the six actions in `hello`;
   off, it announces `info` and `notify` only and refuses the rest with `not_allowed`
   (the phone sees the same message a runtime would give). Flipping it re-greets the hub
@@ -223,7 +223,7 @@ screen in [desktop-muse.md](desktop-muse.md):
   plugin's settings, is passed through.
 - **The first run.** Full-window sheets: welcome with the face and one *Sign in*
   pill → *Sign in or create an account* (phone or e-mail) → six code boxes (or a
-  password: `/v1/auth/login`) → spinner → the permissions carousel (‹ ›): *Allow lingTai
+  password: `/v1/auth/login`) → spinner → the permissions carousel (‹ ›): *Allow LingTai
   to use your computer?* on macOS (Accessibility, Screen recording, each with *Allow*
   through the shell's bridge and a green check once granted), *…access your files?* (the
   workspace folder, *Change* through the native picker), *Your other devices* → *ready*.
@@ -248,9 +248,9 @@ composer, the bubbles and the approval card in both themes, an answer recorded i
 panel's Approvals tab; the profile panel beside the chat; Settings with the nine pages.
 The Electron shell boots the same bundle with its bridge on Linux (screenshot check).
 
-## Where each part of lingTai goes
+## Where each part of LingTai goes
 
-| lingTai today (Python runtime)                         | On dsh                                                                                                                                       | State      |
+| LingTai today (Python runtime)                         | On dsh                                                                                                                                       | State      |
 | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
 | Cloud account, provider provisioning ([cloud.md](cloud.md)) | `dsh-lingtai/cloud` service + `llm-pi-ai` provider + credential store                                                                    | done       |
 | Persona, agent name ([design.md](design.md))            | Agent preset `lingtai` (`@deepseek-ai/dsh-persona`); the account's chosen name from the profile, in the brand seat and a system-prompt context | done       |
@@ -320,10 +320,10 @@ The Electron shell boots the same bundle with its bridge on Linux (screenshot ch
 ## Names and licences
 
 DeepSeek Harness is MIT; it is a dependency, not vendored, and its notice travels with
-it. Our bundle is GPL-3.0-or-later like the rest of lingTai, so the "no closed
+it. Our bundle is GPL-3.0-or-later like the rest of LingTai, so the "no closed
 component" promise holds. "DeepSeek Harness" and "DSH" are DeepSeek's names: we say
 *built on DeepSeek Harness*, never use them in ours, and the shipped About text and
-brand assets stay as they are. The usual notices (Muse is Meta's trademark, lingTai is
+brand assets stay as they are. The usual notices (Muse is Meta's trademark, LingTai is
 a community project with no affiliation) apply unchanged.
 
 ## Phases
@@ -346,9 +346,9 @@ a community project with no affiliation) apply unchanged.
    and the web.
 6. **Ship.** The shell, in two steps. dsh's own desktop app is an Electron wrapper
    around the same web app with a `desktop` profile that takes external plugins (`dsh
-   plugin --profile desktop add …`), so the first lingTai desktop was that app with the
+   plugin --profile desktop add …`), so the first LingTai desktop was that app with the
    bundle in its profile: **from 0.1.27 every release carries the bundle packed**
-   (`lingTai-Harness-<v>.tgz` then, `dsh-lingtai-<v>.tgz` from 0.1.30), with the
+   (`LingTai-Harness-<v>.tgz` then, `dsh-lingtai-<v>.tgz` from 0.1.30), with the
    install in [harness/README.md](../harness/README.md) (`.github/workflows/harness.yml`
    builds, tests, packs it and installs the tarball into a fresh dsh profile). **From
    0.1.28 the second step is there too**: our own shell in
@@ -370,9 +370,9 @@ a community project with no affiliation) apply unchanged.
    live; `nsis.preCompressedFileExtensions: []` in `electron-builder.yml` turns that off,
    and `tests/installer.test.mjs` keeps it so), and attaches them to the release (the
    same Apple secrets sign and notarize the macOS build when they are set). It shipped as
-   *lingTai Harness* beside the older
-   desktop app in 0.1.28 and 0.1.29; **from 0.1.30 it is lingTai Desktop**, the one
-   desktop app (`lingTai-Desktop-<v>-…`, the application id of the retired
+   *LingTai Harness* beside the older
+   desktop app in 0.1.28 and 0.1.29; **from 0.1.30 it is LingTai Desktop**, the one
+   desktop app (`LingTai-Desktop-<v>-…`, the application id of the retired
    `desktop/app` so it installs over it), and the site's downloads point here.
 7. **Daily-driver on the new shell.** The rooms beside the chat (Feed, Ideas,
    Goals, Library), the live stage while the hands work on this screen, signing on both

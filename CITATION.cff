@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-message: "If you use lingTai in your work, please cite the paper (preferred-citation below)."
-title: "lingTai: an open-source personal agent for every device you own"
+message: "If you use LingTai in your work, please cite the paper (preferred-citation below)."
+title: "LingTai: an open-source personal agent for every device you own"
 type: software
 authors:
-  - name: "lingTai Contributors"
+  - name: "LingTai Contributors"
 repository-code: "https://github.com/econswarm/lingtai"
 url: "https://lingtai.cn/"
 license: GPL-3.0-or-later
@@ -20,7 +20,7 @@ keywords:
   - tool use
 preferred-citation:
   type: generic
-  title: "lingTai: An Open-Source Personal Agent for Every Device You Own"
+  title: "LingTai: An Open-Source Personal Agent for Every Device You Own"
   authors:
     - family-names: Liu
       given-names: Guangyi

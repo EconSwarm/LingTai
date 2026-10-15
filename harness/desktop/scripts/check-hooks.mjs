@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// The stylesheet of the lingTai bundle (harness/dsh-lingtai/src/client/styles.ts) dresses
+// The stylesheet of the LingTai bundle (harness/dsh-lingtai/src/client/styles.ts) dresses
 // the harness's own DOM through its `data-*` hooks (`[data-composer-card]`,
 // `[data-chat-flow-kind="user"]`), its test ids (`[data-testid="task-manager-page"]`) and the
 // stems of its CSS-module class names (`[class*="_toBottom"]`). None of those is a contract:

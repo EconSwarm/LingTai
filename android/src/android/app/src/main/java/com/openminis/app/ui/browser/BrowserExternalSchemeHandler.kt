@@ -168,7 +168,7 @@ object BrowserExternalSchemeHandler {
         if (uri == null) return false
         val scheme = uri.scheme?.lowercase() ?: return false
         if (scheme in INTERNAL_SCHEMES) return false
-        // lingTai: a link of the app's own (`minis://`, `lingtai://`) the person tapped goes to MainActivity
+        // LingTai: a link of the app's own (`minis://`, `lingtai://`) the person tapped goes to MainActivity
         // by name, never out through the system, which could hand it to another app that registers the
         // scheme; a page the agent drives in the background stays blocked below, as before
         if (origin == Origin.USER_INITIATED && io.github.lingtai.deeplink.OwnScheme.isOwn(scheme)) {

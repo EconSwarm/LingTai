@@ -1,6 +1,6 @@
 //
 //  LingTaiComposerCheck.swift
-//  lingTai
+//  LingTai
 //
 //  Settings → Appearance → Composer check: what the device knows about the
 //  chat's composer, readable without a Mac. Four rounds of "the input field
@@ -75,7 +75,7 @@ enum LingTaiComposerReport {
         let build = info["CFBundleVersion"] as? String ?? "?"
         let device = UIDevice.current
         let idiom = device.userInterfaceIdiom == .pad ? "pad" : "phone"
-        lines.append("lingTai \(version) (\(build)) · \(device.systemName) \(device.systemVersion) · \(device.model) · \(idiom)")
+        lines.append("LingTai \(version) (\(build)) · \(device.systemName) \(device.systemVersion) · \(device.model) · \(idiom)")
         lines.append("Muse home: \(LingTaiShellPrefs.shell ? "on" : "off") · outline: \(LingTaiComposerWatch.outline ? "on" : "off")")
 
         let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }

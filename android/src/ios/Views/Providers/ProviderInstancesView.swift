@@ -22,7 +22,7 @@ struct ProviderInstancesView: View {
 
     var body: some View {
         List {
-            // lingTai: the relay first — a phone number or an e-mail address, no key needed.
+            // LingTai: the relay first — a phone number or an e-mail address, no key needed.
             Section {
                 NavigationLink {
                     LingTaiCloudView()
@@ -57,7 +57,7 @@ struct ProviderInstancesView: View {
                                 // position for Delete. `allowsFullSwipe: false`
                                 // so a long swipe cannot delete a provider (and
                                 // its keys) without the confirmation below.
-                                // lingTai: not on the Cloud instance; it is the account (see ProviderInstanceDetailView).
+                                // LingTai: not on the Cloud instance; it is the account (see ProviderInstanceDetailView).
                                 if instance.id != LingTaiCloud.instance?.id {
                                     Button(role: .destructive) {
                                         pendingDeleteInstance = instance

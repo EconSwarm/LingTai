@@ -443,14 +443,14 @@ internal sealed class FlatChatItem {
         override val contentType = "info"
     }
 
-    // lingTai: the first-conversation name chooser; rendered by
+    // LingTai: the first-conversation name chooser; rendered by
     // io.github.lingtai.ui.onboarding.NamingCard from the view model's state.
     data class LingTaiNaming(val messageId: String) : FlatChatItem() {
         override val key = "lt_naming:$messageId"
         override val contentType = "lt_naming"
     }
 
-    // lingTai: the "change your avatar" options card (live state in AvatarFlow / AvatarStudio)
+    // LingTai: the "change your avatar" options card (live state in AvatarFlow / AvatarStudio)
     // and the share card once the new face is done.
     data class LingTaiAvatarOptions(val messageId: String) : FlatChatItem() {
         override val key = "lt_avatar_options:$messageId"
@@ -462,13 +462,13 @@ internal sealed class FlatChatItem {
         override val contentType = "lt_avatar_share"
     }
 
-    /** lingTai: the cost of a new face on the Cloud allowance, asked before drawing (the text is the whole sentence). */
+    /** LingTai: the cost of a new face on the Cloud allowance, asked before drawing (the text is the whole sentence). */
     data class LingTaiAvatarConfirm(val messageId: String, val text: String) : FlatChatItem() {
         override val key = "lt_avatar_confirm:$messageId"
         override val contentType = "lt_avatar_confirm"
     }
 
-    /** lingTai: the free allowance is spent — the two ways on (own key, invite). */
+    /** LingTai: the free allowance is spent — the two ways on (own key, invite). */
     data class LingTaiAllowance(val messageId: String) : FlatChatItem() {
         override val key = "lt_allowance:$messageId"
         override val contentType = "lt_allowance"
@@ -555,7 +555,7 @@ internal fun buildFlatChatItems(
     // prefix so the defensive key-collision suffixing behaves exactly as a
     // single full build would.
     seedKeys: Set<String> = emptySet(),
-    // lingTai: false leaves the agent's steps out — no tool pills, no
+    // LingTai: false leaves the agent's steps out — no tool pills, no
     // reasoning rows — so the chat keeps only what it said (Settings →
     // Appearance → "Show the agent's steps", off by default). The typing
     // indicator then stays up while a tool runs, since nothing else shows.
@@ -590,11 +590,11 @@ internal fun buildFlatChatItems(
             is FlatChatItem.AssistantThinking -> item.copy(messageId = "${item.messageId}#$n")
             is FlatChatItem.AssistantToolUse -> item.copy(messageId = "${item.messageId}#$n")
             is FlatChatItem.AssistantInfo -> item.copy(messageId = "${item.messageId}#$n")
-            is FlatChatItem.LingTaiNaming -> item.copy(messageId = "${item.messageId}#$n") // lingTai
-            is FlatChatItem.LingTaiAvatarOptions -> item.copy(messageId = "${item.messageId}#$n") // lingTai
-            is FlatChatItem.LingTaiAvatarShare -> item.copy(messageId = "${item.messageId}#$n") // lingTai
-            is FlatChatItem.LingTaiAvatarConfirm -> item.copy(messageId = "${item.messageId}#$n") // lingTai
-            is FlatChatItem.LingTaiAllowance -> item.copy(messageId = "${item.messageId}#$n") // lingTai
+            is FlatChatItem.LingTaiNaming -> item.copy(messageId = "${item.messageId}#$n") // LingTai
+            is FlatChatItem.LingTaiAvatarOptions -> item.copy(messageId = "${item.messageId}#$n") // LingTai
+            is FlatChatItem.LingTaiAvatarShare -> item.copy(messageId = "${item.messageId}#$n") // LingTai
+            is FlatChatItem.LingTaiAvatarConfirm -> item.copy(messageId = "${item.messageId}#$n") // LingTai
+            is FlatChatItem.LingTaiAllowance -> item.copy(messageId = "${item.messageId}#$n") // LingTai
             is FlatChatItem.AssistantTyping -> item.copy(messageId = "${item.messageId}#$n")
             is FlatChatItem.AssistantError -> item.copy(messageId = "${item.messageId}#$n")
             is FlatChatItem.AssistantLegacyContent -> FlatChatItem.AssistantLegacyContent(
@@ -628,7 +628,7 @@ internal fun buildFlatChatItems(
             continue
         }
         // System messages (slash-command notices, compact divider, etc.) render
-        // as horizontal-divider rows — no "lingTai" attribution, no card. Skip
+        // as horizontal-divider rows — no "LingTai" attribution, no card. Skip
         // the assistant header so each info block stands on its own. Mirrors
         // iOS systemDividerRow / compactDividerRow.
         val isSystem = message.role == "system"
@@ -641,12 +641,12 @@ internal fun buildFlatChatItems(
         // T83: when Resume creates a fresh assistant bubble after the user
         // stopped a streaming turn, the previous (cancelled) assistant
         // message is right before this one in the list. Visually they should
-        // read as one continuous turn — suppress the duplicate "lingTai"
+        // read as one continuous turn — suppress the duplicate "LingTai"
         // header. Skip system rows when looking back since they render as
         // dividers, not as separate speaker turns. iOS achieves this by
         // reusing the existing ChatMessage in runAgentLoop(resumingAt:);
         // we reach the same end-result at the render layer.
-        // lingTai: with the steps hidden, a finished turn that was all
+        // LingTai: with the steps hidden, a finished turn that was all
         // steps — no words, no error — would be a face with nothing under
         // it; leave the whole turn out (its steps are still in the history).
         // The look-back below skips such turns too, so the reply that
@@ -679,7 +679,7 @@ internal fun buildFlatChatItems(
                 "text" -> {
                     if (block.content.isNotEmpty()) {
                         val isLastText = index == lastTextIdx
-                        // lingTai: keep each assistant text block in a single markdown
+                        // LingTai: keep each assistant text block in a single markdown
                         // bubble (matching iOS) so lists, headings, paragraphs, and code
                         // blocks from one turn stay together inside one bubble.
                         out.add(dedupe(FlatChatItem.AssistantMarkdownBlock(
@@ -693,7 +693,7 @@ internal fun buildFlatChatItems(
                         )))
                     }
                 }
-                "thinking" -> if (showSteps) out.add(dedupe(FlatChatItem.AssistantThinking( // lingTai: a step
+                "thinking" -> if (showSteps) out.add(dedupe(FlatChatItem.AssistantThinking( // LingTai: a step
                     messageId = message.id,
                     block = block,
                     isLast = block.id == lastThinkingId,
@@ -705,12 +705,12 @@ internal fun buildFlatChatItems(
                     messageId = message.id,
                     block = block,
                 )))
-                "lt_naming" -> out.add(dedupe(FlatChatItem.LingTaiNaming(message.id))) // lingTai
-                "lt_avatar_options" -> out.add(dedupe(FlatChatItem.LingTaiAvatarOptions(message.id))) // lingTai
-                "lt_avatar_share" -> out.add(dedupe(FlatChatItem.LingTaiAvatarShare(message.id, block.content))) // lingTai
-                "lt_avatar_confirm" -> out.add(dedupe(FlatChatItem.LingTaiAvatarConfirm(message.id, block.content))) // lingTai
-                "lt_allowance" -> out.add(dedupe(FlatChatItem.LingTaiAllowance(message.id))) // lingTai
-                else -> if (showSteps) out.add(dedupe(FlatChatItem.AssistantToolUse( // lingTai: a step
+                "lt_naming" -> out.add(dedupe(FlatChatItem.LingTaiNaming(message.id))) // LingTai
+                "lt_avatar_options" -> out.add(dedupe(FlatChatItem.LingTaiAvatarOptions(message.id))) // LingTai
+                "lt_avatar_share" -> out.add(dedupe(FlatChatItem.LingTaiAvatarShare(message.id, block.content))) // LingTai
+                "lt_avatar_confirm" -> out.add(dedupe(FlatChatItem.LingTaiAvatarConfirm(message.id, block.content))) // LingTai
+                "lt_allowance" -> out.add(dedupe(FlatChatItem.LingTaiAllowance(message.id))) // LingTai
+                else -> if (showSteps) out.add(dedupe(FlatChatItem.AssistantToolUse( // LingTai: a step
                     messageId = message.id,
                     block = block,
                     allToolBlocks = toolPillBlocks,
@@ -739,9 +739,9 @@ internal fun buildFlatChatItems(
         val hasVisibleContent = message.content.isNotEmpty() || blocks.any {
             when (it.kind) {
                 "info" -> false
-                "thinking" -> showSteps && (message.thinkingLevel?.isEnabled ?: true) // lingTai: hidden steps do not count
+                "thinking" -> showSteps && (message.thinkingLevel?.isEnabled ?: true) // LingTai: hidden steps do not count
                 "text" -> it.content.isNotEmpty()
-                "tool_use" -> showSteps // pills render immediately — when the steps are shown (lingTai)
+                "tool_use" -> showSteps // pills render immediately — when the steps are shown (LingTai)
                 else -> true // the app's own cards
             }
         }
@@ -767,7 +767,7 @@ internal fun buildFlatChatItems(
     return out
 }
 
-/** lingTai: a finished assistant turn made of steps alone — nothing the chat would show with the steps hidden. */
+/** LingTai: a finished assistant turn made of steps alone — nothing the chat would show with the steps hidden. */
 private fun stepsOnlyTurn(m: ChatMessage): Boolean =
     m.role == "assistant" && !m.isStreaming && m.error == null && m.content.isEmpty() &&
         m.toolBlocks.isNotEmpty() && m.toolBlocks.all {

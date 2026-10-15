@@ -1,6 +1,6 @@
 //
 //  LingTaiComposer.swift
-//  lingTai
+//  LingTai
 //
 //  Muse's composer pill, used by AIChatView when the Muse shell is on: one
 //  row on a flat grey capsule — plus on the left, the field in the middle,

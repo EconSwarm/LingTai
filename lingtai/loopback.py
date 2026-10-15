@@ -28,12 +28,12 @@ TIMEOUT_S = 3.0
 MARKER = "loopback blocked:"
 
 EXPLANATION = (
-    "lingTai cannot connect to itself: a connection from this computer to 127.0.0.1 never "
+    "LingTai cannot connect to itself: a connection from this computer to 127.0.0.1 never "
     "completes (nor one to ::1). Something on this machine intercepts local connections: "
     "usually a proxy client that routes every connection (Proxifier; Clash, V2Ray or Surge in "
     "TUN mode; a game accelerator) or security software. Make 127.0.0.1 and localhost connect "
     "directly (Proxifier: Profile → Proxification Rules → Localhost → Direct; Clash: turn TUN "
-    "mode off or exclude 127.0.0.1), or add lingTai to its exceptions, then start lingTai "
+    "mode off or exclude 127.0.0.1), or add LingTai to its exceptions, then start LingTai "
     "again."
 )
 

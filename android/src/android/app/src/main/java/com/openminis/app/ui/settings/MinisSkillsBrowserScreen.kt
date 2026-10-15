@@ -99,7 +99,7 @@ fun MinisSkillsBrowserScreen(
             // would fight the WebView measure pass. Match the SettingsScaffold
             // bar styling (background colour + SemiBold title) so the visual
             // signature stays consistent with the rest of the settings stack.
-            io.github.lingtai.ui.muse.MuseTopAppBar( // lingTai: Muse's bar (drop-in for TopAppBar)
+            io.github.lingtai.ui.muse.MuseTopAppBar( // LingTai: Muse's bar (drop-in for TopAppBar)
                 title = { Text(stringResource(R.string.skills_browser_title), fontWeight = FontWeight.SemiBold) },
                 navigationIcon = {
                     IconButton(onClick = handleBack) {

@@ -1,5 +1,5 @@
 [Unit]
-Description=lingTai release mirror (lingtai.cn/dl): every fifteen minutes
+Description=LingTai release mirror (lingtai.cn/dl): every fifteen minutes
 
 [Timer]
 OnBootSec=5min

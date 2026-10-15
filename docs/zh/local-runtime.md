@@ -12,7 +12,7 @@ Python 线的 Android App 有两个变体。**connect** 是你电脑上那个 `l
 一句话说清这个想法：APK 带一个小小的 Alpine Linux 根文件系统，里面有 Python 和 `lingtai`；第一次启动时 App 把它解压到自己的私有存储，在 [PRoot](https://proot-me.github.io/)（一个不需要 root 的用户态 `chroot`）下面运行 `lingtai serve`；然后 App 的 WebView 打开 `http://127.0.0.1:<port>/`。大脑没变。Kotlin 只是托着它。
 
 ```
-┌─ lingTai.apk ───────────────────────────────────────────────────┐
+┌─ LingTai.apk ───────────────────────────────────────────────────┐
 │  Kotlin shell            assets/rootfs.tar.xz     lib/…/libproot.so │
 │  ConnectActivity         Alpine 3.21 aarch64      PRoot 5.1        │
 │  RuntimeService  ──┐     python 3.12, lingtai    libproot-loader.so│

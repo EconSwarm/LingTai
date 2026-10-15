@@ -33,7 +33,7 @@ object UpdateCheck {
     /** Where "Update" goes on Android: the download page, with the APK and the store links. */
     const val DOWNLOAD_URL = "https://lingtai.cn/dl/"
     const val INDEX_URL = "https://lingtai.cn/dl/index.json"
-    const val GITHUB_LATEST_URL = "https://api.github.com/repos/ling-tai/lingTai/releases/latest"
+    const val GITHUB_LATEST_URL = "https://api.github.com/repos/ling-tai/LingTai/releases/latest"
 
     /** A check is repeated at most this often on its own. */
     const val FRESH_MS = 24L * 60 * 60 * 1000
@@ -117,7 +117,7 @@ object UpdateCheck {
 
     private fun get(url: String): String? = try {
         val req = Request.Builder().url(url).get()
-            .header("User-Agent", "lingTai-Android/${BuildConfig.VERSION_NAME}")
+            .header("User-Agent", "LingTai-Android/${BuildConfig.VERSION_NAME}")
             .header("Accept", "application/json")
             .build()
         http.newCall(req).execute().use { r ->

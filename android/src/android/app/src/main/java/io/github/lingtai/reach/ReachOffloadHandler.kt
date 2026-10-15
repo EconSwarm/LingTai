@@ -49,8 +49,8 @@ class ReachOffloadHandler(private val context: Context) : NativeOffloadHandler {
                 "no_computer",
                 when {
                     Computers.all(context).isEmpty() && !io.github.lingtai.hub.Hub.isConnected ->
-                        "No other device is connected. Computers join by running lingTai Desktop signed in to the same lingTai Cloud account; this phone is not signed in to lingTai Cloud yet."
-                    Computers.all(context).isEmpty() -> "No other device is online right now. Computers join by running lingTai Desktop signed in to the same lingTai Cloud account."
+                        "No other device is connected. Computers join by running LingTai Desktop signed in to the same LingTai Cloud account; this phone is not signed in to LingTai Cloud yet."
+                    Computers.all(context).isEmpty() -> "No other device is online right now. Computers join by running LingTai Desktop signed in to the same LingTai Cloud account."
                     else -> "No connected device matches “${args.get("on")}”. Connected: " + Computers.all(context).joinToString(", ") { it.name } + "."
                 },
             )
@@ -70,7 +70,7 @@ class ReachOffloadHandler(private val context: Context) : NativeOffloadHandler {
             failed(sub, computer, "${computer.name} answered ${e.code}: ${e.message}")
         } catch (e: java.io.IOException) {
             AppLogger.warning(TAG, "$sub on ${computer.name}: ${e.message}")
-            failed(sub, computer, "${computer.name} does not answer: ${e.message ?: e.javaClass.simpleName}. Is lingTai still running there?")
+            failed(sub, computer, "${computer.name} does not answer: ${e.message ?: e.javaClass.simpleName}. Is LingTai still running there?")
         }
     }
 
@@ -112,7 +112,7 @@ class ReachOffloadHandler(private val context: Context) : NativeOffloadHandler {
                     Computers.approve(c, id, allow = gate.denied == null)
                     steps.put(JSONObject().put("approval", preview).put("allowed", gate.denied == null).apply { gate.notice?.let { put("notice", it) } })
                 }
-                // lingTai: the runtime's progress stages (docs/hub.md) — a tool starting, a tool
+                // LingTai: the runtime's progress stages (docs/hub.md) — a tool starting, a tool
                 // done, a line of interim text; the terminal binary's older "step"/"thinking" too
                 "tool" -> (ev.optString("summary").ifBlank { ev.optString("name") }.ifBlank { ev.optString("text") }.ifBlank { ev.optString("tool") })
                     .takeIf { it.isNotBlank() }?.let { steps.put(JSONObject().put("step", it.take(200))) }
@@ -284,7 +284,7 @@ Usage:
   lingtai-pc task "<what to do, in words>" --on <device>   the Muse on that device does it and answers
 
 Commands are judged like the phone's own shell and wait for the approval card on this phone before they are sent;
-a task's own approvals show here too. Devices join by signing in to the same lingTai Cloud account (any network).
+a task's own approvals show here too. Devices join by signing in to the same LingTai Cloud account (any network).
 Exit codes: 0 ok · 1 failed · 2 usage · 3 no device / refused · 4 the user said no.
 """
     }

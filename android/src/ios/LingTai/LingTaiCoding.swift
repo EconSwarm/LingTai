@@ -1,6 +1,6 @@
 //
 //  LingTaiCoding.swift
-//  lingTai
+//  LingTai
 //
 //  The coding agents on another computer of the account, over the hub:
 //  the `coding.*` actions the runtime there answers (docs/coding-agents.md).
@@ -190,7 +190,7 @@ struct LingTaiCodingView: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 if computer == nil {
-                    Text(AppLocalized("No computer with a coding agent is online. Run lingTai on the computer where Cursor, Codex or Claude Code is installed, signed in with this account."))
+                    Text(AppLocalized("No computer with a coding agent is online. Run LingTai on the computer where Cursor, Codex or Claude Code is installed, signed in with this account."))
                         .font(.subheadline)
                     if let hint = LingTaiCloud.account?.hint, !hint.isEmpty {
                         Text(String(format: AppLocalized("This phone is signed in as %@; the computer must use the same account."), hint))

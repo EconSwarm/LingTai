@@ -882,7 +882,7 @@ internal fun rememberBrowserLiveSnapshot(
             value = next
         }
     }
-    // lingTai: remember the last live frame so the finished card keeps it.
+    // LingTai: remember the last live frame so the finished card keeps it.
     snapshot?.let { io.github.lingtai.status.BrowserFrames.remember(block.id, it) }
     return snapshot
 }

@@ -283,7 +283,7 @@ final class CodexOAuthManager: NSObject, ObservableObject {
 
         logger.info("\(context) POST \(self.tokenURL)")
 
-        let (data, response) = try await LingTaiProxy.session.data(for: request) // lingTai: Settings → Network
+        let (data, response) = try await LingTaiProxy.session.data(for: request) // LingTai: Settings → Network
         let http = response as? HTTPURLResponse
         let statusCode = http?.statusCode ?? -1
         let responseBody = String(data: data, encoding: .utf8) ?? "<binary>"

@@ -110,7 +110,7 @@ private fun BlockContent(
     when (block) {
         is MarkdownParser.Block.Heading -> HeadingBlock(block, color)
         is MarkdownParser.Block.Paragraph -> ParagraphBlock(block.content, color, baseStyle, mathSpans)
-        // lingTai: `lingtai-*` fences are app protocol (goal created / goal
+        // LingTai: `lingtai-*` fences are app protocol (goal created / goal
         // update) and render as cards, never as code.
         is MarkdownParser.Block.CodeBlock ->
             if (block.language.startsWith("lingtai-")) io.github.lingtai.ui.chat.LingTaiBlock(block.language, block.code)

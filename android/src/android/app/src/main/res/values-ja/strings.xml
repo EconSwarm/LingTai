@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">lingTai</string>
+    <string name="app_name">LingTai</string>
     <string name="new_chat">新しいチャット</string>
     <string name="settings">設定</string>
     <string name="providers">AIプロバイダー</string>
@@ -282,7 +282,7 @@
     <string name="settings_section_logs">ログ</string>
     <string name="settings_logs_subtitle">アプリのログを表示・エクスポート</string>
     <string name="settings_section_about">情報</string>
-    <string name="settings_about_minis">lingTai について</string>
+    <string name="settings_about_minis">LingTai について</string>
     <string name="settings_about_subtitle">バージョンとプロジェクト情報</string>
     <string name="settings_privacy_policy">プライバシーポリシー</string>
     <string name="settings_feedback">フィードバック</string>
@@ -350,7 +350,7 @@
     <string name="common_close">閉じる</string>
     <string name="common_skip">スキップ</string>
     <string name="common_next">次へ</string>
-    <string name="onboarding_welcome_title">lingTai へようこそ</string>
+    <string name="onboarding_welcome_title">LingTai へようこそ</string>
     <string name="onboarding_welcome_subtitle">ターミナル、ブラウザ、ネイティブデバイスへのアクセスを備えた 灵台 Agent。</string>
     <string name="onboarding_get_started">はじめる</string>
     <string name="onboarding_provider_title">プロバイダーを追加</string>
@@ -546,7 +546,7 @@
     <string name="browser_history_results">結果</string>
     <string name="browser_history_clear_dialog_title">閲覧履歴を消去しますか？</string>
     <string name="browser_history_clear_dialog_message">すべての閲覧履歴が削除されます。この操作は元に戻せません。</string>
-    <string name="terminal_title">lingTai シェル</string>
+    <string name="terminal_title">LingTai シェル</string>
     <string name="terminal_clear">クリア</string>
     <string name="terminal_show_keyboard">表示</string>
     <string name="terminal_hide_keyboard">非表示</string>
@@ -797,7 +797,7 @@
     <string name="skill_empty_title">Skill が未インストール</string>
     <string name="skill_empty_action">+ をタップして SKILL.md をインポートするか、灵台 Skills を閲覧してください。</string>
     <string name="skill_import_modal_title">スキルをインポート</string>
-    <string name="skill_minis_skills_modal">lingTai Skills</string>
+    <string name="skill_minis_skills_modal">LingTai Skills</string>
     <string name="skill_delete_confirm_title">%1$s を削除しますか？</string>
     <string name="skill_delete_confirm_text">この skill とファイルを完全に削除します。</string>
     <string name="skill_import_sheet_title">スキルをインポート</string>
@@ -845,7 +845,7 @@
     <string name="skill_detail_source_file">ファイルインポート</string>
     <string name="skill_detail_source_bundled">内蔵</string>
     <string name="skill_detail_source_session">セッション作成</string>
-    <string name="skills_browser_title">lingTai Skills</string>
+    <string name="skills_browser_title">LingTai Skills</string>
     <string name="skills_browser_import_button">これをインポート</string>
     <string name="skills_browser_hud_importing">インポート中…</string>
     <string name="skills_browser_error_not_folder">先に skill フォルダを選択してください</string>
@@ -861,8 +861,8 @@
     <string name="storage_overview_sessions">セッションファイル</string>
     <string name="storage_section_sessions">セッション</string>
     <string name="storage_no_sessions">セッションなし</string>
-    <string name="storage_section_minis_files">lingTai ファイル</string>
-    <string name="storage_no_minis_files">lingTai ファイルなし</string>
+    <string name="storage_section_minis_files">LingTai ファイル</string>
+    <string name="storage_no_minis_files">LingTai ファイルなし</string>
     <string name="storage_section_media">メディアファイル</string>
     <string name="storage_no_media_files">メディアファイルなし</string>
     <string name="storage_clear_session_footer">このセッションで生成されたすべてのファイルを削除します。会話自体は保持されます。</string>
@@ -1481,7 +1481,7 @@
     <string name="voice_panel_no_engine_title">利用できる音声認識がありません</string>
     <string name="voice_panel_no_engine_body">音声入力には認識エンジンが必要です。端末の音声サービスを有効にするか、灵台 で文字起こしプロバイダを設定してください。</string>
     <string name="voice_panel_no_engine_open_system">端末の設定</string>
-    <string name="voice_panel_no_engine_open_providers">lingTai のプロバイダ</string>
+    <string name="voice_panel_no_engine_open_providers">LingTai のプロバイダ</string>
     <string name="voice_panel_expand">音声パネルを展開</string>
     <string name="voice_panel_language">認識する言語</string>
     <string name="voice_panel_tap_to_speak">タップして話す</string>
@@ -1568,7 +1568,7 @@
     <string name="a11y_service_description">android-a11y-cli を利用するエージェントに代わって、灵台 が画面の UI 構造を読み取り、タップやジェスチャーを実行し、システムイベントを受け取れるようにします。</string>
     <string name="a11y_service_summary">灵台 の UI 層の自動化バックエンド</string>
     <string name="back">戻る</string>
-    <string name="sessionlist_welcome_title">lingTai へようこそ</string>
+    <string name="sessionlist_welcome_title">LingTai へようこそ</string>
     <string name="sessionlist_welcome_subtitle">最初のオンデバイス Agent がもうすぐ準備完了です。</string>
     <string name="sessionlist_welcome_step1_title">プロバイダを追加</string>
     <string name="sessionlist_welcome_step1_subtitle">API キーを設定するか OAuth でサインイン</string>
@@ -1579,7 +1579,7 @@
     <string name="sessionlist_welcome_step3_subtitle">タップして開始</string>
     <string name="sessionlist_welcome_step3_locked">先にステップ 2 を完了してください</string>
     <string name="sessionlist_welcome_step_done">完了</string>
-    <string name="webapp_activity_label">lingTai WebApp</string>
+    <string name="webapp_activity_label">LingTai WebApp</string>
     <string name="webapp_source_missing">ソースファイルは存在しません。</string>
     <string name="webapp_external_nav_blocked">外部へのナビゲーションをブロックしました。</string>
     <string name="webapp_pin_unsupported">このランチャーは固定ショートカットに対応していません。</string>
@@ -1627,7 +1627,7 @@
     <string name="crash_freq_dialog_share">ログを共有</string>
     <string name="crash_freq_dialog_dismiss">後で</string>
     <string name="crash_safe_mode_restart_needed">復旧を完了するには 灵台 の再起動が必要です。アプリアイコンをもう一度タップしてください。</string>
-    <string name="crash_freq_email_subject">lingTai クラッシュレポート %1$s</string>
+    <string name="crash_freq_email_subject">LingTai クラッシュレポート %1$s</string>
     <string name="crash_freq_email_body">クラッシュログの zip を添付しています。端末のモデル、灵台 のバージョン、日時が含まれています。</string>
     <string name="crash_freq_share_chooser">クラッシュログを送信</string>
     <string name="crash_freq_pick_files_title">最近クラッシュが複数回発生しています。以下のログを開発者に共有しますか？</string>

@@ -92,7 +92,7 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 /**
- * lingTai's home, in Muse's shape: the app opens on a conversation, not a list. A bottom bar
+ * LingTai's home, in Muse's shape: the app opens on a conversation, not a list. A bottom bar
  * switches between the chat and the Ideas / Goals / Library pages, a drawer holds the main chat
  * and the side chats, and everything that used to be the OpenMinis session list is one tap
  * further in (the archive glyph in the drawer). Rendered by `Routes.SESSION_LIST` in compact
@@ -331,7 +331,7 @@ fun LingTaiHome(
 
     // The drawer + tab shell, as a local composable so it can share every piece of state above
     // and still be one branch of the phase switch below.
-    // lingTai: the frosted pill bar blurs this shell's content; the shell is the haze source.
+    // LingTai: the frosted pill bar blurs this shell's content; the shell is the haze source.
     val hazeState = rememberHazeState()
     val homeShell: @Composable () -> Unit = {
     ModalNavigationDrawer(
@@ -339,7 +339,7 @@ fun LingTaiHome(
         gesturesEnabled = drawerState.isOpen || tab == HomeTab.CHAT,
         drawerContent = {
             ModalDrawerSheet(
-                // lingTai: pure canvas like Muse's drawer, not the grey sheet.
+                // LingTai: pure canvas like Muse's drawer, not the grey sheet.
                 drawerContainerColor = com.openminis.app.ui.theme.ChatColors.background,
                 drawerShape = androidx.compose.foundation.shape.RoundedCornerShape(topEnd = 24.dp, bottomEnd = 24.dp),
             ) {
@@ -426,7 +426,7 @@ fun LingTaiHome(
                             },
                             onModelGroupsClick = { navController.safeNavigate(Routes.MODEL_GROUPS) },
                             ltHome = LtHomeChrome(isMainChat = isMainChat, onOpenDrawer = { openDrawer() }),
-                            // lingTai: preserve the full-size blur source, but keep
+                            // LingTai: preserve the full-size blur source, but keep
                             // the chat footer above the bar measured by Scaffold.
                             ltBottomOverlay = bottom,
                         )

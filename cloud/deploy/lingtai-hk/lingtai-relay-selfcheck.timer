@@ -1,5 +1,5 @@
 [Unit]
-Description=lingTai Cloud: self-check every ten minutes
+Description=LingTai Cloud: self-check every ten minutes
 
 [Timer]
 OnBootSec=3min

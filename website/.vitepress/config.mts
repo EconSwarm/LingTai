@@ -1,4 +1,4 @@
-// The lingTai docs site: VitePress over ../docs. Nothing is copied — the pages under
+// The LingTai docs site: VitePress over ../docs. Nothing is copied — the pages under
 // docs/ are the source, and this file only says how they are arranged and where the
 // links that leave docs/ go.
 //
@@ -6,7 +6,7 @@
 //   npm run docs:build    # .vitepress/dist, also the dead-link check
 //   DOCS_BASE=/docs/ npm run docs:build   # for lingtai.cn/docs/
 //
-// DOCS_BASE defaults to /lingTai/docs/ — the project pages at ling-tai.github.io keep
+// DOCS_BASE defaults to /LingTai/docs/ — the project pages at ling-tai.github.io keep
 // site/index.html (the redirect to lingtai.cn) and site/legacy.html at the root, and the
 // docs sit beside them under /docs/.
 import { posix } from 'node:path'
@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig, type DefaultTheme } from 'vitepress'
 
 const REPO = 'https://github.com/econswarm/lingtai'
-const base = process.env.DOCS_BASE ?? '/lingTai/docs/'
+const base = process.env.DOCS_BASE ?? '/LingTai/docs/'
 
 // Directories under docs/ that are not pages of the site: task briefs and traces are
 // working notes, the archive is the Python line's record, the release notes and the
@@ -99,10 +99,10 @@ const useIt: DefaultTheme.SidebarItem[] = [
 ]
 
 const runIt: DefaultTheme.SidebarItem[] = [
-  { text: 'Run lingTai yourself', link: '/self-hosting' },
+  { text: 'Run LingTai yourself', link: '/self-hosting' },
   { text: 'The runtime in Docker', link: '/deployment' },
   { text: 'Configuration', link: '/configuration' },
-  { text: 'lingTai Cloud, the relay', link: '/cloud' },
+  { text: 'LingTai Cloud, the relay', link: '/cloud' },
 ]
 
 const understandIt: DefaultTheme.SidebarItem[] = [
@@ -112,7 +112,7 @@ const understandIt: DefaultTheme.SidebarItem[] = [
   { text: 'What stays on a phone, and whose it is', link: '/sync' },
   { text: 'The hub', link: '/hub' },
   { text: 'Design: how it looks, and why', link: '/design' },
-  { text: 'lingTai on DeepSeek Harness', link: '/harness' },
+  { text: 'LingTai on DeepSeek Harness', link: '/harness' },
   { text: 'The phone’s own capabilities', link: '/device' },
   { text: 'The app, as designed', link: '/app' },
   { text: 'The local runtime on the phone', link: '/local-runtime' },
@@ -188,7 +188,7 @@ const zhContribute: DefaultTheme.SidebarItem[] = [
 ]
 
 export default defineConfig({
-  title: 'lingTai',
+  title: 'LingTai',
   description: 'An open-source personal agent for every device you own.',
   lang: 'en',
   base,
@@ -204,7 +204,7 @@ export default defineConfig({
       label: 'English',
       lang: 'en',
       themeConfig: {
-        siteTitle: 'lingTai docs',
+        siteTitle: 'LingTai docs',
         // Home and Try it are the project site and the demo, the same two the homepage's bar has.
         nav: [
           { text: 'Home', link: 'https://lingtai.cn/' },
@@ -223,8 +223,8 @@ export default defineConfig({
         outline: { level: [2, 3], label: 'On this page' },
         editLink: { pattern: `${REPO}/edit/main/docs/:path`, text: 'Edit this page on GitHub' },
         footer: {
-          message: 'GPL-3.0-or-later. lingTai is an independent community project, not affiliated with Meta.',
-          copyright: 'The lingTai contributors',
+          message: 'GPL-3.0-or-later. LingTai is an independent community project, not affiliated with Meta.',
+          copyright: 'The LingTai contributors',
         },
         langMenuLabel: 'Change language',
       },
@@ -233,7 +233,7 @@ export default defineConfig({
       label: '简体中文',
       lang: 'zh-Hans',
       link: '/zh/',
-      title: 'lingTai',
+      title: 'LingTai',
       description: '开源的个人智能体，面向你的每一台设备。',
       themeConfig: {
         siteTitle: '灵台文档',

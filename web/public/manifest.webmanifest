@@ -1,6 +1,6 @@
 {
-  "name": "lingTai",
-  "short_name": "lingTai",
+  "name": "LingTai",
+  "short_name": "LingTai",
   "description": "An open-source personal AI agent: it does things for you, keeps working while the app is closed, and asks before anything you could not undo.",
   "start_url": "/",
   "scope": "/",

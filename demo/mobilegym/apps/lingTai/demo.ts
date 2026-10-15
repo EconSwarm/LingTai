@@ -2,7 +2,7 @@
  * The hosted showcase.
  *
  * On the public site this simulator is served next to a *showcase gateway* (`demo/showcase/`
- * in the lingTai repository). Ask it for a session and it starts a private lingTai for this
+ * in the LingTai repository). Ask it for a session and it starts a private LingTai for this
  * visitor — its own container, its own token, GUI operation on — for a limited time and within
  * a model budget. Visitors may also bring their own model key; it goes to the gateway and stays
  * there, the container never sees it.
@@ -16,7 +16,7 @@ export interface DemoInfo {
   demo_model: string | null;
   byok: boolean;
   byok_hosts: string[];
-  /** The showcase wants a lingTai Cloud sign-in before it starts a Muse (visitors.py). */
+  /** The showcase wants a LingTai Cloud sign-in before it starts a Muse (visitors.py). */
   signin_required?: boolean;
   quota: { requests: number; tokens: number };
   active_sessions: number;
@@ -82,7 +82,7 @@ export function fetchDemoInfo(gateway: string): Promise<DemoInfo> {
   return call<DemoInfo>(gateway, '/info');
 }
 
-/** A code to the phone or the inbox, through the gateway to lingTai Cloud. */
+/** A code to the phone or the inbox, through the gateway to LingTai Cloud. */
 export function requestSignInCode(gateway: string, identifier: string): Promise<void> {
   return call<void>(gateway, '/signin/code', {
     method: 'POST',

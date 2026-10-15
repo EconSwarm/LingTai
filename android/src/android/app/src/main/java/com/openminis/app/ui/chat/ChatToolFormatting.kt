@@ -75,7 +75,7 @@ internal fun toolIconFor(toolName: String) = when (toolName) {
     else -> Icons.Default.Build
 }
 
-// Helper: tool display name for "lingTai is using X"
+// Helper: tool display name for "LingTai is using X"
 internal fun toolDisplayName(toolName: String): String = when (toolName) {
     "shell_execute" -> "terminal"
     "file_read" -> "file reader"
@@ -90,36 +90,36 @@ internal fun toolDisplayName(toolName: String): String = when (toolName) {
 }
 
 /**
- * Full "lingTai is …" label shown in the tool detail sheet's bottom bar.
+ * Full "LingTai is …" label shown in the tool detail sheet's bottom bar.
  * Mirrors iOS ToolLiveSheet.toolTitle so the wording matches per tool.
  */
 internal fun toolTitleLabel(toolName: String): String = when (toolName) {
-    "shell_execute" -> "lingTai is using Shell"
-    "file_read" -> "lingTai is reading File"
-    "file_write" -> "lingTai is using Editor"
-    "file_edit" -> "lingTai is editing File"
-    "browser_use" -> "lingTai is using Browser"
-    "read_image" -> "lingTai is reading Image"
-    "memory_write", "memory_get" -> "lingTai is using Memory"
-    "web_search" -> "lingTai is using Search"
-    else -> "lingTai is using ${toolDisplayName(toolName)}"
+    "shell_execute" -> "LingTai is using Shell"
+    "file_read" -> "LingTai is reading File"
+    "file_write" -> "LingTai is using Editor"
+    "file_edit" -> "LingTai is editing File"
+    "browser_use" -> "LingTai is using Browser"
+    "read_image" -> "LingTai is reading Image"
+    "memory_write", "memory_get" -> "LingTai is using Memory"
+    "web_search" -> "LingTai is using Search"
+    else -> "LingTai is using ${toolDisplayName(toolName)}"
 }
 
-// lingTai: the same label once the step is over (issue #67 — the sheet's bottom bar
+// LingTai: the same label once the step is over (issue #67 — the sheet's bottom bar
 // kept saying "is using" for a step that had finished long ago). Present tense while it
 // runs; what happened afterwards.
 internal fun toolTitleLabel(toolName: String, status: ToolBlockStatus?): String = when (status) {
     null, ToolBlockStatus.RUNNING, ToolBlockStatus.STREAMING, ToolBlockStatus.PENDING -> toolTitleLabel(toolName)
     ToolBlockStatus.SUCCESS -> when (toolName) {
-        "shell_execute" -> "lingTai used Shell"
-        "file_read" -> "lingTai read File"
-        "file_write" -> "lingTai used Editor"
-        "file_edit" -> "lingTai edited File"
-        "browser_use" -> "lingTai used Browser"
-        "read_image" -> "lingTai read Image"
-        "memory_write", "memory_get" -> "lingTai used Memory"
-        "web_search" -> "lingTai used Search"
-        else -> "lingTai used ${toolDisplayName(toolName)}"
+        "shell_execute" -> "LingTai used Shell"
+        "file_read" -> "LingTai read File"
+        "file_write" -> "LingTai used Editor"
+        "file_edit" -> "LingTai edited File"
+        "browser_use" -> "LingTai used Browser"
+        "read_image" -> "LingTai read Image"
+        "memory_write", "memory_get" -> "LingTai used Memory"
+        "web_search" -> "LingTai used Search"
+        else -> "LingTai used ${toolDisplayName(toolName)}"
     }
     ToolBlockStatus.FAILED -> "${toolDisplayName(toolName).replaceFirstChar { it.uppercase() }} failed"
     ToolBlockStatus.CANCELLED -> "${toolDisplayName(toolName).replaceFirstChar { it.uppercase() }} stopped"

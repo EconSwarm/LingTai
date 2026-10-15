@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 
 /**
  * `lingtai-pc` against a real computer on the hub — the way the phone's agent drives one,
- * minus the sandbox hop. Needs this phone signed in to lingTai Cloud with a computer named
+ * minus the sandbox hop. Needs this phone signed in to LingTai Cloud with a computer named
  * "desk" online on the same account; otherwise the tests are skipped, not failed.
  *
  *   ./gradlew :app:connectedDebugAndroidTest -Plt.abi=x86_64 \

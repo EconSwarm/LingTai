@@ -299,7 +299,7 @@ function ChannelCard({
         )}
         {!c.sdk_available && (
           <div className="px-4 pb-3 text-[13px] leading-[18px] text-muted">
-            {t("Install on the computer running lingTai, then switch it on again:")}
+            {t("Install on the computer running LingTai, then switch it on again:")}
             <code className="mt-1 block select-all rounded-lg bg-surface-2 px-2 py-1 text-[12.5px] text-fg">{c.install}</code>
           </div>
         )}

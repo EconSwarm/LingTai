@@ -1,16 +1,16 @@
 //
 //  LingTaiMediaModels.swift
-//  lingTai
+//  LingTai
 //
-//  The three models lingTai runs on. Muse ships with all of them built in;
+//  The three models LingTai runs on. Muse ships with all of them built in;
 //  here each is one of the person's own providers, chosen in Settings →
 //  Image & video models:
 //
 //   - the chat model — OpenMinis' default model group, unchanged;
 //   - the image model — the avatar's four candidates and poses
-//     (LingTaiImageGen: a Bailian key on this phone, else lingTai Cloud);
+//     (LingTaiImageGen: a Bailian key on this phone, else LingTai Cloud);
 //   - the video model — the animated avatar (LingTaiVideoGen: Model
-//     Studio's asynchronous video API, which lingTai Cloud relays too;
+//     Studio's asynchronous video API, which LingTai Cloud relays too;
 //     Wan 2.2 Flash by default, ¥0.10 a second at 480P).
 //
 //  Unset, the video model follows the image provider — the Cloud account
@@ -31,7 +31,7 @@ enum LingTaiMediaModels {
         LingTaiCatalogue.bundled.first { $0.id == LingTaiCatalogue.bailian }?.defaults["video"] ?? LingTaiVideoGen.knownDashScopeModels[0]
     }
     /// Posted after a save here, so the face view and the studio re-read what is set.
-    static let changed = Notification.Name("lingTai.mediaModelsChanged")
+    static let changed = Notification.Name("LingTai.mediaModelsChanged")
 
     private enum Keys {
         static let videoInstance = "lingtai.media.video.instance"
@@ -48,7 +48,7 @@ enum LingTaiMediaModels {
     // MARK: Video
 
     /// Providers whose host speaks Model Studio's asynchronous video API and hold a key: Model
-    /// Studio itself, and lingTai Cloud, which relays those same paths under the account's token.
+    /// Studio itself, and LingTai Cloud, which relays those same paths under the account's token.
     @MainActor
     static func eligibleVideoInstances() -> [ProviderInstance] {
         let cloudId = LingTaiCloud.modelsOn ? LingTaiCloud.instance?.id : nil
@@ -75,7 +75,7 @@ enum LingTaiMediaModels {
 
     /// The instance the video model is on, or nil (0.1.41, the contract's section 3): the
     /// saved one; without a choice, the chat provider's when it is a Model Studio key of the
-    /// person's own, else lingTai Cloud when signed in, else the first key that can.
+    /// person's own, else LingTai Cloud when signed in, else the first key that can.
     @MainActor
     static func videoInstance() -> ProviderInstance? {
         guard let value = LingTaiModelSlots.videoValue() else { return nil }
@@ -201,7 +201,7 @@ enum LingTaiMediaModels {
 
     // MARK: Lines
 
-    /// "qwen-image-3.0 · Bailian" / "lingTai Cloud" / "Not set".
+    /// "qwen-image-3.0 · Bailian" / "LingTai Cloud" / "Not set".
     @MainActor
     static func imageLine() -> String {
         switch LingTaiImageGen.route() {
@@ -219,7 +219,7 @@ enum LingTaiMediaModels {
 
 // MARK: - Screen
 
-/// Settings → Image & video models. The one place that says what Muse never has to: lingTai
+/// Settings → Image & video models. The one place that says what Muse never has to: LingTai
 /// runs on three of the person's own models. The chat model is OpenMinis' default group (a row
 /// to its picker); the image and video models are chosen here — a provider, then one of the
 /// models the key turns out to have — and each section says plainly what stops working
@@ -229,7 +229,7 @@ struct LingTaiMediaModelsView: View {
     @ObservedObject private var motion = LingTaiAvatarMotion.shared
     @ObservedObject private var faces = LingTaiFaceStore.shared
 
-    // Image: a Bailian key on this phone, else lingTai Cloud (LingTaiImageGen).
+    // Image: a Bailian key on this phone, else LingTai Cloud (LingTaiImageGen).
     @State private var imageInstances: [ProviderInstance] = []
     @State private var imageInstanceId: String?
     @State private var imageModel = ""
@@ -278,7 +278,7 @@ struct LingTaiMediaModelsView: View {
                     Image(systemName: "bubble.left").foregroundStyle(.primary).frame(width: 24)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(defaultGroup?.name ?? AppLocalized("No model yet"))
-                        Text(subtitle.isEmpty ? AppLocalized("Sign in to lingTai Cloud or add a provider") : subtitle)
+                        Text(subtitle.isEmpty ? AppLocalized("Sign in to LingTai Cloud or add a provider") : subtitle)
                             .font(.caption).foregroundStyle(.secondary)
                     }
                 }
@@ -343,8 +343,8 @@ struct LingTaiMediaModelsView: View {
             Text(AppLocalized("Image model"))
         } footer: {
             Text(imageInstances.isEmpty && !LingTaiCloud.modelsOn
-                 ? AppLocalized("None of your providers can draw. Sign in to lingTai Cloud, or add an Alibaba Cloud Bailian provider with an API key; the avatar is drawn with one of the two.")
-                 : AppLocalized("Avatar changes: the four candidates and the poses. Alibaba Cloud Model Studio: qwen-image-3.0 (draws and poses; ¥0.18 a picture) or the Pro tier, drawn with your own key. lingTai Cloud draws from the account's allowance."))
+                 ? AppLocalized("None of your providers can draw. Sign in to LingTai Cloud, or add an Alibaba Cloud Bailian provider with an API key; the avatar is drawn with one of the two.")
+                 : AppLocalized("Avatar changes: the four candidates and the poses. Alibaba Cloud Model Studio: qwen-image-3.0 (draws and poses; ¥0.18 a picture) or the Pro tier, drawn with your own key. LingTai Cloud draws from the account's allowance."))
         }
     }
 
@@ -414,7 +414,7 @@ struct LingTaiMediaModelsView: View {
             Text(AppLocalized("Video model"))
         } footer: {
             Text(videoInstances.isEmpty
-                 ? AppLocalized("No provider that can make video yet. lingTai speaks Alibaba Cloud Model Studio's video API, which lingTai Cloud relays too. Sign in to lingTai Cloud, or add a Model Studio key (it can be the same one as the image model uses), and the avatar starts moving; until then it stays as still pictures.")
+                 ? AppLocalized("No provider that can make video yet. LingTai speaks Alibaba Cloud Model Studio's video API, which LingTai Cloud relays too. Sign in to LingTai Cloud, or add a Model Studio key (it can be the same one as the image model uses), and the avatar starts moving; until then it stays as still pictures.")
                  : AppLocalized("Makes the avatar move: a short looping clip for each state. Alibaba Cloud Model Studio: wan2.2-i2v-flash (recommended, ¥0.10 a second at 480P), another Wan model or MiniMax/MiniMax-H3; the list shows the ones this key can use, each activated once on the model's card in the Model Studio console. Billed per second of video; an avatar takes four clips of a few seconds."))
         }
     }

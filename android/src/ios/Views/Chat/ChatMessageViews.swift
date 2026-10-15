@@ -147,8 +147,8 @@ private struct UserBubbleSurface: ViewModifier {
                         .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
                         .foregroundStyle(ChatColors.secondaryText.opacity(0.5))
                 )
-        } else if LingTaiShellPrefs.shell { // lingTai: Muse's user pill: the ink colour, black in light and white in dark, 18 pt, no glass (Android: ChatColors.userBubble)
-            content.background(shape.fill(LingTaiTones.ink)) // lingTai:
+        } else if LingTaiShellPrefs.shell { // LingTai: Muse's user pill: the ink colour, black in light and white in dark, 18 pt, no glass (Android: ChatColors.userBubble)
+            content.background(shape.fill(LingTaiTones.ink)) // LingTai:
         } else if #available(iOS 26.0, *) {
             content.glassEffect(.regular, in: shape)
         } else {
@@ -379,14 +379,14 @@ struct ChatMessageRow: View {
                     QueuedAttachmentPreview(attachments: message.inputAttachments)
                 }
 
-                if let wake = message.ltRoutine { // lingTai: a routine's prompt is one quiet line, not a bubble in the person's voice
+                if let wake = message.ltRoutine { // LingTai: a routine's prompt is one quiet line, not a bubble in the person's voice
                     LingTaiRoutineWakeRow(label: wake.label, at: wake.at)
                 } else if !userDisplayText.isEmpty {
                     HStack(spacing: 6) {
                         Text(userDisplayText)
                             .font(.system(size: FontSettings.shared.scaledMessage(16.5)))
-                            // lingTai: on the ink pill the text takes the canvas colour (white on black in light, black on white in dark); a queued line keeps upstream's grey (Android: ChatColors.onUserBubble)
-                            .foregroundStyle(message.isQueued ? ChatColors.secondaryText : (LingTaiShellPrefs.shell ? LingTaiTones.onInk : ChatColors.primaryText)) // lingTai:
+                            // LingTai: on the ink pill the text takes the canvas colour (white on black in light, black on white in dark); a queued line keeps upstream's grey (Android: ChatColors.onUserBubble)
+                            .foregroundStyle(message.isQueued ? ChatColors.secondaryText : (LingTaiShellPrefs.shell ? LingTaiTones.onInk : ChatColors.primaryText)) // LingTai:
                             .padding(.horizontal, 14)
                             .padding(.vertical, 10)
                             .modifier(UserBubbleSurface(isQueued: message.isQueued))
@@ -404,7 +404,7 @@ struct ChatMessageRow: View {
                         }
                     }
                 }
-                LingTaiFromDeviceCaption(message.ltFromDevice, working: message.ltWorkingDevice) // lingTai: C8 "From Pixel 8" + C9 "{device} is working…"
+                LingTaiFromDeviceCaption(message.ltFromDevice, working: message.ltWorkingDevice) // LingTai: C8 "From Pixel 8" + C9 "{device} is working…"
             }
             .modifier(MinisOpenURLHandler())
             .contentShape(Rectangle())
@@ -428,14 +428,14 @@ struct ChatMessageRow: View {
                         Label(AppLocalized("Copy Screenshot"), systemImage: "camera.viewfinder")
                     }
                 }
-                if let onEdit, message.ltFromDevice == nil { // lingTai: C8 — another device's line is read-only here
+                if let onEdit, message.ltFromDevice == nil { // LingTai: C8 — another device's line is read-only here
                     Button {
                         onEdit()
                     } label: {
                         Label("Edit", systemImage: "square.and.pencil")
                     }
                 }
-                if let onRetry, message.ltFromDevice == nil { // lingTai: C8
+                if let onRetry, message.ltFromDevice == nil { // LingTai: C8
                     Button {
                         onRetry()
                     } label: {
@@ -485,7 +485,7 @@ struct ChatMessageRow: View {
     private var assistantRow: some View {
         VStack(alignment: .leading, spacing: 8) {
             // Assistant label
-            if !LingTaiShellPrefs.shell { // lingTai: in the Muse shell the grey bubble is the agent's; no label over it
+            if !LingTaiShellPrefs.shell { // LingTai: in the Muse shell the grey bubble is the agent's; no label over it
             HStack(spacing: 6) {
                 Image(systemName: "sparkles")
                     .font(.system(size: 18, weight: .semibold))
@@ -502,7 +502,7 @@ struct ChatMessageRow: View {
                     .foregroundStyle(ChatColors.primaryText)
             }
             .padding(.top, 4)
-            } // lingTai:
+            } // LingTai:
 
             ForEach(message.blocks) { block in
                 AssistantBlockView(
@@ -538,7 +538,7 @@ struct ChatMessageRow: View {
                 )
             }
 
-            LingTaiFromDeviceCaption(message.ltFromDevice) // lingTai: C8 — "From Pixel 8" under a synced reply
+            LingTaiFromDeviceCaption(message.ltFromDevice) // LingTai: C8 — "From Pixel 8" under a synced reply
 
             // Typing indicator — "request out, nothing back yet", evaluated per
             // ROUND. See `ChatMessage.shouldShowTypingIndicator`.
@@ -548,12 +548,12 @@ struct ChatMessageRow: View {
 
             // Inline error + retry
             if let error = message.error {
-                // lingTai: a provider that could not be reached (or refused the region, or whose sign-in ran out) is a card, not the transport's text
+                // LingTai: a provider that could not be reached (or refused the region, or whose sign-in ran out) is a card, not the transport's text
                 if let reach = LingTaiProviderReach.classify(error) {
                     LingTaiProviderReachCard(reach: reach, onRetry: onRetry)
                 } else {
                     inlineError(error)
-                    LingTaiCloudOnceRow(onRetry: onRetry) // lingTai: "Use lingTai Cloud this time" after a key of one's own failed
+                    LingTaiCloudOnceRow(onRetry: onRetry) // LingTai: "Use LingTai Cloud this time" after a key of one's own failed
                 }
             }
 

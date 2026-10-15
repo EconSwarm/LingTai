@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ling-tai/lingTai/main/assets/brand/lingtai-cover.png" alt="lingTai: an open-source personal agent for every device you own">
+  <img src="https://raw.githubusercontent.com/ling-tai/LingTai/main/assets/brand/lingtai-cover.png" alt="LingTai: an open-source personal agent for every device you own">
 </p>
 
 <p align="center">
@@ -18,11 +18,11 @@
   <a href="https://trendshift.io/repositories/286894?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-286894" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/286894/daily?language=Swift" alt="ling-tai%2FlingTai | Trendshift" width="250" height="55"/></a>
 </p>
 <p align="center">
-  <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/lingTai?style=flat&label=stars" alt="GitHub stars"></a>
-  <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/lingTai/total?label=downloads" alt="Downloads"></a>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
+  <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/LingTai?style=flat&label=stars" alt="GitHub stars"></a>
+  <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/LingTai/total?label=downloads" alt="Downloads"></a>
+  <img src="https://hits.sh/github.com/ling-tai/LingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
   <a href="https://github.com/econswarm/lingtai/actions/workflows/ci.yml"><img src="https://github.com/econswarm/lingtai/actions/workflows/ci.yml/badge.svg?branch=main" alt="Test Suite"></a>
-  <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/lingTai?label=license" alt="GPL-3.0-or-later"></a>
+  <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/LingTai?label=license" alt="GPL-3.0-or-later"></a>
   <a href="https://arxiv.org/abs/2610.08699"><img src="https://img.shields.io/badge/arXiv-2610.08699-b31b1b" alt="Paper on arXiv"></a>
   <br>
   <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/Try_it-demo.lingtai.dev-4f46e5" alt="Try it in the browser"></a>
@@ -30,14 +30,14 @@
   <a href="https://discord.gg/bkTySmm28X"><img src="https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
-**lingTai is an open-source personal agent for every device you own.** One agent with a name and a look of its own, in the style of Meta's [Muse](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/): it does things instead of answering questions, keeps working while the app is closed, remembers you, and stops to ask before anything you could not undo.
+**LingTai is an open-source personal agent for every device you own.** One agent with a name and a look of its own, in the style of Meta's [Muse](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/): it does things instead of answering questions, keeps working while the app is closed, remembers you, and stops to ask before anything you could not undo.
 
 *nano* means the whole set, small enough to run and deploy yourself: the phone app, the desktop app, the web console and the relay that joins them are all in this repository, under GPL-3.0-or-later. **[Free, open source, non-profit. Let's build it together.](CONTRIBUTING.md)** Sign in and you get a free allowance of model use on the community relay (the developer pays for it); when it is gone, [use your own key](docs/own-key.md). The same relay runs on a server of yours, so nothing has to leave your house. Latest: **1.0.5 Lookout**, [release notes](https://github.com/econswarm/lingtai/releases/tag/v1.0.5) · [try it in the browser](https://demo.lingtai.dev/).
 
 > [!NOTE]
-> **lingTai keeps evolving**
+> **LingTai keeps evolving**
 >
-> A personal agent should not live only in someone else's cloud, so lingTai is the open-source, low-cost alternative: on your own devices, with a model you choose and a relay you can host yourself. We want to build it with developers and users everywhere, so that each person truly owns a personal agent. Open an [issue](https://github.com/econswarm/lingtai/issues/new/choose) or send a [pull request](CONTRIBUTING.md); either one helps lingTai get better.
+> A personal agent should not live only in someone else's cloud, so LingTai is the open-source, low-cost alternative: on your own devices, with a model you choose and a relay you can host yourself. We want to build it with developers and users everywhere, so that each person truly owns a personal agent. Open an [issue](https://github.com/econswarm/lingtai/issues/new/choose) or send a [pull request](CONTRIBUTING.md); either one helps LingTai get better.
 
 https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 
@@ -48,8 +48,8 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 - `2026-10-13` ⭐ 1,000 stars on GitHub, eighteen days after the first release, with four days on GitHub Trending's Swift list on the way ([Trendshift](https://trendshift.io/repositories/286894): seventh on October 7, fourth on October 10). Thank you for every try, every report and every pull request. We keep going: a version every few days, and the [roadmap](docs/roadmap.md) says what comes next.
 - `2026-10-09` 🚀 Version [1.0.0 Keel](https://github.com/econswarm/lingtai/releases/tag/v1.0.0) is out, for the phone, the desktop and the browser; it installs over the version before and keeps your data, and its release notes list every change.
 - `2026-10-08` 🤗 Our paper is on [Hugging Face Daily Papers](https://huggingface.co/papers/2610.08699), ranked third on the list for October 8; questions and comments are welcome on the paper page.
-- `2026-10-07` 📄 Our paper is available on [arXiv](https://arxiv.org/abs/2610.08699): *lingTai: An Open-Source Personal Agent for Every Device You Own*, by Guangyi Liu, Yong Liu and Jiangning Zhang (Zhejiang University); the citation is at the end of this page.
-- `2026-09-25` 🎉 lingTai is released on GitHub under GPL-3.0-or-later: an Android app built on OpenMinis 1.13; the relay, the desktop app and the iPhone app came in the days after.
+- `2026-10-07` 📄 Our paper is available on [arXiv](https://arxiv.org/abs/2610.08699): *LingTai: An Open-Source Personal Agent for Every Device You Own*, by Guangyi Liu, Yong Liu and Jiangning Zhang (Zhejiang University); the citation is at the end of this page.
+- `2026-09-25` 🎉 LingTai is released on GitHub under GPL-3.0-or-later: an Android app built on OpenMinis 1.13; the relay, the desktop app and the iPhone app came in the days after.
 
 Every version: [releases](https://github.com/econswarm/lingtai/releases).
 
@@ -57,12 +57,12 @@ Every version: [releases](https://github.com/econswarm/lingtai/releases).
 
 | | |
 |---|---|
-| **Browser** | [demo.lingtai.dev](https://demo.lingtai.dev/): a lingTai on a simulated phone, after a sign-in. A demo; the apps below are the real thing |
-| **Android** 8.0+, arm64 | [lingTai-1.0.5-arm64.apk](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-1.0.5-arm64.apk): every version is signed with the same key and installs over the last |
+| **Browser** | [demo.lingtai.dev](https://demo.lingtai.dev/): a LingTai on a simulated phone, after a sign-in. A demo; the apps below are the real thing |
+| **Android** 8.0+, arm64 | [LingTai-1.0.5-arm64.apk](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-1.0.5-arm64.apk): every version is signed with the same key and installs over the last |
 | **iPhone / iPad** | [TestFlight](https://testflight.apple.com/join/ZHexbDqc): a beta that passed Apple's beta review; the link installs it · [iOS](docs/ios.md) |
-| **macOS** 12+ | [Apple Silicon](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-mac-arm64.dmg) · [Intel](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-mac-x64.dmg). Not notarised: right-click → *Open* the first time |
-| **Windows** 10+ | [lingTai-Desktop-1.0.5-win-x64.exe](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-win-x64.exe): click *Run anyway* once |
-| **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.tar.gz) |
+| **macOS** 12+ | [Apple Silicon](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-mac-arm64.dmg) · [Intel](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-mac-x64.dmg). Not notarised: right-click → *Open* the first time |
+| **Windows** 10+ | [LingTai-Desktop-1.0.5-win-x64.exe](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-win-x64.exe): click *Run anyway* once |
+| **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.tar.gz) |
 | **Docker** | `bash scripts/self-host.sh --local` for your own relay; `docker compose up -d app` for the web app on a server of yours; see [self-hosting](docs/self-hosting.md) |
 
 All downloads come from the [latest release](https://github.com/econswarm/lingtai/releases/latest); the same files are on [lingtai.cn/dl](https://lingtai.cn/dl/) when GitHub is slow where you are. Open the app, sign in with an e-mail or a mainland-China phone number, and it has a model to think with. The phone, the desktop and the web share one account and show the same conversations.
@@ -90,17 +90,17 @@ All downloads come from the [latest release](https://github.com/econswarm/lingta
 
 ## How it works
 
-Each device runs its own agent: the phone inside the APK (Alpine Linux under proot, a shell, a browser, MCP), the computer inside lingTai Desktop (DeepSeek Harness with the Python runtime for the hands). Signed in, they meet on the relay and can ask each other for things; the text of the conversations travels through it, files and screenshots stay where they were made.
+Each device runs its own agent: the phone inside the APK (Alpine Linux under proot, a shell, a browser, MCP), the computer inside LingTai Desktop (DeepSeek Harness with the Python runtime for the hands). Signed in, they meet on the relay and can ask each other for things; the text of the conversations travels through it, files and screenshots stay where they were made.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ling-tai/lingTai/main/assets/brand/devices-loop.png" alt="Android, the desktop (Mac, Windows, Linux), iPhone and iPad, and the web app around one account: the relay signs the devices in and carries the conversation between them" width="92%">
+  <img src="https://raw.githubusercontent.com/ling-tai/LingTai/main/assets/brand/devices-loop.png" alt="Android, the desktop (Mac, Windows, Linux), iPhone and iPad, and the web app around one account: the relay signs the devices in and carries the conversation between them" width="92%">
 </p>
 
 [docs/every-device.md](docs/every-device.md) explains the devices, [docs/hub.md](docs/hub.md) the frames, [docs/cloud.md](docs/cloud.md) the relay, [docs/privacy.md](docs/privacy.md) what it keeps.
 
 ## Compared with Muse and OpenMinis
 
-| | Meta Muse | OpenMinis | lingTai |
+| | Meta Muse | OpenMinis | LingTai |
 |---|---|---|---|
 | Where the agent runs | A cloud VM per user | The phone it is installed on | Your phone, your computer, or a server of yours, one account across them |
 | Apps without an API | Out of reach; the VM never touches your devices | An accessibility CLI on Android | The screen as a hand on the phone and the computer: screenshots, APIs first, you take over for logins. Not on iOS, where the system does not allow it |
@@ -148,11 +148,11 @@ Everyone whose change has landed on `main`, from GitHub's contributors list.
 
 ## ⭐️ Citation
 
-If you find lingTai useful, please cite the paper.
+If you find LingTai useful, please cite the paper.
 
 ```bibtex
 @misc{liu2026lingtaiopensourcepersonalagent,
-      title={lingTai: An Open-Source Personal Agent for Every Device You Own}, 
+      title={LingTai: An Open-Source Personal Agent for Every Device You Own}, 
       author={Guangyi Liu and Yong Liu and Jiangning Zhang},
       year={2026},
       eprint={2610.08699},
@@ -164,7 +164,7 @@ If you find lingTai useful, please cite the paper.
 
 ## Acknowledgements
 
-lingTai stands on other people's work; [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) has the terms.
+LingTai stands on other people's work; [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) has the terms.
 
 - [OpenMinis](https://github.com/OpenMinis/OpenMinis): the on-device agent the phone app is built on, with [proot](https://github.com/econswarm/proot) and [Alpine Linux](https://alpinelinux.org/) for the sandbox.
 - [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): the agent harness the desktop app is a plugin of.
@@ -173,13 +173,13 @@ lingTai stands on other people's work; [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTI
 
 ## Disclaimer
 
-lingTai is an independent community project, not affiliated with or endorsed by Meta Platforms, Inc.; Muse is their trademark. The dragon is the project's own.
+LingTai is an independent community project, not affiliated with or endorsed by Meta Platforms, Inc.; Muse is their trademark. The dragon is the project's own.
 
 ## License
 
 [GPL-3.0-or-later](LICENSE). The phone app is based on OpenMinis 1.13 (GPL-3.0), modified since 2026-09-24; see [NOTICE](NOTICE). Earlier versions of the Python line were MIT (tag `pre-openminis`).
 
 <p align="center">
-  <em>Thanks for visiting ✨ lingTai.</em><br><br>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
+  <em>Thanks for visiting ✨ LingTai.</em><br><br>
+  <img src="https://hits.sh/github.com/ling-tai/LingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
 </p>

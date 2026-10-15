@@ -80,7 +80,7 @@ fun RootfsManagementScreen(
     val groupedBg = MaterialTheme.colorScheme.surfaceContainerLowest
     Scaffold(
         topBar = {
-            io.github.lingtai.ui.muse.MuseTopAppBar( // lingTai: Muse's bar (drop-in for TopAppBar)
+            io.github.lingtai.ui.muse.MuseTopAppBar( // LingTai: Muse's bar (drop-in for TopAppBar)
                 title = { Text(stringResource(R.string.rootfs_management_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {

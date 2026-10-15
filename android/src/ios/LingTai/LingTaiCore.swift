@@ -1,8 +1,8 @@
 //
 //  LingTaiCore.swift
-//  lingTai
+//  LingTai
 //
-//  Small shared pieces the lingTai files lean on: where our data lives,
+//  Small shared pieces the LingTai files lean on: where our data lives,
 //  day keys, the fenced blocks the agent writes for the app
 //  (```lingtai-…```), and the per-session system-prompt addenda. Android:
 //  io.github.lingtai.chat.SessionAddenda and the helpers next to it.

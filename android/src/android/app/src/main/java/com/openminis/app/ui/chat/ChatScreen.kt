@@ -50,7 +50,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map // lingTai
+import kotlinx.coroutines.flow.map // LingTai
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -133,9 +133,9 @@ import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material.icons.filled.StopCircle
 import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.outlined.Tune // lingTai
+import androidx.compose.material.icons.outlined.Tune // LingTai
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreHoriz // lingTai
+import androidx.compose.material.icons.filled.MoreHoriz // LingTai
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.RadioButtonChecked
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
@@ -531,10 +531,10 @@ fun ChatScreen(
      *  management screen — wired to the "Edit" button on the model picker's
      *  Model Groups section header. */
     onModelGroupsClick: () -> Unit = {},
-    // lingTai: non-null when this chat is a tab of the home shell — hamburger
+    // LingTai: non-null when this chat is a tab of the home shell — hamburger
     // instead of back, round kebab, big-face header on the main chat.
     ltHome: io.github.lingtai.ui.chat.LtHomeChrome? = null,
-    // lingTai: height of the floating pill bar overlaying the bottom. The
+    // LingTai: height of the floating pill bar overlaying the bottom. The
     // composer sits above it; the message list slides behind it for the blur.
     ltBottomOverlay: androidx.compose.ui.unit.Dp = 0.dp,
 ) {
@@ -568,22 +568,22 @@ fun ChatScreen(
     val messages by viewModel.uiMessages.collectAsState()
     val hasOlderMessages by viewModel.hasOlderMessages.collectAsState()
     val isStreaming by viewModel.isStreaming.collectAsState()
-    // lingTai: the screen stays on while the agent drives the browser or another app's screen.
+    // LingTai: the screen stays on while the agent drives the browser or another app's screen.
     io.github.lingtai.status.KeepAwake.Effect(isStreaming)
     val canResume by viewModel.canResume.collectAsState()
-    // lingTai: the rows the account's other devices wrote — never this phone's turn to resume (C9)
+    // LingTai: the rows the account's other devices wrote — never this phone's turn to resume (C9)
     val ltRemoteRows by io.github.lingtai.sync.ConversationSync.remoteRows.collectAsState()
-    val ltContinueAsk by viewModel.ltContinueAsk.collectAsState() // lingTai: "continue?" card replaces the banner while shown
-    // lingTai: Muse's header carries only the name; the model rows under it are a
+    val ltContinueAsk by viewModel.ltContinueAsk.collectAsState() // LingTai: "continue?" card replaces the banner while shown
+    // LingTai: Muse's header carries only the name; the model rows under it are a
     // Setting (Appearance → Home), off by default on the main chat of the home shell.
     val ltHeaderModelShown by io.github.lingtai.ui.chat.rememberHeaderModelShown()
     val ltHideModelRows = ltHome != null && ltHome.isMainChat && !ltHeaderModelShown
-    val ltAvatarSize by io.github.lingtai.ui.avatar.rememberAvatarSize() // lingTai: Settings → Appearance → Avatar size
-    // lingTai: the agent's steps (tool pills, reasoning, the bar over the
+    val ltAvatarSize by io.github.lingtai.ui.avatar.rememberAvatarSize() // LingTai: Settings → Appearance → Avatar size
+    // LingTai: the agent's steps (tool pills, reasoning, the bar over the
     // composer) are a Setting (Appearance → Conversation), off by default;
     // the status line under the face carries what it is doing instead.
     val ltShowSteps by io.github.lingtai.ui.chat.rememberShowSteps()
-    // lingTai: for that status line — true while the reply's own words are
+    // LingTai: for that status line — true while the reply's own words are
     // arriving; mapped and de-duplicated here so the per-token stream never
     // recomposes the screen for it.
     val ltReplying by remember(viewModel) {
@@ -591,11 +591,11 @@ fun ChatScreen(
             stream.values.any { d -> !d.isAwaitingModelResponse && d.toolBlocks.lastOrNull()?.let { it.kind == "text" && it.content.isNotEmpty() } == true }
         }.distinctUntilChanged()
     }.collectAsState(initial = false)
-    // lingTai: …and the request it is on, for the moments between steps.
+    // LingTai: …and the request it is on, for the moments between steps.
     val ltRequestBrief = remember(messages) {
         io.github.lingtai.ui.header.requestBrief(messages.lastOrNull { it.role == "user" }?.content)
     }
-    // lingTai: after a finished task, one card under the reply asking for a star when the
+    // LingTai: after a finished task, one card under the reply asking for a star when the
     // relay's policy says this is a moment for it (StarPrompt / Nudges: a few counts, a
     // cooldown, a lifetime cap, and never again after the person went).
     var ltStarNudge by remember { mutableStateOf<io.github.lingtai.community.StarPrompt.Ask?>(null) }
@@ -618,7 +618,7 @@ fun ChatScreen(
         io.github.lingtai.community.StarPrompt.markShown(context, ask)
         ltStarNudge = ask
     }
-    // lingTai: the asks that arrive away from any screen (the 7th / 30th day the app was
+    // LingTai: the asks that arrive away from any screen (the 7th / 30th day the app was
     // opened) show here, in the main chat, when the agent is not mid-reply.
     if (ltHome != null && ltHome.isMainChat) {
         val ltPendingAsk by io.github.lingtai.community.StarPrompt.pending.collectAsState()
@@ -1079,7 +1079,7 @@ fun ChatScreen(
         // [T-android-overlay-hide-camera] Suppress the floating bg-overlay
         // BEFORE handing off to the system camera. The camera Activity
         // takes foreground, which by #451's rule would otherwise satisfy
-        // "lingTai backgrounded → show overlay" and the capsule would draw
+        // "LingTai backgrounded → show overlay" and the capsule would draw
         // on top of the viewfinder. Cleared in the ActivityResult callback.
         com.openminis.app.service.SessionActivityTracker.setCameraSuppressActive(true)
         runCatching { cameraLauncher.launch(intent) }
@@ -1195,7 +1195,7 @@ fun ChatScreen(
             "ScrollSrc",
             "scrollToItem src=$source idx=$idx off=$off canBwd=${listState.canScrollBackward} firstIdx=${listState.firstVisibleItemIndex} firstOff=${listState.firstVisibleItemScrollOffset} inProgress=${listState.isScrollInProgress}",
         )
-        // lingTai: contentPadding clears the measured footer. Offset zero
+        // LingTai: contentPadding clears the measured footer. Offset zero
         // pins the latest row above it; another overlay offset would count it twice.
         runCatching { listState.scrollToItem(idx, off) }
         Unit
@@ -1751,7 +1751,7 @@ fun ChatScreen(
         viewModel.endSlashSessionForSend()
         viewModel.setInputText("")
         releaseComposerAfterSend()
-        viewModel.ltMarkPersonTurn() // lingTai: the person started this turn (StarPrompt counts those)
+        viewModel.ltMarkPersonTurn() // LingTai: the person started this turn (StarPrompt counts those)
         viewModel.sendMessage(rawText)
         noteSendForInputModePref()
         userScrolledAway = false
@@ -2302,7 +2302,7 @@ fun ChatScreen(
             }
         }
     }
-    // lingTai: the profile page's "Change avatar" pre-fills the composer and
+    // LingTai: the profile page's "Change avatar" pre-fills the composer and
     // asks for the keyboard (Muse hands you back to the chat with "把虚拟形象改成"
     // already typed). Same guard as above.
     LaunchedEffect(viewModel) {
@@ -2607,7 +2607,7 @@ fun ChatScreen(
         containerColor = ChatColors.background,
         contentWindowInsets = WindowInsets(0),
         topBar = {
-            // lingTai: the header is an overlay. The list slides underneath and
+            // LingTai: the header is an overlay. The list slides underneath and
             // the scrim melts it away: a soft shade at the top edge dissolving
             // to clear, never a bar.
             Box(
@@ -2623,7 +2623,7 @@ fun ChatScreen(
             ) {
             TopAppBar(
                 title = {
-                    // iOS-style centered layout: "lingTai" + group row + provider·model row
+                    // iOS-style centered layout: "LingTai" + group row + provider·model row
                     Box(
                         modifier = Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.Center,
@@ -2656,12 +2656,12 @@ fun ChatScreen(
                                 // the longest title.
                                 .padding(horizontal = 32.dp, vertical = 2.dp),
                         ) {
-                            // lingTai: the face above the name, as in Muse's
+                            // LingTai: the face above the name, as in Muse's
                             // header. Its mood follows this session's streaming
                             // state and the app-wide "needs you" gates; tapping
                             // it opens Settings → Soul (name / icon / style).
                             val ltMood = io.github.lingtai.ui.avatar.rememberAgentMood(isStreaming, error)
-                            // lingTai: side chats inside the home shell show
+                            // LingTai: side chats inside the home shell show
                             // their title where the face would be (Muse puts
                             // the face only on the main chat); the main chat
                             // gets the big face on its disc.
@@ -2681,7 +2681,7 @@ fun ChatScreen(
                                     modifier = Modifier.padding(bottom = 1.dp),
                                 )
                             } else if (ltMainChat) {
-                                // lingTai: the disc follows Settings → Appearance → Avatar size;
+                                // LingTai: the disc follows Settings → Appearance → Avatar size;
                                 // "hidden" leaves the name tag alone. Tapping the face opens the
                                 // agent's profile page, as in Muse.
                                 val ltDisc = ltAvatarSize.disc
@@ -2703,7 +2703,7 @@ fun ChatScreen(
                                 onClick = { io.github.lingtai.ui.header.openAgentProfile(context) },
                             )
                             if (!ltSideChat && !ltMainChat) Spacer(Modifier.height(2.dp))
-                            // lingTai: the pill is the agent's name (Muse's
+                            // LingTai: the pill is the agent's name (Muse's
                             // header), never the session title — that one
                             // stays in the session list and in the chat
                             // menu's "Rename chat" (showChatTitlePill is
@@ -2716,14 +2716,14 @@ fun ChatScreen(
                             val topBarSoul by com.openminis.app.agent.SoulStore
                                 .cachedMetadata.collectAsState()
                             val displayTitle = topBarSoul.name.trim().ifEmpty { stringResource(R.string.app_name) }
-                            // lingTai: while the agent works or waits, the
+                            // LingTai: while the agent works or waits, the
                             // status line says what it is doing (Muse's
                             // "Generating options" / "正在等待批准").
                             val ltStatusLine = io.github.lingtai.ui.header.rememberLingTaiStatusLine(isStreaming, ltMood, replying = ltReplying, request = ltRequestBrief)
-                            // lingTai: no name pill on side chats — their
+                            // LingTai: no name pill on side chats — their
                             // title took the slot above.
                             if (ltMainChat) {
-                                // lingTai: Muse's name tag hangs off the chin
+                                // LingTai: Muse's name tag hangs off the chin
                                 // of the face and carries the status as its
                                 // second line; two lines are always reserved so
                                 // the bar never jumps. Tap: the profile page.
@@ -2750,20 +2750,20 @@ fun ChatScreen(
                                 overflow = TextOverflow.Ellipsis,
                                 style = noFontPad,
                                 modifier = Modifier
-                                    // lingTai: the name sits in a capsule under the face (Muse's name pill).
+                                    // LingTai: the name sits in a capsule under the face (Muse's name pill).
                                     .clip(CircleShape)
-                                    // lingTai: not userBubble, which is now the
+                                    // LingTai: not userBubble, which is now the
                                     // white message pill; the capsule keeps a
                                     // neutral wash.
                                     .background(ChatColors.secondaryBg)
                                     .clickable { io.github.lingtai.ui.header.openSoulSettings(context) }
                                     .padding(horizontal = 12.dp, vertical = 3.dp),
                             )
-                            // lingTai: outside the home shell the status line
+                            // LingTai: outside the home shell the status line
                             // takes the model rows' slot; on the main chat it
                             // is inside the name tag, so the rows stay put.
                             if (ltStatusLine != null && !ltMainChat) io.github.lingtai.ui.header.LingTaiStatusLine(ltStatusLine, ltMood)
-                            // lingTai: no model rows under the name unless the Setting asks for them.
+                            // LingTai: no model rows under the name unless the Setting asks for them.
                             else if (!ltHideModelRows)
                             // Model picker subtitle: green dot + group +
                             // provider/model. Tap opens the model picker —
@@ -2959,7 +2959,7 @@ fun ChatScreen(
                     }
                 },
                 navigationIcon = {
-                    // lingTai: inside the home shell the slot is Muse's round
+                    // LingTai: inside the home shell the slot is Muse's round
                     // hamburger, which opens the chats drawer.
                     if (ltHome != null) {
                         io.github.lingtai.ui.home.MuseRoundButton(
@@ -3049,7 +3049,7 @@ fun ChatScreen(
                 actions = {
                     // iOS: "..." circle button → dropdown menu
                     Box {
-                        // lingTai: Muse's round "•••" when hosted in the home shell.
+                        // LingTai: Muse's round "•••" when hosted in the home shell.
                         if (ltHome != null) {
                             io.github.lingtai.ui.home.MuseRoundButton(
                                 icon = Icons.Filled.MoreHoriz,
@@ -3089,7 +3089,7 @@ fun ChatScreen(
                                     Icon(Icons.Outlined.Forum, contentDescription = null)
                                 },
                             )
-                            // lingTai: the top-bar pill now carries the agent's
+                            // LingTai: the top-bar pill now carries the agent's
                             // name, so the session edit sheet (title / emoji)
                             // moved here from the title tap.
                             DropdownMenuItem(
@@ -3104,7 +3104,7 @@ fun ChatScreen(
                                     Icon(Icons.Default.Edit, contentDescription = null)
                                 },
                             )
-                            // lingTai: with the model rows off the header, the
+                            // LingTai: with the model rows off the header, the
                             // picker opens from here.
                             if (ltHideModelRows) {
                                 DropdownMenuItem(
@@ -3351,7 +3351,7 @@ fun ChatScreen(
                     }
                 },
                 windowInsets = WindowInsets.statusBars,
-                // lingTai: transparent; the gradient wrapper behind this bar
+                // LingTai: transparent; the gradient wrapper behind this bar
                 // carries the header fade from the top edge.
                 colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
@@ -3370,19 +3370,19 @@ fun ChatScreen(
                 // user-configured font scale on xhdpi/xxhdpi without
                 // re-clipping (T-topbar-model-row-clip regression check).
                 // Font sizes + lineHeights stay untouched per spec.
-                // lingTai: 68dp held the 3-row title; the face (36dp) and the
+                // LingTai: 68dp held the 3-row title; the face (36dp) and the
                 // capsule padding sit on top of that. In the home shell the
                 // main chat's disc (76dp) needs more, a side chat's one-line
                 // title less.
                 expandedHeight = when {
                     ltHome == null -> 108.dp
-                    // lingTai: disc (per the Avatar size setting; 10dp spacer when hidden)
+                    // LingTai: disc (per the Avatar size setting; 10dp spacer when hidden)
                     // + the two-line name tag area, + the model rows when on.
                     ltHome.isMainChat -> (ltAvatarSize.disc ?: 10.dp) + 55.dp + (if (ltHideModelRows) 0.dp else 20.dp)
                     else -> 72.dp
                 },
             )
-            } // lingTai: close the header-fade wrapper
+            } // LingTai: close the header-fade wrapper
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
@@ -3392,14 +3392,14 @@ fun ChatScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                // lingTai: the message list slides under the header, which is an
+                // LingTai: the message list slides under the header, which is an
                 // overlay, so only the bottom bar insets the content. The
                 // header itself is a scrim over the scrolling list.
                 .padding(bottom = padding.calculateBottomPadding())
                 .imePadding()
                 .onGloballyPositioned { chatPaneWidthPx = it.size.width },
         ) {
-        // lingTai: merge live steps once so the footer and its reserve agree
+        // LingTai: merge live steps once so the footer and its reserve agree
         // on the same frame, including tools still in the streaming side channel.
         val streamingById by viewModel.streamingById.collectAsState()
         val lastToolBlocks = remember(messages, streamingById) {
@@ -3415,14 +3415,14 @@ fun ChatScreen(
             else if (ltBarLingers) { kotlinx.coroutines.delay(1_500); ltBarLingers = false }
         }
         val ltToolBarShown = ltShowSteps && (isStreaming || ltBarLingers) && lastToolBlocks.isNotEmpty()
-        // lingTai: only live browser controls suppress the scrolling fade.
+        // LingTai: only live browser controls suppress the scrolling fade.
         val ltBrowserHandOver by io.github.lingtai.browser.BrowserHandOver.pending.collectAsState()
         val ltBrowserToolMenuShown =
             ltToolBarShown && lastToolBlocks.lastOrNull()?.toolName == "browser_use"
         val ltComposerFadeSuppressed =
             ltBrowserToolMenuShown || showBrowserSheet || ltBrowserHandOver != null
 
-        // lingTai: the composer and scrolling fade share one rounded outline.
+        // LingTai: the composer and scrolling fade share one rounded outline.
         val ltRecState by com.openminis.app.speech.SpeechRecognitionManager.state.collectAsState()
         val ltRecording = ltRecState == com.openminis.app.speech.RecognitionState.RECORDING ||
             ltRecState == com.openminis.app.speech.RecognitionState.STARTING ||
@@ -3437,7 +3437,7 @@ fun ChatScreen(
         val ltComposerTopPadding = 2.dp
         val ltComposerBottomPadding = io.github.lingtai.ui.chat.LT_CHAT_COMPOSER_BOTTOM_GAP
 
-        // lingTai: measure the whole footer before the list, while keeping the
+        // LingTai: measure the whole footer before the list, while keeping the
         // list full-size behind the pill for Haze. No asynchronous height feedback.
         io.github.lingtai.ui.chat.LtChatBottomLayout(
             modifier = Modifier.fillMaxSize(),
@@ -3462,14 +3462,14 @@ fun ChatScreen(
             }
 
             // Messages + scroll-to-bottom button
-            // lingTai: the list fills the whole Box, extending behind the
+            // LingTai: the list fills the whole Box, extending behind the
             // pill bar so the haze has content to blur. Bottom contentPadding
             // keeps the last message clear of the composer + pill.
             Box(modifier = Modifier.fillMaxSize()) {
-                // lingTai: the measured footer already includes the tool preview,
+                // LingTai: the measured footer already includes the tool preview,
                 // approval cards, composer and pill inset. Only breathing room is extra.
                 val bottomReserve = if (ltToolBarShown) 14.dp else 20.dp
-                // lingTai: when the measured footer changes (tools, composer,
+                // LingTai: when the measured footer changes (tools, composer,
                 // approval or keyboard), re-pin to bottom
                 // if we are currently following. Without this, the new
                 // contentPadding is honoured for layout but reverseLayout
@@ -3547,7 +3547,7 @@ fun ChatScreen(
                 // scope. The flatten still runs per token (cheap-ish; ran
                 // before too), but the rebuild stays off the main UI
                 // composable's invalidation list.
-                // lingTai: keyed on the steps switch too — flipping it in
+                // LingTai: keyed on the steps switch too — flipping it in
                 // Settings rebuilds the rows with or without the steps.
                 LaunchedEffect(messages, sessionId, ltShowSteps) {
                     // [T-android-stream-pipeline-incremental] Frozen/live split.
@@ -3637,7 +3637,7 @@ fun ChatScreen(
                                     // threw ConcurrentModificationException from
                                     // a later frame's SubList.equals. Copying
                                     // severs the view so it can't comodify.
-                                    buildFlatChatItems(msgs.take(splitIdx), sessionId, showSteps = ltShowSteps) // lingTai
+                                    buildFlatChatItems(msgs.take(splitIdx), sessionId, showSteps = ltShowSteps) // LingTai
                                 }
                                 val buildMs = (System.nanoTime() - tBuildStart) / 1_000_000
                                 frozenRows = rows
@@ -3713,7 +3713,7 @@ fun ChatScreen(
                             } else {
                                 withContext(Dispatchers.Default) {
                                     val merged = mergeStreamingOverlay(msgs, stream)
-                                    buildFlatChatItems(merged, null, fromIndex = splitIdx, seedKeys = frozenKeys, showSteps = ltShowSteps) // lingTai
+                                    buildFlatChatItems(merged, null, fromIndex = splitIdx, seedKeys = frozenKeys, showSteps = ltShowSteps) // LingTai
                                 }
                             }
                             flatItems = if (liveRows.isEmpty()) frozenRows else frozenRows + liveRows
@@ -3829,11 +3829,11 @@ fun ChatScreen(
                     is FlatChatItem.AssistantThinking -> grayedMap[originalMessageId(messageId)] == true
                     is FlatChatItem.AssistantToolUse -> grayedMap[originalMessageId(messageId)] == true
                     is FlatChatItem.AssistantInfo -> false  // system rows never grayed
-                    is FlatChatItem.LingTaiNaming -> false // lingTai
-                    is FlatChatItem.LingTaiAvatarOptions -> false // lingTai
-                    is FlatChatItem.LingTaiAvatarShare -> false // lingTai
-                    is FlatChatItem.LingTaiAvatarConfirm -> false // lingTai
-                    is FlatChatItem.LingTaiAllowance -> false // lingTai
+                    is FlatChatItem.LingTaiNaming -> false // LingTai
+                    is FlatChatItem.LingTaiAvatarOptions -> false // LingTai
+                    is FlatChatItem.LingTaiAvatarShare -> false // LingTai
+                    is FlatChatItem.LingTaiAvatarConfirm -> false // LingTai
+                    is FlatChatItem.LingTaiAllowance -> false // LingTai
                     is FlatChatItem.AssistantTyping -> false
                     is FlatChatItem.AssistantError -> grayedMap[originalMessageId(messageId)] == true
                     is FlatChatItem.AssistantLegacyContent -> grayedMap[originalMessageId(messageId)] == true
@@ -3982,13 +3982,13 @@ fun ChatScreen(
                     // the bubble's 4dp = 8dp (≈22px), tighter but still a clear
                     // breath under the title bar. Bottom padding and inter-
                     // message spacing are untouched.
-                    // lingTai: the list slides under the overlay header, so it
+                    // LingTai: the list slides under the overlay header, so it
                     // starts below it: the Scaffold's top inset is the header's
                     // measured height (status bar included), plus breathing room.
                     // The bottom clears the floating pill bar the same way.
                     contentPadding = PaddingValues(
                         top = padding.calculateTopPadding() + 8.dp,
-                        // lingTai: use this layout pass's full footer height.
+                        // LingTai: use this layout pass's full footer height.
                         bottom = bottomChromeHeight + bottomReserve,
                     ),
                     modifier = Modifier
@@ -4094,7 +4094,7 @@ fun ChatScreen(
                             )
                         }
                     }
-                    // lingTai: the last line came from another device (C9) — never this phone's
+                    // LingTai: the last line came from another device (C9) — never this phone's
                     // turn to resume; while that device works, say so in the banner's place.
                     val ltLastId = messages.lastOrNull()?.id
                     val ltRemoteTail = ltLastId != null && ltLastId.substringBefore('#') in ltRemoteRows
@@ -4109,7 +4109,7 @@ fun ChatScreen(
                                 viewModel.resume()
                                 // T282: same dual-scroll trick as the regular
                                 // send paths (T281). Resume kicks off a fresh
-                                // stream, so the "lingTai is thinking" indicator
+                                // stream, so the "LingTai is thinking" indicator
                                 // mounts a frame or two later — pin once now,
                                 // then again after 100ms so the indicator
                                 // doesn't land below the fold.
@@ -4122,7 +4122,7 @@ fun ChatScreen(
                             })
                         }
                     }
-                    // lingTai: the ask for a star under a finished task, or on the 7th / 30th
+                    // LingTai: the ask for a star under a finished task, or on the 7th / 30th
                     // day (reverseLayout: declared first, drawn at the bottom).
                     val ltStarAsk = ltStarNudge
                     if (ltStarAsk != null && !isStreaming) {
@@ -4246,10 +4246,10 @@ fun ChatScreen(
                                 ),
                         ) {
                         when (item) {
-                            is FlatChatItem.UserBubble -> Column { // lingTai: a column, for the sync caption over the bubble
-                                // lingTai: "From Pixel 8" when the line was written on another device (C8)
+                            is FlatChatItem.UserBubble -> Column { // LingTai: a column, for the sync caption over the bubble
+                                // LingTai: "From Pixel 8" when the line was written on another device (C8)
                                 io.github.lingtai.ui.chat.LtSyncCaption(item.message.id.substringBefore('#'), end = true)
-                                // lingTai: a row a routine sent is one quiet line, not a bubble in the person's voice
+                                // LingTai: a row a routine sent is one quiet line, not a bubble in the person's voice
                                 io.github.lingtai.ui.chat.LtRoutineWakeRow(item.message.id.substringBefore('#')) {
                                 // User bubbles intentionally don't register
                                 // MinisTextKit shards — long-press on a user
@@ -4326,15 +4326,15 @@ fun ChatScreen(
                                     }
                                 },
                             )
-                            } // lingTai: close LtRoutineWakeRow
+                            } // LingTai: close LtRoutineWakeRow
                             } // close UserBubble SideEffect + UserMessageBubble block
-                            // lingTai: in the home shell the agent's reply is Muse's —
+                            // LingTai: in the home shell the agent's reply is Muse's —
                             // grey bubbles per block, no name above each turn (the face
                             // in the header says who is talking); a small gap keeps the
                             // turns apart.
                             is FlatChatItem.AssistantHeader -> Column {
                                 if (ltHome != null) Spacer(Modifier.height(6.dp)) else AssistantHeader()
-                                // lingTai: "From Pixel 8" when the reply was written on another device (C8)
+                                // LingTai: "From Pixel 8" when the reply was written on another device (C8)
                                 io.github.lingtai.ui.chat.LtSyncCaption(item.messageId.substringBefore('#'), end = false)
                             }
                             is FlatChatItem.AssistantText -> BoundsTrackedBlock(
@@ -4362,7 +4362,7 @@ fun ChatScreen(
                                         ),
                                     )
                                 }
-                            } } // lingTai: bubble
+                            } } // LingTai: bubble
                             is FlatChatItem.AssistantMarkdownBlock -> BoundsTrackedBlock(
                                 messageId = item.messageId,
                                 slotKey = "mdblock:${item.parentBlockId}:${item.blockIndex}",
@@ -4385,7 +4385,7 @@ fun ChatScreen(
                                         ),
                                     )
                                 }
-                            } } // lingTai: bubble
+                            } } // LingTai: bubble
                             is FlatChatItem.AssistantThinking -> {
                                 // T300: hide Deep Thinking block when the user
                                 // currently has thinking turned off — even if
@@ -4469,7 +4469,7 @@ fun ChatScreen(
                                     { viewModel.revertCompact() }
                                 } else null,
                             )
-                            // lingTai: the first-conversation name chooser.
+                            // LingTai: the first-conversation name chooser.
                             // A chip names the agent (and sends the name as the
                             // user's message, as Muse does); the dashed row
                             // hands over to the composer.
@@ -4486,26 +4486,26 @@ fun ChatScreen(
                                     )
                                 }
                             }
-                            // lingTai: the four candidates for a new face;
+                            // LingTai: the four candidates for a new face;
                             // tapping one adopts it (typing "第二个" works too).
                             is FlatChatItem.LingTaiAvatarOptions -> io.github.lingtai.ui.avatar.AvatarOptionsCard(
                                 onPick = { index -> viewModel.ltChooseAvatar(index) },
                                 onAgain = { viewModel.ltRegenerateAvatar() },
                                 onDismiss = { viewModel.ltCancelAvatar() },
                             )
-                            // lingTai: the new face is done — show it off.
+                            // LingTai: the new face is done — show it off.
                             is FlatChatItem.LingTaiAvatarShare -> io.github.lingtai.ui.avatar.AvatarShareCard(
                                 description = item.description,
                                 onDismiss = { viewModel.ltDismissAvatarShare() },
                             )
-                            // lingTai: what the face costs on the Cloud allowance — drawn only after the yes.
+                            // LingTai: what the face costs on the Cloud allowance — drawn only after the yes.
                             is FlatChatItem.LingTaiAvatarConfirm -> io.github.lingtai.ui.avatar.AvatarConfirmCard(
                                 text = item.text,
                                 blocked = viewModel.ltAvatarConfirmBlocked(),
                                 onConfirm = { viewModel.ltConfirmAvatar() },
                                 onDismiss = { viewModel.ltDeclineAvatar() },
                             )
-                            // lingTai: the relay refused the turn for a spent allowance — the two ways on.
+                            // LingTai: the relay refused the turn for a spent allowance — the two ways on.
                             is FlatChatItem.LingTaiAllowance -> {
                                 val info by viewModel.ltAllowance.collectAsState()
                                 info?.let {
@@ -4516,7 +4516,7 @@ fun ChatScreen(
                                 }
                             }
                             is FlatChatItem.AssistantTyping -> TypingIndicator()
-                            // lingTai: a provider that could not be reached (or refused the
+                            // LingTai: a provider that could not be reached (or refused the
                             // region, or whose sign-in ran out) is a card, not the socket's text
                             is FlatChatItem.AssistantError -> io.github.lingtai.ui.chat.LtProviderErrorOrBanner(
                                 error = item.error,
@@ -4524,7 +4524,7 @@ fun ChatScreen(
                                     coroutineScope.launch { tracedScrollToItem("INLINE-RETRY-LAST", 0, 0) }
                                     safeMutate { viewModel.retryLast() }
                                 },
-                                // lingTai: one turn on lingTai Cloud after a model of the person's own failed; nothing is switched
+                                // LingTai: one turn on LingTai Cloud after a model of the person's own failed; nothing is switched
                                 onRetryOnCloud = if (viewModel.ltOffersCloudRetry()) ({
                                     coroutineScope.launch { tracedScrollToItem("INLINE-RETRY-LAST", 0, 0) }
                                     safeMutate { viewModel.ltRetryLastOnCloud() }
@@ -4560,7 +4560,7 @@ fun ChatScreen(
                                         ),
                                     )
                                 }
-                            } } // lingTai: bubble
+                            } } // LingTai: bubble
                         }
                         } // Box (alpha wrapper)
                     }
@@ -4684,7 +4684,7 @@ fun ChatScreen(
                 // draws above the list, the FABs and the floating tool bar
                 // (iOS mounts its SpeechPlayerControl at app root; chat-screen
                 // scope is the Android first pass).
-                // lingTai: speech controls and scroll buttons share the same
+                // LingTai: speech controls and scroll buttons share the same
                 // measured footer obstruction, even when no tools are shown.
                 val upFabVisible = messages.isNotEmpty() && !isNearBottom.value
                 val downFabVisible =
@@ -4749,7 +4749,7 @@ fun ChatScreen(
                     if (leftover > 0.dp) leftover / 2 else 0.dp
                 }
 
-                // lingTai: fade into the canvas above the composer while reading
+                // LingTai: fade into the canvas above the composer while reading
                 // older messages. Live browser controls hide it immediately, even
                 // if a scroll animation or the alpha tween is still in progress.
                 val ltEdgeFade = ChatColors.background
@@ -4763,7 +4763,7 @@ fun ChatScreen(
                 if (!ltComposerFadeSuppressed) {
                     val ltFadeHeight = 90.dp
                     val ltFooterHeight = (bottomChromeHeight - ltBottomOverlay).coerceAtLeast(0.dp)
-                    // lingTai: a rounded halo fades into the composer and
+                    // LingTai: a rounded halo fades into the composer and
                     // away before the navigation glass, without square edges.
                     io.github.lingtai.ui.chat.LtComposerVignette(
                         color = ltEdgeFade,
@@ -4782,7 +4782,7 @@ fun ChatScreen(
                     )
                 }
 
-                // lingTai: the top vignette. When scrolled up away from the
+                // LingTai: the top vignette. When scrolled up away from the
                 // latest, the top edge gets a slow fade in the canvas colour so
                 // messages dissolve under the header instead of hitting a hard
                 // edge. Distinct from the header's static scrim; this one comes
@@ -4827,7 +4827,7 @@ fun ChatScreen(
                 // spacing). Tapping walks BACK one user turn at a time rather
                 // than jumping to the oldest message.
                 if (messages.isNotEmpty() && !isNearBottom.value) {
-                    // lingTai: clear every visible part of the measured footer.
+                    // LingTai: clear every visible part of the measured footer.
                     val upBaseBottom = bottomChromeHeight + 8.dp
                     androidx.compose.material3.FilledIconButton(
                         onClick = {
@@ -4870,7 +4870,7 @@ fun ChatScreen(
                 }
 
                 if (userScrolledAway && contentOverflows.value && messages.isNotEmpty()) {
-                    // lingTai: clear every visible part of the measured footer.
+                    // LingTai: clear every visible part of the measured footer.
                     val fabBottomPadding = bottomChromeHeight + 8.dp
                     androidx.compose.material3.FilledIconButton(
                         onClick = {
@@ -4900,7 +4900,7 @@ fun ChatScreen(
                                 tracedScrollToItem("FAB-DOWN/settle", 0, 0)
                             }
                         },
-                        // lingTai: scroll-to-latest, centered under the conversation:
+                        // LingTai: scroll-to-latest, centered under the conversation:
                         // a disc in the send button's colour with an arrow in the
                         // canvas colour (white on black in dark, inverted in light).
                         modifier = Modifier
@@ -4932,13 +4932,13 @@ fun ChatScreen(
                 // T-chat-title-pill: sticky session title overlay. Sits
                 // above the LazyColumn (top-center), animates in once the
 
-                // lingTai: dim the conversation while the approval card is up.
+                // LingTai: dim the conversation while the approval card is up.
                 io.github.lingtai.ui.guard.RiskScrim(sessionId = viewModel.activeSessionId)
             }
 
             },
             bottomContent = {
-            // lingTai: tools and composer are siblings in one footer, so their
+            // LingTai: tools and composer are siblings in one footer, so their
             // bounds cannot overlap regardless of composer/preview height.
             if (ltToolBarShown) {
                 Box(
@@ -4958,14 +4958,14 @@ fun ChatScreen(
                 }
             }
 
-            // lingTai: Muse's "Needs approval" card sits between the messages and the composer.
+            // LingTai: Muse's "Needs approval" card sits between the messages and the composer.
             io.github.lingtai.ui.guard.RiskApprovalHost(
                 sessionId = viewModel.activeSessionId,
                 onOpenSession = { onMoveToSession(it) },
             )
-            // lingTai: a long task that hit the step ceiling asks "continue?" here.
+            // LingTai: a long task that hit the step ceiling asks "continue?" here.
             io.github.lingtai.ui.chat.ContinueAskHost(viewModel)
-            // lingTai: the browser handed to the person (a login, a code) — "Your turn", Open, Done.
+            // LingTai: the browser handed to the person (a login, a code) — "Your turn", Open, Done.
             io.github.lingtai.ui.chat.BrowserHandOverHost(viewModel)
 
             // T-chat-title-pill-edit: reuse SessionEditSheet from the session
@@ -4988,7 +4988,7 @@ fun ChatScreen(
             var composerWidthPx by remember { mutableStateOf(0) }
 
             // ─── Input area (iOS-style: rounded box with text + buttons below) ───
-            // lingTai: the footer places the composer above the pill.
+            // LingTai: the footer places the composer above the pill.
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -5013,13 +5013,13 @@ fun ChatScreen(
                     // which is exactly how the first attempt at this fix still
                     // looked broken.
                     .onGloballyPositioned { composerWidthPx = it.size.width }
-                    // lingTai: the footer owns the home pill inset; standalone
+                    // LingTai: the footer owns the home pill inset; standalone
                     // chats still consume their system navigation inset here.
                     .then(
                         if (ltBottomOverlay > 0.dp) Modifier
                         else Modifier.navigationBarsPadding()
                     )
-                    // lingTai: match the fade and the nav surround's upper edge.
+                    // LingTai: match the fade and the nav surround's upper edge.
                     .padding(horizontal = ltComposerHorizontalInset)
                     .padding(top = ltComposerTopPadding, bottom = ltComposerBottomPadding),
             ) {
@@ -5542,7 +5542,7 @@ fun ChatScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        // lingTai: fill, clip and soft shadow follow the same outline.
+                        // LingTai: fill, clip and soft shadow follow the same outline.
                         .shadow(
                             elevation = 4.dp,
                             shape = ltComposerShape,
@@ -5556,7 +5556,7 @@ fun ChatScreen(
                             else ChatColors.inputBg,
                             shape = ltComposerShape,
                         )
-                        .padding(top = if (attachments.isNotEmpty()) 8.dp else if (ltPill) 0.dp else 4.dp), // lingTai: pill composer
+                        .padding(top = if (attachments.isNotEmpty()) 8.dp else if (ltPill) 0.dp else 4.dp), // LingTai: pill composer
                 ) {
                     // T185: Move-to capsule lives INSIDE the composer card,
                     // pinned 8dp from the top-right corner, mirroring iOS
@@ -5855,11 +5855,11 @@ fun ChatScreen(
                     // InlineVoiceInputView). The legacy in-composer waveform
                     // branch below only serves captures started OUTSIDE the
                     // panel (none today, kept as a safety net).
-                    // lingTai: the text field, declared once and placed either
+                    // LingTai: the text field, declared once and placed either
                     // on its own row (upstream layout) or between the buttons
                     // (the pill — see ltPill above).
                     val ltTextField: @Composable (Modifier) -> Unit = { ltFieldModifier ->
-                    // Text field (iOS: placeholder "Message lingTai", no border)
+                    // Text field (iOS: placeholder "Message LingTai", no border)
                     run {
                         val interactionSource = remember { MutableInteractionSource() }
                         // [T-android-composer-placeholder-rotation] Which entry
@@ -5923,7 +5923,7 @@ fun ChatScreen(
                             lastSendTimeMs = System.currentTimeMillis()
                             viewModel.setInputText("")
                             releaseComposerAfterSend()
-                            viewModel.ltMarkPersonTurn() // lingTai: the person started this turn (StarPrompt counts those)
+                            viewModel.ltMarkPersonTurn() // LingTai: the person started this turn (StarPrompt counts those)
                             viewModel.sendMessage(toSend)
                             noteSendForInputModePref()
                             userScrolledAway = false
@@ -6075,7 +6075,7 @@ fun ChatScreen(
                                     caret = value.selection.end,
                                 )
                             },
-                            modifier = ltFieldModifier // lingTai: fillMaxWidth on its own row, weight(1f) in the pill
+                            modifier = ltFieldModifier // LingTai: fillMaxWidth on its own row, weight(1f) in the pill
                                 .heightIn(min = 25.dp)
                                 .focusRequester(inputFocusRequester)
                                 .onFocusChanged {
@@ -6258,7 +6258,7 @@ fun ChatScreen(
                                         // swaps instantly — matching the iOS
                                         // Reduce Motion branch.
                                         val fadeMs = if (animationsDisabled(context)) 0 else 220
-                                        // lingTai: while the name chooser is
+                                        // LingTai: while the name chooser is
                                         // up, the composer asks for a name
                                         // (Muse: "Write a name here").
                                         val ltNamingCard by viewModel.ltNamingCard.collectAsState()
@@ -6270,7 +6270,7 @@ fun ChatScreen(
                                         ) { idx ->
                                             Text(
                                                 if (ltChoosingName) stringResource(R.string.lt_naming_placeholder)
-                                                // lingTai: Muse's pill says just "Message".
+                                                // LingTai: Muse's pill says just "Message".
                                                 else if (ltPill) stringResource(R.string.lt_composer_placeholder)
                                                 else composerPlaceholderText(idx, soulName.name),
                                                 color = if (ltPill) MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
@@ -6357,7 +6357,7 @@ fun ChatScreen(
                     } else if (!ltPill) ltTextField(Modifier.fillMaxWidth())
 
                     // Button row below text field (iOS layout: + / ... mic send)
-                    // lingTai: in the pill this is THE row — "+", the field, mic/send.
+                    // LingTai: in the pill this is THE row — "+", the field, mic/send.
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -6374,7 +6374,7 @@ fun ChatScreen(
                         Box {
                             InputCircleButton(
                                 onClick = { showAttachMenu = true },
-                                plain = ltPill, // lingTai: a bare glyph inside the pill
+                                plain = ltPill, // LingTai: a bare glyph inside the pill
                             ) {
                                 Icon(
                                     Icons.Default.Add,
@@ -6387,7 +6387,7 @@ fun ChatScreen(
                                 expanded = showAttachMenu,
                                 onDismissRequest = { showAttachMenu = false },
                             ) {
-                                // lingTai: the "/" button has no seat in the pill,
+                                // LingTai: the "/" button has no seat in the pill,
                                 // so the slash commands open from here (typing "/"
                                 // still opens them inline).
                                 if (ltPill) {
@@ -6444,7 +6444,7 @@ fun ChatScreen(
                         }
 
                         if (ltPill) {
-                            ltTextField(Modifier.weight(1f)) // lingTai: the field between the buttons
+                            ltTextField(Modifier.weight(1f)) // LingTai: the field between the buttons
                         } else {
                         Spacer(modifier = Modifier.width(8.dp))
 
@@ -6469,7 +6469,7 @@ fun ChatScreen(
                         // is non-null. Tap clears the edit flag + composer text
                         // without truncating history. iOS parity:
                         // AIChatView.swift L1586 editExitButton.
-                        // (lingTai: editingId is read once, above the text field.)
+                        // (LingTai: editingId is read once, above the text field.)
                         if (editingId != null) {
                             Spacer(modifier = Modifier.width(8.dp))
                             Surface(
@@ -6490,7 +6490,7 @@ fun ChatScreen(
                         }
 
                         Spacer(modifier = Modifier.weight(1f))
-                        } // lingTai: end of the two-row layout's left group
+                        } // LingTai: end of the two-row layout's left group
 
                         // Right: Mic button — only renders when a speech engine
                         // is actually available on this device (handles the
@@ -6892,7 +6892,7 @@ fun ChatScreen(
                         // RECOVERABLE states, explained inside the panel with a
                         // link to the relevant settings rather than by silently
                         // removing the control.
-                        // lingTai: in the pill the mic gives way to the send
+                        // LingTai: in the pill the mic gives way to the send
                         // arrow once there is something to send (or a stop
                         // square while the agent answers), as on Muse.
                         val ltPillBusy = ltPill && (inputText.isNotBlank() || attachments.isNotEmpty() || isStreaming)
@@ -6905,12 +6905,12 @@ fun ChatScreen(
                                 onClick = { triggerVoiceInput() },
                                 onLongClick = { showLangSheet = true },
                                 isVoiceActive = com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive,
-                                plain = ltPill, // lingTai
+                                plain = ltPill, // LingTai
                             )
                         }
 
                         if (!ltPill) Spacer(modifier = Modifier.width(8.dp))
-                        if (!ltPill || ltPillBusy) { // lingTai: the pill shows send/stop only when there is something to do
+                        if (!ltPill || ltPillBusy) { // LingTai: the pill shows send/stop only when there is something to do
 
                         // Right: 3-state Send / Enqueue / Stop button (mirrors iOS sendButton).
                         //   • streaming + hasText  → SEND (routes through viewModel.sendMessage,
@@ -6929,7 +6929,7 @@ fun ChatScreen(
                         val hasContent = hasText || attachments.isNotEmpty()
                         val showStop = isStreaming && !hasContent
                         if (showStop) {
-                            // lingTai: match the monochrome send button (black disc with
+                            // LingTai: match the monochrome send button (black disc with
                             // white square in light theme, inverted in dark, matching iOS).
                             Box(
                                 modifier = Modifier
@@ -6950,7 +6950,7 @@ fun ChatScreen(
                             // Streaming with content → Send-into-queue; Idle with content → Send.
                             // Idle without text or attachments → disabled.
                             val canActivate = hasContent
-                            // lingTai: monochrome send. The palette's sendButton is
+                            // LingTai: monochrome send. The palette's sendButton is
                             // white in the dark theme and black in the light one, the
                             // arrow takes the canvas colour; no blue accent.
                             val ltSendBg = if (canActivate) {
@@ -6991,7 +6991,7 @@ fun ChatScreen(
                                 )
                             }
                         }
-                        } // lingTai: send/stop
+                        } // LingTai: send/stop
                     }
                 }
             }
@@ -7270,7 +7270,7 @@ fun ChatScreen(
                 } else {
                     viewModel.selectGroup(groupId)
                     showModelPicker = false
-                    // lingTai: a group picked here is the default for new chats too, and the
+                    // LingTai: a group picked here is the default for new chats too, and the
                     // main chat follows it (ModelSlots.followPick, with the member the
                     // view-model resolved); the same line as for a model says so.
                     viewModel.activeEntryId.value?.let { resolved ->
@@ -7297,7 +7297,7 @@ fun ChatScreen(
                 } else {
                     viewModel.selectGroupEntry(groupId, entryId)
                     showModelPicker = false
-                    // lingTai: as for a group pick, the default for new chats and the main chat follow
+                    // LingTai: as for a group pick, the default for new chats and the main chat follow
                     if (entry != null) {
                         val name = entry.model.displayName.ifBlank { entry.model.id }
                         val sticks = io.github.lingtai.models.ModelSlots.followPick(context, entryId, groupId)
@@ -7321,7 +7321,7 @@ fun ChatScreen(
                 } else {
                     viewModel.selectEntry(entryId)
                     showModelPicker = false
-                    // lingTai: a pick in the picker is meant as "the model from now on" —
+                    // LingTai: a pick in the picker is meant as "the model from now on" —
                     // the default for new chats follows it (a group named after the pick's
                     // provider, Settings → Models shows the same), and a line says so, since
                     // the picker's own binding is per chat and the next new chat would

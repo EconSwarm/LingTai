@@ -21,7 +21,7 @@ Play 商店：「设置 → 版本」把已安装的构建和最新版本并排�
 
 1. 从[最新版本](https://github.com/econswarm/lingtai/releases/latest)下载
    `灵台-<version>-arm64.apk`。想核对的话，运行
-   `sha256sum -c lingTai-<version>-arm64.apk.sha256`。
+   `sha256sum -c LingTai-<version>-arm64.apk.sha256`。
 2. 打开它。Android 会问一次，是否允许从你的浏览器或文件管理器安装。
 3. **登录。** 第一屏就是账号：手机号或邮箱，一个验证码，设过密码之后也可以用密码。账号让你的设备能连成一体（[hub.md](hub.md)），也带来一个起步用的模型（[cloud.md](cloud.md)：每个账号一份免费额度（写这页时是 ¥10），每邀请一位朋友，等对方发出第一次请求后，你和对方都再得一些；App 会显示中继当前的数字；之后可以[换自己的 key](own-key.md)）。然后选哪个模型来回答：账号自带的，或者你自己的 key（任何 OpenAI 兼容端点，或 App 内置的那几种 OAuth 登录）。设的是四个模型，
    不是一个，都在同一页「**设置 → 模型**」里（设置顶部那张卡片打开它）：**对话**，和你说话的模型（账号的菜单默认停在 `deepseek-v4.1-flash`）；**操作屏幕**，看屏幕的那个

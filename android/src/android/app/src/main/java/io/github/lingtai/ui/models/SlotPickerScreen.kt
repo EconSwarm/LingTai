@@ -57,7 +57,7 @@ import io.github.lingtai.models.PickerList
 import io.github.lingtai.ui.home.MuseTones
 
 /**
- * The picker behind one row of Settings → Models: a group `lingTai Cloud` (when signed in)
+ * The picker behind one row of Settings → Models: a group `LingTai Cloud` (when signed in)
  * with that lane's relay models, the recommended one first and marked; then one group per
  * configured own provider, listing only its models with the capability. Choosing sets the
  * slot and goes back; for chat that is the default for new chats. The three dependent slots
@@ -248,7 +248,7 @@ private fun SearchField(query: String, onChange: (String) -> Unit) {
 
 /**
  * The *Automatic* row: [SettingsChoiceRow]'s look with a second line that says what the order
- * gives right now (*Currently lingTai Cloud · qwen3.8-27b*), or the slot's one sentence on
+ * gives right now (*Currently LingTai Cloud · qwen3.8-27b*), or the slot's one sentence on
  * which provider would serve it when nothing can.
  */
 @Composable

@@ -30,7 +30,7 @@ abstract class OAuthManager(
         internal val httpClient = OkHttpClient.Builder()
             .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(15, TimeUnit.SECONDS)
-            .proxyAuthenticator(io.github.lingtai.net.OwnProviderProxy.authenticator) // lingTai: Settings → Network, a proxy with a password
+            .proxyAuthenticator(io.github.lingtai.net.OwnProviderProxy.authenticator) // LingTai: Settings → Network, a proxy with a password
             .build()
 
         /**

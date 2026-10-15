@@ -556,7 +556,7 @@ struct LLMModel: Equatable, Hashable, Identifiable, Sendable, Codable {
         // First: enrich from models.dev (fills modality, contextWindow, maxOutputTokens if available)
         var enriched = ModelsDevAPI.enrichModel(self)
 
-        // lingTai: DeepSeek's rule (contract C4) wins over models.dev — text only unless the id
+        // LingTai: DeepSeek's rule (contract C4) wins over models.dev — text only unless the id
         // names v4.1 or later, `vision` or `ocr`; the relay's and Bailian's `deepseek-v4.1-flash` sees.
         if let sees = LingTaiVision.deepSeekSees((id + " " + displayName).lowercased()) {
             enriched.modalityOverride = sees ? .vision : .textOnly
@@ -566,7 +566,7 @@ struct LLMModel: Equatable, Hashable, Identifiable, Sendable, Codable {
         // If models.dev already set the modality, we're done
         if enriched.modalityOverride != nil { return enriched }
 
-        // lingTai: families we know see (Qwen 3, GLM-4V, Kimi VL, …) before the broad pattern pass.
+        // LingTai: families we know see (Qwen 3, GLM-4V, Kimi VL, …) before the broad pattern pass.
         if let guess = LingTaiVision.guess(id: id, displayName: displayName) {
             enriched.modalityOverride = guess
             return enriched

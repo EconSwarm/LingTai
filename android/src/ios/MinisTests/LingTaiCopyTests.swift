@@ -1,9 +1,9 @@
 import XCTest
 @testable import Minis
 
-/// The words a person reads in the lingTai layer follow the project's voice: no dashes
+/// The words a person reads in the LingTai layer follow the project's voice: no dashes
 /// (`—`, `–`, `——`) in any of the nine languages, no exclamation marks, and the relay is
-/// "lingTai Cloud" in every language. Our keys are the ones the Swift files under
+/// "LingTai Cloud" in every language. Our keys are the ones the Swift files under
 /// `LingTai/` reference; upstream OpenMinis keys are not ours to rewrite.
 ///
 /// Reads the sources next to this file (Mac only, as all of MinisTests): the catalogue is

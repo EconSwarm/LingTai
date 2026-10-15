@@ -87,7 +87,7 @@ fun UseItForScreen(instanceId: String, onDone: () -> Unit) {
         LaunchedEffect(Unit) { onDone() }
         return
     }
-    // "lingTai Cloud keeps the rest" holds only while the Cloud is a model source
+    // "LingTai Cloud keeps the rest" holds only while the Cloud is a model source
     val signedIn = remember { LingTaiCloud.modelsOn(context) }
     val ticked = remember { mutableStateOf(offered.toSet()) }
     var busy by remember { mutableStateOf(false) }

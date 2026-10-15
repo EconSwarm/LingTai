@@ -197,7 +197,7 @@ export interface LiveOwnClip {
   poster: boolean
 }
 
-export const DEFAULT_PROFILE: LiveProfile = { rev: 0, name: 'lingTai', avatar: 'dragon', emoji: '', color: '', description: '', style: '', faceId: '', connectors: [] }
+export const DEFAULT_PROFILE: LiveProfile = { rev: 0, name: 'LingTai', avatar: 'dragon', emoji: '', color: '', description: '', style: '', faceId: '', connectors: [] }
 
 const INITIAL: Live = {
   cloud: { signedIn: false, hint: '' },

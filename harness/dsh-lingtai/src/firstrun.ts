@@ -158,7 +158,7 @@ export function introLines(lang: string): [string, string, string] {
     ]
   }
   return [
-    "Hi, I'm lingTai, the assistant that lives on your computer. Let me take a few things off your plate.",
+    "Hi, I'm LingTai, the assistant that lives on your computer. Let me take a few things off your plate.",
     'A bit about how I work:\n\n- I work on this computer: I can run commands, open websites and fill in forms.\n- I can read and organise the files and folders you point me to, and take care of reminders and scheduled tasks.\n- Before any step that matters, I ask you first.\n- Everything runs on this computer; your messages go only to the model you configured.',
     'Before we start, what should I call you?',
   ]

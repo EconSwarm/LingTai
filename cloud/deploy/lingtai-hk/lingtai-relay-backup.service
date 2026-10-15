@@ -1,5 +1,5 @@
 [Unit]
-Description=lingTai Cloud: daily SQLite backup
+Description=LingTai Cloud: daily SQLite backup
 After=docker.service
 Requires=docker.service
 

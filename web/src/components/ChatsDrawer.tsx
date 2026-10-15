@@ -35,7 +35,7 @@ export function ChatsDrawer() {
     }
   }, [open]);
 
-  const name = state.profile?.name || "lingTai";
+  const name = state.profile?.name || "LingTai";
   const side = useMemo(() => {
     const q = query.trim().toLowerCase();
     return state.threads

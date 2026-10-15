@@ -1,8 +1,8 @@
 //
 //  LingTaiProfile.swift
-//  lingTai
+//  LingTai
 //
-//  The relay side of the agent's look: pictures drawn through lingTai
+//  The relay side of the agent's look: pictures drawn through LingTai
 //  Cloud (/v1/images/*), what a new face would cost (/v1/estimate), and
 //  the profile the account's devices share (/v1/me/profile). Android:
 //  cloud/ProfileSync.kt, cloud/FaceCost.kt, avatar/ImageGen.kt.
@@ -35,7 +35,7 @@ enum LingTaiRelayMedia {
     @MainActor
     private static func authorized(_ method: String, _ path: String) throws -> URLRequest {
         guard let key = LingTaiCloud.apiKey else {
-            throw LingTaiCloudError(code: "signed_out", message: AppLocalized("Sign in to lingTai Cloud first."), status: 401)
+            throw LingTaiCloudError(code: "signed_out", message: AppLocalized("Sign in to LingTai Cloud first."), status: 401)
         }
         guard let url = URL(string: LingTaiCloud.baseURL + path) else {
             throw LingTaiCloudError(code: "bad_base", message: "Bad relay address", status: 0)
@@ -45,7 +45,7 @@ enum LingTaiRelayMedia {
         request.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
-        request.setValue("lingTai-iOS/\(version)", forHTTPHeaderField: "User-Agent")
+        request.setValue("LingTai-iOS/\(version)", forHTTPHeaderField: "User-Agent")
         return request
     }
 
@@ -80,7 +80,7 @@ enum LingTaiRelayMedia {
                 return id
             }
         }
-        throw LingTaiCloudError(code: "model_not_offered", message: AppLocalized("lingTai Cloud offers no image model right now."), status: 404)
+        throw LingTaiCloudError(code: "model_not_offered", message: AppLocalized("LingTai Cloud offers no image model right now."), status: 404)
     }
 
     @MainActor
@@ -401,7 +401,7 @@ final class LingTaiProfileSync: ObservableObject {
                     }
                     if stills[.idle] != nil {
                         store.wear(remote: stills, faceId: full.faceId, description: full.description, style: full.style)
-                        // lingTai: clips are per device — the old ones went with `wear`; new ones when enabled (contract C3)
+                        // LingTai: clips are per device — the old ones went with `wear`; new ones when enabled (contract C3)
                         LingTaiAvatarMotion.shared.animateIfEnabled()
                     }
                 } else if head.rev > 0, store.source != .dragon {

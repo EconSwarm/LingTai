@@ -333,7 +333,7 @@ def make_app(
             await auth.close()
 
     app = FastAPI(
-        title="lingTai ChatGPT proxy",
+        title="LingTai ChatGPT proxy",
         docs_url=None,
         redoc_url=None,
         openapi_url=None,

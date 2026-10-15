@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">lingTai</string>
+    <string name="app_name">LingTai</string>
     <string name="new_chat">新对话</string>
     <string name="settings">设置</string>
     <string name="providers">AI 服务商</string>
@@ -546,7 +546,7 @@
     <string name="browser_history_results">结果</string>
     <string name="browser_history_clear_dialog_title">清除浏览历史？</string>
     <string name="browser_history_clear_dialog_message">这将删除所有浏览历史。此操作无法撤销。</string>
-    <string name="terminal_title">lingTai Shell</string>
+    <string name="terminal_title">LingTai Shell</string>
     <string name="terminal_clear">清屏</string>
     <string name="terminal_show_keyboard">显示</string>
     <string name="terminal_hide_keyboard">隐藏</string>
@@ -797,7 +797,7 @@
     <string name="skill_empty_title">未安装 Skill</string>
     <string name="skill_empty_action">点击 + 导入 SKILL.md 或浏览灵台 Skills。</string>
     <string name="skill_import_modal_title">导入技能</string>
-    <string name="skill_minis_skills_modal">lingTai Skills</string>
+    <string name="skill_minis_skills_modal">LingTai Skills</string>
     <string name="skill_delete_confirm_title">删除 %1$s？</string>
     <string name="skill_delete_confirm_text">这将永久删除该 skill 及其文件。</string>
     <string name="skill_import_sheet_title">导入技能</string>
@@ -845,7 +845,7 @@
     <string name="skill_detail_source_file">文件导入</string>
     <string name="skill_detail_source_bundled">内置</string>
     <string name="skill_detail_source_session">会话创建</string>
-    <string name="skills_browser_title">lingTai Skills</string>
+    <string name="skills_browser_title">LingTai Skills</string>
     <string name="skills_browser_import_button">导入此项</string>
     <string name="skills_browser_hud_importing">导入中…</string>
     <string name="skills_browser_error_not_folder">请先选择一个 skill 文件夹</string>

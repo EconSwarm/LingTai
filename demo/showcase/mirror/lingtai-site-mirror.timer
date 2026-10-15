@@ -1,5 +1,5 @@
 [Unit]
-Description=lingTai site mirror (lingtai.cn): every minute
+Description=LingTai site mirror (lingtai.cn): every minute
 
 [Timer]
 OnBootSec=2min

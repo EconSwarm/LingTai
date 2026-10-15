@@ -1,16 +1,16 @@
 //
 //  LingTaiAvatarStudio.swift
-//  lingTai
+//  LingTai
 //
 //  Describe a face → four candidates → pick one → the moods are posed
 //  from it → saved on this phone and in the account's profile. Pictures
 //  are drawn with a Bailian key on this phone when there is one, otherwise
-//  through lingTai Cloud with a cost estimate first (LingTaiImageGen).
+//  through LingTai Cloud with a cost estimate first (LingTaiImageGen).
 //  The chat-driven flow (LingTaiAvatarFlow) drives this same model.
 //  Android: avatar/AvatarStudio.kt, ui/avatar/AvatarStudioScreen.kt.
 //
 
-import Combine // lingTai: the header follows the motion clips' progress through this model
+import Combine // LingTai: the header follows the motion clips' progress through this model
 import SwiftUI
 import UIKit
 
@@ -116,7 +116,7 @@ final class LingTaiAvatarStudioModel: ObservableObject {
     @Published private(set) var lastError: String?
     /// Which round of candidates is up; files are named after it.
     private var round = 0
-    /// lingTai: `headerStatus` reads the motion clips' progress, so their changes are this model's too.
+    /// LingTai: `headerStatus` reads the motion clips' progress, so their changes are this model's too.
     private var motionWatch: AnyCancellable?
 
     private init() {
@@ -139,14 +139,14 @@ final class LingTaiAvatarStudioModel: ObservableObject {
         switch phase {
         case .drawing: return AppLocalized("Generating options")
         case .posing: return AppLocalized("Finalizing avatar")
-        default: return LingTaiAvatarMotion.shared.statusLine // lingTai: motion clips
+        default: return LingTaiAvatarMotion.shared.statusLine // LingTai: motion clips
         }
     }
 
     var picturesPerFace: Int { LingTaiAvatarPrompts.candidates + LingTaiAvatarPrompts.posedMoods.count }
 
     /// Clips a new face costs from the allowance: one per animated mood when the video model is
-    /// lingTai Cloud and animation is on; 0 when they would come from a key of your own, or not at all.
+    /// LingTai Cloud and animation is on; 0 when they would come from a key of your own, or not at all.
     var clipsPerFace: Int {
         LingTaiMediaModels.videoOnCloud && LingTaiMediaModels.animateAvatar ? LingTaiAvatarMotion.animated.count : 0
     }
@@ -158,13 +158,13 @@ final class LingTaiAvatarStudioModel: ObservableObject {
             : String(format: AppLocalized("A new face is %d pictures"), picturesPerFace)
     }
 
-    /// A Bailian key on this phone draws the face; lingTai Cloud otherwise.
+    /// A Bailian key on this phone draws the face; LingTai Cloud otherwise.
     var usesOwnKey: Bool { LingTaiImageGen.usesOwnKey }
 
     /// Whether a picture can be drawn at all right now; the reason when not.
     var cannotDrawReason: String? {
         if usesOwnKey || LingTaiCloud.modelsOn { return nil }
-        return AppLocalized("Sign in to lingTai Cloud, or add an Alibaba Cloud Bailian key under Providers; the pictures are drawn with one of the two.")
+        return AppLocalized("Sign in to LingTai Cloud, or add an Alibaba Cloud Bailian key under Providers; the pictures are drawn with one of the two.")
     }
 
     /// Files of the candidates on screen, in order ("" where one failed).
@@ -346,9 +346,9 @@ final class LingTaiAvatarStudioModel: ObservableObject {
             }
             LingTaiProfileSync.shared.faceChanged()
             self.phase = .finished(drawn: drawn, total: moods.count)
-            // lingTai: the clips, in the background, once the poses are in (contract C3)
+            // LingTai: the clips, in the background, once the poses are in (contract C3)
             LingTaiAvatarMotion.shared.animateIfEnabled()
-            // lingTai: the star ask goes through the policy's gate (contract C1)
+            // LingTai: the star ask goes through the policy's gate (contract C1)
             LingTaiStar.shared.newLook()
         }
     }
@@ -362,7 +362,7 @@ struct LingTaiAvatarStudioView: View {
 
     @ObservedObject private var studio = LingTaiAvatarStudioModel.shared
     @ObservedObject private var faces = LingTaiFaceStore.shared
-    @ObservedObject private var motion = LingTaiAvatarMotion.shared // lingTai: clips
+    @ObservedObject private var motion = LingTaiAvatarMotion.shared // LingTai: clips
     @ObservedObject private var own = LingTaiOwnClip.shared
     @StateObject private var clipPicker = LingTaiOwnClipPicker()
     @Environment(\.dismiss) private var dismiss
@@ -422,7 +422,7 @@ struct LingTaiAvatarStudioView: View {
                 Section {
                     Text(studio.usesOwnKey
                          ? AppLocalized("Pictures are drawn with your Bailian key and kept on this phone; the face is shared with your other devices through your account. Each new face is eight pictures: four to choose from and four moods.")
-                         : AppLocalized("Pictures are drawn through lingTai Cloud and kept on this phone; the face is shared with your other devices through your account. Each new face is eight pictures: four to choose from and four moods."))
+                         : AppLocalized("Pictures are drawn through LingTai Cloud and kept on this phone; the face is shared with your other devices through your account. Each new face is eight pictures: four to choose from and four moods."))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                     Text(LingTaiImageGen.providerLine())
@@ -465,7 +465,7 @@ struct LingTaiAvatarStudioView: View {
                 Text(own.clip != nil
                      ? AppLocalized("Your clip is on and plays for every mood; the drawn stills still show where a still is used. Default face removes it.")
                      : AppLocalized("A short video of yours plays as the face at rest, and the other moods fall back to it. MP4 or MOV with H.264 or HEVC video, up to 15 seconds and 30 MB; it plays muted in a loop."))
-                Text(AppLocalized("The clip stays on this phone. It is not uploaded to lingTai Cloud or synced to your other devices."))
+                Text(AppLocalized("The clip stays on this phone. It is not uploaded to LingTai Cloud or synced to your other devices."))
             }
         }
     }
@@ -497,7 +497,7 @@ struct LingTaiAvatarStudioView: View {
                 Spacer()
             }
             .padding(.vertical, 4)
-            // lingTai: the clips being drawn, or the last failure, one line (contract C3)
+            // LingTai: the clips being drawn, or the last failure, one line (contract C3)
             if let line = motion.statusLine {
                 HStack(spacing: 10) {
                     ProgressView()

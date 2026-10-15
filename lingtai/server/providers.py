@@ -167,8 +167,8 @@ class Providers:
         hub = self.svc.hub
         return {
             "id": CLOUD_ID,
-            "name": "lingTai Cloud",
-            "name_zh": "lingTai Cloud",
+            "name": "LingTai Cloud",
+            "name_zh": "LingTai Cloud",
             "protocol": "openai",
             "base_url": model_url(hub.cloud.base_url),
             "base_url_global": "",

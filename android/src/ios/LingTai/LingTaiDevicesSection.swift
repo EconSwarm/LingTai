@@ -1,4 +1,4 @@
-// lingTai: the account's devices on the hub, shown under the lingTai Cloud account —
+// LingTai: the account's devices on the hub, shown under the LingTai Cloud account —
 // this iPhone's two switches (reachable · operable), its name, the other devices with an
 // online dot (tap an offline one to forget it), and the web console's address.
 
@@ -33,7 +33,7 @@ struct LingTaiDevicesSection: View {
         } header: {
             Text(AppLocalized("Devices"))
         } footer: {
-            Text(AppLocalized("Every device signed in to this account is a Muse: this iPhone, your computers running lingTai Desktop, the web console. Each can ask the others for things, on any network, through lingTai Cloud. On iOS the others can open links here and send notifications; the iPhone's own Muse works on the iPhone."))
+            Text(AppLocalized("Every device signed in to this account is a Muse: this iPhone, your computers running LingTai Desktop, the web console. Each can ask the others for things, on any network, through LingTai Cloud. On iOS the others can open links here and send notifications; the iPhone's own Muse works on the iPhone."))
         }
         .alert(AppLocalized("This iPhone's name"), isPresented: $editingName) {
             TextField(AppLocalized("Name"), text: $name)
@@ -43,7 +43,7 @@ struct LingTaiDevicesSection: View {
 
         Section {
             if hub.others.isEmpty {
-                Text(AppLocalized("No other device yet. On your computer, install lingTai Desktop and sign in with the same account; it appears here within seconds."))
+                Text(AppLocalized("No other device yet. On your computer, install LingTai Desktop and sign in with the same account; it appears here within seconds."))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             } else {

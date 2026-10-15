@@ -329,7 +329,7 @@ internal fun ModelPickerSheet(
     val allInstanceIds = remember(config) {
         config.instances.filter { it.isEnabled }.map { it.id }.toSet()
     }
-    // lingTai: the Cloud provider opens expanded — for most people it is the only provider,
+    // LingTai: the Cloud provider opens expanded — for most people it is the only provider,
     // and a collapsed card hid the fact that there is anything to switch to.
     val ltContext = LocalContext.current
     val ltCloudId = remember(config) { io.github.lingtai.cloud.LingTaiCloud.instance(ltContext)?.id }
@@ -370,7 +370,7 @@ internal fun ModelPickerSheet(
                 var entries = config.modelEntries.filter {
                     it.providerInstanceId == instance.id && !it.isHidden
                 }
-                // lingTai: the Cloud's menu first, in the menu's order; the catalog beyond
+                // LingTai: the Cloud's menu first, in the menu's order; the catalog beyond
                 // it (models a member may name) after, so the recommended ones are on top.
                 if (instance.id == ltCloudId) {
                     val menu = io.github.lingtai.cloud.LingTaiCloud.menuModelIds(ltContext)
@@ -1122,7 +1122,7 @@ internal fun ModelPickerSheet(
                                         }
                                     }
                                 } else {
-                                    // lingTai: where the Cloud's menu ends and its catalog begins
+                                    // LingTai: where the Cloud's menu ends and its catalog begins
                                     val ltFirstCatalog = if (instance.id == ltCloudId) {
                                         entries.indexOfFirst { io.github.lingtai.cloud.LingTaiCloud.isCatalogModel(ltContext, it.model.id) }
                                     } else {

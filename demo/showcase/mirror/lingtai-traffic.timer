@@ -1,5 +1,5 @@
 [Unit]
-Description=lingTai site traffic: every ten minutes
+Description=LingTai site traffic: every ten minutes
 
 [Timer]
 OnBootSec=3min

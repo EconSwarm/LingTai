@@ -1,4 +1,4 @@
-# lingTai Cloud on lingtai-hk
+# LingTai Cloud on lingtai-hk
 
 The production relay behind `https://cloud.lingtai.cn` runs on the same Hong
 Kong box as the project site, behind the showcase's Caddy
@@ -36,7 +36,7 @@ ALLOWED_IDENTIFIERS=
 ALLOWANCE_CNY=10
 INVITE_BONUS_CNY=5
 OWN_KEY_DOCS=https://lingtai.cn/own-key
-# what "Help improve lingTai's AI models" starts as for new accounts (1 = on
+# what "Help improve LingTai's AI models" starts as for new accounts (1 = on
 # until turned off under Settings → Data controls); say it in PRIVACY_URL
 IMPROVE_DEFAULT=1
 PRIVACY_URL=https://lingtai.cn/privacy/
@@ -52,7 +52,7 @@ SMTP_HOST=smtpdm.aliyun.com
 SMTP_PORT=465
 SMTP_USER=no-reply@mail.lingtai.cn
 SMTP_PASSWORD=
-SMTP_FROM=lingTai <no-reply@mail.lingtai.cn>
+SMTP_FROM=LingTai <no-reply@mail.lingtai.cn>
 # the 百炼 key the relay spends (public endpoints; never a private one)
 UPSTREAM_BASE=https://dashscope.aliyuncs.com/compatible-mode/v1
 DASHSCOPE_BASE=https://dashscope.aliyuncs.com/api/v1

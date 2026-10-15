@@ -1,4 +1,4 @@
-# lingTai iOS · fastlane
+# LingTai iOS · fastlane
 #
 # One lane: `beta` archives the app for the App Store with manual signing — the team's Apple
 # Distribution certificate from the repository's secrets, the App Store provisioning profiles from
@@ -43,7 +43,7 @@ KEYCHAIN = "lingtai-ci".freeze
 WWDR = %w[AppleWWDRCAG3 AppleWWDRCAG4 AppleWWDRCAG5 AppleWWDRCAG6].freeze
 
 platform :ios do
-  desc "Archive lingTai for the App Store and upload it to TestFlight (internal testers)"
+  desc "Archive LingTai for the App Store and upload it to TestFlight (internal testers)"
   lane :beta do
     key_id = ENV.fetch("APP_STORE_CONNECT_KEY_ID")
     issuer_id = ENV.fetch("APP_STORE_CONNECT_ISSUER_ID")
@@ -131,7 +131,7 @@ platform :ios do
       },
       xcargs: "CURRENT_PROJECT_VERSION=#{build_number}",
       output_directory: "build",
-      output_name: "lingTai.ipa",
+      output_name: "LingTai.ipa",
       clean: false,
       include_symbols: true,
       include_bitcode: false
@@ -141,7 +141,7 @@ platform :ios do
     # no beta review. External groups do; see docs/ios.md.
     upload_to_testflight(
       api_key: api_key,
-      ipa: "build/lingTai.ipa",
+      ipa: "build/LingTai.ipa",
       skip_waiting_for_build_processing: true,
       distribute_external: false,
       notify_external_testers: false

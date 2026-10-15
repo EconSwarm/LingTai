@@ -1,6 +1,6 @@
 """The ChatGPT sign-in: the Codex OAuth flow (PKCE), the token store and refresh.
 
-A person with a ChatGPT plan can let lingTai use it for chat and for the hands, the way
+A person with a ChatGPT plan can let LingTai use it for chat and for the hands, the way
 OpenAI's own Codex CLI does: the same client id, authorize and token URLs, scopes and
 redirect; the tokens live in ``<data_dir>/chatgpt.json`` (mode 0600) and are refreshed
 before they expire. The Codex backend has no image or video endpoints, so this covers chat
@@ -674,7 +674,7 @@ class Auth:
 
 # --------------------------------------------------------------------------- login
 _CALLBACK_PAGE = (
-    "<!doctype html><meta charset=utf-8><title>lingTai</title>"
+    "<!doctype html><meta charset=utf-8><title>LingTai</title>"
     "<body style='font-family:system-ui;margin:3em'><h2>{title}</h2><p>{text}</p></body>"
 )
 
@@ -788,7 +788,7 @@ class LoginFlow:
                 title="Sign-in did not finish", text="The request did not match; try again."
             )
         return "200 OK", _CALLBACK_PAGE.format(
-            title="Signed in", text="You can close this tab and go back to lingTai."
+            title="Signed in", text="You can close this tab and go back to LingTai."
         )
 
     @staticmethod

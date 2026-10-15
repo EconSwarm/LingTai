@@ -136,7 +136,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
                         OffloadPermissionManager.SettingsGateRequest(
                             id = Manifest.permission.POST_NOTIFICATIONS,
                             title = "Notifications are off",
-                            message = "lingTai needs notification permission to send notifications. Open Settings to allow it.",
+                            message = "LingTai needs notification permission to send notifications. Open Settings to allow it.",
                             settingsAction = Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                             requiresPackageUri = true,
                             positiveLabel = "Open Settings",
@@ -195,8 +195,8 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
         val id = UUID.randomUUID().toString()
         val notifId = id.hashCode() and 0x7FFFFFFF
         val n = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_stat_lingtai) // lingTai: flat status-bar mark
-            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // lingTai: the agent is the sender
+            .setSmallIcon(R.drawable.ic_stat_lingtai) // LingTai: flat status-bar mark
+            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // LingTai: the agent is the sender
             .setContentTitle(title)
             .setContentText(body)
             .setAutoCancel(true)
@@ -222,7 +222,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
         }
         AppLogger.info(TAG, "send (immediate): id=$id title='$title'")
         val oemHint = if (OsCompat.isHuawei || OsCompat.isXiaomi) {
-            "On ${OsCompat.oemLabel()}, banner notifications may be disabled by default — the user can enable them in Settings → Notifications for lingTai."
+            "On ${OsCompat.oemLabel()}, banner notifications may be disabled by default — the user can enable them in Settings → Notifications for LingTai."
         } else null
         val data = JSONObject()
             .put("id", id)
@@ -455,7 +455,7 @@ class NotificationOffloadHandler(private val context: Context) : NativeOffloadHa
                     OffloadPermissionManager.SettingsGateRequest(
                         id = "notification_access",
                         title = "Notification access needed",
-                        message = "lingTai needs Notification access to read the status-bar notifications. Open Settings and enable \"lingTai\" under Notification access.",
+                        message = "LingTai needs Notification access to read the status-bar notifications. Open Settings and enable \"LingTai\" under Notification access.",
                         settingsAction = MinisNotificationListenerService.SETTINGS_ACTION,
                         requiresPackageUri = false,
                         positiveLabel = "Open Settings",
@@ -580,7 +580,7 @@ Notes:
     fire reliably even in Doze. Requires SCHEDULE_EXACT_ALARM on
     Android 14+ (settings reports schedule_exact_allowed).
   - list needs Notification access (Settings → Apps → Special app
-    access → Notification access → lingTai). First list call opens it.
+    access → Notification access → LingTai). First list call opens it.
 """
     }
 }

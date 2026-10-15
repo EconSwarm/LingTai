@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ling-tai/lingTai/main/assets/brand/lingtai-cover.png" alt="lingTai：あなたのすべてのデバイスのための、オープンソースのパーソナルエージェント">
+  <img src="https://raw.githubusercontent.com/ling-tai/LingTai/main/assets/brand/lingtai-cover.png" alt="LingTai：あなたのすべてのデバイスのための、オープンソースのパーソナルエージェント">
 </p>
 
 <p align="center">
@@ -18,11 +18,11 @@
   <a href="https://trendshift.io/repositories/286894?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-286894" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/286894/daily?language=Swift" alt="ling-tai%2FlingTai | Trendshift" width="250" height="55"/></a>
 </p>
 <p align="center">
-  <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/lingTai?style=flat&label=stars" alt="GitHub スター"></a>
+  <a href="https://github.com/econswarm/lingtai/stargazers"><img src="https://img.shields.io/github/stars/ling-tai/LingTai?style=flat&label=stars" alt="GitHub スター"></a>
   <a href="https://github.com/econswarm/lingtai/releases"><img src="https://img.shields.io/github/downloads/ling-tai/灵台/total?label=downloads" alt="ダウンロード数"></a>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/LingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
   <a href="https://github.com/econswarm/lingtai/actions/workflows/ci.yml"><img src="https://github.com/econswarm/lingtai/actions/workflows/ci.yml/badge.svg?branch=main" alt="Test Suite"></a>
-  <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/lingTai?label=license" alt="GPL-3.0-or-later"></a>
+  <a href="https://github.com/econswarm/lingtai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ling-tai/LingTai?label=license" alt="GPL-3.0-or-later"></a>
   <a href="https://arxiv.org/abs/2610.08699"><img src="https://img.shields.io/badge/arXiv-2610.08699-b31b1b" alt="arXiv の論文"></a>
   <br>
   <a href="https://demo.lingtai.dev/"><img src="https://img.shields.io/badge/%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B-demo.lingtai.dev-4f46e5" alt="ブラウザで試す"></a>
@@ -62,7 +62,7 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 | **iPhone / iPad** | [TestFlight](https://testflight.apple.com/join/ZHexbDqc)：Apple のベータ審査を通過したベータ版。このリンクからインストールできます · [iOS](../ios.md) |
 | **macOS** 12 以上 | [Apple シリコン](https://github.com/econswarm/lingtai/releases/download/v1.0.5/灵台-Desktop-1.0.5-mac-arm64.dmg) · [Intel](https://github.com/econswarm/lingtai/releases/download/v1.0.5/灵台-Desktop-1.0.5-mac-x64.dmg)：公証なし。初回は右クリック → 「開く」 |
 | **Windows** 10 以上 | [灵台-Desktop-1.0.5-win-x64.exe](https://github.com/econswarm/lingtai/releases/download/v1.0.5/灵台-Desktop-1.0.5-win-x64.exe)：一度だけ「実行」を押してください |
-| **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/lingTai-Desktop-1.0.5-linux-x64.tar.gz) |
+| **Linux** x64 | [AppImage](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.AppImage) · [.deb](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.deb) · [tar.gz](https://github.com/econswarm/lingtai/releases/download/v1.0.5/LingTai-Desktop-1.0.5-linux-x64.tar.gz) |
 | **Docker** | `bash scripts/self-host.sh --local` で自分のリレーを、`docker compose up -d app` で自分のサーバーにウェブアプリを。[セルフホスティング](../self-hosting.md) |
 
 ダウンロードはすべて [GitHub の最新リリース](https://github.com/econswarm/lingtai/releases/latest)から。GitHub が遅い地域では同じファイルが [lingtai.cn/dl](https://lingtai.cn/dl/) にあります。アプリを開き、メールアドレスか中国本土の携帯番号でサインインすれば、エージェントが使うモデルが用意されます。スマホ、デスクトップ、ウェブはひとつのアカウントを共有し、同じ会話が見えます。
@@ -100,7 +100,7 @@ https://github.com/user-attachments/assets/c7694d5a-9450-4f99-9254-5d70560d7565
 
 ## Muse、OpenMinis との比較
 
-| | Meta Muse | OpenMinis | lingTai |
+| | Meta Muse | OpenMinis | LingTai |
 |---|---|---|---|
 | エージェントが動く場所 | ユーザーごとのクラウド VM | インストールしたスマホ | あなたのスマホ、パソコン、または自分のサーバー。ひとつのアカウントで |
 | API のないアプリ | 届かない。VM はデバイスに触れない | Android のアクセシビリティ CLI | スマホでもパソコンでも画面を手として使う。スクリーンショットを見て、API を先に試し、ログインはあなたが引き受ける。iOS では不可。OS が許していない |
@@ -150,7 +150,7 @@ VPS 1 台、1 時間：[docs/self-hosting.md](../self-hosting.md)。三つの道
 
 ```bibtex
 @misc{liu2026lingtaiopensourcepersonalagent,
-      title={lingTai: An Open-Source Personal Agent for Every Device You Own}, 
+      title={LingTai: An Open-Source Personal Agent for Every Device You Own}, 
       author={Guangyi Liu and Yong Liu and Jiangning Zhang},
       year={2026},
       eprint={2610.08699},
@@ -175,5 +175,5 @@ VPS 1 台、1 時間：[docs/self-hosting.md](../self-hosting.md)。三つの道
 
 <p align="center">
   <em>ご覧いただきありがとうございます ✨ 灵台。</em><br><br>
-  <img src="https://hits.sh/github.com/ling-tai/lingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
+  <img src="https://hits.sh/github.com/ling-tai/LingTai.svg?label=visitors&color=4f46e5&extraCount=16719" alt="Visitors">
 </p>

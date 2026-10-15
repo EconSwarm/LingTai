@@ -28,7 +28,7 @@ xcode-select --install 2>/dev/null || true          # 命令行工具（git、co
 brew install node@22 pnpm python@3.12 cliclick       # Node 22（CI 同版本）、pnpm 11、Python 3.12、cliclick（读/写鼠标位置）
 export PATH="/opt/homebrew/opt/node@22/bin:$PATH"    # Intel Mac 是 /usr/local/opt/node@22/bin
 node -v   # v22.x
-git clone https://github.com/econswarm/lingtai.git && cd lingTai
+git clone https://github.com/econswarm/lingtai.git && cd LingTai
 git checkout -b mac-check-0.1.36
 ```
 

@@ -1,6 +1,6 @@
 //
 //  LingTaiScheduler.swift
-//  lingTai
+//  LingTai
 //
 //  The iPhone's scheduler primitive: a due-list of routines (the daily
 //  feed, goal check-ins, the routines made from Ideas) kept in a JSON file,
@@ -340,7 +340,7 @@ final class LingTaiScheduler: ObservableObject {
         } else {
             content.title = r.label.isEmpty ? AppLocalized("Routine") : r.label
         }
-        content.body = AppLocalized("Open lingTai to run it. The phone cannot run the agent while the app is asleep.")
+        content.body = AppLocalized("Open LingTai to run it. The phone cannot run the agent while the app is asleep.")
         content.sound = .default
         content.categoryIdentifier = Self.notificationCategory
         var info: [String: Any] = ["lingtai.routine": r.id]

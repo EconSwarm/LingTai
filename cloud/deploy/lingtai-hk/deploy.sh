@@ -21,7 +21,7 @@ set -eu
 
 host=${RELAY_HOST:-lingtai-hk}
 remote=${RELAY_DIR:-/opt/lingtai/relay}
-showcase=${SHOWCASE_DIR:-/opt/lingtai/lingTai/demo/showcase}
+showcase=${SHOWCASE_DIR:-/opt/lingtai/LingTai/demo/showcase}
 public=${PUBLIC_BASE:-https://cloud.lingtai.cn}
 here=$(cd "$(dirname "$0")" && pwd)
 cloud=$(cd "$here/../.." && pwd)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- lingTai: strings added on top of upstream; kept in their own file so an
+<!-- LingTai: strings added on top of upstream; kept in their own file so an
      upstream pull never touches them. Anything missing here falls back to English. -->
 <resources>
     <string name="lt_about_build">Ta kompilacja</string>
@@ -7,7 +7,7 @@
     <string name="lt_about_upstream">Oparte na OpenMinis 1.13</string>
     <string name="lt_about_upstream_detail">GPL-3.0 · zmodyfikowane od 2026-09-24 · źródła na GitHub</string>
     <string name="lt_about_trademark">Niepowiązane z Meta</string>
-    <string name="lt_about_trademark_detail">Muse jest znakiem towarowym Meta Platforms, Inc. lingTai to niezależny projekt wolnego oprogramowania.</string>
+    <string name="lt_about_trademark_detail">Muse jest znakiem towarowym Meta Platforms, Inc. LingTai to niezależny projekt wolnego oprogramowania.</string>
 
     <!-- Chat header -->
     <string name="lt_avatar_content_description">Twój agent. Dotknij, aby zmienić jego imię, ikonę lub styl.</string>
@@ -22,32 +22,32 @@
     <string name="lt_star_action">Daj gwiazdkę na GitHub</string>
     <string name="lt_star_later">Nie teraz</string>
     <string name="lt_star_done">Gwiazdka już jest</string>
-    <string name="lt_star_signed_in">Witaj. lingTai jest darmowe, otwarte i niekomercyjne: osobisty agent dla każdego, kto je uruchomi. Jeśli to coś dla ciebie znaczy, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</string>
+    <string name="lt_star_signed_in">Witaj. LingTai jest darmowe, otwarte i niekomercyjne: osobisty agent dla każdego, kto je uruchomi. Jeśli to coś dla ciebie znaczy, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</string>
     <plurals name="lt_star_tasks">
-        <item quantity="one">Jedno zadanie wykonane. Jeśli lingTai pomogło, gwiazdka na GitHub mówi o tym osobom, które je tworzą.</item>
-        <item quantity="few">%1$d zadania wykonane. Jeśli lingTai się przydaje, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
-        <item quantity="many">%1$d zadań wykonanych. Jeśli lingTai się przydaje, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
-        <item quantity="other">%1$d zadania wykonanego. Jeśli lingTai się przydaje, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
+        <item quantity="one">Jedno zadanie wykonane. Jeśli LingTai pomogło, gwiazdka na GitHub mówi o tym osobom, które je tworzą.</item>
+        <item quantity="few">%1$d zadania wykonane. Jeśli LingTai się przydaje, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
+        <item quantity="many">%1$d zadań wykonanych. Jeśli LingTai się przydaje, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
+        <item quantity="other">%1$d zadania wykonanego. Jeśli LingTai się przydaje, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
     </plurals>
-    <string name="lt_star_days_used_week">Tydzień z lingTai. Jeśli znalazło miejsce w twoim dniu, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</string>
-    <string name="lt_star_days_used_month">Miesiąc z lingTai. Jeśli stało się częścią twojej rutyny, gwiazdka na GitHub mówi innym, że warto spróbować.</string>
+    <string name="lt_star_days_used_week">Tydzień z LingTai. Jeśli znalazło miejsce w twoim dniu, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</string>
+    <string name="lt_star_days_used_month">Miesiąc z LingTai. Jeśli stało się częścią twojej rutyny, gwiazdka na GitHub mówi innym, że warto spróbować.</string>
     <plurals name="lt_star_days_used">
-        <item quantity="one">Dzień z lingTai. Jeśli pomogło, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
-        <item quantity="few">%1$d dni z lingTai. Jeśli znalazło miejsce w twoim dniu, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
-        <item quantity="many">%1$d dni z lingTai. Jeśli znalazło miejsce w twoim dniu, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
-        <item quantity="other">%1$d dnia z lingTai. Jeśli znalazło miejsce w twoim dniu, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
+        <item quantity="one">Dzień z LingTai. Jeśli pomogło, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
+        <item quantity="few">%1$d dni z LingTai. Jeśli znalazło miejsce w twoim dniu, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
+        <item quantity="many">%1$d dni z LingTai. Jeśli znalazło miejsce w twoim dniu, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
+        <item quantity="other">%1$d dnia z LingTai. Jeśli znalazło miejsce w twoim dniu, gwiazdka na GitHub pomoże następnej osobie je znaleźć.</item>
     </plurals>
-    <string name="lt_star_goal_done">Cel osiągnięty. Jeśli lingTai pomogło ci do niego dojść, gwiazdka na GitHub mówi o tym osobom, które je tworzą.</string>
-    <string name="lt_star_new_look">Nowa twarz, narysowana dla ciebie. Jeśli podoba ci się kierunek lingTai, gwiazdka na GitHub pomoże większej liczbie osób je znaleźć.</string>
-    <string name="lt_star_exhausted">Darmowy limit się wyczerpał. Dzięki, że jesteś z nami aż dotąd. Jeśli lingTai na to zasłużyło, gwiazdka na GitHub pomoże następnej osobie zauważyć projekt.</string>
+    <string name="lt_star_goal_done">Cel osiągnięty. Jeśli LingTai pomogło ci do niego dojść, gwiazdka na GitHub mówi o tym osobom, które je tworzą.</string>
+    <string name="lt_star_new_look">Nowa twarz, narysowana dla ciebie. Jeśli podoba ci się kierunek LingTai, gwiazdka na GitHub pomoże większej liczbie osób je znaleźć.</string>
+    <string name="lt_star_exhausted">Darmowy limit się wyczerpał. Dzięki, że jesteś z nami aż dotąd. Jeśli LingTai na to zasłużyło, gwiazdka na GitHub pomoże następnej osobie zauważyć projekt.</string>
     <string name="lt_chat_menu_rename">Zmień nazwę czatu</string>
 
     <!-- Foreground-service notification title while no tool is running -->
     <string name="lt_notif_working">%1$s pracuje</string>
 
     <!-- First conversation: the scripted opening (see io.github.lingtai.onboarding) -->
-    <string name="lt_intro_hello">Cześć, jestem lingTai, asystent, który mieszka w twoim telefonie. Pozwól, że zdejmę ci kilka rzeczy z głowy.</string>
-    <string name="lt_intro_how_i_work">Kilka słów o tym, jak działam:\n\n- Mam własny komputer (piaskownicę Linux i przeglądarkę), więc mogę uruchamiać polecenia, otwierać strony i wypełniać formularze.\n- Potrafię czytać i porządkować pliki i zdjęcia, które mi udostępnisz, a także pilnować przypomnień i zaplanowanych zadań.\n- Przed każdym krokiem, który ma znaczenie, najpierw pytam ciebie.\n- Wszystko działa na tym telefonie. Twoje wiadomości trafiają do modelu, który skonfigurujesz; z lingTai Cloud ta rozmowa podąża też za tobą na inne urządzenia; w Kontroli danych można to wyłączyć.</string>
+    <string name="lt_intro_hello">Cześć, jestem LingTai, asystent, który mieszka w twoim telefonie. Pozwól, że zdejmę ci kilka rzeczy z głowy.</string>
+    <string name="lt_intro_how_i_work">Kilka słów o tym, jak działam:\n\n- Mam własny komputer (piaskownicę Linux i przeglądarkę), więc mogę uruchamiać polecenia, otwierać strony i wypełniać formularze.\n- Potrafię czytać i porządkować pliki i zdjęcia, które mi udostępnisz, a także pilnować przypomnień i zaplanowanych zadań.\n- Przed każdym krokiem, który ma znaczenie, najpierw pytam ciebie.\n- Wszystko działa na tym telefonie. Twoje wiadomości trafiają do modelu, który skonfigurujesz; z LingTai Cloud ta rozmowa podąża też za tobą na inne urządzenia; w Kontroli danych można to wyłączyć.</string>
     <string name="lt_intro_ask_name">Zanim zaczniemy, jak mam się do ciebie zwracać?</string>
 
     <!-- First conversation: the name chooser -->
@@ -202,7 +202,7 @@
     <string name="lt_risk_class_outbound">Wysyłanie</string>
     <string name="lt_risk_class_money">Płatność</string>
     <string name="lt_risk_class_install">Instalacja</string>
-    <string name="lt_grants_header">Zgody zapamiętane przez lingTai</string>
+    <string name="lt_grants_header">Zgody zapamiętane przez LingTai</string>
     <string name="lt_grants_empty">Nic jeszcze nie zapamiętano</string>
     <string name="lt_grants_revoke">Cofnij</string>
     <string name="lt_grants_revoke_confirm">Cofnąć tę zgodę? Następnym razem znów pojawi się pytanie.</string>
@@ -210,7 +210,7 @@
     <string name="lt_risk_remember_money_note">Potwierdzane blokadą ekranu. Płatności w tej jednej aplikacji lub witrynie będą potem wykonywane bez karty; widnieją na początku listy w Ustawienia → Uprawnienia, gdzie możesz je w każdej chwili cofnąć.</string>
     <string name="lt_risk_remember_money_needs_lock">Aby zapamiętywać płatności, najpierw ustaw blokadę ekranu (Ustawienia → Zabezpieczenia): zapamiętanie potwierdza się właśnie nią.</string>
     <string name="lt_risk_lock_title">Potwierdź, że to ty</string>
-    <string name="lt_risk_lock_subtitle">lingTai zapamięta zgody na płatności w %1$s i będzie je wykonywać bez pytania.</string>
+    <string name="lt_risk_lock_subtitle">LingTai zapamięta zgody na płatności w %1$s i będzie je wykonywać bez pytania.</string>
     <string name="lt_risk_remembered_toast">Zapamiętano · cofnij w Ustawienia → Uprawnienia</string>
     <string name="lt_risk_tier_highest">Wykonuje bez pytania · płatności</string>
     <string name="lt_risk_tier_confirm">Zapamiętane z karty · usuwanie i wysyłanie</string>
@@ -281,7 +281,7 @@
     <string name="lt_sysfiles_open_memory">Otwórz pamięć</string>
     <string name="lt_sysfiles_footer">Te pliki należą do agenta: kim jest, co o tobie wie, co pamięta, co dla ciebie pisze i kiedy się budzi. Leżą w pamięci telefonu; agent czyta i edytuje je ze swojej powłoki w /var/minis/memory, a ty możesz tu edytować wszystko.</string>
     <string name="lt_sysfile_about_lead">O tym pliku.</string>
-    <string name="lt_sysfile_about_soul">To osobowość agenta: wartości i nawyki, których stara się trzymać w każdej rozmowie, jego imię i styl odpowiedzi. Zaczyna od szablonu dostarczanego z lingTai; agent może go z czasem doprecyzować i mówi ci, gdy to robi. Możesz go edytować w każdej chwili. Ta notatka nie jest częścią pliku.</string>
+    <string name="lt_sysfile_about_soul">To osobowość agenta: wartości i nawyki, których stara się trzymać w każdej rozmowie, jego imię i styl odpowiedzi. Zaczyna od szablonu dostarczanego z LingTai; agent może go z czasem doprecyzować i mówi ci, gdy to robi. Możesz go edytować w każdej chwili. Ta notatka nie jest częścią pliku.</string>
     <string name="lt_sysfile_about_user">Agent prowadzi ten plik jako robocze notatki o tobie: twoje imię, jak chcesz, by się do ciebie zwracać, twoja strefa czasowa i kontekst, którego potrzebuje, by się przydać, na przykład nad czym pracujesz. Uzupełnia go z czasem na podstawie rozmów i czyta na początku każdej z nich. Odzwierciedla jego obecne rozumienie, więc może być niepełny lub nieaktualny. Możesz tu edytować wszystko, a agent zastosuje się do tego, co napiszesz. Ta notatka nie jest częścią pliku.</string>
     <string name="lt_sysfile_about_memory">Trwałe notatki, które agent zachowuje między rozmowami: rzeczy warte zapamiętania, jego własnymi słowami, plus wszystko, co zaimportujesz z innego asystenta. Dziennik dzień po dniu leży obok, w folderze pamięci. Czytane na początku każdej rozmowy, gdy pamięć jest włączona. Ta notatka nie jest częścią pliku.</string>
     <string name="lt_sysfile_about_feed">Jeden akapit, który steruje aktualnościami: czego chcesz więcej, co pomijać, jak długie mają być wpisy. Codzienna rutyna aktualności czyta go przed pisaniem. Ta notatka nie jest częścią pliku.</string>
@@ -362,7 +362,7 @@
     <string name="lt_own_clip_title">Twój własny klip</string>
     <string name="lt_own_clip_body">Krótki film z Twojej galerii gra jako twarz w spoczynku, a pozostałe nastroje też z niego korzystają. MP4 lub MOV z wideo H.264, najwyżej 15 sekund i 30 MB; odtwarza się w pętli, bez dźwięku.</string>
     <string name="lt_own_clip_on">Twój klip jest włączony i gra w każdym nastroju; tam, gdzie pokazywany jest nieruchomy obraz, nadal używane są narysowane obrazy. „Domyślna twarz” go usuwa.</string>
-    <string name="lt_own_clip_local">Klip zostaje na tym telefonie. Nie jest wysyłany do lingTai Cloud ani synchronizowany z Twoimi innymi urządzeniami.</string>
+    <string name="lt_own_clip_local">Klip zostaje na tym telefonie. Nie jest wysyłany do LingTai Cloud ani synchronizowany z Twoimi innymi urządzeniami.</string>
     <string name="lt_own_clip_choose">Wybierz klip</string>
     <string name="lt_own_clip_replace">Zamień klip</string>
     <string name="lt_own_clip_default">Domyślna twarz</string>
@@ -378,7 +378,7 @@
     <string name="lt_a11y_own_clip_preview">Podgląd Twojego klipu</string>
 
     <!-- First run (Muse-style welcome; the steps are OpenMinis' provider and model screens) -->
-    <string name="lt_setup_title">Witaj w lingTai</string>
+    <string name="lt_setup_title">Witaj w LingTai</string>
     <string name="lt_setup_step_models">Wybierz modele</string>
     <string name="lt_setup_step_models_sub">Modele twojego dostawcy są wypisane; wybierz do trzech</string>
     <string name="lt_setup_step_start">Poznaj %1$s</string>
@@ -394,7 +394,7 @@
     <string name="lt_settings_no_model">Brak modelu</string>
     <string name="lt_settings_no_model_sub">Dodaj dostawcę i wybierz jego modele</string>
     <string name="lt_settings_change_model">Zmień</string>
-    <string name="lt_settings_version">lingTai %1$s (%2$d)</string>
+    <string name="lt_settings_version">LingTai %1$s (%2$d)</string>
     <string name="lt_version_title">Wersja</string>
     <string name="lt_version_checking">Sprawdzam najnowsze wydanie…</string>
     <string name="lt_version_have">Najnowsza %1$s, masz ją</string>
@@ -474,8 +474,8 @@
     <string name="lt_avatar_share_title">Udostępnij mój awatar</string>
     <string name="lt_avatar_share_subtitle">Wybierz kartę. Trafi do systemowego arkusza udostępniania.</string>
     <string name="lt_avatar_share_system">Udostępnij</string>
-    <string name="lt_avatar_share_bubble">Cześć, jestem %1$s, osobisty agent AI. Poznaj lingTai: otwarte źródła, działa na twoim telefonie.</string>
-    <string name="lt_avatar_share_tagline">Twój osobisty agent AI, open source · github.com/ling-tai/lingTai</string>
+    <string name="lt_avatar_share_bubble">Cześć, jestem %1$s, osobisty agent AI. Poznaj LingTai: otwarte źródła, działa na twoim telefonie.</string>
+    <string name="lt_avatar_share_tagline">Twój osobisty agent AI, open source · github.com/ling-tai/LingTai</string>
 
     <!-- 0.1.10 · Motion -->
     <string name="lt_media_title">Modele obrazów i wideo</string>
@@ -526,7 +526,7 @@
     <string name="lt_hands_section_needs">Czego potrzebuje</string>
     <string name="lt_hands_needs_footer">Usługa ułatwień dostępu robi zrzut ekranu i wykonuje gesty; nie czyta zawartości ekranu. Wyświetlanie nad innymi aplikacjami służy kapsule.</string>
     <string name="lt_hands_need_a11y">Usługa ułatwień dostępu</string>
-    <string name="lt_hands_need_a11y_fix">Włącz lingTai w sekcji Zainstalowane aplikacje w ustawieniach ułatwień dostępu</string>
+    <string name="lt_hands_need_a11y_fix">Włącz LingTai w sekcji Zainstalowane aplikacje w ustawieniach ułatwień dostępu</string>
     <string name="lt_hands_need_overlay">Wyświetlanie nad innymi aplikacjami</string>
     <string name="lt_hands_need_overlay_fix">Zezwól, aby można było pokazać kapsułę z przyciskiem Stop</string>
     <string name="lt_hands_need_model">Model, który widzi obrazy</string>
@@ -543,7 +543,7 @@
     <string name="lt_hands_why_default">domyślny model rąk pod twoim własnym kluczem</string>
     <string name="lt_hands_why_chat">wybrany model czatu</string>
     <string name="lt_hands_why_group">pierwszy w twojej domyślnej grupie, który widzi</string>
-    <string name="lt_hands_why_menu">model ekranu lingTai Cloud</string>
+    <string name="lt_hands_why_menu">model ekranu LingTai Cloud</string>
     <string name="lt_hands_why_vision_group">twoja Grupa wizyjna</string>
     <string name="lt_hands_why_any">jedyny włączony model, który widzi</string>
     <string name="lt_hands_section_rules">Jak się zachowuje</string>
@@ -564,7 +564,7 @@
     <string name="lt_hands_protected_screen">Ten ekran jest chroniony i nie można go odczytać. Dokończ tę część samodzielnie, potem dotknij Dalej.</string>
     <string name="lt_hands_secret_field">Pole hasła lub kodu: wypełnij je samodzielnie, potem dotknij Dalej.</string>
     <string name="lt_hands_approval_title">Czekam na twoją zgodę</string>
-    <string name="lt_hands_approval_detail">Dotknąć „%1$s”? Potwierdź w lingTai (poprosi o blokadę ekranu).</string>
+    <string name="lt_hands_approval_detail">Dotknąć „%1$s”? Potwierdź w LingTai (poprosi o blokadę ekranu).</string>
     <string name="lt_hands_approval_here">Dotknąć „%1$s”?</string>
     <string name="lt_hands_allow_once">Zezwól</string>
     <string name="lt_hands_deny">Odmów</string>
@@ -595,10 +595,10 @@
     <!-- Reach (0.1.13): the phone drives your computer -->
     <string name="lt_pc_title">Komputery</string>
     <string name="lt_pc_none_short">Brak</string>
-    <string name="lt_pc_intro">Powiedz tutaj, zrobione na komputerze: polecenie, plik, strona w jego przeglądarce, spojrzenie na jego ekran albo całe zadanie dla tamtejszego lingTai. Telefon steruje komputerem, nigdy odwrotnie; o każdej zgodzie decyduje się najpierw tutaj.</string>
-    <string name="lt_pc_hub_title">Najprościej: lingTai Desktop, to samo konto</string>
-    <string name="lt_pc_hub_body">Zainstaluj lingTai Desktop na komputerze i zaloguj się kontem tego telefonu; w kilka sekund pojawi się w Konto → Urządzenia.</string>
-    <string name="lt_pc_hub_download">Pobierz lingTai Desktop</string>
+    <string name="lt_pc_intro">Powiedz tutaj, zrobione na komputerze: polecenie, plik, strona w jego przeglądarce, spojrzenie na jego ekran albo całe zadanie dla tamtejszego LingTai. Telefon steruje komputerem, nigdy odwrotnie; o każdej zgodzie decyduje się najpierw tutaj.</string>
+    <string name="lt_pc_hub_title">Najprościej: LingTai Desktop, to samo konto</string>
+    <string name="lt_pc_hub_body">Zainstaluj LingTai Desktop na komputerze i zaloguj się kontem tego telefonu; w kilka sekund pojawi się w Konto → Urządzenia.</string>
+    <string name="lt_pc_hub_download">Pobierz LingTai Desktop</string>
     <string name="lt_pc_hub_account">Konto i urządzenia</string>
     <string name="lt_pc_section_paired">Komputery na tym koncie</string>
     <string name="lt_pc_none">Brak komputera</string>
@@ -607,11 +607,11 @@
     <string name="lt_pc_last_seen">widziany %1$s</string>
     <string name="lt_pc_offline">offline</string>
     <string name="lt_pc_online">online</string>
-    <string name="lt_pc_account_none">Ten telefon nie jest jeszcze zalogowany do lingTai Cloud; zaloguj się najpierw tutaj, potem na komputerze tym samym kontem.</string>
+    <string name="lt_pc_account_none">Ten telefon nie jest jeszcze zalogowany do LingTai Cloud; zaloguj się najpierw tutaj, potem na komputerze tym samym kontem.</string>
     <string name="lt_pc_account_hint">Ten telefon jest zalogowany jako %1$s; komputer musi zalogować się tym samym kontem.</string>
     <string name="lt_pc_checking">Sprawdzam…</string>
     <string name="lt_pc_answering">%1$s odpowiada</string>
-    <string name="lt_pc_not_answering">%1$s nie odpowiada. Czy lingTai Desktop wciąż tam działa?</string>
+    <string name="lt_pc_not_answering">%1$s nie odpowiada. Czy LingTai Desktop wciąż tam działa?</string>
 
     <!-- the approval card -->
     <string name="lt_risk_desc_on_computer">Na komputerze „%1$s”, nie na tym telefonie.</string>
@@ -624,16 +624,16 @@
     <string name="lt_risk_class_remote">Zdalne sterowanie</string>
     <string name="lt_hub_remote_reason">%1$s może sterować tym telefonem</string>
 
-    <!-- lingTai Cloud: sign in with a phone/e-mail code for a starter allowance -->
+    <!-- LingTai Cloud: sign in with a phone/e-mail code for a starter allowance -->
     <string name="lt_setup_own_key">Mam własny klucz API</string>
 
-    <!-- lingTai: the first-run pages -->
+    <!-- LingTai: the first-run pages -->
     <string name="lt_welcome_tagline">Otwartoźródłowy osobisty agent na każde twoje urządzenie.</string>
     <string name="lt_welcome_email">Zaloguj się (za darmo)</string>
     <string name="lt_welcome_fine_print">Jedno konto łączy twoje urządzenia i niesie darmowe użycie modelu; nic nie jest pobierane. Własny klucz API możesz dodać zaraz potem.</string>
     <string name="lt_setup_source_title">Który model odpowiada?</string>
     <string name="lt_setup_source_sub">Twoje konto już jeden ma. Możesz też dodać własny klucz API i przełączać się w każdej chwili.</string>
-    <string name="lt_setup_source_cloud">Użyj modelu lingTai Cloud</string>
+    <string name="lt_setup_source_cloud">Użyj modelu LingTai Cloud</string>
     <string name="lt_setup_source_cloud_sub">DeepSeek do czatu i Qwen do rąk, z darmowym limitem na konto opłacanym przez dewelopera. Nic do konfigurowania.</string>
     <string name="lt_setup_source_own_sub">OpenAI, Anthropic, DeepSeek, Bailian i inne punkty końcowe zgodne z OpenAI. Klucz zostaje na tym telefonie.</string>
     <string name="lt_setup_source_fine_print">Te dwa nie konkurują: model Cloud pozostaje dostępny, a każda grupa modeli wybiera swój.</string>
@@ -646,15 +646,15 @@
     <string name="lt_welcome_feat_hands">Ręce: używa twojego telefonu</string>
     <string name="lt_welcome_feat_hands_sub">Rezerwuje pociąg, zamawia posiłek, sprawdza coś w aplikacji; ty patrzysz i możesz przerwać w każdej chwili</string>
     <string name="lt_welcome_feat_reach">Zasięg: twoje komputery, stąd</string>
-    <string name="lt_welcome_feat_reach_sub">Zainstaluj lingTai Desktop na komputerze z Mac, Windows lub Linux, zaloguj się na to samo konto i zlecaj mu pracę z telefonu</string>
-    <string name="lt_welcome_notice">lingTai to niekomercyjny, otwartoźródłowy projekt społeczności: darmowy, na zawsze. Model ma darmowy limit opłacany przez dewelopera; potem twój własny klucz. Nic nie jest sprzedawane; co przechowuje relay, opisuje polityka prywatności, a Ustawienia → Kontrola danych należy do ciebie.</string>
+    <string name="lt_welcome_feat_reach_sub">Zainstaluj LingTai Desktop na komputerze z Mac, Windows lub Linux, zaloguj się na to samo konto i zlecaj mu pracę z telefonu</string>
+    <string name="lt_welcome_notice">LingTai to niekomercyjny, otwartoźródłowy projekt społeczności: darmowy, na zawsze. Model ma darmowy limit opłacany przez dewelopera; potem twój własny klucz. Nic nie jest sprzedawane; co przechowuje relay, opisuje polityka prywatności, a Ustawienia → Kontrola danych należy do ciebie.</string>
     <string name="lt_welcome_hands_title">Pozwól mu używać twojego telefonu</string>
     <string name="lt_welcome_hands_sub">Z dwoma uprawnieniami może otwierać aplikacje, dotykać i pisać za ciebie. Kapsuła z każdym krokiem i przyciskiem Stop zostaje na ekranie; logowania, hasła i kody zawsze należą do ciebie.</string>
     <string name="lt_welcome_hands_turn_on">Włącz</string>
     <string name="lt_welcome_skip">Pomiń na razie</string>
     <string name="lt_welcome_hands_fine_print">Wszystko inne działa bez nich. Znajdziesz je w Ustawienia → Ręce, kiedy zechcesz.</string>
     <string name="lt_welcome_meet_fine_print">Przed wszystkim, czego nie da się cofnąć (usuwaniem, wysyłaniem, płaceniem) zatrzymuje się i najpierw pyta ciebie.</string>
-    <string name="lt_cloud_signin_title">Zacznij z lingTai Cloud</string>
+    <string name="lt_cloud_signin_title">Zacznij z LingTai Cloud</string>
     <string name="lt_cloud_signin_subtitle">Kod na telefon lub skrzynkę, albo hasło, gdy już je ustawisz.</string>
     <string name="lt_cloud_mode_code">Kodem</string>
     <string name="lt_cloud_mode_password">Hasłem</string>
@@ -679,7 +679,7 @@
     <string name="lt_cloud_server_https">Dla serwera poza własną siecią użyj https. http wystarczy dla adresu prywatnego (10.x, 192.168.x, 172.16-31.x, localhost, nazwa .local lub .ts.net).</string>
     <string name="lt_lan_only_https">Zwykłe http:// działa tylko dla adresów w Twojej własnej sieci (10.x, 172.16-31.x, 192.168.x, nazwy .local); dla %1$s użyj https://.</string>
     <string name="lt_cloud_server_unreachable">Pod adresem %1$s nie odpowiedział żaden relay. Sprawdź adres i czy relay działa.</string>
-    <string name="lt_cloud_server_default">Wróć do lingTai Cloud</string>
+    <string name="lt_cloud_server_default">Wróć do LingTai Cloud</string>
     <string name="lt_cloud_server_row">Serwer</string>
     <string name="lt_cloud_server_change">Zmień</string>
     <string name="lt_cloud_server_change_confirm">Klucz tego telefonu należy do obecnego serwera. Najpierw wyloguj się tutaj, potem zaloguj się do innego serwera z ekranu logowania.</string>
@@ -700,11 +700,11 @@
     <string name="lt_cloud_used_today_open">Dziś %1$s</string>
     <string name="lt_cloud_refresh">Odśwież saldo</string>
     <string name="lt_cloud_refreshing">Odświeżam…</string>
-    <string name="lt_cloud_how_it_works">lingTai Cloud to zwykły dostawca w tej aplikacji: jego modele są wypisane w Dostawcach i można je mieszać z twoimi w grupie modeli.</string>
+    <string name="lt_cloud_how_it_works">LingTai Cloud to zwykły dostawca w tej aplikacji: jego modele są wypisane w Dostawcach i można je mieszać z twoimi w grupie modeli.</string>
     <string name="lt_cloud_open_provider">Ustawienia dostawcy</string>
     <string name="lt_cloud_sign_out">Wyloguj się</string>
     <string name="lt_cloud_sign_out_sub">Klucz tego telefonu zostaje unieważniony, a dostawca Cloud usunięty; limit zostaje przy twoim koncie.</string>
-    <string name="lt_cloud_sign_out_confirm">Dostawca lingTai Cloud i jego modele zostaną usunięte z tego telefonu.</string>
+    <string name="lt_cloud_sign_out_confirm">Dostawca LingTai Cloud i jego modele zostaną usunięte z tego telefonu.</string>
     <string name="lt_cloud_row_remaining">Pozostało %1$s</string>
     <string name="lt_cloud_row_sign_in">Zaloguj się</string>
     <string name="lt_cloud_err_bad_identifier">To nie wygląda na adres e-mail.</string>
@@ -722,7 +722,7 @@
     <string name="lt_cloud_err_allowance_abroad">Darmowy limit się wyczerpał. Zaproś znajomego (+¥%1$s dla każdego z was) albo dodaj własny klucz w Ustawienia → Dostawcy; OpenRouter to najszybsza droga: jedno konto, jeden klucz, płatność za użycie.</string>
     <string name="lt_cloud_warn_line">Darmowy limit prawie się wyczerpał: zostało ¥%1$s z ¥%2$s. Zaproś znajomego (+¥%3$s dla każdego z was) albo dodaj własny klucz, oba w sekcji Konto.</string>
     <string name="lt_cloud_err_rate_limited">Zbyt wiele żądań naraz. Chwileczkę.</string>
-    <string name="lt_cloud_err_unreachable">Brak połączenia z lingTai Cloud. Sprawdź połączenie z siecią.</string>
+    <string name="lt_cloud_err_unreachable">Brak połączenia z LingTai Cloud. Sprawdź połączenie z siecią.</string>
     <string name="lt_cloud_err_generic">Coś poszło nie tak.</string>
     <string name="lt_cloud_err_bad_credentials">Błędny e-mail lub hasło.</string>
     <string name="lt_cloud_err_no_password">To konto nie ma jeszcze hasła. Zaloguj się kodem, potem ustaw je w sekcji Konto.</string>
@@ -738,10 +738,10 @@
     <string name="lt_cloud_err_content_rejected">Kontrola treści dostawcy modelu odrzuciła to żądanie. Spróbuj innych słów, a jeśli to się powtarza, zacznij nowy czat: zakwestionowane słowa mogą być wcześniej w rozmowie.</string>
     <string name="lt_cloud_err_provider_busy">Dostawca modelu jest teraz zajęty. Spróbuj ponownie za chwilę.</string>
     <string name="lt_cloud_err_provider_busy_wait">Dostawca modelu jest teraz zajęty. Spróbuj ponownie za %1$s.</string>
-    <string name="lt_cloud_err_model_not_offered">lingTai Cloud nie oferuje już tego modelu. Wybierz inny w Ustawienia → lingTai Cloud.</string>
-    <string name="lt_cloud_err_relay_down">lingTai Cloud nie odpowiedział. Spróbuj ponownie za chwilę.</string>
-    <string name="lt_cloud_err_allowance_paused">Darmowy limit na tym relayu jest na razie wstrzymany, nie wyczerpany. Dodaj własny klucz albo zaloguj się planem, za który już płacisz, w Ustawienia → lingTai Cloud. Logowanie, urządzenia i pozostały limit zostają bez zmian.</string>
-    <string name="lt_cloud_err_service_paused">lingTai Cloud jest na razie wstrzymany przez operatora; logowanie i dane są zachowane. Spróbuj ponownie później.</string>
+    <string name="lt_cloud_err_model_not_offered">LingTai Cloud nie oferuje już tego modelu. Wybierz inny w Ustawienia → LingTai Cloud.</string>
+    <string name="lt_cloud_err_relay_down">LingTai Cloud nie odpowiedział. Spróbuj ponownie za chwilę.</string>
+    <string name="lt_cloud_err_allowance_paused">Darmowy limit na tym relayu jest na razie wstrzymany, nie wyczerpany. Dodaj własny klucz albo zaloguj się planem, za który już płacisz, w Ustawienia → LingTai Cloud. Logowanie, urządzenia i pozostały limit zostają bez zmian.</string>
+    <string name="lt_cloud_err_service_paused">LingTai Cloud jest na razie wstrzymany przez operatora; logowanie i dane są zachowane. Spróbuj ponownie później.</string>
     <string name="lt_cloud_err_sync_paused">Synchronizacja rozmów na tym relayu jest na razie wstrzymana; zapisane treści są zachowane, a urządzenia działają dalej samodzielnie.</string>
     <string name="lt_cloud_err_hub_paused">Łączenie urządzeń na tym relayu jest na razie wstrzymane; każde urządzenie działa dalej samodzielnie.</string>
     <string name="lt_refusal_relay_says">Relay mówi: %1$s</string>
@@ -785,7 +785,7 @@
     <string name="lt_cloud_invite_share">Udostępnij link</string>
     <string name="lt_cloud_invite_copy">Kopiuj</string>
     <string name="lt_cloud_invite_copied">Skopiowano</string>
-    <string name="lt_cloud_invite_share_text">Wypróbuj ze mną lingTai: w pełni otwartoźródłowego osobistego agenta, darmowego w użyciu. Zarejestruj się moim kodem %1$s: %2$s</string>
+    <string name="lt_cloud_invite_share_text">Wypróbuj ze mną LingTai: w pełni otwartoźródłowego osobistego agenta, darmowego w użyciu. Zarejestruj się moim kodem %1$s: %2$s</string>
     <string name="lt_cloud_invite_count">Dołączyło %1$d znajomych</string>
     <string name="lt_cloud_invite_earned">¥%1$s dodane z zaproszeń</string>
     <string name="lt_cloud_invite_have">Masz kod zaproszenia?</string>
@@ -826,8 +826,8 @@
     <string name="lt_cloud_ev_contribute_deleted">Kontrola danych: zachowane rozmowy usunięte</string>
     <string name="lt_cloud_ev_contribute_default">Kontrola danych: włączona dla nowych kont</string>
     <string name="lt_data_title">Kontrola danych</string>
-    <string name="lt_data_improve">Pomóż ulepszać modele AI lingTai</string>
-    <string name="lt_data_why">Gdy to jest włączone, tekst twoich czatów z modelami lingTai Cloud (co napisano, co odpowiedziano i jakie narzędzia wywołano) jest przechowywany na relayu, aby trenować własny otwarty model społeczności. Nie twoja pamięć ani SOUL (prompt systemowy), nie wyniki narzędzi, nie obrazy i nigdy obok tego, kim jesteś. Twój własny klucz API nigdy nie przechodzi przez relay.</string>
+    <string name="lt_data_improve">Pomóż ulepszać modele AI LingTai</string>
+    <string name="lt_data_why">Gdy to jest włączone, tekst twoich czatów z modelami LingTai Cloud (co napisano, co odpowiedziano i jakie narzędzia wywołano) jest przechowywany na relayu, aby trenować własny otwarty model społeczności. Nie twoja pamięć ani SOUL (prompt systemowy), nie wyniki narzędzi, nie obrazy i nigdy obok tego, kim jesteś. Twój własny klucz API nigdy nie przechodzi przez relay.</string>
     <string name="lt_data_default_on">Nowe konta zaczynają z włączonym.</string>
     <string name="lt_data_default_off">Nowe konta zaczynają z wyłączonym.</string>
     <string name="lt_data_kept">Dotąd zachowano %1$d tur.</string>
@@ -837,7 +837,7 @@
     <string name="lt_data_delete_sub">Usuwa każdą turę zachowaną z tego konta, niezależnie od tego, czy przełącznik jest teraz włączony. Wyłączenie przełącznika zostawia to, co już zachowano, dopóki nie usuniesz tego tutaj.</string>
     <string name="lt_data_delete_confirm">Zachowane rozmowy zostaną usunięte z serwera. Tego nie da się cofnąć.</string>
     <string name="lt_data_deleted">Usunięto %1$d tur.</string>
-    <string name="lt_data_sign_in">Zaloguj się do lingTai Cloud, aby z tego korzystać.</string>
+    <string name="lt_data_sign_in">Zaloguj się do LingTai Cloud, aby z tego korzystać.</string>
     <string name="lt_data_privacy">Polityka prywatności</string>
     <string name="lt_data_status_on">Wł.</string>
     <string name="lt_data_status_off">Wył.</string>
@@ -885,7 +885,7 @@
     <!-- 0.1.20: the coding agents on the account's computers -->
     <string name="lt_coding_title">Agenci kodowania</string>
     <string name="lt_coding_intro">Cursor, Codex i Claude Code na twoich komputerach: ich sesje, ostatnia odpowiedź i wiadomość do dowolnego z nich, stąd. Nic z ich danych nie jest kopiowane na telefon.</string>
-    <string name="lt_coding_no_computer">Żaden komputer z agentem kodowania nie jest online. Uruchom lingTai na komputerze, gdzie zainstalowano Cursor, Codex lub Claude Code, zalogowane tym kontem.</string>
+    <string name="lt_coding_no_computer">Żaden komputer z agentem kodowania nie jest online. Uruchom LingTai na komputerze, gdzie zainstalowano Cursor, Codex lub Claude Code, zalogowane tym kontem.</string>
     <string name="lt_coding_account_hint">Ten telefon jest zalogowany jako %1$s; komputer musi używać tego samego konta.</string>
     <string name="lt_coding_refresh">Odśwież</string>
     <string name="lt_coding_all">Wszystkie</string>
@@ -909,7 +909,7 @@
     <string name="lt_coding_fresh_hint">Nowa rozmowa z %1$s. Twoja pierwsza wiadomość uruchamia ją na komputerze.</string>
     <string name="lt_coding_no_transcript">W tej sesji nie ma jeszcze nic do odczytania.</string>
 
-    <!-- lingTai: money on the account page, and the community notice -->
+    <!-- LingTai: money on the account page, and the community notice -->
     <string name="lt_cloud_spend_member">Członek · bez limitu</string>
     <string name="lt_cloud_spent_total">¥%1$s · $%2$s wydane łącznie, opłacone przez dewelopera</string>
     <string name="lt_cloud_allowance_used">Użyto ¥%1$s · $%2$s</string>
@@ -919,13 +919,13 @@
     <string name="lt_cloud_tokens_line">%1$s tokenów łącznie · %2$s dziś</string>
     <string name="lt_cloud_notice_title">Darmowe, otwarte, niekomercyjne</string>
     <string name="lt_cloud_notice_closing">Błąd, pomysł na funkcję, gotowa poprawka? Repozytorium na GitHub to właściwe miejsce.</string>
-    <string name="lt_cloud_notice">lingTai to niekomercyjny, otwartoźródłowy projekt społeczności: darmowy, na zawsze. Model ma darmowy limit opłacany przez dewelopera; potem twój własny klucz. Nic nie jest sprzedawane; co przechowuje relay, opisuje polityka prywatności, a Ustawienia → Kontrola danych należy do ciebie. Konto możesz usunąć, kiedy zechcesz.</string>
+    <string name="lt_cloud_notice">LingTai to niekomercyjny, otwartoźródłowy projekt społeczności: darmowy, na zawsze. Model ma darmowy limit opłacany przez dewelopera; potem twój własny klucz. Nic nie jest sprzedawane; co przechowuje relay, opisuje polityka prywatności, a Ustawienia → Kontrola danych należy do ciebie. Konto możesz usunąć, kiedy zechcesz.</string>
 
-    <!-- lingTai: devices on the hub -->
+    <!-- LingTai: devices on the hub -->
     <string name="lt_hub_channel">Wiadomości z twoich urządzeń</string>
     <string name="lt_hub_service_channel">Połączenie z twoimi urządzeniami</string>
-    <string name="lt_hub_service_title">lingTai · dostępne z twoich urządzeń</string>
-    <string name="lt_hub_service_connecting">Łączenie z lingTai Cloud…</string>
+    <string name="lt_hub_service_title">LingTai · dostępne z twoich urządzeń</string>
+    <string name="lt_hub_service_connecting">Łączenie z LingTai Cloud…</string>
     <string name="lt_hub_service_alone">Żadne inne urządzenie nie jest teraz online</string>
     <plurals name="lt_hub_service_devices">
         <item quantity="one">%d urządzenie online</item>
@@ -948,7 +948,7 @@
     <string name="lt_devices_connected">Połączono</string>
     <string name="lt_devices_connecting">Łączenie…</string>
     <string name="lt_devices_off">Wył.</string>
-    <string name="lt_devices_none">Brak innych urządzeń. Na komputerze zainstaluj lingTai Desktop i zaloguj się tym samym kontem; pojawi się tutaj w kilka sekund.</string>
+    <string name="lt_devices_none">Brak innych urządzeń. Na komputerze zainstaluj LingTai Desktop i zaloguj się tym samym kontem; pojawi się tutaj w kilka sekund.</string>
     <string name="lt_devices_online">online</string>
     <string name="lt_devices_offline">offline</string>
     <string name="lt_devices_web">Konsola WWW</string>
@@ -967,7 +967,7 @@
     <string name="lt_hub_err_not_controllable">Tego urządzenia nie można prosić o wykonywanie zadań.</string>
     <string name="lt_hub_err_unknown_agent">Tego agenta kodowania nie ma na komputerze.</string>
     <string name="lt_hub_err_no_session">Tej sesji nie ma już na komputerze.</string>
-    <string name="lt_hub_err_unknown_action">Komputer ma starszą wersję lingTai, która nie zna tej akcji.</string>
+    <string name="lt_hub_err_unknown_action">Komputer ma starszą wersję LingTai, która nie zna tej akcji.</string>
     <string name="lt_hub_err_bad_key">Wylogowano na relayu; zaloguj się ponownie.</string>
     <string name="lt_hub_err_generic">Komputer nie mógł tego zrobić.</string>
     <string name="lt_devices_refused">Odrzucone przez relay; zaloguj się ponownie</string>
@@ -986,7 +986,7 @@
     <string name="lt_connectors_sign_in">Zaloguj się</string>
     <string name="lt_connectors_disconnect">Rozłącz</string>
     <string name="lt_connectors_docs">Strona dostawcy o tym serwerze</string>
-    <string name="lt_connectors_how_oauth">Loguje się twoim kontem %1$s w przeglądarce; lingTai rejestruje się w usłudze samo, więc nie trzeba nic wpisywać. Token zostaje na tym telefonie.</string>
+    <string name="lt_connectors_how_oauth">Loguje się twoim kontem %1$s w przeglądarce; LingTai rejestruje się w usłudze samo, więc nie trzeba nic wpisywać. Token zostaje na tym telefonie.</string>
     <string name="lt_connectors_how_key">Wymaga klucza z usługi: %1$s. Jest przechowywany tylko we wpisie MCP na tym telefonie.</string>
     <string name="lt_connectors_how_none">Otwarte dla wszystkich; logowanie niepotrzebne.</string>
     <string name="lt_connectors_how_auto">Najpierw sprawdza, czego serwer wymaga: niczego, logowania czy klucza.</string>
@@ -1030,13 +1030,13 @@
 
     <!-- Conversation sync between the account's devices (contract C7) -->
     <string name="lt_sync_title">Synchronizuj rozmowy między moimi urządzeniami</string>
-    <string name="lt_sync_caption">Tekst twoich czatów jest przechowywany w lingTai Cloud, aby każde urządzenie pokazywało te same rozmowy. Pliki i obrazy zostają na urządzeniu, na którym powstały.</string>
+    <string name="lt_sync_caption">Tekst twoich czatów jest przechowywany w LingTai Cloud, aby każde urządzenie pokazywało te same rozmowy. Pliki i obrazy zostają na urządzeniu, na którym powstały.</string>
     <string name="lt_sync_sign_in">Zaloguj się, aby synchronizować</string>
     <string name="lt_sync_on_toast">Włączone. Rozmowy z tego telefonu są wysyłane.</string>
     <string name="lt_sync_off_toast">Wyłączone. To, co zachowano, zostało usunięte.</string>
     <string name="lt_sync_delete">Usuń zsynchronizowane rozmowy</string>
-    <string name="lt_sync_delete_sub">Usuwa tekst twoich rozmów z lingTai Cloud. Każde urządzenie zachowuje to, co już ma; synchronizacja pozostaje włączona.</string>
-    <string name="lt_sync_delete_confirm">Rozmowy przechowywane w lingTai Cloud zostaną usunięte. Czaty na twoich urządzeniach zostają bez zmian.</string>
+    <string name="lt_sync_delete_sub">Usuwa tekst twoich rozmów z LingTai Cloud. Każde urządzenie zachowuje to, co już ma; synchronizacja pozostaje włączona.</string>
+    <string name="lt_sync_delete_confirm">Rozmowy przechowywane w LingTai Cloud zostaną usunięte. Czaty na twoich urządzeniach zostają bez zmian.</string>
     <string name="lt_sync_deleted">Zsynchronizowane rozmowy usunięte.</string>
     <string name="lt_sync_from">Z %1$s</string>
     <string name="lt_sync_attachment_note">[Załącznik %1$s, zostaje na urządzeniu, na którym powstał]</string>
@@ -1049,7 +1049,7 @@
     <string name="lt_devices_ask_hint">Dotknij urządzenia, które jest online, aby pisać do niego z czatu: wiadomość zaczyna się od @ i jego nazwy, a pracę wykonuje to urządzenie.</string>
     <string name="lt_reach_the_provider">dostawca</string>
     <string name="lt_reach_unreachable_title">%1$s jest nieosiągalny z tej sieci</string>
-    <string name="lt_reach_unreachable_body">Nic nie odpowiedziało pod %1$s. Chodzi o drogę z tego telefonu do dostawcy; serwery lingTai nie biorą w tym udziału.</string>
+    <string name="lt_reach_unreachable_body">Nic nie odpowiedziało pod %1$s. Chodzi o drogę z tego telefonu do dostawcy; serwery LingTai nie biorą w tym udziału.</string>
     <string name="lt_reach_region_title">OpenAI nie obsługuje tego regionu</string>
     <string name="lt_reach_region_body">Żądanie dotarło do OpenAI, które odpowiedziało, że nie oferuje usługi tam, skąd pochodzi to połączenie.</string>
     <string name="lt_reach_signed_out_title">Logowanie do ChatGPT już nie działa</string>
@@ -1092,7 +1092,7 @@
     <string name="lt_network_test_fail">Nie udało się osiągnąć %1$s przez proxy: %2$s</string>
     <string name="lt_network_test_status">HTTP %1$d</string>
     <string name="lt_network_invalid">Podaj host i port od 1 do 65535.</string>
-    <string name="lt_network_proxy_caption">Przez proxy idą tylko żądania do dostawców dodanych z własnym kluczem i do planu ChatGPT. lingTai Cloud, Twoje komputery i sieć lokalna nigdy przez nie nie przechodzą. Zapisane tylko na tym telefonie.</string>
+    <string name="lt_network_proxy_caption">Przez proxy idą tylko żądania do dostawców dodanych z własnym kluczem i do planu ChatGPT. LingTai Cloud, Twoje komputery i sieć lokalna nigdy przez nie nie przechodzą. Zapisane tylko na tym telefonie.</string>
     <string name="lt_network_hosts_caption">Przez proxy: %1$s</string>
     <string name="lt_ways_title_day">Dzisiejsza część darmowego limitu się wyczerpała.</string>
     <string name="lt_ways_day_sub">Wróci z nowym dniem; sposoby poniżej działają już teraz.</string>
@@ -1103,7 +1103,7 @@
     <string name="lt_ways_devices">Urządzenia</string>
     <!-- 0.1.41 Choice: Settings → Models, the "Use it for" card, one turn on the Cloud -->
     <string name="lt_models_title">Modele</string>
-    <string name="lt_models_intro">Który model robi co. Każdy wiersz otwiera wybór; pojawiają się tam lingTai Cloud i dodani przez ciebie dostawcy z pasującymi modelami.</string>
+    <string name="lt_models_intro">Który model robi co. Każdy wiersz otwiera wybór; pojawiają się tam LingTai Cloud i dodani przez ciebie dostawcy z pasującymi modelami.</string>
     <string name="lt_models_chat_title">Czat</string>
     <string name="lt_models_chat_sub">Model, który z tobą rozmawia.</string>
     <string name="lt_models_hands_title">Obsługa ekranu</string>
@@ -1115,20 +1115,20 @@
     <string name="lt_models_chat_applies">Dotyczy czatu głównego i nowych czatów; czat poboczny zachowuje swój model.</string>
     <string name="lt_models_media_more">Więcej opcji obrazów i klipów</string>
     <string name="lt_models_media_more_sub">Wpisz nazwę modelu, zobacz, co zatrzyma się bez którego modelu, albo sprawdź ponownie, których modeli wideo może używać klucz.</string>
-    <string name="lt_models_cloud_switch">Używaj modeli lingTai Cloud</string>
-    <string name="lt_models_cloud_on_sub">lingTai Cloud jest jednym ze źródeł dla wierszy poniżej; to, co na nim działa, schodzi z Twojego limitu.</string>
-    <string name="lt_models_cloud_off_sub">Wyłączone: nic nie działa na lingTai Cloud, chyba że dotkniesz \"Użyj lingTai Cloud tym razem\". Pozostajesz zalogowany na potrzeby synchronizacji i swoich urządzeń.</string>
-    <string name="lt_models_cloud_off_refused">Najpierw dodaj własnego dostawcę; przy wyłączonym lingTai Cloud nic innego nie mogłoby odpowiedzieć.</string>
+    <string name="lt_models_cloud_switch">Używaj modeli LingTai Cloud</string>
+    <string name="lt_models_cloud_on_sub">LingTai Cloud jest jednym ze źródeł dla wierszy poniżej; to, co na nim działa, schodzi z Twojego limitu.</string>
+    <string name="lt_models_cloud_off_sub">Wyłączone: nic nie działa na LingTai Cloud, chyba że dotkniesz \"Użyj LingTai Cloud tym razem\". Pozostajesz zalogowany na potrzeby synchronizacji i swoich urządzeń.</string>
+    <string name="lt_models_cloud_off_refused">Najpierw dodaj własnego dostawcę; przy wyłączonym LingTai Cloud nic innego nie mogłoby odpowiedzieć.</string>
     <string name="lt_chat_no_model">Żaden model nie może teraz odpowiedzieć. Wybierz jeden w Ustawienia › Modele.</string>
-    <string name="lt_cloud_provider_no_delete">Ten dostawca to Twoje konto lingTai Cloud. Wyłącz je powyżej, aby nie używać jego modeli; aby się wylogować, otwórz Ustawienia › lingTai Cloud.</string>
+    <string name="lt_cloud_provider_no_delete">Ten dostawca to Twoje konto LingTai Cloud. Wyłącz je powyżej, aby nie używać jego modeli; aby się wylogować, otwórz Ustawienia › LingTai Cloud.</string>
     <string name="lt_welcome_own_key">Użyj własnego klucza API</string>
     <string name="lt_useit_title">Do czego go użyć</string>
-    <string name="lt_useit_body">Wybierz, czym ma się zajmować ten klucz. Resztą nadal zajmuje się lingTai Cloud.</string>
+    <string name="lt_useit_body">Wybierz, czym ma się zajmować ten klucz. Resztą nadal zajmuje się LingTai Cloud.</string>
     <string name="lt_useit_body_signed_out">Wybierz, czym ma się zajmować ten klucz.</string>
     <string name="lt_useit_use">Użyj</string>
     <string name="lt_useit_not_now">Nie teraz</string>
     <string name="lt_useit_footnote">Możesz to zmienić w każdej chwili w Ustawienia › Modele.</string>
-    <string name="lt_retry_on_cloud">Tym razem użyj lingTai Cloud</string>
+    <string name="lt_retry_on_cloud">Tym razem użyj LingTai Cloud</string>
     <string name="lt_hands_why_chat_provider">domyślny model rąk twojego dostawcy czatu</string>
     <string name="lt_models_auto">Automatycznie</string>
     <string name="lt_models_auto_currently">Obecnie %1$s</string>

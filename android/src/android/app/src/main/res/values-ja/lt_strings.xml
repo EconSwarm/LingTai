@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- lingTai: strings added on top of upstream; kept in their own file so an
+<!-- LingTai: strings added on top of upstream; kept in their own file so an
      upstream pull never touches them. Anything missing here falls back to English. -->
 <resources>
     <string name="lt_about_build">このビルド</string>
@@ -369,7 +369,7 @@
     <string name="lt_a11y_own_clip_preview">自分の動画のプレビュー</string>
 
     <!-- First run (Muse-style welcome; the steps are OpenMinis' provider and model screens) -->
-    <string name="lt_setup_title">lingTai へようこそ</string>
+    <string name="lt_setup_title">LingTai へようこそ</string>
     <string name="lt_setup_step_models">モデルを選ぶ</string>
     <string name="lt_setup_step_models_sub">プロバイダが提供するモデルを一覧にします。最大 3 つ選べます</string>
     <string name="lt_setup_step_start">%1$s に会う</string>
@@ -385,7 +385,7 @@
     <string name="lt_settings_no_model">モデルがまだありません</string>
     <string name="lt_settings_no_model_sub">プロバイダを追加してモデルを選んでください</string>
     <string name="lt_settings_change_model">変更</string>
-    <string name="lt_settings_version">lingTai %1$s (%2$d)</string>
+    <string name="lt_settings_version">LingTai %1$s (%2$d)</string>
     <string name="lt_version_title">バージョン</string>
     <string name="lt_version_checking">最新リリースを確認しています…</string>
     <string name="lt_version_have">最新の %1$s、お使いのものです</string>
@@ -466,7 +466,7 @@
     <string name="lt_avatar_share_subtitle">カードを選んでください。システムの共有シートから送られます。</string>
     <string name="lt_avatar_share_system">共有</string>
     <string name="lt_avatar_share_bubble">こんにちは、%1$s です。パーソナル AI エージェントです。灵台 をどうぞ：オープンソースで、スマートフォンの上で動きます。</string>
-    <string name="lt_avatar_share_tagline">あなたのパーソナル AI エージェント、オープンソース · github.com/ling-tai/lingTai</string>
+    <string name="lt_avatar_share_tagline">あなたのパーソナル AI エージェント、オープンソース · github.com/ling-tai/LingTai</string>
 
     <!-- 0.1.10 · Motion -->
     <string name="lt_media_title">画像・動画モデル</string>
@@ -615,10 +615,10 @@
     <string name="lt_risk_class_remote">リモート操作</string>
     <string name="lt_hub_remote_reason">%1$s はこの端末を操作できます</string>
 
-    <!-- lingTai Cloud: sign in with a phone/e-mail code for a starter allowance -->
+    <!-- LingTai Cloud: sign in with a phone/e-mail code for a starter allowance -->
     <string name="lt_setup_own_key">自分の API キーがあります</string>
 
-    <!-- lingTai: the first-run pages -->
+    <!-- LingTai: the first-run pages -->
     <string name="lt_welcome_tagline">あなたのすべてのデバイスのための、オープンソースのパーソナルエージェント。</string>
     <string name="lt_welcome_email">サインイン（無料）</string>
     <string name="lt_welcome_fine_print">1 つのアカウントでデバイスがつながり、無料のモデル利用も付いてきます。料金はかかりません。自分の API キーはすぐあとで追加できます。</string>
@@ -900,7 +900,7 @@
     <string name="lt_coding_fresh_hint">%1$s との新しい会話です。最初のメッセージでコンピューター上で始まります。</string>
     <string name="lt_coding_no_transcript">このセッションにはまだ読めるものがありません。</string>
 
-    <!-- lingTai: money on the account page, and the community notice -->
+    <!-- LingTai: money on the account page, and the community notice -->
     <string name="lt_cloud_spend_member">メンバー · 上限なし</string>
     <string name="lt_cloud_spent_total">累計 ¥%1$s · $%2$s を使用、開発者が負担</string>
     <string name="lt_cloud_allowance_used">使用 ¥%1$s · $%2$s</string>
@@ -912,7 +912,7 @@
     <string name="lt_cloud_notice_closing">バグを見つけた、機能がほしい、パッチがある？GitHub のリポジトリへどうぞ。</string>
     <string name="lt_cloud_notice">灵台 は非営利のオープンソースコミュニティプロジェクトです：ずっと無料です。モデルには開発者が負担する無料枠が付き、その後は自分のキーを使います。何も売りません。リレーが保持するものはプライバシーポリシーに書かれ、設定 → データ管理はあなたのものです。アカウントはいつでも削除できます。</string>
 
-    <!-- lingTai: devices on the hub -->
+    <!-- LingTai: devices on the hub -->
     <string name="lt_hub_channel">デバイスからのメッセージ</string>
     <string name="lt_hub_service_channel">デバイスと接続中</string>
     <string name="lt_hub_service_title">灵台 · デバイスから到達可能</string>

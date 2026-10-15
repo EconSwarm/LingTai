@@ -1700,7 +1700,7 @@ private fun RenderBlock(block: MdBlock) {
             )
         }
 
-        is MdBlock.CodeBlock -> if (block.language.startsWith("lingtai-")) { // lingTai: goal cards etc.
+        is MdBlock.CodeBlock -> if (block.language.startsWith("lingtai-")) { // LingTai: goal cards etc.
             io.github.lingtai.ui.chat.LingTaiBlock(block.language, block.code)
         } else {
             val clipboardManager = LocalClipboardManager.current

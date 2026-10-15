@@ -2,7 +2,7 @@
 # fifteen minutes. Installed by install.sh, which links release-sync.py to
 # /usr/local/bin/lingtai-release-mirror.
 [Unit]
-Description=lingTai release mirror (lingtai.cn/dl): fetch new releases from GitHub
+Description=LingTai release mirror (lingtai.cn/dl): fetch new releases from GitHub
 After=network-online.target
 Wants=network-online.target
 

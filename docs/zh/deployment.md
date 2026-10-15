@@ -51,14 +51,14 @@ docker run -d --name muse -p 8787:8787 --env-file .env \
 ```ini
 # ~/.config/systemd/user/lingtai.service
 [Unit]
-Description=lingTai
+Description=LingTai
 After=network-online.target
 
 [Service]
-WorkingDirectory=%h/lingTai
-ExecStart=%h/lingTai/.venv/bin/lingtai serve --host 0.0.0.0 --no-qr
+WorkingDirectory=%h/LingTai
+ExecStart=%h/LingTai/.venv/bin/lingtai serve --host 0.0.0.0 --no-qr
 Restart=on-failure
-EnvironmentFile=%h/lingTai/.env
+EnvironmentFile=%h/LingTai/.env
 
 [Install]
 WantedBy=default.target

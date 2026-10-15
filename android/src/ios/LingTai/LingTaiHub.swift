@@ -1,5 +1,5 @@
-// lingTai: this iPhone on the hub — one outbound WebSocket to the relay the account is signed
-// in to, so the user's other devices (computers running lingTai Desktop, Android phones, the
+// LingTai: this iPhone on the hub — one outbound WebSocket to the relay the account is signed
+// in to, so the user's other devices (computers running LingTai Desktop, Android phones, the
 // web console) reach it from any network, and it can ask them for things.
 //
 // The protocol is docs/hub.md. What this phone does for others is decided here: `info`, `open`,
@@ -66,7 +66,7 @@ enum LingTaiHubErrors {
         case "not_controllable", "self_call": return AppLocalized("That device cannot be asked to do things.")
         case "unknown_agent": return AppLocalized("That coding agent is not on the computer.")
         case "no_session": return AppLocalized("That session is not on the computer any more.")
-        case "unknown_action": return AppLocalized("The computer runs an older lingTai that does not know this action.")
+        case "unknown_action": return AppLocalized("The computer runs an older LingTai that does not know this action.")
         case "bad_key", "bad_device": return AppLocalized("Signed out on the relay; sign in again.")
         default:
             if !message.isEmpty { AppLogger(category: "LingTaiHub").info("hub failure \(code): \(message)") }
@@ -182,7 +182,7 @@ final class LingTaiHub: ObservableObject {
         reconnectTask = nil
         var request = URLRequest(url: url)
         request.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization")
-        request.setValue("lingTai-iOS/\(Self.version)", forHTTPHeaderField: "User-Agent")
+        request.setValue("LingTai-iOS/\(Self.version)", forHTTPHeaderField: "User-Agent")
         let task = URLSession.shared.webSocketTask(with: request)
         task.maximumMessageSize = 16 * 1024 * 1024
         generation += 1
@@ -376,7 +376,7 @@ final class LingTaiHub: ObservableObject {
 
     /// Asks another device for something; resolves with its `result` body. Progress arrives on `onEvent`.
     func call(to: String, action: String, args: [String: Any] = [:], timeout: TimeInterval = 120, onEvent: (([String: Any]) -> Void)? = nil) async throws -> [String: Any] {
-        guard connected else { throw HubError(code: "disconnected", message: "this iPhone is not on the hub; sign in to lingTai Cloud and turn on Devices") }
+        guard connected else { throw HubError(code: "disconnected", message: "this iPhone is not on the hub; sign in to LingTai Cloud and turn on Devices") }
         let id = String(UUID().uuidString.lowercased().prefix(12))
         return try await withCheckedThrowingContinuation { cont in
             var finished = false
@@ -439,13 +439,13 @@ final class LingTaiHub: ObservableObject {
                     if ok {
                         self.reply(id, body: ["ok": true, "url": raw])
                     } else {
-                        self.refuse(id, "not_opened", "this iPhone did not open \(raw): nothing handles it, or lingTai is not in the foreground")
+                        self.refuse(id, "not_opened", "this iPhone did not open \(raw): nothing handles it, or LingTai is not in the foreground")
                     }
                 }
             }
         case "notify":
             guard let text = args["text"] as? String, !text.isEmpty else { refuse(id, "usage", "text is required"); return }
-            let title = (args["title"] as? String).flatMap { $0.isEmpty ? nil : $0 } ?? "lingTai"
+            let title = (args["title"] as? String).flatMap { $0.isEmpty ? nil : $0 } ?? "LingTai"
             notify(title: title, text: text, from: from) { ok in
                 Task { @MainActor in self.reply(id, body: ["ok": ok, "shown": ok]) }
             }
@@ -467,7 +467,7 @@ final class LingTaiHub: ObservableObject {
             let sender = frame["from"] as? [String: Any] ?? [:]
             reply(id, body: ["stopped": LingTaiHubTasks.stop(args: args, from: sender)])
         case "shell", "files", "file.get", "file.put", "approve":
-            refuse(id, "not_supported", "lingTai on iOS does not do '\(action)' for other devices yet; ask on the phone itself")
+            refuse(id, "not_supported", "LingTai on iOS does not do '\(action)' for other devices yet; ask on the phone itself")
         default:
             refuse(id, "unknown_action", "this iPhone does not do '\(action)'")
         }
@@ -491,9 +491,9 @@ final class LingTaiHub: ObservableObject {
             "name": name,
             "os": "iOS \(UIDevice.current.systemVersion)",
             "model": UIDevice.current.model,
-            "app": "lingTai \(Self.version)",
+            "app": "LingTai \(Self.version)",
             "actions": Self.actions,
-            "note": "iOS answers info, open, notify and task (its Muse runs the task while lingTai is open); no shell, files or screen",
+            "note": "iOS answers info, open, notify and task (its Muse runs the task while LingTai is open); no shell, files or screen",
         ]
     }
 

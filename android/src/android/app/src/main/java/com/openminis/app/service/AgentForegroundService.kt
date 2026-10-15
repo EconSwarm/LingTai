@@ -189,7 +189,7 @@ class AgentForegroundService : Service() {
         if (com.openminis.app.crash.CrashFrequencyDetector.isSafeMode()) {
             try {
                 val stub = androidx.core.app.NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContentTitle("lingTai")
+                    .setContentTitle("LingTai")
                     .setSmallIcon(android.R.drawable.stat_sys_warning)
                     .setOngoing(false)
                     .build()
@@ -686,7 +686,7 @@ class AgentForegroundService : Service() {
             )
             val notif = NotificationCompat.Builder(this, OVERLAY_NUDGE_CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(this)) // lingTai: the agent is the sender
+                .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(this)) // LingTai: the agent is the sender
                 .setContentTitle(getString(R.string.bg_overlay_nudge_title))
                 .setContentText(getString(R.string.bg_overlay_nudge_body))
                 .setStyle(
@@ -756,7 +756,7 @@ class AgentForegroundService : Service() {
         )
 
         // T-bg-overlay phase 1: enrich the ongoing notification.
-        // Title:   "lingTai is using <Tool>"  (or session-count summary when idle/between turns)
+        // Title:   "LingTai is using <Tool>"  (or session-count summary when idle/between turns)
         // Text:    one-line "<sessionLabel> · <elapsed>" so the always-visible row stays compact
         // BigText: full status string from SessionActivityTracker.currentToolStatus when expanded
         // Progress: indeterminate while a tool is in flight (isToolRunning), hidden otherwise
@@ -767,13 +767,13 @@ class AgentForegroundService : Service() {
         // [T-android-live-update-completed] In the completed resting state the
         // title/status must stop describing work in progress. `toolName` is
         // already null by then (setInactive clears it), so the old code fell
-        // through to the generic "lingTai is running" title while the icon fell
+        // through to the generic "LingTai is running" title while the icon fell
         // through to the wrench (toolSmallIconRes' else branch) — a finished
         // task rendered exactly like a running one.
         val titleText = when {
             isCompleted -> getString(R.string.bg_service_notification_title_completed)
             toolName != null -> toolDisplayLabel(toolName)
-            // lingTai: "<name> is working", the way Muse phrases it.
+            // LingTai: "<name> is working", the way Muse phrases it.
             else -> getString(R.string.lt_notif_working, io.github.lingtai.identity.LingTaiIdentity.name(this))
         }
         val collapsedText = if (isCompleted) {
@@ -830,7 +830,7 @@ class AgentForegroundService : Service() {
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(smallIconRes(toolName, isCompleted))
-            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(this)) // lingTai: the agent is the sender
+            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(this)) // LingTai: the agent is the sender
             .setContentTitle(titleText)
             .setContentText(collapsedText)
             .setStyle(NotificationCompat.BigTextStyle().bigText(collapsedText))
@@ -912,7 +912,7 @@ class AgentForegroundService : Service() {
 
         val builder = Notification.Builder(this, CHANNEL_ID)
             .setSmallIcon(smallIcon)
-            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(this)) // lingTai: the agent is the sender
+            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(this)) // LingTai: the agent is the sender
             .setContentTitle(titleText)
             .setContentText(collapsedText)
             .setStyle(progressStyle)
@@ -983,15 +983,15 @@ class AgentForegroundService : Service() {
      * so the user still gets a hint about what's running.
      */
     private fun toolDisplayLabel(toolName: String): String = when (toolName) {
-        "shell_execute" -> "lingTai is using Shell"
-        "file_read" -> "lingTai is reading File"
-        "file_write" -> "lingTai is using Editor"
-        "file_edit" -> "lingTai is editing File"
-        "browser_use" -> "lingTai is using Browser"
-        "read_image" -> "lingTai is reading Image"
-        "memory_write", "memory_get" -> "lingTai is using Memory"
-        "web_search" -> "lingTai is using Search"
-        else -> "lingTai is using $toolName"
+        "shell_execute" -> "LingTai is using Shell"
+        "file_read" -> "LingTai is reading File"
+        "file_write" -> "LingTai is using Editor"
+        "file_edit" -> "LingTai is editing File"
+        "browser_use" -> "LingTai is using Browser"
+        "read_image" -> "LingTai is reading Image"
+        "memory_write", "memory_get" -> "LingTai is using Memory"
+        "web_search" -> "LingTai is using Search"
+        else -> "LingTai is using $toolName"
     }
 
     /**

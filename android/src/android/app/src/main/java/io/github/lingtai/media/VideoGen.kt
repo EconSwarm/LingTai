@@ -44,7 +44,7 @@ object VideoGen {
         val instanceId: String get() = instance.id
         val label: String get() = instance.label
         /**
-         * `https://….maas.aliyuncs.com`, `https://dashscope.aliyuncs.com` or lingTai Cloud's
+         * `https://….maas.aliyuncs.com`, `https://dashscope.aliyuncs.com` or LingTai Cloud's
          * `https://cloud.lingtai.cn`, without the API path (the relay serves the same
          * `/api/v1/…` video paths as Model Studio, next to its OpenAI-shaped `/v1`).
          */
@@ -303,7 +303,7 @@ object VideoGen {
         }
     }
 
-    /** DashScope puts the message at the top; the lingTai relay answers OpenAI-shaped (`error.message`, e.g. the clip allowance). */
+    /** DashScope puts the message at the top; the LingTai relay answers OpenAI-shaped (`error.message`, e.g. the clip allowance). */
     private fun apiMessage(text: String): String =
         runCatching {
             val json = JSONObject(text)

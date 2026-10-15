@@ -1,4 +1,4 @@
-// lingTai landing page: language toggle + the live phone mock in the hero.
+// LingTai landing page: language toggle + the live phone mock in the hero.
 (function () {
   "use strict";
 

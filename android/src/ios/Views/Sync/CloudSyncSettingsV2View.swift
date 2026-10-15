@@ -178,7 +178,7 @@ struct CloudSyncSettingsV2View: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Friendly name shown to your other lingTai devices.")
+            Text("Friendly name shown to your other LingTai devices.")
         }
     }
 

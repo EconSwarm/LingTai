@@ -84,8 +84,8 @@ class ConfigConfirmNotifier(
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_stat_lingtai) // lingTai: flat status-bar mark
-            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // lingTai: the agent is the sender
+            .setSmallIcon(R.drawable.ic_stat_lingtai) // LingTai: flat status-bar mark
+            .setLargeIcon(io.github.lingtai.identity.LingTaiIdentity.face(context)) // LingTai: the agent is the sender
             .setContentTitle(context.getString(R.string.notif_config_confirm_title))
             .setContentText(body)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))

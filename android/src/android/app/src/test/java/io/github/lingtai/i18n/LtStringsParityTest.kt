@@ -6,7 +6,7 @@ import org.junit.Test
 import java.io.File
 
 /**
- * Every lingTai string in every language: each locale's `lt_strings.xml` under `res/values-…`
+ * Every LingTai string in every language: each locale's `lt_strings.xml` under `res/values-…`
  * carries exactly the keys of the English file, with the same format placeholders (a locale that lacked a key would
  * silently fall back to English on the device). The plural quantities are the locale's own, so only
  * the plural names are compared. Runs from the module directory, as unit tests do.

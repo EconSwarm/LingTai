@@ -55,7 +55,7 @@ class OpenOffloadHandler(private val context: Context) : NativeOffloadHandler {
                     selector = null
                 }
             } else if (io.github.lingtai.deeplink.OwnScheme.isOwn(Uri.parse(url).scheme)) {
-                // lingTai: `minis://` and `lingtai://` are this app's; to MainActivity by name
+                // LingTai: `minis://` and `lingtai://` are this app's; to MainActivity by name
                 io.github.lingtai.deeplink.OwnScheme.intent(context, Uri.parse(url))
             } else {
                 Intent(Intent.ACTION_VIEW, Uri.parse(url))

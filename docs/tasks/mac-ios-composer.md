@@ -66,7 +66,7 @@ iPadOS 26.7.1**，上面装着 TestFlight build 10。是否有 iPhone，问维�
 
 ```bash
 # 1) 找到或建立 clone（上一个会话大概率已经 clone 过；路径不详）
-mdfind "kMDItemFSName == 'lingTai'" -onlyin ~ 2>/dev/null | head; ls -d ~/lingTai ~/code/lingTai ~/src/lingTai 2>/dev/null
+mdfind "kMDItemFSName == 'LingTai'" -onlyin ~ 2>/dev/null | head; ls -d ~/LingTai ~/code/LingTai ~/src/LingTai 2>/dev/null
 # 有：cd <clone> && git fetch origin && git checkout main && git pull --ff-only && git submodule update --init
 # 没有：git clone --recurse-submodules https://github.com/econswarm/lingtai.git && cd 灵台
 git log --oneline -1          # 应是 9740986d 或更新
@@ -212,13 +212,13 @@ cd android/src/ios
 xcodebuild build -project Minis.xcodeproj -scheme Minis -configuration Debug \
   -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO     # 灵台/ 下零 warning
 cd ../../.. && .venv/bin/python scripts/rebrand.py                  # 没有 .venv 就 uv venv && uv pip install -e ".[dev]"
-gh workflow run "iOS · build check" --repo ling-tai/lingTai --ref mac/ios-composer-0140
+gh workflow run "iOS · build check" --repo ling-tai/LingTai --ref mac/ios-composer-0140
 ```
 
 ## 7. 顺手的两项验收（证据收集完、等构建的时候做；只报告，发现问题另开 `mac/*` 分支）
 
 1. **Mac 桌面端 0.1.39 的权限助手**（#95 的真机验收，当时只在源码构建上验过）：下载
-   `https://github.com/econswarm/lingtai/releases/download/v0.1.39/lingTai-Desktop-0.1.39-mac-arm64.dmg`，
+   `https://github.com/econswarm/lingtai/releases/download/v0.1.39/LingTai-Desktop-0.1.39-mac-arm64.dmg`，
    拖进「应用程序」，先 `tccutil reset ScreenCapture io.github.lingtai.desktop.computer-use` 和
    `tccutil reset Accessibility io.github.lingtai.desktop.computer-use`，打开 app（Gatekeeper 说无法验证
    → 系统设置 → 隐私与安全性 → 仍要打开），Settings → Computer use 按它的指引走：两个面板里出现的是不是

@@ -14,7 +14,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 object OpenRouterModelsApi {
-    private val client = OkHttpClient.Builder().proxyAuthenticator(io.github.lingtai.net.OwnProviderProxy.authenticator).build() // lingTai: Settings → Network, a proxy with a password
+    private val client = OkHttpClient.Builder().proxyAuthenticator(io.github.lingtai.net.OwnProviderProxy.authenticator).build() // LingTai: Settings → Network, a proxy with a password
     private val cache = ProviderModelsCache("openrouter")
 
     /**
@@ -42,7 +42,7 @@ object OpenRouterModelsApi {
             .url("https://openrouter.ai/api/v1/models")
             .header("Authorization", "Bearer $apiKey")
             .header("HTTP-Referer", "https://github.com/OpenMinis/OpenMinis")
-            .header("X-Title", "lingTai App")
+            .header("X-Title", "LingTai App")
             // [T-android-default-ua] brand outbound /api/v1/models request.
             .applyUserAgentOverride(null)
             .build()

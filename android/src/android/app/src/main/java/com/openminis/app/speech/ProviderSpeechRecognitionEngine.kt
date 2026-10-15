@@ -503,7 +503,7 @@ class ProviderSpeechRecognitionEngine(private val appContext: Context) : SpeechR
     override fun cancel() {
         cancelled.set(true)
         recording.set(false)
-        // lingTai: the detector runs its capture loop on its own flags, so the engine's
+        // LingTai: the detector runs its capture loop on its own flags, so the engine's
         // flags above do not stop it; cancel it here as stop() does, or the microphone stays
         // open until the detector's own session limit (#356).
         detector?.let { runCatching { it.cancel() } }

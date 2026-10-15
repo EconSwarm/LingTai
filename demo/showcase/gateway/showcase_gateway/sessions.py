@@ -1,4 +1,4 @@
-"""Sessions: one private lingTai per visitor, for a while, within a budget."""
+"""Sessions: one private LingTai per visitor, for a while, within a budget."""
 
 from __future__ import annotations
 
@@ -73,7 +73,7 @@ class Provider:
 @dataclass
 class Session:
     id: str
-    token: str  # the lingTai access token, what the phone pastes
+    token: str  # the LingTai access token, what the phone pastes
     llm_key: str  # what the container presents to the model proxy
     ip: str
     created_at: float

@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--lingTai launch: the blue mark, nothing else, on the system background (light and dark)-->
+        <!--LingTai launch: the blue mark, nothing else, on the system background (light and dark)-->
         <scene sceneID="ltL-sc-001">
             <objects>
                 <viewController id="ltL-vc-001" sceneMemberID="viewController">

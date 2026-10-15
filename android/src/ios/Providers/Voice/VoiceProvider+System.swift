@@ -396,8 +396,8 @@ final class SystemVoiceProvider: NSObject, VoiceInputCapable, VoiceOutputCapable
         let lc = (langCode ?? "en").lowercased()
         if lc.hasPrefix("zh") { return "你好，这是灵台的语音测试。" }
         if lc.hasPrefix("ja") { return "こんにちは、これは 灵台 の音声テストです。" }
-        if lc.hasPrefix("ko") { return "안녕하세요, lingTai 음성 테스트입니다." }
-        return "Hi! This is lingTai testing this voice."
+        if lc.hasPrefix("ko") { return "안녕하세요, LingTai 음성 테스트입니다." }
+        return "Hi! This is LingTai testing this voice."
     }
 
     func stopSpeaking() {

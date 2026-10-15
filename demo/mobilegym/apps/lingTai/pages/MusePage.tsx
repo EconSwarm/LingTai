@@ -8,7 +8,7 @@ import { useLingTaiGestures } from '../hooks/useLingTaiGestures';
 import { fmt, useLingTaiStrings } from '../res/strings';
 
 /**
- * The lingTai web app, full screen. `?thread=` and `?tab=` on this route are forwarded to
+ * The LingTai web app, full screen. `?thread=` and `?tab=` on this route are forwarded to
  * the web app's own deep links, which is how a tapped notification lands on the right chat.
  * On a hosted showcase session the web app comes up lite (`?ui=lite`): the chat alone, no
  * first-run setup — the rest of it stays behind the avatar.
@@ -67,7 +67,7 @@ export default function MusePage() {
             key={src}
             ref={attachFrame}
             src={src}
-            title="lingTai"
+            title="LingTai"
             className="absolute inset-0 w-full h-full border-0"
             style={{ background: palette.bg }}
             allow="clipboard-write"

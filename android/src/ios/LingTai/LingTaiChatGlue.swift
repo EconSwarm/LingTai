@@ -1,9 +1,9 @@
 //
 //  LingTaiChatGlue.swift
-//  lingTai
+//  LingTai
 //
-//  The few places the upstream chat pipeline hands control to lingTai —
-//  one `// lingTai:` line each in AIChatViewModel: before a send, after a
+//  The few places the upstream chat pipeline hands control to LingTai —
+//  one `// LingTai:` line each in AIChatViewModel: before a send, after a
 //  turn, while the system prompt is assembled. Everything else lives here.
 //  Android: the same hooks in ChatViewModel for AvatarFlow, GoalFlow,
 //  FeedFlow, FirstConversation and SessionAddenda.
@@ -16,7 +16,7 @@ import Foundation
 extension Notification.Name {
     /// `object` is the chat's session key (`ltSessionKey`); `userInfo["action"]` a
     /// `LingTaiChatAction` raw value. AIChatView acts on it for its own chat.
-    static let lingTaiChatAction = Notification.Name("lingTai.chatAction")
+    static let lingTaiChatAction = Notification.Name("LingTai.chatAction")
 }
 
 /// What the Muse header's ••• menu can ask of the chat under it (the entries
@@ -42,7 +42,7 @@ extension AIChatViewModel {
 
     // MARK: Hooks
 
-    /// Before the model sees a message. True when lingTai handled the text itself (the
+    /// Before the model sees a message. True when LingTai handled the text itself (the
     /// composer is cleared, nothing is sent); false to carry on as usual.
     func ltInterceptSend(_ text: String) -> Bool {
         guard !text.isEmpty else { return false }
@@ -62,7 +62,7 @@ extension AIChatViewModel {
         LingTaiFirstConversation.shared.afterTurn(session: key, assistantText: reply, vm: self)
         LingTaiSessionAddenda.onTurnFinished(session: key)
         LingTaiSync.shared.turnFinished(session: key)
-        // "Use lingTai Cloud this time" covered this one turn; where the turn ran decides whether the next failure offers it
+        // "Use LingTai Cloud this time" covered this one turn; where the turn ran decides whether the next failure offers it
         LingTaiCloudOnce.turnEnded(onCloud: resolveCurrentEntry()?.providerInstanceId == LingTaiCloud.instance?.id)
     }
 

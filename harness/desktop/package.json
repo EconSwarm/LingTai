@@ -2,7 +2,7 @@
   "name": "lingtai-desktop",
   "private": true,
   "version": "1.0.5",
-  "description": "lingTai Desktop: the lingTai desktop built on DeepSeek Harness. The harness's web app in a window of our own, with lingTai's account, face, Hands and Reach as plugins and the runtime for the hands bundled.",
+  "description": "LingTai Desktop: the LingTai desktop built on DeepSeek Harness. The harness's web app in a window of our own, with LingTai's account, face, Hands and Reach as plugins and the runtime for the hands bundled.",
   "homepage": "https://lingtai.cn/",
   "license": "GPL-3.0-or-later",
   "engines": {

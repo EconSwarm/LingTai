@@ -1,11 +1,11 @@
-# Run lingTai yourself
+# Run LingTai yourself
 
-lingTai is one agent on your own devices, and nothing in it has to go through a server of ours. There are three ways to run it yourself, from the least work to the most. Most people want the first; a family or a small group that wants its own sign-in wants the second; the third is for the web app on a machine of your own.
+LingTai is one agent on your own devices, and nothing in it has to go through a server of ours. There are three ways to run it yourself, from the least work to the most. Most people want the first; a family or a small group that wants its own sign-in wants the second; the third is for the web app on a machine of your own.
 
 | | What you run | What it gives you |
 |---|---|---|
 | [1. No server, your own key](#_1-no-server-your-own-key) | nothing | the apps talk to a model provider directly; the community relay is still used for sign-in and for the devices to find each other |
-| [2. Your own relay](#_2-your-own-relay) | lingTai Cloud on a small VPS or a home server | your own accounts, sign-in codes, hub and conversation sync; nothing about your account touches lingtai.cn |
+| [2. Your own relay](#_2-your-own-relay) | LingTai Cloud on a small VPS or a home server | your own accounts, sign-in codes, hub and conversation sync; nothing about your account touches lingtai.cn |
 | [3. A runtime of your own](#_3-a-runtime-of-your-own-for-the-web-app) | the Python runtime in Docker | the web app and the hands on a computer that is always on |
 
 ## 1. No server, your own key
@@ -14,7 +14,7 @@ The free allowance on the community relay runs out. When it does, or before, put
 
 ## 2. Your own relay
 
-lingTai Cloud is the relay behind lingtai.cn: sign-in by e-mail or phone, the account's models through one OpenAI-compatible endpoint, the hub the devices meet on, conversation sync, a web console at `/app` and an admin page at `/app/admin/`. It is one Python service and one SQLite file, in this repository under [`cloud/`](../cloud/README.md), and it runs the same on a server of yours.
+LingTai Cloud is the relay behind lingtai.cn: sign-in by e-mail or phone, the account's models through one OpenAI-compatible endpoint, the hub the devices meet on, conversation sync, a web console at `/app` and an admin page at `/app/admin/`. It is one Python service and one SQLite file, in this repository under [`cloud/`](../cloud/README.md), and it runs the same on a server of yours.
 
 ### What you need
 
@@ -26,7 +26,7 @@ lingTai Cloud is the relay behind lingtai.cn: sign-in by e-mail or phone, the ac
 ### In one command
 
 ```bash
-git clone https://github.com/econswarm/lingtai.git && cd lingTai
+git clone https://github.com/econswarm/lingtai.git && cd LingTai
 bash scripts/self-host.sh
 ```
 
@@ -74,7 +74,7 @@ Every app signs in against `https://cloud.lingtai.cn` unless you tell it otherwi
 
 - **Android** (0.1.38). *Use a different server* under the sign-in form takes the relay's address; *Check* asks its `/healthz` and shows the version, *Use this server* keeps the address across launches. `https://` is required outside your own network; plain `http://` is accepted for a private address (`10.x`, `172.16-31.x`, `192.168.x`, `localhost`, a `.local` or `.ts.net` name). Settings → Account shows the server with *Change*, which signs the phone out first ([android.md](android.md)).
 - **iPhone / iPad.** The same link on the sign-in sheet, with the same rules.
-- **lingTai Desktop.** The relay is the `baseURL` of the plugin's cloud row. Add this to `cordis.patch.yml` in the desktop's profile, `~/.lingtai/desktop/profiles/lingtai/` (`%USERPROFILE%\.lingtai\desktop\profiles\lingtai\` on Windows; `LINGTAI_DESKTOP_HOME` moves it), and restart the app:
+- **LingTai Desktop.** The relay is the `baseURL` of the plugin's cloud row. Add this to `cordis.patch.yml` in the desktop's profile, `~/.lingtai/desktop/profiles/lingtai/` (`%USERPROFILE%\.lingtai\desktop\profiles\lingtai\` on Windows; `LINGTAI_DESKTOP_HOME` moves it), and restart the app:
 
   ```yaml
   - id: lingtai-cloud
@@ -94,7 +94,7 @@ Invitations from your relay link to its console (`INVITE_URL`, set by the script
 ### Updating
 
 ```bash
-cd lingTai && git pull
+cd LingTai && git pull
 bash scripts/self-host.sh        # Enter through the questions; secrets and accounts are kept
 # or: cd cloud && docker compose up -d --build
 ```

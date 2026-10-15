@@ -64,7 +64,7 @@ test('animateAll draws the four clips one after another and reports progress', a
     assert.equal(motion.view().progress.total, 4)
     await motion.settled()
     const view = motion.view()
-    // `source` (0.1.41): where the run drew, so the Media page can offer lingTai Cloud when an own provider failed
+    // `source` (0.1.41): where the run drew, so the Media page can offer LingTai Cloud when an own provider failed
     assert.deepEqual(view.progress, { done: 4, total: 4, failed: [], running: false, source: 'lingtai' })
     assert.deepEqual(Object.keys(view.clips).sort(), ['happy', 'idle', 'waiting', 'working'])
     assert.equal(view.faceId, 'abc123')

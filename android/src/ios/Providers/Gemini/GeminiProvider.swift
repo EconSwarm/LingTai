@@ -14,7 +14,7 @@ private let thinkingLogger = AppLogger(category: "Thinking")
 private let geminiStreamingSession: URLSession = {
     let config = URLSessionConfiguration.default
     config.timeoutIntervalForRequest = 600  // 10 minutes
-    LingTaiProxy.apply(to: config) // lingTai: Settings → Network, the proxy for own providers
+    LingTaiProxy.apply(to: config) // LingTai: Settings → Network, the proxy for own providers
     let session = URLSession(configuration: config)
     // Evict this session's pooled (possibly stale) connections on network
     // transitions — see LLMSessionRegistry / Android #740.

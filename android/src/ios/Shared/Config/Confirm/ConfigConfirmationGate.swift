@@ -194,8 +194,8 @@ final class ConfigConfirmationGate: ObservableObject {
             content.body = caption
         } else {
             content.body = change.items.count > 1
-                ? "\(change.items.count) changes need your review — open lingTai to approve or reject."
-                : "A change needs your review — open lingTai to approve or reject."
+                ? "\(change.items.count) changes need your review — open LingTai to approve or reject."
+                : "A change needs your review — open LingTai to approve or reject."
         }
         content.sound = .default
         content.categoryIdentifier = Self.notifyCategoryId

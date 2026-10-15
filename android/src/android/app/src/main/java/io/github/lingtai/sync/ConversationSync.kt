@@ -423,7 +423,7 @@ object ConversationSync {
         return SyncEngine(
             store = RoomSyncStore(ctx),
             chats = RoomChats(ctx, repo),
-            api = RelaySyncApi(LingTaiCloud.baseUrl(ctx), token, "lingTai-Android/${BuildConfig.VERSION_NAME}"),
+            api = RelaySyncApi(LingTaiCloud.baseUrl(ctx), token, "LingTai-Android/${BuildConfig.VERSION_NAME}"),
             deviceId = Hub.deviceId(ctx),
             account = account,
             sideChats = { _sideChats.value },

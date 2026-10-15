@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the runtime lingTai Desktop carries for the hands: a one-folder PyInstaller build of
+"""Build the runtime LingTai Desktop carries for the hands: a one-folder PyInstaller build of
 `lingtai` (serve, chat, the hub, this computer's screen and hands — `lingtai mcp` is what the
 desktop's preset points at) at harness/desktop/runtime/, where electron-builder picks it up as
 an extra resource.

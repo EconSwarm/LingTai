@@ -1,10 +1,10 @@
 # The public face of the showcase: Caddy with the Cloudflare DNS module (for the wildcard
 # certificate the per-session hostnames need), the Cloudflare IP-ranges module (so that behind
 # Cloudflare's proxy the visitor's address is still the visitor's), the built MobileGym with
-# the lingTai app installed and pointed at the gateway (as /phone.html), and the page around
+# the LingTai app installed and pointed at the gateway (as /phone.html), and the page around
 # the phone (site/page/, with MobileGym's own gesture keys and State Builder) at /.
 #
-# Build context is the repository root (see docker-compose.yml), so the lingTai app module can
+# Build context is the repository root (see docker-compose.yml), so the LingTai app module can
 # be copied straight from demo/mobilegym/apps/LingTai, and the page from demo/showcase/site.
 
 FROM node:22-bookworm-slim AS site
@@ -36,7 +36,7 @@ COPY demo/mobilegym/apps/LingTai mobilegym/apps/LingTai
 COPY demo/mobilegym/patch-seed.sh /src/patch-seed.sh
 RUN sh /src/patch-seed.sh /src/mobilegym
 WORKDIR /src/mobilegym
-# modern-screenshot renders the phone's screenshot in the tab (the lingTai module's only
+# modern-screenshot renders the phone's screenshot in the tab (the LingTai module's only
 # extra dependency); --no-save keeps MobileGym's lockfile as upstream has it
 RUN npm ci --no-audit --no-fund \
  && npm install --no-save --no-audit --no-fund modern-screenshot@^4.7.0 \

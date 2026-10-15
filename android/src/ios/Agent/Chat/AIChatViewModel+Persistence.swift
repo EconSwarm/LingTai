@@ -287,10 +287,10 @@ extension AIChatViewModel {
             }
 
             if raw.role == .assistant {
-                // lingTai: C8 — a reply that came down from another device is its own bubble; it
+                // LingTai: C8 — a reply that came down from another device is its own bubble; it
                 // never folds into this phone's turn (nor the other way round), so the caption is honest.
-                let ltOrigin = LingTaiSync.shared.fromDevice(mid: raw.id) // lingTai:
-                if let assistant = currentAssistant, assistant.ltFromDevice == ltOrigin { // lingTai: was `if let assistant = currentAssistant`
+                let ltOrigin = LingTaiSync.shared.fromDevice(mid: raw.id) // LingTai:
+                if let assistant = currentAssistant, assistant.ltFromDevice == ltOrigin { // LingTai: was `if let assistant = currentAssistant`
                     // Continuation of an agent loop — append new blocks to
                     // existing assistant message AND extend the source-sort
                     // range so compact-marker resolution can map raw[i] back
@@ -338,14 +338,14 @@ extension AIChatViewModel {
                     let msg = raw.toChatMessage(mediaResolver: resolver, showThinking: showThinking)
                     msg.sourceSortOrder = raw.sortOrder
                     msg.lastSourceSortOrder = raw.sortOrder
-                    msg.ltFromDevice = ltOrigin // lingTai: C8 caption
-                    // lingTai: a remote reply landing inside this phone's turn (by time) is shown
+                    msg.ltFromDevice = ltOrigin // LingTai: C8 caption
+                    // LingTai: a remote reply landing inside this phone's turn (by time) is shown
                     // there but does not take the turn over — later local rows and tool results
                     // keep folding into the local assistant message.
-                    if ltOrigin != nil, currentAssistant != nil { // lingTai:
-                        loadedUIMessages.append(msg) // lingTai:
-                        continue // lingTai:
-                    } // lingTai:
+                    if ltOrigin != nil, currentAssistant != nil { // LingTai:
+                        loadedUIMessages.append(msg) // LingTai:
+                        continue // LingTai:
+                    } // LingTai:
                     currentAssistant = msg
                     loadedUIMessages.append(msg)
                 }
@@ -369,8 +369,8 @@ extension AIChatViewModel {
             }
             msg.sourceSortOrder = raw.sortOrder
             msg.lastSourceSortOrder = raw.sortOrder
-            msg.ltFromDevice = LingTaiSync.shared.fromDevice(mid: raw.id) // lingTai: C8 caption
-            msg.ltRoutine = LingTaiRoutineWakes.shared.wake(mid: raw.id) // lingTai: a row a routine sent
+            msg.ltFromDevice = LingTaiSync.shared.fromDevice(mid: raw.id) // LingTai: C8 caption
+            msg.ltRoutine = LingTaiRoutineWakes.shared.wake(mid: raw.id) // LingTai: a row a routine sent
             loadedUIMessages.append(msg)
         }
 
@@ -875,11 +875,11 @@ extension AIChatViewModel {
             // A cold start after a kill satisfies all four precisely because
             // the process that was processing no longer exists.
             let isUnansweredUserTurn = !allToolResults && !isContinueMessage
-            // lingTai: C9 — a line written on another device (it came down through account sync)
+            // LingTai: C9 — a line written on another device (it came down through account sync)
             // is never this phone's unfinished turn: no banner, no Resume, nothing re-sent.
             // Presence says "{device} is working…" under it instead (LingTaiPresence).
-            let ltRemote = lastEntry.dbMessageId.map { LingTaiSync.shared.fromDevice(mid: $0) != nil } ?? false // lingTai:
-            isInterrupted = !ltRemote && (allToolResults || isContinueMessage || isUnansweredUserTurn) // lingTai: was `allToolResults || isContinueMessage || isUnansweredUserTurn`
+            let ltRemote = lastEntry.dbMessageId.map { LingTaiSync.shared.fromDevice(mid: $0) != nil } ?? false // LingTai:
+            isInterrupted = !ltRemote && (allToolResults || isContinueMessage || isUnansweredUserTurn) // LingTai: was `allToolResults || isContinueMessage || isUnansweredUserTurn`
         } else if lastEntry.role == .assistant {
             let hasToolUse = lastEntry.parts.contains {
                 if case .toolUse = $0 { return true }; return false

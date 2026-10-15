@@ -19,7 +19,7 @@
 "NSAlarmKitUsageDescription" = "灵台 はAIエージェントがアラームやタイマーを設定できるようにAlarmKitを使用します。";
 "NSLocalNetworkUsageDescription" = "灵台 はデバッグサーバーのため、また AI エージェントがあなたのネットワーク上のサービスにアクセスできるようにローカルネットワークを使用します。"; /* 灵台: the app has no VM; the sentence matches Info.plist */
 
-/* lingTai: the keys Info.plist declares but this file lacked, so the prompt is in the person's language */
+/* LingTai: the keys Info.plist declares but this file lacked, so the prompt is in the person's language */
 "NFCReaderUsageDescription" = "灵台 は NFC を使用し、AI エージェントがあなたに代わって NFC タグを読み書きできるようにします。";
 "NSBluetoothAlwaysUsageDescription" = "灵台 は Bluetooth を使用し、AI エージェントがあなたに代わって近くの BLE デバイスを検索・接続・通信できるようにします。";
 "NSBluetoothPeripheralUsageDescription" = "灵台 は Bluetooth を使用し、AI エージェントがあなたに代わって近くの BLE デバイスを検索・接続・通信できるようにします。";

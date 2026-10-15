@@ -182,7 +182,7 @@ def test_api_nudges_serves_the_policy_and_the_sign_in_copy(server, monkeypatch):
 def test_release_check_asks_the_mirror_first_and_github_second(monkeypatch):
     asked: list[str] = []
     index = {
-        "repo": "ling-tai/lingTai",
+        "repo": "ling-tai/LingTai",
         "releases": [
             {"tag": "v0.1.40", "name": "0.1.40", "published_at": "2026-10-01", "assets": []},
             {"tag": "v0.1.39", "name": "0.1.39", "published_at": "2026-09-20", "assets": []},

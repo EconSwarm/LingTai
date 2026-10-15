@@ -49,7 +49,7 @@ const val ROUTE_COMPUTERS = "lingtai/computers"
 const val DESKTOP_DOWNLOAD_URL = "https://lingtai.cn/#download"
 
 /**
- * Settings → Computers: the account's computers, as the hub knows them. One way in — lingTai
+ * Settings → Computers: the account's computers, as the hub knows them. One way in — LingTai
  * Desktop on the computer, signed in to the same account — so the page says which account this
  * phone uses (the usual reason a computer is missing is that it signed in to another one), lists
  * the computers with their system and when they were last seen, and a tap checks that one answers.

@@ -378,7 +378,7 @@
     <string name="lt_settings_no_model">还没有模型</string>
     <string name="lt_settings_no_model_sub">添加服务商并选择它的模型</string>
     <string name="lt_settings_change_model">更换</string>
-    <string name="lt_settings_version">lingTai %1$s (%2$d)</string>
+    <string name="lt_settings_version">LingTai %1$s (%2$d)</string>
     <string name="lt_version_title">版本</string>
     <string name="lt_version_checking">正在查看最新版本…</string>
     <string name="lt_version_have">最新 %1$s，你用的就是它</string>
@@ -603,7 +603,7 @@
 
     <!-- 灵台云：手机号/邮箱验证码登录，赠送体验额度 -->
     <string name="lt_setup_own_key">我有自己的 API key</string>
-    <!-- lingTai: the first-run pages -->
+    <!-- LingTai: the first-run pages -->
     <string name="lt_welcome_tagline">一个开源的个人智能体，装在你的每一台设备上。</string>
     <string name="lt_welcome_email">登录，免费开始</string>
     <string name="lt_welcome_fine_print">一个账号连起你的几台设备，也承载免费的模型额度；不收费。登录之后随时可以改用自己的 API key。</string>
@@ -872,7 +872,7 @@
     <string name="lt_cloud_notice_title">免费 · 开源 · 非营利</string>
     <string name="lt_cloud_notice_closing">发现问题、想要新功能、愿意改代码，都欢迎到 GitHub 上提。</string>
     <string name="lt_cloud_notice">灵台是非营利的开源社区项目，永久免费。模型自带一份由开发者承担的免费额度，用完换自己的 key。数据不会出售；服务器保存什么写在隐私政策里，「设置 → 数据控制」由你决定；随时可以删除账号。</string>
-    <!-- lingTai: devices on the hub -->
+    <!-- LingTai: devices on the hub -->
     <string name="lt_hub_channel">来自你其他设备的消息</string>
     <string name="lt_hub_service_channel">与你的设备保持连接</string>
     <string name="lt_hub_service_title">灵台 · 你的其他设备可以找到这台手机</string>

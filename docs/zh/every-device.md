@@ -76,10 +76,10 @@ Muse 的名字和外观照旧跟着账号走。从 0.1.40 起，手机走得更�
 
 ```
    lingtai serve  ─ FastAPI + WebSocket, 127.0.0.1:8787 ─┬─ web/ (React) in a browser or on the phone
-      │ MuseAgent · Sentinel · tools                        ├─ lingtai mcp → lingTai Desktop (harness/, on DeepSeek Harness)
+      │ MuseAgent · Sentinel · tools                        ├─ lingtai mcp → LingTai Desktop (harness/, on DeepSeek Harness)
       │ lingtai/hub  ── wss://…/v1/hub ── the other devices └─ lingtai chat (terminal)
       │ lingtai/computer ── mss + pyautogui: the screen as a hand
-      └ lingtai/cloud ── the lingTai Cloud account (e-mail code → key → models + hub)
+      └ lingtai/cloud ── the LingTai Cloud account (e-mail code → key → models + hub)
 ```
 
 - **运行时**（`lingtai/`）：`cloud.py` 用邮箱（或手机）验证码登录灵台云，把 key 存进保险库，并且可以让中继当模型服务商，和手机上一样的「登录（免费）」第一步。`hub/` 是桌面二进制里 hub 客户端的异步移植：保持一条连接，收到的动作由 `hub/actions.py` 回答，收到的 `task` 在一个看得见的旁聊里跑、审批转发出去，发出的调用藏在 `device_*` 和 `delegate` 工具后面。`computer/` 是这台机器上把屏幕当手的那部分。设置项：`[cloud]`、`[hub]`、`[hands]`；全都可以在 App 里切换。
@@ -171,7 +171,7 @@ env -u OPENAI_API_KEY -u DASHSCOPE_API_KEY -u ANTHROPIC_API_KEY -u OPENAI_BASE_U
 # 3. sign both in with the same e-mail in the first run (the code is in relay.log:
 #    grep -i code /tmp/lt-dev/cloud/relay.log), pick "Use the Cloud model" on each.
 # 4. (0.1.19–0.1.29) the Electron window over Desk A came from desktop/app; now open
-#    http://127.0.0.1:8799/ in a browser, or sign lingTai Desktop in as a third device.
+#    http://127.0.0.1:8799/ in a browser, or sign LingTai Desktop in as a third device.
 ```
 
 然后在 Desk A 上：「设备」里能看到 Laptop B 在线；「去问它」（或聊天下面的那个标签）打开一场*在 Laptop B 上*的聊天；在那里打的任务在 B 上跑，它的工具标签和审批卡片带着设备胶囊出现在 A 里，在 A 里决定的审批两边的卡片一起关掉，B 的答复落进 A 的聊天。把端口换过来，反方向也一样。用 `ss -ltnp | grep ':879'` 和 `kill` 把这些全停掉。

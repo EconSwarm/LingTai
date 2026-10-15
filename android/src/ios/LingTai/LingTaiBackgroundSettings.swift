@@ -1,6 +1,6 @@
 //
 //  LingTaiBackgroundSettings.swift
-//  lingTai
+//  LingTai
 //
 //  Two settings pages Android has and the shell was missing:
 //  "Background & notifications" (what the phone lets the agent do while the
@@ -129,14 +129,14 @@ struct LingTaiHandsView: View {
             LingTaiCard {
                 LingTaiRowLabel(title: AppLocalized("On this iPhone"), value: AppLocalized("Not on iPhone"), chevron: false)
                 LingTaiRowDivider()
-                paragraph(AppLocalized("iOS does not let one app operate another, so there is no switch here: the agent can only act inside lingTai. It can open pages in the in-app browser, keep its files and run its routines; other apps on this phone are out of its reach by design."))
+                paragraph(AppLocalized("iOS does not let one app operate another, so there is no switch here: the agent can only act inside LingTai. It can open pages in the in-app browser, keep its files and run its routines; other apps on this phone are out of its reach by design."))
                 LingTaiRowDivider()
-                paragraph(AppLocalized("Your other devices can hand this iPhone a task while lingTai is open here: start a message there with @ and this iPhone's name."))
+                paragraph(AppLocalized("Your other devices can hand this iPhone a task while LingTai is open here: start a message there with @ and this iPhone's name."))
             }
             LingTaiCard {
                 LingTaiLinkRow(title: AppLocalized("Hands on your computers")) { LingTaiComputersView() }
             }
-            LingTaiCaption(text: AppLocalized("A computer with lingTai Desktop can operate its own apps, terminal and browser. Ask from here and the result comes back to this chat."))
+            LingTaiCaption(text: AppLocalized("A computer with LingTai Desktop can operate its own apps, terminal and browser. Ask from here and the result comes back to this chat."))
         }
     }
 

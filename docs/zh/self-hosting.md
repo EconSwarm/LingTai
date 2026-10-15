@@ -24,7 +24,7 @@
 ### 一条命令 {#in-one-command}
 
 ```bash
-git clone https://github.com/econswarm/lingtai.git && cd lingTai
+git clone https://github.com/econswarm/lingtai.git && cd LingTai
 bash scripts/self-host.sh
 ```
 
@@ -75,7 +75,7 @@ bash scripts/self-host.sh --local --bind 0.0.0.0   # reachable from the phones o
 ### 更新 {#updating}
 
 ```bash
-cd lingTai && git pull
+cd LingTai && git pull
 bash scripts/self-host.sh        # Enter through the questions; secrets and accounts are kept
 # or: cd cloud && docker compose up -d --build
 ```

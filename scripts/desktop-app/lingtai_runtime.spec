@@ -1,5 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
-"""PyInstaller spec for the runtime lingTai Desktop carries: one folder with a `lingtai`
+"""PyInstaller spec for the runtime LingTai Desktop carries: one folder with a `lingtai`
 executable that serves the app, talks to the hub and moves this computer's hands.
 
     python -m PyInstaller --noconfirm --clean scripts/desktop-app/lingtai_runtime.spec

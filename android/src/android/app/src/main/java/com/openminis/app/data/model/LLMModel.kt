@@ -296,7 +296,7 @@ data class LLMModel(
         // "audio_input", models.dev spells them bare. Lowercasing alone left the
         // suffix intact, so a vision model from an OpenAI-shaped catalog was told
         // in its own system prompt that it could NOT see images.
-        // lingTai: when nothing was declared, say nothing that could be wrong.
+        // LingTai: when nothing was declared, say nothing that could be wrong.
         // An empty list here used to read as "cannot process images, PDFs,
         // audio, video" for every model without catalog data — which is how a
         // sighted model came to tell people it did not support image input.

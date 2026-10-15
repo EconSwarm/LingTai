@@ -1,26 +1,26 @@
 /* Info.plist permission strings — Russian */
 
-"NSLocationWhenInUseUsageDescription" = "lingTai использует вашу геопозицию, чтобы записывать в истории сессий, где были начаты сессии агента.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "lingTai использует геопозицию в фоновом режиме, чтобы задачи агента продолжали выполняться, когда приложение свёрнуто. Данные о местоположении используются только для записи истории подключений сессий.";
-"NSCalendarsUsageDescription" = "lingTai использует доступ к календарю, чтобы ИИ-агент мог просматривать ваше расписание, проверять свободное время и создавать события от вашего имени.";
-"NSCalendarsFullAccessUsageDescription" = "lingTai использует доступ к календарю, чтобы ИИ-агент мог просматривать ваше расписание, проверять свободное время и создавать события от вашего имени.";
-"NSRemindersUsageDescription" = "lingTai использует доступ к напоминаниям, чтобы ИИ-агент мог просматривать и создавать их от вашего имени.";
-"NSRemindersFullAccessUsageDescription" = "lingTai использует доступ к напоминаниям, чтобы ИИ-агент мог просматривать и создавать их от вашего имени.";
-"NSCameraUsageDescription" = "lingTai требуется доступ к камере, чтобы делать снимки для диалогов с ИИ.";
-"NSPhotoLibraryUsageDescription" = "lingTai требуется доступ к медиатеке, чтобы прикреплять изображения к диалогам с ИИ.";
-"NSPhotoLibraryAddUsageDescription" = "lingTai требуется разрешение, чтобы сохранять видео и изображения в вашу медиатеку.";
-"NSHealthShareUsageDescription" = "lingTai использует доступ к HealthKit, чтобы ИИ-агент мог читать ваши данные о здоровье — шаги, пульс, сон и тренировки — от вашего имени.";
-"NSHealthUpdateUsageDescription" = "lingTai использует доступ к записи в HealthKit, чтобы ИИ-агент мог сохранять данные о здоровье — шаги, вес и потребление воды — от вашего имени.";
-"NSContactsUsageDescription" = "lingTai использует доступ к контактам, чтобы ИИ-агент мог искать, просматривать и управлять ими от вашего имени.";
-"NSAppleMusicUsageDescription" = "lingTai использует доступ к медиатеке, чтобы ИИ-агент мог искать музыку и управлять воспроизведением от вашего имени.";
-"NSMicrophoneUsageDescription" = "lingTai требуется доступ к микрофону для голосового ввода текста в чате.";
-"NSSpeechRecognitionUsageDescription" = "lingTai использует распознавание речи, чтобы преобразовывать вашу речь в текстовые сообщения.";
-"NSHomeKitUsageDescription" = "lingTai использует доступ к HomeKit, чтобы ИИ-агент мог просматривать и управлять аксессуарами вашего умного дома от вашего имени.";
-"NSAlarmKitUsageDescription" = "lingTai использует AlarmKit, чтобы ИИ-агент мог устанавливать будильники и таймеры от вашего имени.";
-"NSLocalNetworkUsageDescription" = "lingTai использует локальную сеть для отладочного сервера и чтобы ИИ-агент мог обращаться к сервисам в вашей собственной сети."; /* lingTai: the app has no VM; the sentence matches Info.plist */
+"NSLocationWhenInUseUsageDescription" = "LingTai использует вашу геопозицию, чтобы записывать в истории сессий, где были начаты сессии агента.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "LingTai использует геопозицию в фоновом режиме, чтобы задачи агента продолжали выполняться, когда приложение свёрнуто. Данные о местоположении используются только для записи истории подключений сессий.";
+"NSCalendarsUsageDescription" = "LingTai использует доступ к календарю, чтобы ИИ-агент мог просматривать ваше расписание, проверять свободное время и создавать события от вашего имени.";
+"NSCalendarsFullAccessUsageDescription" = "LingTai использует доступ к календарю, чтобы ИИ-агент мог просматривать ваше расписание, проверять свободное время и создавать события от вашего имени.";
+"NSRemindersUsageDescription" = "LingTai использует доступ к напоминаниям, чтобы ИИ-агент мог просматривать и создавать их от вашего имени.";
+"NSRemindersFullAccessUsageDescription" = "LingTai использует доступ к напоминаниям, чтобы ИИ-агент мог просматривать и создавать их от вашего имени.";
+"NSCameraUsageDescription" = "LingTai требуется доступ к камере, чтобы делать снимки для диалогов с ИИ.";
+"NSPhotoLibraryUsageDescription" = "LingTai требуется доступ к медиатеке, чтобы прикреплять изображения к диалогам с ИИ.";
+"NSPhotoLibraryAddUsageDescription" = "LingTai требуется разрешение, чтобы сохранять видео и изображения в вашу медиатеку.";
+"NSHealthShareUsageDescription" = "LingTai использует доступ к HealthKit, чтобы ИИ-агент мог читать ваши данные о здоровье — шаги, пульс, сон и тренировки — от вашего имени.";
+"NSHealthUpdateUsageDescription" = "LingTai использует доступ к записи в HealthKit, чтобы ИИ-агент мог сохранять данные о здоровье — шаги, вес и потребление воды — от вашего имени.";
+"NSContactsUsageDescription" = "LingTai использует доступ к контактам, чтобы ИИ-агент мог искать, просматривать и управлять ими от вашего имени.";
+"NSAppleMusicUsageDescription" = "LingTai использует доступ к медиатеке, чтобы ИИ-агент мог искать музыку и управлять воспроизведением от вашего имени.";
+"NSMicrophoneUsageDescription" = "LingTai требуется доступ к микрофону для голосового ввода текста в чате.";
+"NSSpeechRecognitionUsageDescription" = "LingTai использует распознавание речи, чтобы преобразовывать вашу речь в текстовые сообщения.";
+"NSHomeKitUsageDescription" = "LingTai использует доступ к HomeKit, чтобы ИИ-агент мог просматривать и управлять аксессуарами вашего умного дома от вашего имени.";
+"NSAlarmKitUsageDescription" = "LingTai использует AlarmKit, чтобы ИИ-агент мог устанавливать будильники и таймеры от вашего имени.";
+"NSLocalNetworkUsageDescription" = "LingTai использует локальную сеть для отладочного сервера и чтобы ИИ-агент мог обращаться к сервисам в вашей собственной сети."; /* LingTai: the app has no VM; the sentence matches Info.plist */
 
-/* lingTai: the keys Info.plist declares but this file lacked, so the prompt is in the person's language */
-"NFCReaderUsageDescription" = "lingTai использует NFC, чтобы ИИ-агент мог читать и записывать NFC-метки от вашего имени.";
-"NSBluetoothAlwaysUsageDescription" = "lingTai использует Bluetooth, чтобы ИИ-агент мог искать ближайшие BLE-устройства, подключаться к ним и обмениваться данными от вашего имени.";
-"NSBluetoothPeripheralUsageDescription" = "lingTai использует Bluetooth, чтобы ИИ-агент мог искать ближайшие BLE-устройства, подключаться к ним и обмениваться данными от вашего имени.";
-"NSFaceIDUsageDescription" = "lingTai использует Face ID для защиты заблокированных чатов, чтобы только вы могли видеть их содержимое.";
+/* LingTai: the keys Info.plist declares but this file lacked, so the prompt is in the person's language */
+"NFCReaderUsageDescription" = "LingTai использует NFC, чтобы ИИ-агент мог читать и записывать NFC-метки от вашего имени.";
+"NSBluetoothAlwaysUsageDescription" = "LingTai использует Bluetooth, чтобы ИИ-агент мог искать ближайшие BLE-устройства, подключаться к ним и обмениваться данными от вашего имени.";
+"NSBluetoothPeripheralUsageDescription" = "LingTai использует Bluetooth, чтобы ИИ-агент мог искать ближайшие BLE-устройства, подключаться к ним и обмениваться данными от вашего имени.";
+"NSFaceIDUsageDescription" = "LingTai использует Face ID для защиты заблокированных чатов, чтобы только вы могли видеть их содержимое.";

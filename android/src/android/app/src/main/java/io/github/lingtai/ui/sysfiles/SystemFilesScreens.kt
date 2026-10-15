@@ -435,7 +435,7 @@ fun MemoryImportScreen(onBack: () -> Unit) {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                         Surface(
                             onClick = {
-                                clipboard.setPlainText("lingTai", prompt)
+                                clipboard.setPlainText("LingTai", prompt)
                                 Toast.makeText(context, R.string.lt_sysfile_copied, Toast.LENGTH_SHORT).show()
                             },
                             shape = CircleShape,

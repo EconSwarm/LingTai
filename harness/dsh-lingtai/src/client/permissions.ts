@@ -38,8 +38,8 @@ export interface Permissions {
   /** Quit and start again (the desktop shell — the helper alone when it is in use), or nothing elsewhere. */
   relaunch(): void
   /**
-   * The shell's helper app, "lingTai Computer Use", holds the grants (macOS, 0.1.38+): the
-   * panes list it, not lingTai Desktop, and the shell restarts it by itself when Screen
+   * The shell's helper app, "LingTai Computer Use", holds the grants (macOS, 0.1.38+): the
+   * panes list it, not LingTai Desktop, and the shell restarts it by itself when Screen
    * Recording lands — so `needsRelaunch` stays false.
    */
   helper: boolean

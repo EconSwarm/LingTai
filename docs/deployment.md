@@ -2,7 +2,7 @@
 
 An agent that runs shell commands belongs in a box of its own. On a server, a container is that box: the agent sees only its data directory and its workspace.
 
-This page is about the Python runtime (the web app's agent) in Docker. Running the relay (your own sign-in, hub and sync) and pointing the apps at it is [self-hosting.md](self-hosting.md), which also puts the three ways to run lingTai yourself in order.
+This page is about the Python runtime (the web app's agent) in Docker. Running the relay (your own sign-in, hub and sync) and pointing the apps at it is [self-hosting.md](self-hosting.md), which also puts the three ways to run LingTai yourself in order.
 
 ## Docker
 
@@ -53,14 +53,14 @@ A user-level systemd unit is enough:
 ```ini
 # ~/.config/systemd/user/lingtai.service
 [Unit]
-Description=lingTai
+Description=LingTai
 After=network-online.target
 
 [Service]
-WorkingDirectory=%h/lingTai
-ExecStart=%h/lingTai/.venv/bin/lingtai serve --host 0.0.0.0 --no-qr
+WorkingDirectory=%h/LingTai
+ExecStart=%h/LingTai/.venv/bin/lingtai serve --host 0.0.0.0 --no-qr
 Restart=on-failure
-EnvironmentFile=%h/lingTai/.env
+EnvironmentFile=%h/LingTai/.env
 
 [Install]
 WantedBy=default.target

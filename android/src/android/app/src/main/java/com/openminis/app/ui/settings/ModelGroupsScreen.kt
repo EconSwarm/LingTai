@@ -159,7 +159,7 @@ fun ModelGroupsScreen(
 
     Scaffold(
         topBar = {
-            io.github.lingtai.ui.muse.MuseTopAppBar( // lingTai: Muse's bar (drop-in for TopAppBar)
+            io.github.lingtai.ui.muse.MuseTopAppBar( // LingTai: Muse's bar (drop-in for TopAppBar)
                 title = { Text(stringResource(R.string.model_groups_model_groups)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {

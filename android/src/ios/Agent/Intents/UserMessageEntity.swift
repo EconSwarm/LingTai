@@ -84,7 +84,7 @@ struct UserMessageEntityQuery: EntityQuery {
         }
 
         // Fallback (no session selected): recent sessions' messages
-        let sessions = await LingTaiSync.shared.visible(await ChatStore.shared.listSessions()) // lingTai: C12 — another account's chats stay hidden
+        let sessions = await LingTaiSync.shared.visible(await ChatStore.shared.listSessions()) // LingTai: C12 — another account's chats stay hidden
         var entities: [UserMessageEntity] = []
         for session in sessions.prefix(10) {
             let msgs = await UserMessageEntity.loadFromDB(

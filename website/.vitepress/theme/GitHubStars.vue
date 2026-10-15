@@ -9,7 +9,7 @@ import { onMounted, ref } from 'vue'
 import { useData } from 'vitepress'
 
 const REPO = 'https://github.com/econswarm/lingtai'
-const API = 'https://api.github.com/repos/ling-tai/lingTai'
+const API = 'https://api.github.com/repos/ling-tai/LingTai'
 const KEY = 'lt-stars'
 const TTL = 3600000
 

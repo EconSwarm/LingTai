@@ -15,7 +15,7 @@ picture's size, and every ``x``/``y`` the tools accept is a pixel of it. The han
 their own screen space (``screen_w``/``screen_h``: X11 root pixels, macOS points, Windows
 physical pixels), and the one place the two meet is :class:`~lingtai.computer.coords.Mapping`
 — applied in ``_do`` before an action and in ``_where`` before the overlay hears of it.
-When lingTai Desktop started this runtime, its operator (:mod:`lingtai.computer.operator`)
+When LingTai Desktop started this runtime, its operator (:mod:`lingtai.computer.operator`)
 takes the screenshot and does the moving; otherwise the Python backends do.
 
 Two modes (``[hands] mode``). *Screen*: the whole screen through ``mss`` and the system

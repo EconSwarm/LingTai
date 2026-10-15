@@ -1,13 +1,13 @@
 //
 //  LingTaiModelSlots.swift
-//  lingTai
+//  LingTai
 //
 //  0.1.41 "Choice": the four things a model does for the person — chat, operating the screen,
 //  making pictures, making clips — as four slots, each holding one `<provider> · <model>`.
 //  Settings › Models shows them (LingTaiModelsView); the "Use it for" card after a key is
 //  saved fills them; and when the person has not chosen, the order of `resolve` decides
 //  (the contract's section 3): an explicit choice, then the chat provider's own default for
-//  the same capability, then lingTai Cloud, then the first provider on the phone that can.
+//  the same capability, then LingTai Cloud, then the first provider on the phone that can.
 //  Cloud never jumps ahead of a provider the person chose.
 //
 //  The relay's menu (`/v1/models` with `lingtai.for` / `lingtai.kind`) is kept on the phone
@@ -71,7 +71,7 @@ enum LingTaiSlot: String, CaseIterable, Identifiable, Sendable {
 
 // MARK: - Resolution (pure, tested)
 
-/// What a picker and the resolver know about one provider: lingTai Cloud or a provider of
+/// What a picker and the resolver know about one provider: LingTai Cloud or a provider of
 /// the person's own, with the models the app can actually use for each slot.
 struct LingTaiSlotProvider: Equatable, Sendable {
     /// The provider instance's id (the relay's instance for Cloud).
@@ -91,7 +91,7 @@ struct LingTaiSlotProvider: Equatable, Sendable {
     func models(for slot: LingTaiSlot) -> [String] { models[slot] ?? [] }
 
     /// True when the provider can serve the slot: it has the capability and at least one model
-    /// for it. lingTai Cloud needs only the capability: the relay picks the model itself when
+    /// for it. LingTai Cloud needs only the capability: the relay picks the model itself when
     /// the phone has no copy of its menu yet.
     func has(_ slot: LingTaiSlot) -> Bool {
         capabilities.contains(slot.capability) && (isCloud || !models(for: slot).isEmpty)
@@ -302,7 +302,7 @@ enum LingTaiRelayMenu {
 @MainActor
 enum LingTaiModelSlots {
     /// Posted after a slot changed here, so the rows and the face re-read what is set.
-    static let changed = Notification.Name("lingTai.modelSlotsChanged")
+    static let changed = Notification.Name("LingTai.modelSlotsChanged")
 
     /// Whether a model of a provider of one's own can hold a conversation: it writes text and
     /// is not one of the picture or video models the same key lists.
@@ -320,8 +320,8 @@ enum LingTaiModelSlots {
         return modalities.contains(.imageInput) || LingTaiVision.looksLikeItSees(id: entry.model.id, displayName: entry.model.displayName)
     }
 
-    /// lingTai Cloud as a slot provider, from the kept menu (or, until one is kept, from the
-    /// relay instance's own model list); nil when the phone is not signed in or *Use lingTai
+    /// LingTai Cloud as a slot provider, from the kept menu (or, until one is kept, from the
+    /// relay instance's own model list); nil when the phone is not signed in or *Use LingTai
     /// Cloud models* is off.
     static func cloudProvider() -> LingTaiSlotProvider? {
         guard LingTaiCloud.modelsOn, let inst = LingTaiCloud.instance else { return nil }
@@ -385,7 +385,7 @@ enum LingTaiModelSlots {
         return LingTaiSlotProvider(id: inst.id, label: inst.label, isCloud: false, capabilities: capabilities, defaults: vendor?.defaults ?? [:], models: models, names: displayNames(entries))
     }
 
-    /// Every provider the pickers list: lingTai Cloud first when signed in, then the person's own in the order they were added.
+    /// Every provider the pickers list: LingTai Cloud first when signed in, then the person's own in the order they were added.
     static func providers() -> [LingTaiSlotProvider] {
         var out: [LingTaiSlotProvider] = []
         if let cloud = cloudProvider() { out.append(cloud) }
@@ -429,7 +429,7 @@ enum LingTaiModelSlots {
     /// The instance new chats start on, if any.
     static func chatProviderId() -> String? { chatEntry()?.providerInstanceId }
 
-    /// Whether the chat slot could leave `instanceId` (lingTai Cloud, when its switch goes
+    /// Whether the chat slot could leave `instanceId` (LingTai Cloud, when its switch goes
     /// off): new chats do not run on it, or a provider of one's own could take them
     /// (`LingTaiSlotResolver.nextChat`). False is the refusal the switch shows as one sentence.
     static func canLeave(_ instanceId: String) -> Bool {
@@ -486,7 +486,7 @@ enum LingTaiModelSlots {
     /// and the chat slot is the default for new ones; but the main chat is the one
     /// conversation the Chat tab always shows and is never new, so on 0.1.41 the Models page
     /// could not move it off the provider it started on: a tester who saved a key of their own
-    /// saw their side chats answer through it while the main chat kept reading lingTai Cloud
+    /// saw their side chats answer through it while the main chat kept reading LingTai Cloud
     /// under the face. Now the main chat's binding moves with the slot (the same write as a
     /// pick in the chat's own picker, SessionModelPicker); side chats are left as they are.
     /// Nothing is written when the binding already says so, which also keeps the
@@ -522,7 +522,7 @@ enum LingTaiModelSlots {
     /// The Cloud model a chat falls back to for one turn (LingTaiCloudOnce): the relay's
     /// recommended chat model as an entry, else the Cloud group's first member, else the first
     /// Cloud model that chats. Asks for the sign-in alone, not the switch: the button that leads
-    /// here is the consent, so it works while *Use lingTai Cloud models* is off.
+    /// here is the consent, so it works while *Use LingTai Cloud models* is off.
     static func cloudChatEntry() -> ModelEntry? {
         guard LingTaiCloud.isSignedIn, let inst = LingTaiCloud.instance else { return nil }
         let store = ProviderConfigStore.shared
@@ -535,7 +535,7 @@ enum LingTaiModelSlots {
 
     // MARK: Image and video
 
-    /// The image slot as the person set it (nil when nothing was chosen): lingTai Cloud when
+    /// The image slot as the person set it (nil when nothing was chosen): LingTai Cloud when
     /// they picked it, else the key they picked while it is still on the phone.
     static func imageChoice() -> LingTaiSlotChoice? {
         if LingTaiImageGen.preferRelay, let cloud = LingTaiCloud.instance, LingTaiCloud.modelsOn {
@@ -634,10 +634,10 @@ enum LingTaiModelSlots {
     }
 }
 
-// MARK: - "Use lingTai Cloud this time"
+// MARK: - "Use LingTai Cloud this time"
 
-/// A turn on a key of one's own failed and the person asked for lingTai Cloud once: while
-/// armed, the chat resolves its model to the relay's chat model (one `// lingTai:` line at the
+/// A turn on a key of one's own failed and the person asked for LingTai Cloud once: while
+/// armed, the chat resolves its model to the relay's chat model (one `// LingTai:` line at the
 /// top of `resolveCurrentEntry`), and nothing in the slots changes. Disarmed when the turn
 /// ends (`ltAfterTurn`), or after ten minutes if no turn ran.
 @MainActor

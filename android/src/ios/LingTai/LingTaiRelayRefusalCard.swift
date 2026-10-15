@@ -1,8 +1,8 @@
 //
 //  LingTaiRelayRefusalCard.swift
-//  lingTai
+//  LingTai
 //
-//  A turn lingTai Cloud refused (docs/parity.md, item 35): one plain sentence from
+//  A turn LingTai Cloud refused (docs/parity.md, item 35): one plain sentence from
 //  `LingTaiCloud.describe` and the button that fits — *New chat* for a message too large,
 //  *Sign in* for a key the relay no longer takes, *Open Settings* for a model that left the
 //  menu or an account the relay does not take, *Try again* for the rest (busy, the provider
@@ -112,7 +112,7 @@ struct LingTaiRelayRefusalCard: View {
         }
     }
 
-    /// Settings → lingTai Cloud is the first row of the lingTai settings home.
+    /// Settings → LingTai Cloud is the first row of the LingTai settings home.
     private func openSettings() {
         NotificationCenter.default.post(name: .lingTaiHomeAction, object: "settings")
     }

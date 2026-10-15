@@ -69,7 +69,7 @@ class ShareViewController: UIViewController {
     // MARK: - Redirect to main app
 
     private func redirectToHostApp() {
-        // lingTai: the scheme the system knows the app by (Info.plist); inside, the app reads it as its minis:// form
+        // LingTai: the scheme the system knows the app by (Info.plist); inside, the app reads it as its minis:// form
         guard let url = URL(string: "lingtai://share") else {
             NSLog("[ShareExt] ERROR: Failed to create lingtai://share URL")
             return

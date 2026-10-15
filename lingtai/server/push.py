@@ -1,4 +1,4 @@
-"""Web Push: the phone buzzes when your lingTai needs you or has something to say.
+"""Web Push: the phone buzzes when your LingTai needs you or has something to say.
 
 Standard Web Push (VAPID + RFC 8291 payload encryption, via ``pywebpush``), so it works
 with the browser's own push service — no account, no third party of ours. The VAPID key
@@ -230,7 +230,7 @@ class PushService:
                 logger.warning("push failed: {}", str(exc)[:200])
         return gone
 
-    async def test(self, name: str = "lingTai") -> dict[str, Any]:
+    async def test(self, name: str = "LingTai") -> dict[str, Any]:
         if not self.enabled:
             return {"ok": False, "error": "push is not available on this server"}
         if not self.subscriptions:

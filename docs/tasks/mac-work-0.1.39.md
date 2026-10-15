@@ -58,7 +58,7 @@ xcode-select --install 2>/dev/null || true          # 命令行工具；完整 X
 brew install node@22 pnpm uv cliclick
 export PATH="/opt/homebrew/opt/node@22/bin:$PATH"    # Intel Mac 是 /usr/local/opt/node@22/bin
 node -v                                              # v22.x（CI 用 Node 22）
-git clone https://github.com/econswarm/lingtai.git && cd lingTai
+git clone https://github.com/econswarm/lingtai.git && cd LingTai
 uv venv && uv pip install -e ".[dev,hands]" && export LINGTAI_PY="$PWD/.venv/bin/lingtai"
 ```
 
@@ -82,7 +82,7 @@ bash mac/computer-use/build.sh                       # → mac/computer-use/buil
   ```
   没有证书时是 ad-hoc 签名，Gatekeeper 会说「无法验证」，到系统设置 → 隐私与安全性里点
   *仍要打开*。已发布的 0.1.38 安装包在
-  `https://github.com/econswarm/lingtai/releases/download/v0.1.38/lingTai-Desktop-0.1.38-mac-arm64.dmg`
+  `https://github.com/econswarm/lingtai/releases/download/v0.1.38/LingTai-Desktop-0.1.38-mac-arm64.dmg`
   （x64 同名 `-mac-x64.dmg`），**先用它复现维护者看到的现象，再用源码构建修**。
 
 数据目录 `~/.lingtai/desktop`（`LINGTAI_DESKTOP_HOME` 可改）：`desktop.log` 是壳和 Host 的日志
@@ -195,7 +195,7 @@ TestFlight 上 build 8 = 0.1.37，build 9 = 0.1.38（2026-10-05 上传）。先�
 ### B.3 嫌疑（按可能性）
 
 0.1.38 在 iOS 上新加/改的东西都在 `android/src/ios/灵台/`（上游文件里的改动都带
-`// lingTai:`）：
+`// LingTai:`）：
 
 1. **首次拉取写入的数据让启动时的加载崩了。** 0.1.38 的同步契约 C9：登录后第一次拉
    `GET /v1/sync/changes?since=0&scope=…&tail=300`，把最新 300 条消息及其会话落到本地

@@ -42,7 +42,7 @@ export const strings = {
   signin_fine_print: '体验服务器记下账号 id、打码后的手机号或邮箱，以及每次体验的时间和来源地址；不保存任何消息内容。完整清单在隐私页。',
   signin_signed_in_as: '已登录 %s',
   signin_sign_out: '退出登录',
-  // lingTai Cloud's refusals, in the phone's language (lt_cloud_err_* on Android)
+  // LingTai Cloud's refusals, in the phone's language (lt_cloud_err_* on Android)
   relay_bad_identifier: '请输入中国大陆手机号或邮箱地址。',
   relay_code_wrong: '验证码不对。',
   relay_code_expired: '验证码已过期，请重新发送。',
@@ -75,7 +75,7 @@ export const strings = {
   hosted_model: '模型，例如 deepseek-flash',
   hosted_api_key: 'API key',
   hosted_failed: '启动你的 Muse 时出了点问题。',
-  // ---- a lingTai of one's own
+  // ---- a LingTai of one's own
   setup_title_own: '连接你的 Muse',
   setup_sub_own: '把这台手机指向你电脑上的灵台。',
   setup_address: '服务器地址或链接',
@@ -163,7 +163,7 @@ export const strings = {
 export type LingTaiStringKey = keyof typeof strings;
 
 export const stringsEn: Record<LingTaiStringKey, string> = {
-  setup_title: 'Welcome to lingTai',
+  setup_title: 'Welcome to LingTai',
   welcome_tagline: 'An open-source personal agent for every device you own.',
   welcome_feat_chat: 'Chat, pictures, video',
   welcome_feat_chat_sub: 'A capable model, image and video generation, tools, skills and memory, on your phone',
@@ -173,14 +173,14 @@ export const stringsEn: Record<LingTaiStringKey, string> = {
   welcome_feat_reach_sub: 'Pair a Mac, Windows or Linux machine and give it work from the phone',
   setup_start: 'Start',
   setup_own_key: 'I have my own API key',
-  setup_own_server: 'Connect your own lingTai',
+  setup_own_server: 'Connect your own LingTai',
   welcome_get_app: 'A demo in a simulator; for the real thing, get the app',
   welcome_notice_title: 'Free, open source, non-profit',
-  welcome_notice: 'lingTai is a non-profit open-source community project, free for good. The model comes with a free allowance paid by the developer; after that, your own key. Nothing is sold; what the relay keeps is in the privacy policy, and Settings → Data controls is yours.',
+  welcome_notice: 'LingTai is a non-profit open-source community project, free for good. The model comes with a free allowance paid by the developer; after that, your own key. Nothing is sold; what the relay keeps is in the privacy policy, and Settings → Data controls is yours.',
   welcome_notice_closing: 'Found a bug, want a feature, have a patch? The GitHub repository is the place.',
   welcome_signin: 'Sign in, free',
-  welcome_signin_fine_print: 'Sign in to lingTai Cloud before you try it; we would like to know who is trying. The same account works in the app, with a free allowance.',
-  signin_title: 'Start with lingTai Cloud',
+  welcome_signin_fine_print: 'Sign in to LingTai Cloud before you try it; we would like to know who is trying. The same account works in the app, with a free allowance.',
+  signin_title: 'Start with LingTai Cloud',
   signin_sub: 'A code to your phone or inbox, or your password once you have set one.',
   signin_identifier: 'Mainland China phone number or e-mail',
   signin_identifier_hint: '138 0000 0000 · you@example.com',
@@ -208,7 +208,7 @@ export const stringsEn: Record<LingTaiStringKey, string> = {
   relay_password_wrong: 'The password is not right.',
   relay_locked: 'Too many attempts; try again in a few minutes.',
   relay_rate_limited: 'Too fast; give it a moment.',
-  relay_unreachable: 'lingTai Cloud cannot be reached right now.',
+  relay_unreachable: 'LingTai Cloud cannot be reached right now.',
   relay_bad_request: 'The showcase server did not accept the request; reload the page and try again.',
   relay_server_error: 'The showcase server ran into a problem; try again in a moment.',
   relay_generic: 'Something went wrong signing in.',
@@ -226,7 +226,7 @@ export const stringsEn: Record<LingTaiStringKey, string> = {
   hosted_api_key: 'API key',
   hosted_failed: 'Something went wrong starting your Muse.',
   setup_title_own: 'Connect your Muse',
-  setup_sub_own: 'Point this phone at the lingTai on your computer.',
+  setup_sub_own: 'Point this phone at the LingTai on your computer.',
   setup_address: 'Server address or link',
   setup_token: 'Access token (if the link has none)',
   setup_token_hint: 'printed by lingtai serve',

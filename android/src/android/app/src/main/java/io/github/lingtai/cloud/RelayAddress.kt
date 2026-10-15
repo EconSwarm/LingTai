@@ -77,7 +77,7 @@ object RelayAddress {
         return host + port
     }
 
-    /** True when [baseUrl] is lingTai Cloud itself rather than someone's own relay. */
+    /** True when [baseUrl] is LingTai Cloud itself rather than someone's own relay. */
     fun isDefault(baseUrl: String): Boolean = baseUrl.trimEnd('/') == LingTaiCloud.DEFAULT_BASE
 
     /**

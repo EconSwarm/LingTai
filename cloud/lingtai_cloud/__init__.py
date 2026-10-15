@@ -1,4 +1,4 @@
-"""lingTai Cloud — the optional relay behind "start now".
+"""LingTai Cloud — the optional relay behind "start now".
 
 A phone number or an e-mail address, a six-digit code, and the app gets a key
 that works out of the box: the relay speaks the OpenAI API to the app and

@@ -14,7 +14,7 @@ import com.openminis.app.ui.navigation.Routes
  *   minis://settings                            → Settings home
  *   minis://settings/providers                  → Provider list
  *   minis://settings/providers/<instanceId>     → Provider detail
- *   minis://settings/providers/add[?preset=<catalogue id>[:oauth]] → Add a provider (lingTai: pre-filled for a vendor of assets/lingtai/providers.json; `:oauth` opens on its sign-in)
+ *   minis://settings/providers/add[?preset=<catalogue id>[:oauth]] → Add a provider (LingTai: pre-filled for a vendor of assets/lingtai/providers.json; `:oauth` opens on its sign-in)
  *   minis://settings/model-groups               → Model Groups (incl. Agent Loop section)
  *   minis://settings/model-groups/<groupId>     → Model Group detail
  *   minis://settings/usage                      → Token usage
@@ -94,7 +94,7 @@ sealed class DeepLinkAction {
         val title: String,
     ) : DeepLinkAction()
 
-    /** lingTai: one of the home shell's tabs (`minis://feed`), where a Feed notification lands. */
+    /** LingTai: one of the home shell's tabs (`minis://feed`), where a Feed notification lands. */
     data class OpenHomeTab(val tab: io.github.lingtai.ui.home.HomeTab) : DeepLinkAction()
 
     data object Unknown : DeepLinkAction()
@@ -102,7 +102,7 @@ sealed class DeepLinkAction {
 
 object DeepLinkHandler {
     fun parse(uri: Uri?): DeepLinkAction {
-        // lingTai: the system knows the app as `lingtai://`, the app itself says `minis://`; both are read here
+        // LingTai: the system knows the app as `lingtai://`, the app itself says `minis://`; both are read here
         if (uri == null || !io.github.lingtai.deeplink.OwnScheme.isOwn(uri.scheme)) return DeepLinkAction.Unknown
         val host = uri.host ?: return DeepLinkAction.Unknown
         val path = uri.path.orEmpty()
@@ -126,7 +126,7 @@ object DeepLinkHandler {
                 else -> DeepLinkAction.Unknown
             }
             "settings" -> parseSettingsPath(uri)
-            "feed" -> DeepLinkAction.OpenHomeTab(io.github.lingtai.ui.home.HomeTab.FEED) // lingTai: the feed's notification opens the Feed tab
+            "feed" -> DeepLinkAction.OpenHomeTab(io.github.lingtai.ui.home.HomeTab.FEED) // LingTai: the feed's notification opens the Feed tab
             "session" -> {
                 // minis://session/<sessionId>                → OpenSession
                 // minis://session/<sessionId>/<resource-path> → OpenHtmlPreview
@@ -173,7 +173,7 @@ object DeepLinkHandler {
 
         return when (head) {
             "providers" ->
-                if (arg == "add") DeepLinkAction.OpenSettingsScreen(Routes.addProvider(uri.getQueryParameter("preset"))) // lingTai: pre-filled provider form
+                if (arg == "add") DeepLinkAction.OpenSettingsScreen(Routes.addProvider(uri.getQueryParameter("preset"))) // LingTai: pre-filled provider form
                 else if (arg != null) DeepLinkAction.OpenSettingsScreen(Routes.providerDetail(arg))
                 else DeepLinkAction.OpenSettingsScreen(Routes.PROVIDER_LIST)
             "model-groups", "model_groups" ->
@@ -198,16 +198,16 @@ object DeepLinkHandler {
                 DeepLinkAction.OpenSettingsScreen(Routes.LOGS)
             }
             "appearance" -> DeepLinkAction.OpenSettingsScreen(Routes.APPEARANCE)
-            "soul" -> DeepLinkAction.OpenSettingsScreen(Routes.SOUL) // lingTai: the name pill links here
-            "avatar", "face" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.avatar.ROUTE_AVATAR_STUDIO) // lingTai: the avatar studio
-            "media" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.media.ROUTE_MEDIA_MODELS) // lingTai: image & video models
-            "models" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.models.ROUTE_MODELS) // lingTai: Settings → Models
-            "hands", "screen" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.hands.ROUTE_HANDS) // lingTai: the screen as a hand
-            "computers", "pc" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.reach.ROUTE_COMPUTERS) // lingTai: the account's computers
-            "cloud", "devices" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.cloud.ROUTE_CLOUD_ACCOUNT) // lingTai: the account and its devices on the hub
-            "coding", "agents" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.coding.ROUTE_CODING) // lingTai: the coding agents on the account's computers
-            "profile" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.profile.ROUTE_AGENT_PROFILE) // lingTai: the face links here
-            "network", "proxy" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.net.ROUTE_NETWORK) // lingTai: the proxy for own providers
+            "soul" -> DeepLinkAction.OpenSettingsScreen(Routes.SOUL) // LingTai: the name pill links here
+            "avatar", "face" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.avatar.ROUTE_AVATAR_STUDIO) // LingTai: the avatar studio
+            "media" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.media.ROUTE_MEDIA_MODELS) // LingTai: image & video models
+            "models" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.models.ROUTE_MODELS) // LingTai: Settings → Models
+            "hands", "screen" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.hands.ROUTE_HANDS) // LingTai: the screen as a hand
+            "computers", "pc" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.reach.ROUTE_COMPUTERS) // LingTai: the account's computers
+            "cloud", "devices" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.cloud.ROUTE_CLOUD_ACCOUNT) // LingTai: the account and its devices on the hub
+            "coding", "agents" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.coding.ROUTE_CODING) // LingTai: the coding agents on the account's computers
+            "profile" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.profile.ROUTE_AGENT_PROFILE) // LingTai: the face links here
+            "network", "proxy" -> DeepLinkAction.OpenSettingsScreen(io.github.lingtai.ui.net.ROUTE_NETWORK) // LingTai: the proxy for own providers
             "background" -> DeepLinkAction.OpenSettingsScreen(Routes.BACKGROUND)
             "about" -> DeepLinkAction.OpenSettingsScreen(Routes.ABOUT)
             "permissions" -> DeepLinkAction.OpenPermissionSettings

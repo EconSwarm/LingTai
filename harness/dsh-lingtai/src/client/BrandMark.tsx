@@ -19,7 +19,7 @@ export function BrandMark({ size = 72, className }: { size?: number; className?:
     viewBox: '0 0 100 100',
     className: `lt-brand-mark${className ? ` ${className}` : ''}`,
     role: 'img',
-    'aria-label': 'lingTai',
+    'aria-label': 'LingTai',
     focusable: false,
   },
     h('defs', null,

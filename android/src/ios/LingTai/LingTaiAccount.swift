@@ -1,4 +1,4 @@
-import Combine // lingTai: LingTaiStar publishes its pending ask
+import Combine // LingTai: LingTaiStar publishes its pending ask
 import Foundation
 import UIKit
 
@@ -367,25 +367,25 @@ final class LingTaiStar: ObservableObject {
     static func builtInWords(for moment: LingTaiStarMoment) -> String {
         switch moment {
         case .signedIn:
-            return AppLocalized("Welcome. lingTai is free, open source and non-profit, a personal agent for anyone who runs it. If that is worth something to you, a star on GitHub is how the next person finds it.")
+            return AppLocalized("Welcome. LingTai is free, open source and non-profit, a personal agent for anyone who runs it. If that is worth something to you, a star on GitHub is how the next person finds it.")
         case .tasks(let n) where n == 1:
-            return AppLocalized("One task done. If lingTai helped, a star on GitHub tells the people building it that it did.")
+            return AppLocalized("One task done. If LingTai helped, a star on GitHub tells the people building it that it did.")
         case .tasks(let n):
-            return String(format: AppLocalized("%d tasks done. If lingTai is useful, a star on GitHub helps the next person find it."), n)
+            return String(format: AppLocalized("%d tasks done. If LingTai is useful, a star on GitHub helps the next person find it."), n)
         case .newLook:
-            return AppLocalized("A new face, drawn for you. If you like where lingTai is going, a star on GitHub helps more people find it.")
+            return AppLocalized("A new face, drawn for you. If you like where LingTai is going, a star on GitHub helps more people find it.")
         case .exhausted:
-            return AppLocalized("The free allowance is used up. Thank you for coming this far. If lingTai has earned it, a star on GitHub keeps the project in view for the next person.")
+            return AppLocalized("The free allowance is used up. Thank you for coming this far. If LingTai has earned it, a star on GitHub keeps the project in view for the next person.")
         case .daysUsed(let n) where n == 1:
-            return AppLocalized("A day with lingTai. If it helped, a star on GitHub helps the next person find it.")
+            return AppLocalized("A day with LingTai. If it helped, a star on GitHub helps the next person find it.")
         case .daysUsed(let n) where n == 7:
-            return AppLocalized("A week with lingTai. If it has earned a place in your day, a star on GitHub helps the next person find it.")
+            return AppLocalized("A week with LingTai. If it has earned a place in your day, a star on GitHub helps the next person find it.")
         case .daysUsed(let n) where n == 30:
-            return AppLocalized("A month with lingTai. If it has become part of your routine, a star on GitHub tells others it is worth a try.")
+            return AppLocalized("A month with LingTai. If it has become part of your routine, a star on GitHub tells others it is worth a try.")
         case .daysUsed(let n):
-            return String(format: AppLocalized("%d days with lingTai. If it has earned a place in your day, a star on GitHub helps the next person find it."), n)
+            return String(format: AppLocalized("%d days with LingTai. If it has earned a place in your day, a star on GitHub helps the next person find it."), n)
         case .goalDone:
-            return AppLocalized("Goal reached. If lingTai helped you get there, a star on GitHub tells the people building it.")
+            return AppLocalized("Goal reached. If LingTai helped you get there, a star on GitHub tells the people building it.")
         }
     }
 
